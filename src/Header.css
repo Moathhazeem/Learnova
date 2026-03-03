@@ -154,3 +154,11 @@ header h1 {
     color: #007bff;
     background-color: #007bff1a;
 }
+
+.header_line {
+    border: none;
+    height: 1px;
+    background-color: #514C4C1a;
+    width: 100%;
+    margin: 3.5% 0;
+}
