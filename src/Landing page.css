@@ -1,6 +1,6 @@
 .landing-page {
     padding-left: 100px;
-    padding-top: 80px;
+    padding-top: 150px;
 }
 
 .course-card {
@@ -13,6 +13,13 @@
     border-width: 1px;
     border-style: solid;
     overflow: hidden;
+    cursor: pointer;
+    transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275), background-color 0.4s ease, box-shadow 0.4s ease;
+}
+
+.course-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 5px 15px rgba(0, 137, 234, 0.3);
 }
 
 .course-content {
@@ -193,9 +200,17 @@
     align-items: center;
     justify-content: center;
     cursor: pointer;
-    transition: background-color 0.3s ease;
     box-sizing: border-box;
     font-family: "Inter";
+    transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275), background-color 0.4s ease, box-shadow 0.4s ease;
+}
+
+.Started:hover {
+    background-color: #0073c5;
+    transform: translateY(-5px);
+    box-shadow: 0 5px 15px rgba(0, 137, 234, 0.3);
+    text-decoration: underline;
+    text-decoration-thickness: 2px;
 }
 
 .View-courses {
@@ -212,9 +227,17 @@
     align-items: center;
     justify-content: center;
     cursor: pointer;
-    transition: background-color 0.3s ease;
     box-sizing: border-box;
     font-family: "Inter";
+    transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275), background-color 0.4s ease, box-shadow 0.4s ease;
+}
+
+.View-courses:hover {
+    background-color: #0073c51a;
+    transform: translateY(-5px);
+    box-shadow: 0 5px 15px rgba(0, 137, 234, 0.1);
+    text-decoration: underline;
+    text-decoration-thickness: 2px;
 }
 
 .popular-courses-title {

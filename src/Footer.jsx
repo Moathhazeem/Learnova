@@ -30,7 +30,7 @@ function Footer() {
                         <li><a href="#">Help</a></li>
                     </ul>
                     <ul className="store-buttons">
-                        <li>
+                        <li className="store-button_1">
                             <a href="#" className="store-button">
                                 <img src="./photo_icons/Apple_store.png" alt="Apple Store" />
                                 <div className="button-text">
@@ -39,7 +39,7 @@ function Footer() {
                                 </div>
                             </a>
                         </li>
-                        <li>
+                        <li className="store-button_2">
                             <a href="#" className="store-button">
                                 <img src="./photo_icons/google_play.png" alt="Google Play" />
                                 <div className="button-text">

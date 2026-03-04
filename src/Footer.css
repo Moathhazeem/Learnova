@@ -5,6 +5,7 @@
     flex-direction: column;
     gap: 80px;
     font-family: "Inter";
+    margin-top: 100px;
     border-top: 1px solid #514C4C1a;
 }
 
@@ -67,10 +68,28 @@
     font-size: 18px;
 }
 
+.store-button_1 {
+    transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275) 0.1s;
+}
+
+.store-button_2 {
+    transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275) 0.1s;
+}
+
+.store-button_1:hover {
+    transform: translateY(-5px);
+}
+
+.store-button_2:hover {
+    transform: translateY(-5px);
+}
+
+
 .store-button img {
     height: 22px;
     width: 22px;
     object-fit: contain;
+
 }
 
 .button-text {
