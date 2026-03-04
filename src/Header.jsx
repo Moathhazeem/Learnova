@@ -25,12 +25,11 @@ function Header() {
           <div className="search-icon"><img src="./photo_icons/search.png" alt="Search icon" /></div>
         </div>
         <div className="auth-buttons">
-          <button className="log-in">Log In</button>
           <button className="sign-up">Sign Up</button>
+          <button className="log-in">Log In</button>
         </div>
-
       </header>
-      <hr className="header_line" />
+
     </>
   )
 }

@@ -1,0 +1,138 @@
+.footer {
+    background-color: #ffffff;
+    padding: 60px 100px;
+    display: flex;
+    flex-direction: column;
+    gap: 80px;
+    font-family: "Inter";
+    border-top: 1px solid #514C4C1a;
+}
+
+.footer-top {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    width: 100%;
+}
+
+.footer-top ul {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    padding: 0;
+}
+
+.footer-top ul li a {
+    color: #000000;
+    text-decoration: none;
+    font-size: 16px;
+    transition: color 0.3s ease;
+    font-weight: medium;
+}
+
+.footer-top ul li a:hover {
+    color: #0089EA;
+}
+
+.list_title {
+    font-size: 20px;
+    font-weight: bold;
+    color: #000000;
+    margin-bottom: 8px;
+    list-style: none;
+}
+
+.store-buttons {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    list-style: none;
+    padding: 0;
+}
+
+.store-button {
+    background-color: #000000;
+    width: 120.31px;
+    height: 40px;
+    border-radius: 6px;
+    display: flex;
+    align-items: center;
+    padding: 0 10px;
+    gap: 8px;
+    text-decoration: none;
+    color: white;
+    box-sizing: border-box;
+    white-space: nowrap;
+    font-size: 18px;
+}
+
+.store-button img {
+    height: 22px;
+    width: 22px;
+    object-fit: contain;
+}
+
+.button-text {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    line-height: 1.1;
+    color: white;
+}
+
+.top-text {
+    font-size: 7px;
+    font-weight: 500;
+}
+
+.bottom-text {
+    font-size: 13px;
+    font-weight: 500;
+}
+
+.footer-bottom {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: flex-end;
+    width: 100%;
+    border-top: 1px solid #514C4C1a;
+    padding-top: 40px;
+}
+
+.footer-brand-section {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.title_footer {
+    font-size: 32px;
+    font-weight: bold;
+    color: #0089EA;
+}
+
+.documentation {
+    font-size: 14px;
+    color: #666363;
+}
+
+.social-icons {
+    list-style: none;
+    display: flex;
+    flex-direction: row;
+    gap: 20px;
+    padding: 0;
+    margin: 0;
+}
+
+.social-icons img {
+    width: 32px;
+    height: 32px;
+    transition: transform 0.3s ease;
+}
+
+.social-icons img:hover {
+    transform: translateY(-5px);
+}

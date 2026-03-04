@@ -1,3 +1,8 @@
+.landing-page {
+    padding-left: 100px;
+    padding-top: 80px;
+}
+
 .course-card {
     display: flex;
     flex-direction: column;
@@ -71,6 +76,7 @@
     font-weight: bold;
     font-size: 26px;
     margin: 0;
+    font-family: "Inter";
 }
 
 .price {
@@ -78,6 +84,7 @@
     font-size: 22px;
     font-weight: bold;
     margin: 0;
+    font-family: "Inter";
 }
 
 .Timing {
@@ -85,6 +92,7 @@
     font-size: 22px;
     font-weight: bold;
     margin: 0;
+    font-family: "Inter";
 }
 
 .Level {
@@ -92,6 +100,7 @@
     font-size: 22px;
     font-weight: bold;
     margin: 0;
+    font-family: "Inter";
 }
 
 .Rating {
@@ -99,6 +108,7 @@
     font-size: 22px;
     font-weight: bold;
     margin: 0;
+    font-family: "Inter";
 }
 
 .Teacher {
@@ -106,6 +116,7 @@
     font-size: 22px;
     font-weight: bold;
     margin: 0;
+    font-family: "Inter";
 }
 
 .price_info {
@@ -154,10 +165,89 @@
     border-radius: 20px;
 }
 
+.courses-container {
+    display: flex;
+    flex-direction: row;
+    gap: 30px;
+}
+
 .popular-courses-section {
     display: flex;
     flex-direction: column;
     align-items: flex-start;
-    padding-left: 100px;
-    gap: 100px;
+    margin-top: 80px;
+    gap: 30px;
+}
+
+.Started {
+    display: flex;
+    width: 255px;
+    height: 50px;
+    border-radius: 10px;
+    border: none;
+    background-color: #0089EA;
+    color: white;
+    font-size: 20px;
+    font-weight: medium;
+    gap: 10px;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    box-sizing: border-box;
+    font-family: "Inter";
+}
+
+.View-courses {
+    display: flex;
+    width: 255px;
+    height: 50px;
+    border-radius: 10px;
+    border: 1px solid #0089EA;
+    background-color: white;
+    color: #0089EA;
+    font-size: 20px;
+    font-weight: medium;
+    gap: 10px;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    box-sizing: border-box;
+    font-family: "Inter";
+}
+
+.popular-courses-title {
+    color: black;
+    font-size: 20px;
+    font-weight: bold;
+    margin: 0;
+    font-family: "Inter";
+}
+
+.page-title {
+    color: #000000;
+    font-size: 50px;
+    font-weight: bold;
+    margin: 0;
+    font-family: "Inter";
+    margin-top: 20px;
+}
+
+.page-title-2 {
+    color: #0089EA;
+    font-size: 50px;
+    font-weight: bold;
+    margin: 0;
+    font-family: "Inter";
+}
+
+.page-description {
+    color: #666363;
+    font-size: 30px;
+    font-weight: medium;
+    margin: 0;
+    font-family: "Inter";
+    margin-top: 12px;
+    margin-bottom: 80px;
 }

@@ -5,7 +5,7 @@
 }
 
 .search-container input {
-    padding: 10px 14px 10px 100px;
+    padding: 10px 14px 10px 90px;
     border-radius: 25px;
     border: 1.5px solid #d0d5dd;
     outline: none;
@@ -14,6 +14,7 @@
     background-color: #f9fafb;
     color: #333;
     transition: border-color 0.2s ease, box-shadow 0.2s ease;
+    font-family: "Inter";
 }
 
 .search-container input:focus {
@@ -62,14 +63,16 @@
     color: white;
     border: none;
     border-radius: 10px;
-    padding: 10px 20px;
     cursor: pointer;
-    width: 95px;
-    height: 30px;
-    font-size: 12px;
-    gap: 10px;
-    padding: 7px 25px;
+    min-width: 100px;
+    height: 32px;
+    font-size: 13px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    white-space: nowrap;
     transition: color 0.3s ease, border-color 0.3 ease;
+    font-family: "Inter";
 }
 
 .log-in:hover {
@@ -83,14 +86,16 @@
     color: black;
     border: 1px solid rgba(0, 0, 0, 0.1);
     border-radius: 10px;
-    padding: 10px 20px;
     cursor: pointer;
-    width: 95px;
-    height: 30px;
-    font-size: 12px;
-    gap: 10px;
-    padding: 7px 25px;
+    min-width: 100px;
+    height: 32px;
+    font-size: 13px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    white-space: nowrap;
     transition: color 0.3s ease, border-color 0.3s ease;
+    font-family: "Inter";
 }
 
 .sign-up:hover {
@@ -106,6 +111,7 @@
     margin: 0;
     padding: 0;
     line-height: 1;
+    font-family: "Kranky", serif;
 }
 
 
@@ -125,16 +131,18 @@ header {
     justify-content: space-between;
     flex-direction: row-reverse;
     gap: 10px;
-    padding: 10px 20px;
+    padding: 10px 40px;
     position: fixed;
     top: 0;
     left: 0;
     width: 100%;
+    background-color: rgba(255, 255, 255, 0.95);
+    backdrop-filter: blur(8px);
+    z-index: 1000;
+    border-bottom: 1px solid #514C4C1a;
+    box-sizing: border-box;
 }
 
-header h1 {
-    font-family: "Kranky", serif;
-}
 
 .nav-links {
     line-height: 1;
@@ -142,6 +150,7 @@ header h1 {
     display: flex;
     align-items: center;
     gap: 20px;
+    font-family: "Inter";
 }
 
 .nav-links a {
@@ -153,12 +162,4 @@ header h1 {
 .nav-links a:hover {
     color: #007bff;
     background-color: #007bff1a;
-}
-
-.header_line {
-    border: none;
-    height: 1px;
-    background-color: #514C4C1a;
-    width: 100%;
-    margin: 3.5% 0;
 }
