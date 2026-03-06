@@ -82,6 +82,13 @@
     box-shadow: 0 5px 15px rgba(0, 137, 234, 0.3);
 }
 
+.log-in:active {
+    transform: translateY(0px);
+    background-color: #007bff;
+    border-color: #007bff;
+    box-shadow: none;
+}
+
 .sign-up {
     background-color: white;
     color: black;
@@ -105,6 +112,13 @@
     border-color: #007bff;
     background-color: #ffffff;
     transform: translateY(-5px);
+}
+
+.sign-up:active {
+    transform: translateY(0px);
+    color: black;
+    border: 1px solid rgba(0, 0, 0, 0.1);
+    box-shadow: none;
 }
 
 .logo {

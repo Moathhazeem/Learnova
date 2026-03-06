@@ -1,5 +1,6 @@
 import { useState } from "react";
-import "./Landing page.css";
+import "./LandingPage.css";
+import SignIn from "./sign_page/sign_in";
 function LandingPage() {
     return (
         <>
