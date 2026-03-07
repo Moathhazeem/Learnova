@@ -90,6 +90,7 @@
     align-items: center;
     width: 100%;
     max-width: 551px;
+    margin-top: 40px;
     margin-bottom: 20px;
     direction: ltr;
 }
@@ -123,6 +124,8 @@
     border-radius: 10px;
     cursor: pointer;
     margin-bottom: 20px;
+    margin-top: 40px;
+
 }
 
 .sign-in-button:hover {
@@ -145,6 +148,7 @@
     justify-content: left;
     font-size: 22px;
     font-weight: medium;
+    margin-top: 50px;
 }
 
 .or {
@@ -156,4 +160,6 @@
     margin-top: 30px;
     margin-bottom: 40px;
     font-weight: medium;
+    margin-top: 40px;
+
 }
