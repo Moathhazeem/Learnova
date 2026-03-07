@@ -29,8 +29,8 @@ function Header() {
           <div className="search-icon"><img src="./photo_icons/search.png" alt="Search icon" /></div>
         </div>
         <div className="auth-buttons">
-          <button className="sign-up" onClick={() => Navigate("/sign_in")}>Sign Up</button>
-          <button className="log-in" onClick={() => Navigate("/sign_in")}>Log In</button>
+          <button className="sign-up" onClick={() => Navigate("/sign_up")}>Sign Up</button>
+          <button className="log-in" onClick={() => Navigate("/log_in")}>Log In</button>
         </div>
       </header>
 

@@ -157,11 +157,8 @@
     justify-content: center;
     width: 100%;
     max-width: 551px;
-    /* نفس عرض حقول الإدخال */
     height: 60px;
-    /* طول مناسب لزر رئيسي */
     font-size: 24px;
-    /* كبر حجم النص ليكون مريحاً للعين */
     font-weight: bold;
     color: #fff;
     background-color: #0089EA;
@@ -169,20 +166,11 @@
     border-radius: 10px;
     cursor: pointer;
     margin-bottom: 25px;
-    transition: background-color 0.3s ease, transform 0.2s ease;
     text-align: center;
 }
 
 .sign-in-button:hover {
     background-color: #0076cc;
-    /* لون أغمق قليلاً عند التمرير */
-    transform: translateY(-2px);
-    /* حركة بسيطة للأعلى عند الحوم */
-}
-
-.sign-in-button:active {
-    transform: translateY(0);
-    /* العودة لمكانه عند الضغط */
 }
 
 .or {

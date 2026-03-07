@@ -1,13 +1,13 @@
 import { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
-import "./sign_in.css";
-function SignIn() {
+import "./Log_in.css";
+
+function LogIn() {
     return (
         <>
-
             <div className="sign-in-page-container">
                 <div className="sign-in">
-                    <h1 className="title-sign-in">Sign in to<label style={{ color: "#0089EA" }}>Learnova</label></h1>
+                    <h1 className="title-sign-in">Login to<label style={{ color: "#0089EA" }}>Learnova</label></h1>
                     <form>
                         <div className="form-group">
                             <label htmlFor="email">Email</label>
@@ -46,10 +46,11 @@ function SignIn() {
                     </form >
                 </div >
                 <div className="Photo">
-                    <img src="./photo/photo_sign_in.jpg" alt="Photo related to sign in" title="Photo related to sign in" />
+                    <img src="./photo/Photo_Log_in.jpg" alt="Photo related to sign in" title="Photo related to sign in" />
                 </div>
             </div>
         </>
     )
 }
-export default SignIn
+
+export default LogIn

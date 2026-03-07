@@ -1,15 +1,15 @@
 import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
 import './App.css'
 import Header from './Header'
 import LandingPage from './LandingPage'
 import Footer from './Footer'
 import { BrowserRouter as Router, Routes, Route, useLocation } from 'react-router-dom'
-import SignIn from './sign_page/sign_in'
+import SignUp from './sign_page/Sign_up'
+import LogIn from './sign_page/Log_in'
+
 function Layout({ children }) {
   const location = useLocation();
-  const noheaderfooter = ["/sign_in"];
+  const noheaderfooter = ["/log_in", "/sign_up"];
   return (
     <>
       {!noheaderfooter.includes(location.pathname) && <Header />}
@@ -25,7 +25,8 @@ function App() {
       <Layout>
         <Routes>
           <Route path="/" element={<LandingPage />} />
-          <Route path="/sign_in" element={<SignIn />} />
+          <Route path="/log_in" element={<LogIn />} />
+          <Route path="/sign_up" element={<SignUp />} />
         </Routes>
       </Layout>
     </Router>
