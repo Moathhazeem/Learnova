@@ -45,13 +45,19 @@
 }
 
 .form-group {
+    display: flex;
+    flex-direction: column;
     margin-bottom: 20px;
+    width: 100%;
+    max-width: 551px;
+    direction: ltr;
 }
 
 .form-group label {
-    display: flex;
-    align-items: left;
-    justify-content: left;
+    display: block;
+    text-align: left;
+    align-self: flex-start;
+    width: 100%;
     font-size: 30px;
     font-weight: semibold;
     margin-bottom: 10px;
@@ -59,7 +65,6 @@
 }
 
 .form-group input {
-    display: flex;
     font-size: 20px;
     font-weight: medium;
     padding: 10px;
@@ -70,8 +75,6 @@
     border: 1px solid rgba(0, 0, 0, 0.2);
     color: #000000;
     background-color: #fff;
-    justify-content: left;
-    align-items: left;
     text-align: left;
 }
 

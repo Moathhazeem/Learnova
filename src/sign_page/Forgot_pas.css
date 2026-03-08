@@ -1,0 +1,86 @@
+.forgot-password-page-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    min-height: 100vh;
+    width: 100%;
+}
+
+.forgot-password-form {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    min-height: 100vh;
+    width: 100%;
+}
+
+.title-forgot-password {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 32px;
+    font-weight: bold;
+    margin-bottom: 24px;
+    margin-top: 50px;
+    color: #000000;
+}
+
+.title-forgot-password-description {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 22px;
+    margin-bottom: 50px;
+    color: rgba(81, 76, 76, 0.5);
+}
+
+.form-group {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.dots-container {
+    display: flex;
+    justify-content: center;
+    margin-top: 20px;
+    gap: 8px;
+}
+
+#email {
+    margin-bottom: 40px;
+
+}
+
+.Send-code {
+    margin-bottom: 10px;
+    width: 551px;
+    height: 60px;
+    color: #ffffff;
+    background-color: #0089EA;
+    font-weight: bold;
+    font-size: 22px;
+}
+
+.BTLI {
+    color: rgba(0, 0, 0, 0.5);
+    font-size: 22px;
+    font-weight: bold;
+}
+
+.dot {
+    width: 10px;
+    height: 10px;
+    background-color: gray;
+    border-radius: 50%;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.dot.active {
+    background-color: #000000;
+    width: 12px;
+    height: 12px;
+}

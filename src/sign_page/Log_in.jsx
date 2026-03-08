@@ -1,8 +1,12 @@
 import { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import "./Log_in.css";
-
+import ForgotPassword from './Forgot_pas';
 function LogIn() {
+    const navigate = useNavigate();
+    const goToForgotPassword = () => {
+        navigate("/Forgot_pas")
+    }
     return (
         <>
             <div className="sign-in-page-container">
@@ -23,7 +27,7 @@ function LogIn() {
                                 <label htmlFor="remember">Remember me</label>
                             </div>
                             <div className="form-group_forgot-password">
-                                <span style={{ color: "#0089EA", cursor: "pointer" }}>Forgot password</span>
+                                <span style={{ color: "#0089EA", cursor: "pointer" }} onClick={goToForgotPassword}>Forgot password</span>
                             </div>
                         </div>
                         <button type="submit" className="sign-in-button">Sign In</button>
