@@ -1,0 +1,18 @@
+.check-email-container {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+    direction: ltr;
+    min-height: 100vh;
+    width: 100%;
+}
+
+.check-email {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    min-height: 100vh;
+    width: 100%;
+}

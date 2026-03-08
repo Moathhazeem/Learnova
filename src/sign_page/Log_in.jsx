@@ -45,7 +45,7 @@ function LogIn() {
                             </div>
                         </div>
                         <div className='DHAA'>
-                            <p style={{ color: "#514C4Ca5" }}>Don't have an account? <a href="#" style={{ color: "#0089EA", fontWeight: "bold" }}>Sign Up</a></p>
+                            <p style={{ color: "#514C4Ca5" }}>Don't have an account? <a href="#" style={{ color: "#0089EA", fontWeight: "bold", cursor: "pointer", }}>Sign Up</a></p>
                         </div>
                     </form >
                 </div >
