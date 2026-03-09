@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import { useNavigate } from 'react-router-dom'
+import { useNavigate, useLocation } from 'react-router-dom'
 import "./Sign_up.css"
 
 function SignUp() {
@@ -41,7 +41,7 @@ function SignUp() {
                                 <label htmlFor="confirmation">I agree to the <span style={{ color: "#0089EA" }}>Terms & Condition</span></label>
                             </div>
                         </div>
-                        <button type="submit" className="sign-in-button">Create account</button>
+                        <button type="submit" className="sign-in-button">Sign Up</button>
                         <div className="or">
                             <span htmlFor="or">Or register with</span>
                         </div>

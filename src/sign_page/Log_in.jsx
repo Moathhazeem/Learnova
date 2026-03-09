@@ -8,7 +8,7 @@ function LogIn() {
         navigate("/Forgot_pas")
     }
     const goToSignIn = () => {
-        navigate("/Sign_up")
+        navigate("/sign_up")
     }
     return (
         <>
