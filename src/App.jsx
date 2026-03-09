@@ -7,9 +7,10 @@ import { BrowserRouter as Router, Routes, Route, useLocation } from 'react-route
 import SignUp from './sign_page/Sign_up'
 import LogIn from './sign_page/Log_in'
 import ForgotPassword from './sign_page/Forgot_pas'
+import CheckEmail from './sign_page/Check_email'
 function Layout({ children }) {
   const location = useLocation();
-  const noheaderfooter = ["/log_in", "/sign_up", "/Forgot_pas"];
+  const noheaderfooter = ["/log_in", "/sign_up", "/Forgot_pas", "/check_email"];
   return (
     <>
       {!noheaderfooter.includes(location.pathname) && <Header />}
@@ -28,6 +29,7 @@ function App() {
           <Route path="/log_in" element={<LogIn />} />
           <Route path="/sign_up" element={<SignUp />} />
           <Route path="/Forgot_pas" element={<ForgotPassword />} />
+          <Route path="/check_email" element={<CheckEmail />} />
         </Routes>
       </Layout>
     </Router>

@@ -9,6 +9,9 @@ function ForgotPassword() {
     const goToLogin = () => {
         navigate("/log_in");
     };
+    const goToCE = () => {
+        navigate("/check_email");
+    }
     const location = useLocation();
     return (
         <>
@@ -16,9 +19,9 @@ function ForgotPassword() {
                 <div className="forgot-password-form">
                     <div className="forgot-password">
                         <h1 className="title-forgot-password">Forgot password</h1>
-                        <label className="title-forgot-password-description">
+                        <p className="title-forgot-password-description">
                             Enter your email address below and we'll send you a link to reset your password
-                        </label>
+                        </p>
                     </div>
                     <form onSubmit={(e) => e.preventDefault()}>
                         <div className="form-group" style={{ flexDirection: "column" }}>
@@ -30,7 +33,7 @@ function ForgotPassword() {
                                 required
                                 placeholder="exampleMoath_hazeem@gmail.com"
                             />
-                            <button type="submit" className="Send-code">Send Reset Link</button>
+                            <button type="submit" className="Send-code" onClick={goToCE}>Send Reset Link</button>
                             <div className="BTLI">
                                 <label onClick={goToLogin} style={{ cursor: "pointer" }}>
                                     <img src="./photo_icons/Back.png" alt="Back to Login" />
