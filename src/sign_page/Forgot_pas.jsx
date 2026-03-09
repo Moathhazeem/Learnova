@@ -12,6 +12,14 @@ function ForgotPassword() {
     const goToCE = () => {
         navigate("/check_email");
     }
+    const goToCe = (e) => {
+        e.preventDefault();
+        const form = e.target;
+        const email = form.email.value;
+        if (email.trim() !== "") {
+            goToCE();
+        }
+    }
     const location = useLocation();
     return (
         <>
@@ -23,7 +31,7 @@ function ForgotPassword() {
                             Enter your email address below and we'll send you a link to reset your password
                         </p>
                     </div>
-                    <form onSubmit={(e) => e.preventDefault()}>
+                    <form onSubmit={goToCe}>
                         <div className="form-group" style={{ flexDirection: "column" }}>
                             <label htmlFor="email">Email</label>
                             <input
@@ -33,7 +41,7 @@ function ForgotPassword() {
                                 required
                                 placeholder="exampleMoath_hazeem@gmail.com"
                             />
-                            <button type="submit" className="Send-code" onClick={goToCE}>Send Reset Link</button>
+                            <button type="submit" className="Send-code" style={{ cursor: "pointer" }}>Send Reset Link</button>
                             <div className="BTLI">
                                 <label onClick={goToLogin} style={{ cursor: "pointer" }}>
                                     <img src="./photo_icons/Back.png" alt="Back to Login" />

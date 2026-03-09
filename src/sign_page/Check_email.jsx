@@ -7,6 +7,9 @@ function CheckEmail() {
     const goToLogin = () => {
         navigate("/log_in");
     };
+    const goToVC = () => {
+        navigate("/Verification_Code")
+    }
     return (
         <>
             <div className="check-email-page-container">
@@ -19,7 +22,7 @@ function CheckEmail() {
                         </p>
                     </div>
                     <form onSubmit={(e) => e.preventDefault()}>
-                        <button type="submit" className="enter_code">Enter Code</button>
+                        <button type="submit" className="enter_code" onClick={goToVC}>Enter Code</button>
                         <div className="BTLI">
                             <label onClick={goToLogin} style={{ cursor: "pointer" }}>
                                 <img src="./photo_icons/Back.png" alt="Back to Login" />

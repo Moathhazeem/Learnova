@@ -41,7 +41,7 @@ function SignUp() {
                                 <label htmlFor="confirmation">I agree to the <span style={{ color: "#0089EA" }}>Terms & Condition</span></label>
                             </div>
                         </div>
-                        <button type="submit" className="sign-in-button">Sign Up</button>
+                        <button type="submit" className="sign-in-button">Create account</button>
                         <div className="or">
                             <span htmlFor="or">Or register with</span>
                         </div>

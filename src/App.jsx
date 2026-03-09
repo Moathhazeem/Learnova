@@ -8,9 +8,10 @@ import SignUp from './sign_page/Sign_up'
 import LogIn from './sign_page/Log_in'
 import ForgotPassword from './sign_page/Forgot_pas'
 import CheckEmail from './sign_page/Check_email'
+import VerificationCode from './sign_page/Verification_Code'
 function Layout({ children }) {
   const location = useLocation();
-  const noheaderfooter = ["/log_in", "/sign_up", "/Forgot_pas", "/check_email"];
+  const noheaderfooter = ["/log_in", "/Sign_up", "/Forgot_pas", "/check_email", '/Verification_Code'];
   return (
     <>
       {!noheaderfooter.includes(location.pathname) && <Header />}
@@ -27,9 +28,10 @@ function App() {
         <Routes>
           <Route path="/" element={<LandingPage />} />
           <Route path="/log_in" element={<LogIn />} />
-          <Route path="/sign_up" element={<SignUp />} />
+          <Route path="/Sign_up" element={<SignUp />} />
           <Route path="/Forgot_pas" element={<ForgotPassword />} />
           <Route path="/check_email" element={<CheckEmail />} />
+          <Route path="/Verification_Code" element={<VerificationCode />} />
         </Routes>
       </Layout>
     </Router>

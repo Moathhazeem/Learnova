@@ -176,11 +176,13 @@
 .sign-in-button:hover {
     transform: translateY(-5px);
     background-color: #0076cc;
+    box-shadow: 0px 4px 15px rgba(0, 137, 234, 0.3);
 }
 
 .sign-in-button:active {
     transform: translateY(0px);
     background-color: #0089EA;
+
 }
 
 .or {

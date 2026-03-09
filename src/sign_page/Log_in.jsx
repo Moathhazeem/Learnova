@@ -7,6 +7,9 @@ function LogIn() {
     const goToForgotPassword = () => {
         navigate("/Forgot_pas")
     }
+    const goToSignIn = () => {
+        navigate("/Sign_up")
+    }
     return (
         <>
             <div className="sign-in-page-container">
@@ -45,7 +48,7 @@ function LogIn() {
                             </div>
                         </div>
                         <div className='DHAA'>
-                            <p style={{ color: "#514C4Ca5" }}>Don't have an account? <a href="#" style={{ color: "#0089EA", fontWeight: "bold", cursor: "pointer", }}>Sign Up</a></p>
+                            <p style={{ color: "#514C4Ca5" }}>Don't have an account? <a onClick={goToSignIn} style={{ color: "#0089EA", fontWeight: "bold", cursor: "pointer", }}>Sign Up</a></p>
                         </div>
                     </form >
                 </div >
