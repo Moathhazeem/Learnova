@@ -39,11 +39,11 @@ function LogIn() {
                         </div>
                         <div className="social-media-container">
                             <div className="social-button">
-                                <img src="./photo_icons/Google.png" alt="logo_Google" />
+                                <img src="/photo_icons/Google.png" alt="logo_Google" />
                                 <span>Google</span>
                             </div>
                             <div className="social-button">
-                                <img src="./photo_icons/Facebook_Logo.png" alt="logo_Facebook" />
+                                <img src="/photo_icons/Facebook_Logo.png" alt="logo_Facebook" />
                                 <span>Facebook</span>
                             </div>
                         </div>
@@ -53,7 +53,7 @@ function LogIn() {
                     </form >
                 </div >
                 <div className="Photo">
-                    <img src="./photo/Photo_Log_in.jpg" alt="Photo related to sign in" title="Photo related to sign in" />
+                    <img src="/Photo/Photo_Log_in.jpg" alt="Photo related to sign in" title="Photo related to sign in" />
                 </div>
             </div>
         </>

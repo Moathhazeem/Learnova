@@ -44,7 +44,7 @@ function ForgotPassword() {
                             <button type="submit" className="Send-code" style={{ cursor: "pointer" }}>Send Reset Link</button>
                             <div className="BTLI">
                                 <label onClick={goToLogin} style={{ cursor: "pointer" }}>
-                                    <img src="./photo_icons/Back.png" alt="Back to Login" />
+                                    <img src="/photo_icons/Back.png" alt="Back to Login" />
                                     Back to Login
                                 </label>
                             </div>
@@ -60,7 +60,7 @@ function ForgotPassword() {
                     </form>
                 </div>
                 <div className="photo">
-                    <img src="./photo/Photo_password.jpg" alt="Photo related to forgot password" title="Photo related to forgot password" />
+                    <img src="/Photo/Photo_password.jpg" alt="Photo related to forgot password" title="Photo related to forgot password" />
                 </div>
             </div>
         </>

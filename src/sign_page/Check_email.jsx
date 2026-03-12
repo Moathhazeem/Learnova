@@ -25,7 +25,7 @@ function CheckEmail() {
                         <button type="submit" className="enter_code" onClick={goToVC}>Enter Code</button>
                         <div className="BTLI">
                             <label onClick={goToLogin} style={{ cursor: "pointer" }}>
-                                <img src="./photo_icons/Back.png" alt="Back to Login" />
+                                <img src="/photo_icons/Back.png" alt="Back to Login" />
                                 Back to log in
                             </label>
                         </div>
@@ -40,7 +40,7 @@ function CheckEmail() {
                     </form >
                 </div>
                 <div className="photo">
-                    <img src="./photo/Check_email_photo.jfif" alt="Photo related to check email" title="Photo related to check email" />
+                    <img src="/Photo/Check_email_photo.jfif" alt="Photo related to check email" title="Photo related to check email" />
                 </div>
             </div >
 

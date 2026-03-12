@@ -47,11 +47,11 @@ function SignUp() {
                         </div>
                         <div className="social-media-container">
                             <div className="social-button">
-                                <img src="./photo_icons/Google.png" alt="logo_Google" />
+                                <img src="/photo_icons/Google.png" alt="logo_Google" />
                                 <span>Google</span>
                             </div>
                             <div className="social-button">
-                                <img src="./photo_icons/Facebook_Logo.png" alt="logo_Facebook" />
+                                <img src="/photo_icons/Facebook_Logo.png" alt="logo_Facebook" />
                                 <span>Facebook</span>
                             </div>
                         </div>
@@ -61,7 +61,7 @@ function SignUp() {
                     </form>
                 </div>
                 <div className="Photo">
-                    <img src="./photo/Photo_Sign_up.jpg" alt="Photo related to sign up" title="Photo related to sign up" />
+                    <img src="/Photo/Photo_Sign_up.jpg" alt="Photo related to sign up" title="Photo related to sign up" />
                 </div>
             </div>
         </>

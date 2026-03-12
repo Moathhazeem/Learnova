@@ -32,7 +32,7 @@ function Footer() {
                     <ul className="store-buttons">
                         <li className="store-button_1">
                             <a href="#" className="store-button">
-                                <img src="./photo_icons/Apple_store.png" alt="Apple Store" />
+                                <img src="/photo_icons/Apple_store.png" alt="Apple Store" />
                                 <div className="button-text">
                                     <span className="top-text">Download on the</span>
                                     <span className="bottom-text">App Store</span>
@@ -41,7 +41,7 @@ function Footer() {
                         </li>
                         <li className="store-button_2">
                             <a href="#" className="store-button">
-                                <img src="./photo_icons/google_play.png" alt="Google Play" />
+                                <img src="/photo_icons/google_play.png" alt="Google Play" />
                                 <div className="button-text">
                                     <span className="top-text">GET IT ON</span>
                                     <span className="bottom-text">Google Play</span>
@@ -58,11 +58,11 @@ function Footer() {
                     </div>
 
                     <ul className="social-icons">
-                        <li><a href="#"><img src="./photo_icons/facebook.png" alt="Facebook icon" /></a></li>
-                        <li><a href="#"><img src="./photo_icons/instagram.png" alt="Instagram icon" /></a></li>
-                        <li><a href="#"><img src="./photo_icons/twitter.png" alt="Twitter icon" /></a></li>
-                        <li><a href="#"><img src="./photo_icons/linkedin.png" alt="Linkedin icon" /></a></li>
-                        <li><a href="#"><img src="./photo_icons/youtube.png" alt="Youtube icon" /></a></li>
+                        <li><a href="#"><img src="/photo_icons/facebook.png" alt="Facebook icon" /></a></li>
+                        <li><a href="#"><img src="/photo_icons/instagram.png" alt="Instagram icon" /></a></li>
+                        <li><a href="#"><img src="/photo_icons/twitter.png" alt="Twitter icon" /></a></li>
+                        <li><a href="#"><img src="/photo_icons/linkedin.png" alt="Linkedin icon" /></a></li>
+                        <li><a href="#"><img src="/photo_icons/youtube.png" alt="Youtube icon" /></a></li>
                     </ul>
                 </div>
             </div>

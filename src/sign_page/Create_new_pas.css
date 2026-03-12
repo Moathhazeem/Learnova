@@ -1,4 +1,4 @@
-.check-email-page-container {
+.Create-new-pas-page-container {
     display: flex;
     flex-direction: row;
     align-items: center;
@@ -8,7 +8,7 @@
     direction: rtl;
 }
 
-.check-email-form {
+.Create-new-pas-form {
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -16,15 +16,17 @@
     min-height: 100vh;
     flex: 1;
     position: relative;
+    padding-bottom: 40px;
 }
 
-.check-email {
+.Create-new-pas {
     display: block;
-    width: 740px;
+    width: 555px;
     white-space: wrap;
+    margin-bottom: -20px;
 }
 
-.title-check-email {
+.title-create-new-pas {
     display: flex;
     align-items: flex-end;
     justify-content: flex-end;
@@ -35,24 +37,88 @@
     color: #000000;
 }
 
-.description-check-email {
+.description-create-new-pas {
     display: block;
     font-size: 22px;
     margin-bottom: 50px;
     color: rgba(81, 76, 76, 0.5);
     line-height: 1.4;
     text-align: left;
+    font-weight: 500;
 }
 
-.resend-email {
-    color: #0089EA;
-    text-decoration: underline;
-    cursor: pointer;
+.Form-new-pas {
+    width: 555px;
+    flex-direction: column;
+    direction: ltr;
+    margin-bottom: 20px;
+}
+
+.Form-new-pas input {
+    border-radius: 10px;
+    border: 1px solid rgba(0, 0, 0, 0.2);
+    width: 555px;
+    height: 50px;
+    color: #000000;
+    padding-left: 15px;
+    /* لإزاحة النص والـ placeholder من البداية */
+    font-size: 18px;
+    margin-bottom: 10px;
+}
+
+.Form-new-pas input::placeholder {
+    color: rgba(0, 0, 0, 0.2);
+    font-size: 20px;
     font-weight: bold;
-
 }
 
-.enter_code {
+.Form-new-pas h2 {
+    font-size: 22px;
+    font-weight: 600;
+    color: #000000;
+    margin-bottom: 10px;
+    margin-top: 20px;
+}
+
+.error-message {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    color: #ff4d4f;
+    font-size: 16px;
+    margin-top: 10px;
+    margin-bottom: 10px;
+    font-weight: 600;
+    text-align: left;
+    width: 100%;
+}
+
+.error-photo {
+    width: 20px; /* تصغير الأيقونة قليلاً لتناسب النص */
+    height: 20px;
+    object-fit: contain;
+}
+
+.correct-message {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    color: #28a745;
+    font-size: 16px;
+    margin-top: 10px;
+    margin-bottom: 10px;
+    font-weight: 600;
+    text-align: left;
+    width: 100%;
+}
+
+.correct-photo {
+    width: 20px;
+    height: 20px;
+    object-fit: contain;
+}
+
+.Confirm_new_pass {
     display: flex;
     align-items: center;
     justify-content: center;
@@ -64,18 +130,19 @@
     font-size: 22px;
     font-weight: 700;
     margin-bottom: 20px;
+    margin-top: 40px;
     cursor: pointer;
     border: none;
     transition: all 0.3s ease;
 }
 
-.enter_code:hover {
+.Confirm_new_pass:hover {
     transform: translateY(-5px);
     background-color: #0076cc;
     box-shadow: 0px 4px 15px rgba(0, 137, 234, 0.3);
 }
 
-.enter_code:active {
+.Confirm_new_pass:active {
     transform: translateY(0px);
     background-color: #0089EA;
 }

@@ -26,7 +26,7 @@ function Header() {
             value={search}
             onChange={handleSearch}
           />
-          <div className="search-icon"><img src="./photo_icons/search.png" alt="Search icon" /></div>
+          <div className="search-icon"><img src="/photo_icons/search.png" alt="Search icon" /></div>
         </div>
         <div className="auth-buttons">
           <button className="sign-up" onClick={() => Navigate("/sign_up")}>Sign Up</button>
