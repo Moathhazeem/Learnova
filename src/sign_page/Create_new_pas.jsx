@@ -44,7 +44,7 @@ function CreateNewPas() {
         } else if (!/[0-9]/.test(trimmedPass)) {
             setPassError("Password must have at least one number.");
             isValid = false;
-        } else if (!/[^a-zA-Z0-9]/.test(trimmedPass)) {
+        } else if (!/[!@#$%^&*]/.test(trimmedPass)) {
             setPassError("Password must have at least one special character.");
             isValid = false;
         } else {

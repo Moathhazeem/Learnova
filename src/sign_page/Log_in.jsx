@@ -1,7 +1,7 @@
 import { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import "./Log_in.css";
-import ForgotPassword from './Forgot_pas';
+
 function LogIn() {
     const navigate = useNavigate();
     const goToForgotPassword = () => {
@@ -10,19 +10,157 @@ function LogIn() {
     const goToSignIn = () => {
         navigate("/sign_up")
     }
+    const [email, setEmail] = useState("");
+    const [pass, setPass] = useState("");
+    const [emailError, setEmailError] = useState("");
+    const [passError, setPassError] = useState("");
+    const [emailSuccess, setEmailSuccess] = useState("");
+    const [passSuccess, setPassSuccess] = useState([]);
+
+    const handleSubmit = (e) => {
+        e.preventDefault();
+
+        // Reset errors and success messages
+        setEmailError("");
+        setPassError([]); // Now an array for multiple errors
+        setEmailSuccess("");
+        setPassSuccess([]); // Reset as array
+
+        let isValid = true;
+        const trimmedEmail = email.trim();
+        const trimmedPass = pass.trim();
+
+        // email validation
+        if (trimmedEmail === "") {
+            setEmailError("Please fill in this field.")
+            isValid = false;
+        }
+        else if (!trimmedEmail.includes("@gmail.com")) {
+            setEmailError("Please enter a valid email address.")
+            isValid = false;
+        }
+        else {
+            setEmailSuccess("Email is valid.")
+        }
+
+        // password validation
+        let passwordErrors = [];
+        let passwordSuccess = [];
+        if (trimmedPass === "") {
+            passwordErrors.push("Please fill in this field.");
+            isValid = false;
+        }
+        else {
+            if (trimmedPass.length < 8) {
+                passwordErrors.push("Password must be at least 8 characters long.");
+                isValid = false;
+            }
+            else {
+                passwordSuccess.push("Password has at least 8 characters.");
+            }
+
+            if (!/[0-9]/.test(trimmedPass)) {
+                passwordErrors.push("Password must contain at least one number.");
+                isValid = false;
+            }
+            else {
+                passwordSuccess.push("Password has at least one number.");
+            }
+
+            if (!/[A-Z]/.test(trimmedPass)) {
+                passwordErrors.push("Password must contain at least one uppercase letter.");
+                isValid = false;
+            }
+            else {
+                passwordSuccess.push("Password has at least one uppercase letter.");
+            }
+
+            if (!/[a-z]/.test(trimmedPass)) {
+                passwordErrors.push("Password must contain at least one lowercase letter.");
+                isValid = false;
+            }
+            else {
+                passwordSuccess.push("Password has at least one lowercase letter.");
+            }
+
+            if (!/[!@#$%^&*]/.test(trimmedPass)) {
+                passwordErrors.push("Password must contain at least one special character.");
+                isValid = false;
+            }
+            else {
+                passwordSuccess.push("Password has at least one special character.");
+            }
+        }
+
+        setPassError(passwordErrors);
+        setPassSuccess(passwordSuccess);
+
+        if (isValid && passwordErrors.length === 0) {
+            navigate("/home")
+        }
+    }
+
     return (
         <>
             <div className="sign-in-page-container">
                 <div className="sign-in">
-                    <h1 className="title-sign-in">Login to<label style={{ color: "#0089EA" }}>Learnova</label></h1>
-                    <form>
+                    <h1 className="title-sign-in">Login to <label style={{ color: "#0089EA" }}>Learnova</label></h1>
+                    <form onSubmit={handleSubmit} noValidate>
                         <div className="form-group">
                             <label htmlFor="email">Email</label>
-                            <input type="email" id="email" name="email" required placeholder="exampleMoath_hazeem@gmail.com" />
+                            <input
+                                type="email"
+                                id="email"
+                                name="email"
+                                value={email}
+                                onChange={(e) => setEmail(e.target.value)}
+                                required
+                                placeholder="exampleMoath_hazeem@gmail.com"
+                            />
+                            {emailError && (
+                                <span className="error-message" style={{ color: "red", fontSize: "18px", display: "flex", alignItems: "center", gap: "5px", marginTop: "5px" }}>
+                                    <img src="/photo_icons/Inchorrect.png" alt="error" style={{ width: "20px" }} />
+                                    {emailError}
+                                </span>
+                            )}
+                            {emailSuccess && (
+                                <span className="success-message" style={{ color: "green", fontSize: "18px", display: "flex", alignItems: "center", gap: "5px", marginTop: "5px" }}>
+                                    <img src="/photo_icons/Chorrect.png" alt="success" style={{ width: "20px" }} />
+                                    {emailSuccess}
+                                </span>
+                            )}
                         </div>
                         <div className="form-group">
                             <label htmlFor="password">Password</label>
-                            <input type="password" id="password" name="password" required placeholder="example!2##4$5^sdsds" />
+                            <input
+                                type="password"
+                                id="password"
+                                name="password"
+                                value={pass}
+                                onChange={(e) => setPass(e.target.value)}
+                                required
+                                placeholder="example!2##4$5^sdsds"
+                            />
+                            {passError.length > 0 && (
+                                <div className="error-list" style={{ marginTop: "5px" }}>
+                                    {passError.map((err, index) => (
+                                        <span key={index} className="error-message" style={{ color: "red", fontSize: "18px", display: "flex", alignItems: "center", gap: "5px", marginBottom: "3px" }}>
+                                            <img src="/photo_icons/Inchorrect.png" alt="error" style={{ width: "20px" }} />
+                                            {err}
+                                        </span>
+                                    ))}
+                                </div>
+                            )}
+                            {passSuccess.length > 0 && (
+                                <div className="success-list" style={{ marginTop: "5px" }}>
+                                    {passSuccess.map((success, index) => (
+                                        <span key={index} className="success-message" style={{ color: "green", fontSize: "18px", display: "flex", alignItems: "center", gap: "5px", marginBottom: "3px" }}>
+                                            <img src="/photo_icons/Chorrect.png" alt="success" style={{ width: "20px" }} />
+                                            {success}
+                                        </span>
+                                    ))}
+                                </div>
+                            )}
                         </div>
                         <div className="form-options">
                             <div className="form-group_remember">
@@ -35,7 +173,7 @@ function LogIn() {
                         </div>
                         <button type="submit" className="sign-in-button">Sign In</button>
                         <div className="or">
-                            <span htmlFor="or">Or sign in with</span>
+                            <span>Or sign in with</span>
                         </div>
                         <div className="social-media-container">
                             <div className="social-button">
@@ -60,4 +198,5 @@ function LogIn() {
     )
 }
 
-export default LogIn
+export default LogIn;
+

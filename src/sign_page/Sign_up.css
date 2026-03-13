@@ -95,10 +95,11 @@
 
 .form-options {
     display: flex;
-    align-items: center;
+    flex-direction: column;
+    align-items: flex-start;
     width: 100%;
     max-width: 540px;
-    margin-top: 40px;
+    margin-top: 20px;
     margin-bottom: 20px;
     direction: ltr;
 }
@@ -106,15 +107,25 @@
 .form-group_remember {
     display: flex;
     align-items: center;
+    justify-content: flex-start;
     gap: 10px;
     color: #514C4C;
     font-size: 22px;
+    width: 100%;
+}
+
+.form-group_remember input {
+    cursor: pointer;
+    width: auto;
+    height: auto;
+    margin: 0;
 }
 
 .form-group_remember label {
     font-size: 16px !important;
     font-weight: 500 !important;
     margin-bottom: 0 !important;
+    cursor: pointer;
 }
 
 .sign-in-button {
