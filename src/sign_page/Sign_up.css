@@ -22,13 +22,19 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    min-height: 100vh;
+    height: 100vh;
+    /* Fixed height to viewport */
+    position: sticky;
+    /* Keep it fixed while scrolling */
+    top: 0;
+    overflow: hidden;
 }
 
 .Photo img {
     width: 100%;
     height: 100%;
     object-fit: cover;
+    display: block;
 }
 
 .title-sign-up {
@@ -47,10 +53,49 @@
 .form-group {
     display: flex;
     flex-direction: column;
-    margin-bottom: 20px;
+    margin-bottom: 5px;
+    /* Reduced to allow space for messages */
     direction: ltr;
     width: 100%;
     max-width: 540px;
+}
+
+.error-list,
+.success-list {
+    margin-top: 8px; /* Equal to original gap */
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+}
+
+.error-message,
+.success-message {
+    font-size: 16px;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 8px;
+    margin-top: 8px; /* For messages not in a list */
+    font-weight: 500;
+}
+
+.error-list .error-message,
+.success-list .success-message {
+    margin-top: 0; /* Clear margin if inside a list */
+}
+
+.error-message {
+    color: #FF0000;
+}
+
+.success-message {
+    color: #28a745;
+}
+
+.error-message img,
+.success-message img {
+    width: 18px;
+    height: 18px;
 }
 
 .fullName {

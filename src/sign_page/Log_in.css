@@ -47,10 +47,52 @@
 .form-group {
     display: flex;
     flex-direction: column;
-    margin-bottom: 20px;
+    margin-bottom: 5px;
+    /* Reduced to allow space for messages */
     width: 100%;
     max-width: 551px;
     direction: ltr;
+}
+
+.error-list,
+.success-list {
+    margin-top: 8px;
+    /* Equal to original gap */
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+}
+
+.error-message,
+.success-message {
+    font-size: 16px;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 8px;
+    margin-top: 8px;
+    /* For messages not in a list */
+    font-weight: 500;
+}
+
+.error-list .error-message,
+.success-list .success-message {
+    margin-top: 0;
+    /* Clear margin if inside a list */
+}
+
+.error-message {
+    color: #FF0000;
+}
+
+.success-message {
+    color: #28a745;
+}
+
+.error-message img,
+.success-message img {
+    width: 18px;
+    height: 18px;
 }
 
 .form-group label {
@@ -85,12 +127,13 @@
 
 .form-options {
     display: flex;
+    flex-direction: row;
     justify-content: space-between;
-    /* توزيع العناصر على الأطراف */
     align-items: center;
+    /* This should keep them on the same line */
     width: 100%;
     max-width: 551px;
-    /* نفس عرض المدخلات والزر */
+    margin-top: 15px;
     margin-bottom: 25px;
     direction: ltr;
 }
@@ -98,26 +141,37 @@
 .form-group_remember {
     display: flex;
     align-items: center;
-    gap: 20px;
+    gap: 10px;
     color: #000000;
-    font-weight: medium;
-    font-size: 22px;
+    font-size: 18px;
+    font-weight: 500;
+}
+
+.form-group_forgot-password {
+    margin-left: auto;
+    /* Forces the flex item to the far right */
+    display: flex;
+    justify-content: flex-end;
 }
 
 .form-group_forgot-password span {
     font-size: 18px;
     font-weight: 500;
+    width: auto;
+    white-space: nowrap;
 }
 
 .form-group_remember input {
+    margin: 0;
+    /* Remove default margin */
     appearance: none;
     /* إلغاء شكل المتصفح الافتراضي */
     -webkit-appearance: none;
-    width: 22px;
-    height: 22px;
+    width: 20px;
+    height: 20px;
     border: 2px solid #d1d1d1;
     /* إطار خفيف */
-    border-radius: 6px;
+    border-radius: 4px;
     background-color: #fff;
     cursor: pointer;
     display: flex;

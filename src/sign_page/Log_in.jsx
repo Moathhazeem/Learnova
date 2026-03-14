@@ -50,46 +50,12 @@ function LogIn() {
             passwordErrors.push("Please fill in this field.");
             isValid = false;
         }
+        else if (trimmedPass.length < 8) {
+            passwordErrors.push("Incorrect password.");
+            isValid = false;
+        }
         else {
-            if (trimmedPass.length < 8) {
-                passwordErrors.push("Password must be at least 8 characters long.");
-                isValid = false;
-            }
-            else {
-                passwordSuccess.push("Password has at least 8 characters.");
-            }
-
-            if (!/[0-9]/.test(trimmedPass)) {
-                passwordErrors.push("Password must contain at least one number.");
-                isValid = false;
-            }
-            else {
-                passwordSuccess.push("Password has at least one number.");
-            }
-
-            if (!/[A-Z]/.test(trimmedPass)) {
-                passwordErrors.push("Password must contain at least one uppercase letter.");
-                isValid = false;
-            }
-            else {
-                passwordSuccess.push("Password has at least one uppercase letter.");
-            }
-
-            if (!/[a-z]/.test(trimmedPass)) {
-                passwordErrors.push("Password must contain at least one lowercase letter.");
-                isValid = false;
-            }
-            else {
-                passwordSuccess.push("Password has at least one lowercase letter.");
-            }
-
-            if (!/[!@#$%^&*]/.test(trimmedPass)) {
-                passwordErrors.push("Password must contain at least one special character.");
-                isValid = false;
-            }
-            else {
-                passwordSuccess.push("Password has at least one special character.");
-            }
+            passwordSuccess.push("Password is correct.");
         }
 
         setPassError(passwordErrors);
@@ -118,14 +84,14 @@ function LogIn() {
                                 placeholder="exampleMoath_hazeem@gmail.com"
                             />
                             {emailError && (
-                                <span className="error-message" style={{ color: "red", fontSize: "18px", display: "flex", alignItems: "center", gap: "5px", marginTop: "5px" }}>
-                                    <img src="/photo_icons/Inchorrect.png" alt="error" style={{ width: "20px" }} />
+                                <span className="error-message" style={{ marginTop: "-30px" }}>
+                                    <img src="/photo_icons/Inchorrect.png" alt="error" />
                                     {emailError}
                                 </span>
                             )}
                             {emailSuccess && (
-                                <span className="success-message" style={{ color: "green", fontSize: "18px", display: "flex", alignItems: "center", gap: "5px", marginTop: "5px" }}>
-                                    <img src="/photo_icons/Chorrect.png" alt="success" style={{ width: "20px" }} />
+                                <span className="success-message" style={{ marginTop: "-30px" }}>
+                                    <img src="/photo_icons/Chorrect.png" alt="success" />
                                     {emailSuccess}
                                 </span>
                             )}
@@ -141,26 +107,22 @@ function LogIn() {
                                 required
                                 placeholder="example!2##4$5^sdsds"
                             />
-                            {passError.length > 0 && (
-                                <div className="error-list" style={{ marginTop: "5px" }}>
-                                    {passError.map((err, index) => (
-                                        <span key={index} className="error-message" style={{ color: "red", fontSize: "18px", display: "flex", alignItems: "center", gap: "5px", marginBottom: "3px" }}>
-                                            <img src="/photo_icons/Inchorrect.png" alt="error" style={{ width: "20px" }} />
-                                            {err}
-                                        </span>
-                                    ))}
-                                </div>
-                            )}
-                            {passSuccess.length > 0 && (
-                                <div className="success-list" style={{ marginTop: "5px" }}>
-                                    {passSuccess.map((success, index) => (
-                                        <span key={index} className="success-message" style={{ color: "green", fontSize: "18px", display: "flex", alignItems: "center", gap: "5px", marginBottom: "3px" }}>
-                                            <img src="/photo_icons/Chorrect.png" alt="success" style={{ width: "20px" }} />
-                                            {success}
-                                        </span>
-                                    ))}
-                                </div>
-                            )}
+                            {passError.length > 0 &&
+                                passError.map((err, index) => (
+                                    <span key={index} className="error-message">
+                                        <img src="/photo_icons/Inchorrect.png" alt="error" />
+                                        {err}
+                                    </span>
+                                ))}
+
+                            {passSuccess.length > 0 &&
+                                passSuccess.map((success, index) => (
+                                    <span key={index} className="success-message">
+                                        <img src="/photo_icons/Chorrect.png" alt="success" />
+                                        {success}
+                                    </span>
+                                ))}
+
                         </div>
                         <div className="form-options">
                             <div className="form-group_remember">

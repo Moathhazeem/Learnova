@@ -238,8 +238,8 @@ function SignUp() {
                                     required
                                     placeholder="example Moath"
                                 />
-                                {firstNameError && <span className="error-message" style={{ color: "red", fontSize: "14px", display: "flex", alignItems: "center", gap: "5px", marginTop: "5px" }}><img src="/photo_icons/Inchorrect.png" alt="error" style={{ width: "16px" }} />{firstNameError}</span>}
-                                {firstNameSuccess && <span className="success-message" style={{ color: "green", fontSize: "14px", display: "flex", alignItems: "center", gap: "5px", marginTop: "5px" }}><img src="/photo_icons/Chorrect.png" alt="success" style={{ width: "16px" }} />{firstNameSuccess}</span>}
+                                {firstNameError && <span className="error-message"><img src="/photo_icons/Inchorrect.png" alt="error" />{firstNameError}</span>}
+                                {firstNameSuccess && <span className="success-message"><img src="/photo_icons/Chorrect.png" alt="success" />{firstNameSuccess}</span>}
                             </div>
                             <div className="form-group">
                                 <label htmlFor="last_name">Last Name</label>
@@ -252,8 +252,8 @@ function SignUp() {
                                     required
                                     placeholder="example Hazeem"
                                 />
-                                {lastNameError && <span className="error-message" style={{ color: "red", fontSize: "14px", display: "flex", alignItems: "center", gap: "5px", marginTop: "5px" }}><img src="/photo_icons/Inchorrect.png" alt="error" style={{ width: "16px" }} />{lastNameError}</span>}
-                                {lastNameSuccess && <span className="success-message" style={{ color: "green", fontSize: "14px", display: "flex", alignItems: "center", gap: "5px", marginTop: "5px" }}><img src="/photo_icons/Chorrect.png" alt="success" style={{ width: "16px" }} />{lastNameSuccess}</span>}
+                                {lastNameError && <span className="error-message"><img src="/photo_icons/Inchorrect.png" alt="error" />{lastNameError}</span>}
+                                {lastNameSuccess && <span className="success-message"><img src="/photo_icons/Chorrect.png" alt="success" />{lastNameSuccess}</span>}
                             </div>
                         </div>
 
@@ -268,26 +268,22 @@ function SignUp() {
                                 required
                                 placeholder="example Moath_hazeem665@gmail.com"
                             />
-                            {emailError.length > 0 && (
-                                <div style={{ marginTop: "5px" }}>
-                                    {emailError.map((err, i) => (
-                                        <span key={i} className="error-message" style={{ color: "red", fontSize: "14px", display: "flex", alignItems: "center", gap: "5px", marginBottom: "3px" }}>
-                                            <img src="/photo_icons/Inchorrect.png" alt="error" style={{ width: "16px" }} />
-                                            {err}
-                                        </span>
-                                    ))}
-                                </div>
-                            )}
-                            {emailSuccess.length > 0 && (
-                                <div style={{ marginTop: "5px" }}>
-                                    {emailSuccess.map((succ, i) => (
-                                        <span key={i} className="success-message" style={{ color: "green", fontSize: "14px", display: "flex", alignItems: "center", gap: "5px", marginBottom: "3px" }}>
-                                            <img src="/photo_icons/Chorrect.png" alt="success" style={{ width: "16px" }} />
-                                            {succ}
-                                        </span>
-                                    ))}
-                                </div>
-                            )}
+                            {emailError.length > 0 &&
+                                emailError.map((err, i) => (
+                                    <span key={i} className="error-message" style={{ marginTop: i === 0 ? "-30px" : "10px" }}>
+                                        <img src="/photo_icons/Inchorrect.png" alt="error" />
+                                        {err}
+                                    </span>
+                                ))}
+
+                            {emailSuccess.length > 0 &&
+                                emailSuccess.map((succ, i) => (
+                                    <span key={i} className="success-message" style={{ marginTop: i === 0 ? "-30px" : "10px" }}>
+                                        <img src="/photo_icons/Chorrect.png" alt="success" />
+                                        {succ}
+                                    </span>
+                                ))}
+
                         </div>
 
                         <div className="form-group">
@@ -301,24 +297,20 @@ function SignUp() {
                                 required
                                 placeholder="example 4645456qwwe#$"
                             />
-                            {passwordError.length > 0 && (
-                                <div style={{ marginTop: "5px" }}>
-                                    {passwordError.map((err, i) => (
-                                        <span key={i} className="error-message" style={{ color: "red", fontSize: "14px", display: "flex", alignItems: "center", gap: "8px", marginBottom: "3px" }}>
-                                            <img src="/photo_icons/Inchorrect.png" alt="error" style={{ width: "16px" }} /> {err}
-                                        </span>
-                                    ))}
-                                </div>
-                            )}
-                            {passwordSuccess.length > 0 && (
-                                <div style={{ marginTop: "5px" }}>
-                                    {passwordSuccess.map((succ, i) => (
-                                        <span key={i} className="success-message" style={{ color: "green", fontSize: "14px", display: "flex", alignItems: "center", gap: "8px", marginBottom: "3px" }}>
-                                            <img src="/photo_icons/Chorrect.png" alt="success" style={{ width: "16px" }} /> {succ}
-                                        </span>
-                                    ))}
-                                </div>
-                            )}
+                            {passwordError.length > 0 &&
+                                passwordError.map((err, i) => (
+                                    <span key={i} className="error-message">
+                                        <img src="/photo_icons/Inchorrect.png" alt="error" /> {err}
+                                    </span>
+                                ))}
+
+                            {passwordSuccess.length > 0 &&
+                                passwordSuccess.map((succ, i) => (
+                                    <span key={i} className="success-message">
+                                        <img src="/photo_icons/Chorrect.png" alt="success" /> {succ}
+                                    </span>
+                                ))}
+
                         </div>
 
                         <div className="form-group">
@@ -332,8 +324,8 @@ function SignUp() {
                                 required
                                 placeholder="example 4645456qwwe#$"
                             />
-                            {confirmPasswordError && <span className="error-message" style={{ color: "red", fontSize: "14px", display: "flex", alignItems: "center", gap: "5px", marginTop: "5px" }}><img src="/photo_icons/Inchorrect.png" alt="error" style={{ width: "16px" }} />{confirmPasswordError}</span>}
-                            {confirmPasswordSuccess && <span className="success-message" style={{ color: "green", fontSize: "14px", display: "flex", alignItems: "center", gap: "5px", marginTop: "5px" }}><img src="/photo_icons/Chorrect.png" alt="success" style={{ width: "16px" }} />{confirmPasswordSuccess}</span>}
+                            {confirmPasswordError && <span className="error-message"><img src="/photo_icons/Inchorrect.png" alt="error" />{confirmPasswordError}</span>}
+                            {confirmPasswordSuccess && <span className="success-message"><img src="/photo_icons/Chorrect.png" alt="success" />{confirmPasswordSuccess}</span>}
                         </div>
 
                         <div className="form-group">
@@ -347,8 +339,8 @@ function SignUp() {
                                 required
                                 placeholder="example 0528885023"
                             />
-                            {phoneError && <span className="error-message" style={{ color: "red", fontSize: "14px", display: "flex", alignItems: "center", gap: "5px", marginTop: "5px" }}><img src="/photo_icons/Inchorrect.png" alt="error" style={{ width: "16px" }} />{phoneError}</span>}
-                            {phoneSuccess && <span className="success-message" style={{ color: "green", fontSize: "14px", display: "flex", alignItems: "center", gap: "5px", marginTop: "5px" }}><img src="/photo_icons/Chorrect.png" alt="success" style={{ width: "16px" }} />{phoneSuccess}</span>}
+                            {phoneError && <span className="error-message"><img src="/photo_icons/Inchorrect.png" alt="error" />{phoneError}</span>}
+                            {phoneSuccess && <span className="success-message"><img src="/photo_icons/Chorrect.png" alt="success" />{phoneSuccess}</span>}
                         </div>
 
                         <div className="form-options">
@@ -363,7 +355,7 @@ function SignUp() {
                                 />
                                 <label htmlFor="confirmation">I agree to the <span style={{ color: "#0089EA", cursor: "pointer" }}>Terms & Condition</span></label>
                             </div>
-                            {agreeError && <span className="error-message" style={{ color: "red", fontSize: "14px", display: "flex", alignItems: "center", gap: "5px", marginTop: "8px", width: "100%" }}><img src="/photo_icons/Inchorrect.png" alt="error" style={{ width: "16px" }} />{agreeError}</span>}
+                            {agreeError && <span className="error-message"><img src="/photo_icons/Inchorrect.png" alt="error" />{agreeError}</span>}
                         </div>
 
                         <button type="submit" className="sign-in-button">Sign Up</button>
