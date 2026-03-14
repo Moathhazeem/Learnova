@@ -226,7 +226,7 @@ function SignUp() {
                 <div className="sign-up-form">
                     <h1 className="title-sign-up">Sign up to <label style={{ color: "#0089EA" }}>Learnova</label></h1>
                     <form onSubmit={handleSubmit} noValidate>
-                        <div className="fullName">
+                        <div className="fullName" style={{ marginBottom: "20px" }}>
                             <div className="form-group">
                                 <label htmlFor="first_name">First Name</label>
                                 <input
@@ -242,7 +242,7 @@ function SignUp() {
                                 {firstNameSuccess && <span className="success-message"><img src="/photo_icons/Chorrect.png" alt="success" />{firstNameSuccess}</span>}
                             </div>
                             <div className="form-group">
-                                <label htmlFor="last_name">Last Name</label>
+                                <label htmlFor="last_name" >Last Name</label>
                                 <input
                                     type="text"
                                     id="last_name"
@@ -257,7 +257,7 @@ function SignUp() {
                             </div>
                         </div>
 
-                        <div className="form-group">
+                        <div className="form-group" style={{ marginBottom: "-20px" }}>
                             <label htmlFor="email">Email</label>
                             <input
                                 type="email"
@@ -286,7 +286,7 @@ function SignUp() {
 
                         </div>
 
-                        <div className="form-group">
+                        <div className="form-group" style={{ marginBottom: "20px" }}>
                             <label htmlFor="password">Password</label>
                             <input
                                 type="password"
@@ -313,7 +313,7 @@ function SignUp() {
 
                         </div>
 
-                        <div className="form-group">
+                        <div className="form-group" style={{ marginBottom: "20px" }}>
                             <label htmlFor="confirm_password">Confirm Password</label>
                             <input
                                 type="password"
@@ -328,7 +328,7 @@ function SignUp() {
                             {confirmPasswordSuccess && <span className="success-message"><img src="/photo_icons/Chorrect.png" alt="success" />{confirmPasswordSuccess}</span>}
                         </div>
 
-                        <div className="form-group">
+                        <div className="form-group" style={{ marginBottom: "40px" }}>
                             <label htmlFor="phone">Phone</label>
                             <input
                                 type="tel"
@@ -343,7 +343,7 @@ function SignUp() {
                             {phoneSuccess && <span className="success-message"><img src="/photo_icons/Chorrect.png" alt="success" />{phoneSuccess}</span>}
                         </div>
 
-                        <div className="form-options">
+                        <div className="form-options" style={{ marginBottom: "20px" }}>
                             <div className="form-group_remember">
                                 <input
                                     type="checkbox"

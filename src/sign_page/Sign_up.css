@@ -4,6 +4,7 @@
     direction: ltr;
     width: 100%;
     min-height: 100vh;
+    margin-top: -40px;
 }
 
 .sign-up-form {
@@ -62,7 +63,8 @@
 
 .error-list,
 .success-list {
-    margin-top: 8px; /* Equal to original gap */
+    margin-top: 8px;
+    /* Equal to original gap */
     display: flex;
     flex-direction: column;
     gap: 5px;
@@ -75,13 +77,15 @@
     flex-direction: row;
     align-items: center;
     gap: 8px;
-    margin-top: 8px; /* For messages not in a list */
+    margin-top: 8px;
+    /* For messages not in a list */
     font-weight: 500;
 }
 
 .error-list .error-message,
 .success-list .success-message {
-    margin-top: 0; /* Clear margin if inside a list */
+    margin-top: 0;
+    /* Clear margin if inside a list */
 }
 
 .error-message {

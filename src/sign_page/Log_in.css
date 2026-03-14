@@ -134,7 +134,7 @@
     width: 100%;
     max-width: 551px;
     margin-top: 15px;
-    margin-bottom: 25px;
+    margin-bottom: -20px;
     direction: ltr;
 }
 
@@ -145,9 +145,12 @@
     color: #000000;
     font-size: 18px;
     font-weight: 500;
+    width: auto;
 }
 
 .form-group_forgot-password {
+    margin-top: 20px;
+    margin-bottom: 20px;
     margin-left: auto;
     /* Forces the flex item to the far right */
     display: flex;
