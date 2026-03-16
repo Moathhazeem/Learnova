@@ -156,3 +156,29 @@
     height: 100%;
     object-fit: cover;
 }
+
+.error-message,
+.success-message {
+    font-size: 16px;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 8px;
+    margin-top: 8px;
+    /* For messages not in a list */
+    font-weight: 500;
+}
+
+.error-message {
+    color: #d90429;
+}
+
+.success-message {
+    color: #28a745;
+}
+
+.error-message img,
+.success-message img {
+    width: 18px;
+    height: 18px;
+}

@@ -12,11 +12,21 @@ function ForgotPassword() {
     const goToCE = () => {
         navigate("/check_email");
     }
-    const goToCe = (e) => {
+    const [emailError, setEmailError] = useState("");
+    const [emailSuccess, setEmailSuccess] = useState("");
+    const handleSubmit = (e) => {
         e.preventDefault();
-        const form = e.target;
-        const email = form.email.value;
-        if (email.trim() !== "") {
+        setEmailError("");
+        setEmailSuccess("");
+        const email = e.target.email.value;
+        if (email.trim() === "") {
+            setEmailError("Please fill in this field.");
+        }
+        else if (!email.trim().includes("@gmail.com")) {
+            setEmailError("Email must contain @gmail.com");
+        }
+        else {
+            setEmailSuccess("Email is valid");
             goToCE();
         }
     }
@@ -31,7 +41,7 @@ function ForgotPassword() {
                             Enter your email address below and we'll send you a link to reset your password
                         </p>
                     </div>
-                    <form onSubmit={goToCe}>
+                    <form onSubmit={handleSubmit} noValidate>
                         <div className="form-group" style={{ flexDirection: "column" }}>
                             <label htmlFor="email">Email</label>
                             <input
@@ -41,6 +51,8 @@ function ForgotPassword() {
                                 required
                                 placeholder="exampleMoath_hazeem@gmail.com"
                             />
+                            {emailError && <p className="error-message" style={{ marginTop: "-20px", marginBottom: "30px" }}><img src="/photo_icons/Inchorrect.png" alt="error" />{emailError}</p>}
+                            {emailSuccess && <p className="success-message" style={{ marginTop: "-20px", marginBottom: "30px" }}><img src="/photo_icons/Chorrect.png" alt="success" />{emailSuccess}</p>}
                             <button type="submit" className="Send-code" style={{ cursor: "pointer" }}>Send Reset Link</button>
                             <div className="BTLI">
                                 <label onClick={goToLogin} style={{ cursor: "pointer" }}>
