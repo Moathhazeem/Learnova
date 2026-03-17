@@ -7,8 +7,8 @@ function CreateNewPas() {
     const [confirmPassword, setConfirmPassword] = useState("");
 
     // حالات الخطأ والنجاح لكل حقل بشكل منفصل
-    const [passError, setPassError] = useState("");
-    const [passSuccess, setPassSuccess] = useState("");
+    const [passError, setPassError] = useState([]);
+    const [passSuccess, setPassSuccess] = useState([]);
     const [confError, setConfError] = useState("");
     const [confSuccess, setConfSuccess] = useState("");
 
@@ -30,27 +30,52 @@ function CreateNewPas() {
         let isValid = true;
         const trimmedPass = password.trim();
         const trimmedConf = confirmPassword.trim();
-
+        let passError = [];
+        let passSuccess = [];
         // 1. التحقق من كلمة المرور الأولى
         if (trimmedPass === "") {
-            setPassError("Please fill in this field.");
+            passError.push("Please fill in this field.");
             isValid = false;
-        } else if (trimmedPass.length < 8) {
-            setPassError("Password must be at least 8 characters long.");
-            isValid = false;
-        } else if (!/[a-zA-Z]/.test(trimmedPass)) {
-            setPassError("Password must have at least one letter.");
-            isValid = false;
-        } else if (!/[0-9]/.test(trimmedPass)) {
-            setPassError("Password must have at least one number.");
-            isValid = false;
-        } else if (!/[!@#$%^&*]/.test(trimmedPass)) {
-            setPassError("Password must have at least one special character.");
-            isValid = false;
-        } else {
-            setPassSuccess("Password meets all requirements.");
         }
-
+        else {
+            if (trimmedPass.length < 8) {
+                passError.push("Password must be at least 8 characters long.");
+                isValid = false;
+            }
+            else {
+                passSuccess.push("Password has at least 8 characters.")
+            }
+            if (!/[a-z]/.test(trimmedPass)) {
+                passError.push("Password must have at least one lowercase letter.");
+                isValid = false;
+            }
+            else {
+                passSuccess.push("Password has at least one lowercase letter.")
+            }
+            if (!/[A-Z]/.test(trimmedPass)) {
+                passError.push("Password must have at least one uppercase letter.");
+                isValid = false;
+            }
+            else {
+                passSuccess.push("Password has at least one uppercase letter.")
+            }
+            if (!/[0-9]/.test(trimmedPass)) {
+                passError.push("Password must have at least one number.");
+                isValid = false;
+            }
+            else {
+                passSuccess.push("Password has at least one number.")
+            }
+            if (!/[!@#$%^&*]/.test(trimmedPass)) {
+                passError.push("Password must have at least one special character.");
+                isValid = false;
+            }
+            else {
+                passSuccess.push("Password has at least one special character.")
+            }
+        }
+        setPassError(passError);
+        setPassSuccess(passSuccess);
         // 2. التحقق من حقل التأكيد
         if (trimmedConf === "") {
             setConfError("Please confirm your password.");
@@ -87,18 +112,19 @@ function CreateNewPas() {
                                 onChange={(e) => setPassword(e.target.value)}
                                 required
                             />
-                            {passError && (
-                                <p className="error-message">
-                                    <img className="error-photo" src="/photo_icons/Inchorrect.png" alt="error" />
-                                    {passError}
-                                </p>
-                            )}
-                            {passSuccess && (
-                                <p className="correct-message">
-                                    <img className="correct-photo" src="/photo_icons/Chorrect.png" alt="success" />
-                                    {passSuccess}
-                                </p>
-                            )}
+                            {passError.length > 0 &&
+                                passError.map((err, i) => (
+                                    <span key={i} className="error-message">
+                                        <img src="/photo_icons/Inchorrect.png" alt="error" /> {err}
+                                    </span>
+                                ))}
+
+                            {passSuccess.length > 0 &&
+                                passSuccess.map((succ, i) => (
+                                    <span key={i} className="success-message">
+                                        <img src="/photo_icons/Chorrect.png" alt="success" /> {succ}
+                                    </span>
+                                ))}
 
                             <h2>Repeat Password</h2>
                             <input

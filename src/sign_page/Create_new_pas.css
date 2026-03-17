@@ -81,41 +81,29 @@
 }
 
 .error-message {
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    color: #ff4d4f;
-    font-size: 16px;
-    margin-top: 10px;
-    margin-bottom: 10px;
-    font-weight: 600;
-    text-align: left;
-    width: 100%;
+    color: #FF0000;
 }
 
-.error-photo {
-    width: 20px; /* تصغير الأيقونة قليلاً لتناسب النص */
-    height: 20px;
-    object-fit: contain;
-}
-
-.correct-message {
-    display: flex;
-    align-items: center;
-    gap: 10px;
+.success-message {
     color: #28a745;
-    font-size: 16px;
-    margin-top: 10px;
-    margin-bottom: 10px;
-    font-weight: 600;
-    text-align: left;
-    width: 100%;
 }
 
-.correct-photo {
-    width: 20px;
-    height: 20px;
-    object-fit: contain;
+.error-message img,
+.success-message img {
+    width: 18px;
+    height: 18px;
+}
+
+.error-message,
+.success-message {
+    font-size: 16px;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 8px;
+    margin-top: 8px;
+    /* For messages not in a list */
+    font-weight: 500;
 }
 
 .Confirm_new_pass {

@@ -10,6 +10,7 @@ import ForgotPassword from './sign_page/Forgot_pas'
 import CheckEmail from './sign_page/Check_email'
 import VerificationCode from './sign_page/Verification_Code'
 import CreateNewPas from './sign_page/Create_new_pas'
+import Home from './Home'
 function Layout({ children }) {
   const location = useLocation();
   const noheaderfooter = ["/log_in", "/sign_up", "/Forgot_pas", "/check_email", '/Verification_Code', '/Create_new_pas'];
@@ -34,6 +35,8 @@ function App() {
           <Route path="/check_email" element={<CheckEmail />} />
           <Route path="/Verification_Code" element={<VerificationCode />} />
           <Route path="/Create_new_pas" element={<CreateNewPas />} />
+          <Route path="/Home" element={<Home />} />
+          <Route path="/LandingPage" element={<LandingPage />} />
         </Routes>
       </Layout>
     </Router>

@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { useEffect } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
 import "./Verification_Code.css";
 function VerificationCode() {
@@ -13,12 +14,25 @@ function VerificationCode() {
     const goToCreateNewPas = () => {
         navigate("/Create_new_pas");
     };
-
+    const [codeError, setCodeError] = useState("");
+    const [codeSuccess, setCodesuccess] = useState("");
     const handleSubmit = (e) => {
+        setCodeError("");
+        setCodesuccess("");
         e.preventDefault();
         // Check if all code fields are filled (optional but recommended)
-        if (code.every(digit => digit !== "")) {
-            goToCreateNewPas();
+        const fullcode = code.join("");
+        if (code.every(digit => digit === "")) {
+            setCodeError("Please fill in all fields");
+        }
+        else if (fullcode !== "123456") {
+            setCodeError("Code is incorrect");
+        }
+        else if (fullcode === "123456") {
+            setCodesuccess("Code is correct");
+            setTimeout(() => {
+                goToCreateNewPas();
+            }, 5000);
         }
     };
 
@@ -49,10 +63,10 @@ function VerificationCode() {
                     <div className="verification_code">
                         <h1 className="title_verification_code">Verification Code</h1>
                         <p className="description_verification_code">
-                            Enter the code sent to <span className="email_pesonal">moathhazeem@gmail.com</span> to reset your password 
+                            Enter the code sent to <span className="email_pesonal">moathhazeem@gmail.com</span> to reset your password
                         </p>
                     </div>
-                    <form onSubmit={handleSubmit}>
+                    <form onSubmit={handleSubmit} noValidate>
                         <div className="input_VC">
                             {code.map((data, index) => (
                                 <input
@@ -68,6 +82,8 @@ function VerificationCode() {
                                 />
                             ))}
                         </div>
+                        {codeError && <p className="error-message" style={{ marginTop: "-20px", marginBottom: "30px" }}><img src="/photo_icons/Inchorrect.png" alt="error" />{codeError}</p>}
+                        {codeSuccess && <p className="success-message" style={{ marginTop: "-20px", marginBottom: "30px" }}><img src="/photo_icons/Chorrect.png" alt="success" />{codeSuccess}</p>}
                         <button type="submit" className="Send_code_VC">Send Code</button>
                         <div className="BTLI">
                             <label onClick={goToLogin} style={{ cursor: "pointer" }}>

@@ -41,7 +41,7 @@ function Footer() {
                         </li>
                         <li className="store-button_2">
                             <a href="#" className="store-button">
-                                <img src="/photo_icons/google_play.png" alt="Google Play" />
+                                <img src="/photo_icons/google-play.png" alt="Google Play" />
                                 <div className="button-text">
                                     <span className="top-text">GET IT ON</span>
                                     <span className="bottom-text">Google Play</span>
