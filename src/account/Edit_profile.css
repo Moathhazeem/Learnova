@@ -1,0 +1,57 @@
+.edit-profile-container {
+    margin-top: 100px;
+    /* Space for the fixed header */
+    padding: 20px 60px;
+    font-family: 'Outfit', sans-serif;
+    color: #333;
+}
+
+.breadcrumbs-nav {
+    display: flex;
+    align-items: center;
+    gap: 0px;
+    margin-bottom: 20px;
+}
+
+.Breadcrumbs {
+    color: #0089EA;
+    font-size: 14px;
+    font-weight: 500;
+    text-decoration: none;
+    cursor: pointer;
+    transition: color 0.2s;
+}
+
+.Breadcrumbs:hover {
+    color: #0089EA;
+}
+
+.breadcrumb-separator {
+    color: #0089EA;
+    margin: 0 10px;
+    font-size: 14px;
+}
+
+.current-page {
+    color: #0089EA;
+    font-weight: 600;
+    font-size: 14px;
+    text-transform: capitalize;
+}
+
+.Setting_option {
+    display: flex;
+    flex-direction: row;
+    gap: 20px;
+}
+
+.profile,
+.Security,
+.Preferences,
+.Privacy,
+.Notification,
+.Payment {
+    display: flex;
+    flex-direction: row;
+    gap: 10px;
+}

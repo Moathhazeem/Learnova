@@ -11,6 +11,7 @@ import CheckEmail from './sign_page/Check_email'
 import VerificationCode from './sign_page/Verification_Code'
 import CreateNewPas from './sign_page/Create_new_pas'
 import Home from './Home'
+import EditProfile from './account/Edit_profile'
 function Layout({ children }) {
   const location = useLocation();
   const noheaderfooter = ["/log_in", "/sign_up", "/Forgot_pas", "/check_email", '/Verification_Code', '/Create_new_pas'];
@@ -37,6 +38,7 @@ function App() {
           <Route path="/Create_new_pas" element={<CreateNewPas />} />
           <Route path="/Home" element={<Home />} />
           <Route path="/LandingPage" element={<LandingPage />} />
+          <Route path="/Edit_profile" element={<EditProfile />} />
         </Routes>
       </Layout>
     </Router>
