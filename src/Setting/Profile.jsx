@@ -78,8 +78,11 @@ function Profile() {
                 </div>
                 <div className="Profile-setting">
                     <div className="Header-profile">
-                        <p>Edit User Profile</p>
-                        <p>Preview<img src="/photo_icons/For_setting/arrowUpRight.png"></img></p>
+                        <p style={{ fontSize: "32px" }}>Edit User Profile</p>
+                        <div className="Preview">
+                            <p>Preview</p>
+                            <img src="/photo_icons/For_setting/arrow-up-right.png"></img>
+                        </div>
                     </div>
                     <div className="Profile-setting-content">
                         <div className="Background-container">

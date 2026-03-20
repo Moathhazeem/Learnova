@@ -132,6 +132,7 @@
     border-radius: 20px;
     position: relative;
     width: 602px;
+    margin-top: 20px;
 }
 
 .Background-container {
@@ -166,7 +167,6 @@
     top: 15px;
     right: 15px;
     width: 30px;
-
     height: 30px;
     cursor: pointer;
     display: flex;
@@ -245,4 +245,48 @@
     padding: 10px 30px;
     background-color: #0089EA;
     cursor: pointer;
+}
+
+.Header-profile {
+    margin-top: 50px;
+    display: flex;
+    flex-direction: row;
+    gap: 20px;
+}
+
+.Header-profile p {
+    font-weight: bold;
+    color: #000000;
+    margin: 0;
+    font-family: 'Inter', 'Outfit', sans-serif;
+}
+
+.Header-profile p img {
+    width: 30px;
+    height: 30px;
+    object-fit: cover;
+}
+
+.Preview {
+    display: flex;
+    flex-direction: row;
+    gap: 5px;
+    justify-content: space-between;
+    align-items: center;
+    cursor: pointer;
+}
+
+.Preview p {
+    display: flex;
+    gap: 5px;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 22px;
+    color: #0089EA;
+}
+
+.Preview img {
+    width: 40px;
+    height: 40px;
+    object-fit: cover;
 }
