@@ -76,6 +76,27 @@ function Profile() {
                         );
                     })}
                 </div>
+                <div className="Profile-setting">
+                    <div className="Header-profile">
+                        <p>Edit User Profile</p>
+                        <p>Preview<img src="/photo_icons/For_setting/arrowUpRight.png"></img></p>
+                    </div>
+                    <div className="Profile-setting-content">
+                        <div className="Background-container">
+                            <img src="/Photo/Background_profile.jfif" alt="Background_profile" className="Background_profile" />
+                            <img src="/photo_icons/For_setting/Edit.png" alt="edit" className="edit-bg-icon" />
+                        </div>
+                        <img src="/Photo/Profile.jfif" alt="Profile" className="Profile" />
+                        <div className="Profile-content">
+                            <p className="Your-photo">Your Photo</p>
+                            <p className="This-will-display">this will displayed on your profile</p>
+                            <div className="Profile-content-buttons">
+                                <button className="Upload-new-button">Upload New</button>
+                                <button className="Save-photo-button">Save</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
     );
