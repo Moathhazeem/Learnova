@@ -290,3 +290,168 @@
     height: 40px;
     object-fit: cover;
 }
+
+.Full_Name {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.Full_Name p {
+    font-size: 22px;
+    font-weight: bold;
+    color: #000000;
+    margin: 0;
+}
+
+.input-wrapper {
+    position: relative;
+    display: flex;
+    align-items: center;
+}
+
+.Full_Name input {
+    font-size: 22px;
+    font-weight: bold;
+    color: #000000;
+    margin: 0;
+    border: 1px solid #0000001a;
+    border-radius: 10px;
+    outline: none;
+    background-color: #ffffff;
+    padding: 10px 10px 10px 40px;
+    width: 60%;
+}
+
+.Full_Name input::placeholder {
+    color: #999999;
+}
+
+.input-wrapper img {
+    position: absolute;
+    left: 10px;
+    width: 20px;
+    height: 20px;
+    pointer-events: none;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+.Email {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.Email p {
+    font-size: 22px;
+    font-weight: bold;
+    color: #000000;
+    margin: 0;
+}
+
+.input-wrapper {
+    position: relative;
+    display: flex;
+    align-items: center;
+}
+
+.Email input {
+    font-size: 22px;
+    font-weight: bold;
+    color: #000000;
+    margin: 0;
+    border: 1px solid #0000001a;
+    border-radius: 10px;
+    outline: none;
+    background-color: #ffffff;
+    padding: 10px 10px 10px 40px;
+    width: 60%;
+}
+
+.Email input::placeholder {
+    color: #999999;
+}
+
+.input-wrapper img {
+    position: absolute;
+    left: 10px;
+    width: 20px;
+    height: 20px;
+    pointer-events: none;
+}
+
+
+
+
+
+.phone-input-container-wrapper {
+    width: 60%;
+}
+
+.custom-phone-container {
+    width: 100% !important;
+    border: 1px solid #0000001a !important;
+    border-radius: 10px !important;
+    background-color: #ffffff !important;
+    overflow: hidden;
+}
+
+.custom-phone-input {
+    width: 100% !important;
+    height: 45px !important;
+    font-size: 20px !important;
+    font-weight: bold !important;
+    color: #000 !important;
+    border: none !important;
+    background: transparent !important;
+    padding-left: 58px !important;
+}
+
+.custom-phone-button {
+    background: transparent !important;
+    border: none !important;
+    border-right: 1px solid #0000001a !important;
+    padding: 0 10px !important;
+    width: 48px !important;
+}
+
+.custom-phone-dropdown {
+    border-radius: 8px !important;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.1) !important;
+    font-family: 'Inter', sans-serif !important;
+}
+
+.custom-phone-button .flag {
+    transform: scale(1.2);
+}
+
+.Phone_Number {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.Phone_Number p {
+    font-size: 22px;
+    font-weight: bold;
+    color: #000000;
+    margin: 0;
+}

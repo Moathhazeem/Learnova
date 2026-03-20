@@ -1,11 +1,14 @@
 import { useState } from 'react';
 import { Link, useLocation } from "react-router-dom";
 import "./Profile.css";
+import PhoneInput from 'react-phone-input-2';
+import 'react-phone-input-2/lib/style.css';
 
 function Profile() {
     const location = useLocation();
     const pathname = location.pathname.split("/").filter(x => x);
     const [hovered, setHovered] = useState(null);
+    const [phone, setPhone] = useState("");
     const search = {
         white: "/photo_icons/For_setting/White_Search.png",
         black: "/photo_icons/For_setting/Gray_Search.png"
@@ -96,6 +99,42 @@ function Profile() {
                             <div className="Profile-content-buttons">
                                 <button className="Upload-new-button">Upload New</button>
                                 <button className="Save-photo-button">Save</button>
+                            </div>
+                        </div>
+                    </div>
+                    <div className="Profile-setting-content">
+                        <div className="Personal-information">
+                            <p>Personal Information</p>
+                            <div className="Personal-information-content">
+                                <div className="Full_Name">
+                                    <p>Full Name</p>
+                                    <div className="input-wrapper">
+                                        <input type="text" placeholder="Full Name" />
+                                        <img src="/photo_icons/For_setting/account.png" alt="Account photo" className="edit-icon" />
+                                    </div>
+                                </div>
+                                <div className="Email">
+                                    <p>Email address</p>
+                                    <div className="input-wrapper">
+                                        <input type="email" placeholder="[EMAIL_ADDRESS]" />
+                                        <img src="/photo_icons/For_setting/email.png" alt="email photo" className="edit-icon" />
+                                    </div>
+                                </div>
+                                <div className="Phone_Number">
+                                    <p>Mobile Number</p>
+                                    <div className="phone-input-container-wrapper">
+                                        <PhoneInput
+                                            country={'ps'}
+                                            value={phone}
+                                            onChange={setPhone}
+                                            inputClass="custom-phone-input"
+                                            containerClass="custom-phone-container"
+                                            buttonClass="custom-phone-button"
+                                            dropdownClass="custom-phone-dropdown"
+                                            placeholder="Enter phone number"
+                                        />
+                                    </div>
+                                </div>
                             </div>
                         </div>
                     </div>
