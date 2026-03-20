@@ -247,61 +247,43 @@
     cursor: pointer;
 }
 
-.Header-profile {
-    margin-top: 50px;
-    display: flex;
-    flex-direction: row;
-    gap: 20px;
+.Personal-information {
+    width: 100%;
 }
 
-.Header-profile p {
-    font-weight: bold;
-    color: #000000;
-    margin: 0;
-    font-family: 'Inter', 'Outfit', sans-serif;
+.Personal-information p:first-child {
+    font-size: 24px;
+    font-weight: 700;
+    color: #000;
+    margin-bottom: 25px;
 }
 
-.Header-profile p img {
-    width: 30px;
-    height: 30px;
-    object-fit: cover;
-}
-
-.Preview {
-    display: flex;
-    flex-direction: row;
-    gap: 5px;
-    justify-content: space-between;
-    align-items: center;
-    cursor: pointer;
-}
-
-.Preview p {
-    display: flex;
-    gap: 5px;
-    justify-content: space-between;
-    align-items: center;
-    font-size: 22px;
-    color: #0089EA;
-}
-
-.Preview img {
-    width: 40px;
-    height: 40px;
-    object-fit: cover;
-}
-
-.Full_Name {
-    position: relative;
+.Personal-information-content {
     display: flex;
     flex-direction: column;
-    gap: 10px;
+    gap: 25px;
+    padding: 30px;
+    background-color: #F9F9F9;
+    border-radius: 20px;
+    width: 602px;
+    /* لتناسب عرض قسم الصورة أعلاه */
+    box-sizing: border-box;
 }
 
-.Full_Name p {
-    font-size: 22px;
-    font-weight: bold;
-    color: #000000;
+.Full_Name,
+.Email,
+.Phone_Number {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+.Full_Name p,
+.Email p,
+.Phone_Number p {
+    font-size: 18px;
+    font-weight: 700;
+    color: #000;
     margin: 0;
 }
 
@@ -309,105 +291,39 @@
     position: relative;
     display: flex;
     align-items: center;
-}
-
-.Full_Name input {
-    font-size: 22px;
-    font-weight: bold;
-    color: #000000;
-    margin: 0;
-    border: 1px solid #0000001a;
+    background-color: #fff;
+    border: 1px solid #E5E7EB;
     border-radius: 10px;
-    outline: none;
-    background-color: #ffffff;
-    padding: 10px 10px 10px 40px;
-    width: 60%;
+    padding: 2px 12px;
 }
 
-.Full_Name input::placeholder {
-    color: #999999;
-}
-
-.input-wrapper img {
-    position: absolute;
-    left: 10px;
-    width: 20px;
-    height: 20px;
-    pointer-events: none;
-}
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-.Email {
-    position: relative;
-    display: flex;
-    flex-direction: column;
-    gap: 10px;
-}
-
-.Email p {
-    font-size: 22px;
-    font-weight: bold;
-    color: #000000;
-    margin: 0;
-}
-
-.input-wrapper {
-    position: relative;
-    display: flex;
-    align-items: center;
-}
-
+.Full_Name input,
 .Email input {
-    font-size: 22px;
-    font-weight: bold;
-    color: #000000;
-    margin: 0;
-    border: 1px solid #0000001a;
-    border-radius: 10px;
+    font-size: 18px;
+    font-weight: 700;
+    color: #000;
+    border: none;
     outline: none;
-    background-color: #ffffff;
-    padding: 10px 10px 10px 40px;
-    width: 60%;
+    background: transparent;
+    padding: 12px 10px 12px 40px;
+    width: 100%;
 }
 
-.Email input::placeholder {
-    color: #999999;
-}
-
-.input-wrapper img {
+.input-wrapper img.edit-icon {
     position: absolute;
-    left: 10px;
-    width: 20px;
-    height: 20px;
+    left: 12px;
+    width: 22px;
+    height: 22px;
     pointer-events: none;
 }
-
-
-
-
 
 .phone-input-container-wrapper {
-    width: 60%;
+    width: 100%;
 }
 
 .custom-phone-container {
     width: 100% !important;
-    border: 1px solid #0000001a !important;
+    border: 1px solid #E5E7EB !important;
     border-radius: 10px !important;
     background-color: #ffffff !important;
     overflow: hidden;
@@ -415,9 +331,9 @@
 
 .custom-phone-input {
     width: 100% !important;
-    height: 45px !important;
-    font-size: 20px !important;
-    font-weight: bold !important;
+    height: 48px !important;
+    font-size: 18px !important;
+    font-weight: 700 !important;
     color: #000 !important;
     border: none !important;
     background: transparent !important;
@@ -427,14 +343,14 @@
 .custom-phone-button {
     background: transparent !important;
     border: none !important;
-    border-right: 1px solid #0000001a !important;
+    border-right: 1px solid #E5E7EB !important;
     padding: 0 10px !important;
     width: 48px !important;
 }
 
 .custom-phone-dropdown {
     border-radius: 8px !important;
-    box-shadow: 0 4px 12px rgba(0,0,0,0.1) !important;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1) !important;
     font-family: 'Inter', sans-serif !important;
 }
 
