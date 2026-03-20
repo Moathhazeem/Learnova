@@ -1,0 +1,125 @@
+.Setting {
+    padding: 53px 0px 0px 0px;
+}
+
+.header_setting {
+    display: flex;
+    flex-direction: row;
+    gap: 10px;
+    margin-bottom: 20px;
+    justify-content: space-between;
+}
+
+.header_setting p {
+    font-size: 50px;
+    margin-bottom: 10px;
+    font-weight: bold;
+    color: #000000;
+    font-family: 'Inter', 'Outfit', sans-serif;
+}
+
+.search_page_setting {
+    position: relative;
+    width: 280px;
+    transition: all 0.2s ease;
+    display: flex;
+    align-items: center;
+
+}
+
+.search_page_setting input {
+    width: 100%;
+    padding: 12px 12px 12px 45px;
+    box-sizing: border-box;
+    border: 1px solid #D1D5DB;
+    border-radius: 50px;
+    outline: none;
+    font-size: 14px;
+    color: #4B5563;
+}
+
+.search_page_setting input:hover {
+    border-radius: 50px;
+    border: 1px solid #0089EA;
+    box-shadow: 0 0 5px rgba(0, 137, 234, 0.3);
+}
+
+.search_page_setting input:focus {
+    border-radius: 50px;
+    border: 1px solid #0089EA;
+    box-shadow: 0 0 5px rgba(0, 137, 234, 0.3);
+}
+
+.search_page_setting input::placeholder {
+    color: #9CA3AF;
+}
+
+.setting-search-icon {
+    position: absolute;
+    left: 15px;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 20px;
+    height: 20px;
+    opacity: 0.6;
+    border-radius: 50%;
+    cursor: pointer;
+}
+
+.edit-profile-container {
+    margin-top: 100px;
+    /* Space for the fixed header */
+    padding: 20px 60px;
+    font-family: 'Inter', 'Outfit', sans-serif;
+    color: #333;
+}
+
+.breadcrumbs-nav {
+    display: flex;
+    align-items: center;
+    gap: 0px;
+    margin-bottom: 20px;
+}
+
+.Breadcrumbs {
+    color: #0089EA;
+    font-size: 14px;
+    font-weight: 500;
+    text-decoration: none;
+    cursor: pointer;
+    transition: color 0.2s;
+}
+
+.Breadcrumbs:hover {
+    color: #0089EA;
+}
+
+.breadcrumb-separator {
+    color: #0089EA;
+    margin: 0 10px;
+    font-size: 14px;
+}
+
+.current-page {
+    color: #0089EA;
+    font-weight: 600;
+    font-size: 14px;
+    text-transform: capitalize;
+}
+
+.Setting_option {
+    display: flex;
+    flex-direction: row;
+    gap: 20px;
+}
+
+.profile,
+.Security,
+.Preferences,
+.Privacy,
+.Notification,
+.Payment {
+    display: flex;
+    flex-direction: row;
+    gap: 10px;
+}
