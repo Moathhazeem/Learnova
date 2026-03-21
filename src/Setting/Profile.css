@@ -144,8 +144,10 @@
 
 .Background_profile {
     width: 100%;
+    max-width: 602px;
     /* عرض الحاوي */
     height: 100%;
+    max-height: 198px;
     /* ارتفاع الحاوي */
     overflow: hidden;
     border-radius: 20px;
@@ -234,6 +236,14 @@
     padding: 10px 20px;
     background-color: white;
     cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.Upload-new-button:hover {
+    color: #007bff;
+    background-color: #ffffff;
+    border: 1px solid #007bff;
+    cursor: pointer;
 }
 
 .Save-photo-button {
@@ -242,9 +252,17 @@
     color: #ffffff;
     border-radius: 12px;
     border: none;
-    padding: 10px 30px;
+    padding: 11px 24px;
+    gap: 10px;
     background-color: #0089EA;
     cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.Save-photo-button:hover {
+    background-color: #005fc5;
+    border-color: #005fc5;
+
 }
 
 .Personal-information {
@@ -261,8 +279,6 @@
     color: #000;
     margin-bottom: 10px;
 }
-
-
 
 .Personal-information-content {
     display: flex;
@@ -382,6 +398,15 @@
     margin: 0;
 }
 
+.Personal-information-buttons {
+    display: flex;
+    flex-direction: row;
+    gap: 10px;
+    align-items: center;
+    justify-content: center;
+    margin-top: 20px;
+}
+
 .Header-profile {
     display: flex;
     flex-direction: row;
@@ -416,4 +441,288 @@
     width: 40px;
     height: 40px;
     object-fit: cover;
+}
+
+.row-setting {
+    display: flex;
+    flex-direction: row;
+    gap: 50px;
+    align-items: center;
+}
+
+.Interset-setting {
+    display: flex;
+    flex-direction: rows;
+    gap: 20px;
+    padding: 20px;
+    background-color: #F9F9F9;
+    border-radius: 10px;
+    width: 100%;
+    max-width: 590px;
+    flex-wrap: wrap;
+}
+
+.Interset-setting p {
+    font-size: 12px;
+    font-weight: bold;
+    color: #000000;
+    margin: 0;
+}
+
+.Interset-setting-content {
+    display: flex;
+    flex-direction: row;
+    gap: 5px;
+    align-items: center;
+    padding: 10px;
+    background-color: rgba(0, 137, 234, 0.20);
+    border-radius: 20px;
+    max-width: 590px;
+    flex-wrap: wrap;
+    cursor: pointer;
+
+}
+
+.Interset-setting-content img {
+    width: 15px;
+    height: 15px;
+    object-fit: cover;
+}
+
+.Interset-setting-content p {
+    color: #0089EA;
+}
+
+.Add-more {
+    width: 100%;
+    min-width: 504px;
+    display: flex;
+    flex-direction: row;
+    gap: 10px;
+    align-items: center;
+    cursor: pointer;
+    justify-content: center;
+    background-color: #ffffff;
+    border: 1px solid rgb(0, 0, 0, 0.2);
+    border-radius: 10px;
+    padding: 10px;
+}
+
+.Add-more img {
+    width: 30px;
+    height: 30px;
+    object-fit: cover;
+}
+
+.Add-more p {
+    font-size: 20px;
+    font-weight: bold;
+    color: #000000;
+    margin: 0;
+}
+
+.Training-courses-title {
+    font-size: 26px;
+    font-weight: bold;
+    color: #000000;
+    margin-top: 5%;
+    margin-left: 5%;
+
+}
+
+.Training-courses-setting {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 10px;
+    padding: 19px;
+    background-color: #F9F9F9;
+    border-radius: 10px;
+    width: 100%;
+    max-width: 590px;
+    flex-wrap: wrap;
+    height: 100%;
+    min-height: 592px;
+}
+
+
+
+.Training-courses-content {
+    display: flex;
+    flex-direction: row;
+    gap: 20px;
+    padding: 20px;
+    background-color: #F9F9F9;
+    border-radius: 10px;
+    width: 100%;
+    max-width: 590px;
+    flex-wrap: wrap;
+}
+
+.Training-courses-content img {
+    width: 70px;
+    height: 70px;
+    object-fit: cover;
+    border-radius: 10px;
+}
+
+.Name-course {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.Name-course h3 {
+    font-size: 22px;
+    font-weight: 700;
+    color: rgb(0, 0, 0, 0.5);
+    margin: 0;
+}
+
+.Name-course p {
+    color: #000000;
+    font-size: 22px;
+    font-weight: 700;
+    margin: 0;
+}
+
+.Skills {
+    display: flex;
+    flex-direction: row;
+    gap: 18px;
+    align-items: center;
+    flex-wrap: wrap;
+    width: 100%;
+    max-width: 356px;
+}
+
+.Skills p {
+    font-size: 12px;
+    font-weight: bold;
+    color: #0089EA;
+    margin: 0;
+    padding: 10px;
+    height: 29px;
+    display: flex;
+    align-items: center;
+    background-color: rgba(0, 137, 234, 0.20);
+    border-radius: 20px;
+}
+
+.Skills p:last-child {
+    color: #ffffff;
+    background-color: #0089EA;
+    border: 1px solid #0089EA;
+    font-size: 12px;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+
+
+.Description-setting {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    padding: 19px;
+    background-color: #F9F9F9;
+    border-radius: 10px;
+    width: 100%;
+    max-width: 590px;
+    flex-wrap: wrap;
+    height: 100%;
+    min-height: 341px;
+}
+
+.Description-title {
+    font-size: 26px;
+    font-weight: bold;
+    color: #000000;
+    margin-top: 5%;
+    margin-left: 5%;
+
+}
+
+.Description-content {
+    display: flex;
+    flex-direction: row;
+    gap: 20px;
+    padding: 20px;
+    border-radius: 10px;
+    width: 100%;
+    max-width: 590px;
+    flex-wrap: wrap;
+}
+
+.Description-content textarea {
+    width: 100%;
+    height: 100%;
+    border: none;
+    outline: none;
+    background-color: #ffffff !important;
+    font-size: 18px;
+    font-weight: 500;
+    color: #000000;
+    border-radius: 20px;
+    border: 1px solid rgb(0, 0, 0, 0.2);
+    padding: 11px 15px;
+    width: 100%;
+    min-width: 462px;
+    height: 100%;
+    min-height: 168px;
+}
+
+.Description-content textarea::placeholder {
+    color: rgba(0, 0, 0, 0.5);
+}
+
+.Description-buttons {
+    display: flex;
+    flex-direction: row;
+    gap: 10px;
+    align-items: center;
+    justify-content: center;
+    margin-top: 20px;
+}
+
+
+
+.cancel-button {
+    font-size: 14px;
+    font-weight: bold;
+    width: 100%;
+    max-width: 100px;
+    color: #111827;
+    border-radius: 15px;
+    border: 1px solid #E5E7EB;
+    padding: 10px 20px;
+    background-color: white;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.cancel-button:hover {
+    color: #007bff;
+    border-color: #007bff;
+    background-color: #ffffff;
+
+}
+
+.save-button {
+    font-size: 14px;
+    font-weight: bold;
+    width: 100%;
+    max-width: 100px;
+    color: #111827;
+    border-radius: 15px;
+    border: 1px solid #E5E7EB;
+    padding: 10px 20px;
+    background-color: #0089EA;
+    color: white;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.save-button:hover {
+    background-color: #0056b3;
 }

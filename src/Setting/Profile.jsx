@@ -80,6 +80,7 @@ function Profile() {
                     })}
                 </div>
                 <div className="Profile-setting">
+
                     <div className="Header-profile">
                         <p style={{ fontSize: "32px" }}>Edit User Profile</p>
                         <div className="Preview">
@@ -87,57 +88,148 @@ function Profile() {
                             <img src="/photo_icons/For_setting/arrow-up-right.png"></img>
                         </div>
                     </div>
-                    <div className="Profile-setting-content">
-                        <div className="Background-container">
-                            <img src="/Photo/Background_profile.jfif" alt="Background_profile" className="Background_profile" />
-                            <img src="/photo_icons/For_setting/Edit.png" alt="edit" className="edit-bg-icon" />
-                        </div>
-                        <img src="/Photo/Profile.jfif" alt="Profile" className="Profile" />
-                        <div className="Profile-content">
-                            <p className="Your-photo">Your Photo</p>
-                            <p className="This-will-display">this will displayed on your profile</p>
-                            <div className="Profile-content-buttons">
-                                <button className="Upload-new-button">Upload New</button>
-                                <button className="Save-photo-button">Save</button>
+                    <div className="row-setting">
+                        <div className="Profile-setting-content">
+                            <div className="Background-container">
+                                <img src="/Photo/Background_profile.jfif" alt="Background_profile" className="Background_profile" />
+                                <img src="/photo_icons/For_setting/Edit.png" alt="edit" className="edit-bg-icon" />
                             </div>
-                        </div>
-                    </div>
-                    <div className="Profile-setting-content">
-                        <div className="Personal-information">
-                            <p style={{ marginLeft: "5%", marginTop: "8%", fontSize: "26px" }}>Personal Information</p>
-                            <div className="Personal-information-content">
-                                <div className="Full_Name">
-                                    <p>Full Name</p>
-                                    <div className="input-wrapper">
-                                        <input type="text" placeholder="Full Name" />
-                                        <img src="/photo_icons/For_setting/account.png" alt="Account photo" className="edit-icon" />
-                                    </div>
-                                </div>
-                                <div className="Email">
-                                    <p>Email address</p>
-                                    <div className="input-wrapper">
-                                        <input type="email" placeholder="[EMAIL_ADDRESS]" />
-                                        <img src="/photo_icons/For_setting/email.png" alt="email photo" className="edit-icon" />
-                                    </div>
-                                </div>
-                                <div className="Phone_Number">
-                                    <p>Mobile Number</p>
-                                    <div className="phone-input-container-wrapper">
-                                        <PhoneInput
-                                            country={'ps'}
-                                            value={phone}
-                                            onChange={setPhone}
-                                            inputClass="custom-phone-input"
-                                            containerClass="custom-phone-container"
-                                            buttonClass="custom-phone-button"
-                                            dropdownClass="custom-phone-dropdown"
-                                            placeholder="Enter phone number"
-                                        />
-                                    </div>
+                            <img src="/Photo/Profile.jfif" alt="Profile" className="Profile" />
+                            <div className="Profile-content">
+                                <p className="Your-photo">Your Photo</p>
+                                <p className="This-will-display">this will displayed on your profile</p>
+                                <div className="Profile-content-buttons">
+                                    <button className="Upload-new-button">Upload New</button>
+                                    <button className="Save-photo-button">Save</button>
                                 </div>
                             </div>
                         </div>
+                        <div className="Interset-setting">
+                            <p style={{ width: "100%", fontSize: "26px", fontWeight: "700", color: "#000" }}>Industry / Interset</p>
+                            <div className="Interset-setting-content">
+                                <p>UI Design</p>
+                                <img src="/photo_icons/For_setting/false_blue.png"></img>
+                            </div>
+                            <div className="Interset-setting-content">
+                                <p>UX Design</p>
+                                <img src="/photo_icons/For_setting/false_blue.png"></img>
+                            </div>
+                            <div className="Interset-setting-content">
+                                <p>Mobile developer</p>
+                                <img src="/photo_icons/For_setting/false_blue.png"></img>
+                            </div>
+                            <div className="Interset-setting-content">
+                                <p>Web developer</p>
+                                <img src="/photo_icons/For_setting/false_blue.png"></img>
+                            </div>
+                            <div className="Interset-setting-content">
+                                <p>Data analysis</p>
+                                <img src="/photo_icons/For_setting/false_blue.png"></img>
+                            </div>
+                            <div className="Interset-setting-content">
+                                <p>Graphic designer</p>
+                                <img src="/photo_icons/For_setting/false_blue.png"></img>
+                            </div>
+                            <div className="Interset-setting-content">
+                                <p>Electronics marketing</p>
+                                <img src="/photo_icons/For_setting/false_blue.png"></img>
+                            </div>
+                            <div className="Add-more">
+                                <img src="/photo_icons/For_setting/add_more.png"></img>
+                                <p>Add more</p>
+                            </div>
+                        </div>
+
                     </div>
+                    <div className="row-setting">
+                        <div className="Profile-setting-content">
+                            <div className="Personal-information">
+                                <p style={{ marginLeft: "5%", marginTop: "8%", fontSize: "26px" }}>Personal Information</p>
+                                <div className="Personal-information-content">
+                                    <div className="Full_Name">
+                                        <p>Full Name</p>
+                                        <div className="input-wrapper">
+                                            <input type="text" placeholder="Full Name" />
+                                            <img src="/photo_icons/For_setting/account.png" alt="Account photo" className="edit-icon" />
+                                        </div>
+                                    </div>
+                                    <div className="Email">
+                                        <p>Email address</p>
+                                        <div className="input-wrapper">
+                                            <input type="email" placeholder="[EMAIL_ADDRESS]" />
+                                            <img src="/photo_icons/For_setting/email.png" alt="email photo" className="edit-icon" />
+                                        </div>
+                                    </div>
+                                    <div className="Phone_Number">
+                                        <p>Mobile Number</p>
+                                        <div className="phone-input-container-wrapper">
+                                            <PhoneInput
+                                                country={'ps'}
+                                                value={phone}
+                                                onChange={setPhone}
+                                                inputClass="custom-phone-input"
+                                                containerClass="custom-phone-container"
+                                                buttonClass="custom-phone-button"
+                                                dropdownClass="custom-phone-dropdown"
+                                                placeholder="Enter phone number"
+                                            />
+                                        </div>
+                                    </div>
+                                </div>
+
+                            </div>
+                            <div className="Personal-information-buttons">
+                                <button className="cancel-button">Cancel</button>
+                                <button className="save-button">Save</button>
+                            </div>
+                        </div>
+                        <div className="Training-courses-setting">
+                            <p className="Training-courses-title">Training courses</p>
+                            <div className="Training-courses-content">
+                                <div className="Training-courses-content">
+                                    <img src="/photo_icons/IBM.png"></img>
+                                    <div className="Name-course">
+                                        <h3>IBM Courses</h3>
+                                        <p>Getting Started with Git and GitHub</p>
+                                    </div>
+                                    <div className="Skills">
+                                        <p>Collaboration</p>
+                                        <p>Leadership and Management</p>
+                                        <p>Software Engineering Tools</p>
+                                        <p>Software Engineering</p>
+                                        <p className="see more">see more</p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div className="Training-courses-content">
+                                <div className="Training-courses-content">
+                                    <img src="/photo_icons/microsoft.png"></img>
+                                    <div className="Name-course">
+                                        <h3>Microsoft Courses</h3>
+                                        <p>Introduction to Excel</p>
+                                    </div>
+                                    <div className="Skills">
+                                        <p>Data Analysis Basics</p>
+                                        <p>Essential Excel Skill</p>
+                                        <p>Beginner Data Handling</p>
+                                        <p>Office Applications</p>
+                                        <p className="see more">see more</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div className="Description-setting">
+                        <p className="Description-title">Description</p>
+                        <div className="Description-content">
+                            <textarea placeholder="I am interested in studying UX/UI design, data analysis, and web development. I have completed the first ten hours of the UI/UX course."></textarea>
+                        </div>
+                        <div className="Description-buttons">
+                            <button className="cancel-button">Cancel</button>
+                            <button className="save-button">Save</button>
+                        </div>
+                    </div>
+
                 </div>
             </div>
         </div>
