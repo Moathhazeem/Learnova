@@ -104,7 +104,7 @@ function Profile() {
                     </div>
                     <div className="Profile-setting-content">
                         <div className="Personal-information">
-                            <p>Personal Information</p>
+                            <p style={{ marginLeft: "5%", marginTop: "8%", fontSize: "26px" }}>Personal Information</p>
                             <div className="Personal-information-content">
                                 <div className="Full_Name">
                                     <p>Full Name</p>
