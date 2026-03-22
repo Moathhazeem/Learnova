@@ -9,6 +9,25 @@ function Profile() {
     const pathname = location.pathname.split("/").filter(x => x);
     const [hovered, setHovered] = useState(null);
     const [phone, setPhone] = useState("");
+    const [showModalInterset, setShowModalInterset] = useState(false);
+    const [showModalProfile, setShowModalProfile] = useState(false);
+    const [showModalBackground, setShowModalBackground] = useState(false);
+
+    const [profileImage, setProfileImage] = useState("/Photo/Profile.jfif");
+    const [backgroundImage, setBackgroundImage] = useState("/Photo/Background_profile.jfif");
+
+    const handleImageProfile = (e) => {
+        if (e.target.files && e.target.files[0]) {
+            const file = e.target.files[0];
+            setProfileImage(URL.createObjectURL(file));
+        }
+    };
+    const handleImageBackground = (e) => {
+        if (e.target.files && e.target.files[0]) {
+            const file = e.target.files[0];
+            setBackgroundImage(URL.createObjectURL(file));
+        }
+    };
     const search = {
         white: "/photo_icons/For_setting/White_Search.png",
         black: "/photo_icons/For_setting/Gray_Search.png"
@@ -22,7 +41,6 @@ function Profile() {
         { name: "Notification", path: "/Setting/Notification", black: "/photo_icons/For_setting/NotificationBlack.png", blue: "/photo_icons/For_setting/NotificationBlue.png" },
         { name: "Payment", path: "/Setting/Payment", black: "/photo_icons/For_setting/PaymentBlack.png", blue: "/photo_icons/For_setting/PaymentBlue.png" },
     ];
-
     return (
         <div className="edit-profile-container">
             <nav className="breadcrumbs-nav">
@@ -91,18 +109,96 @@ function Profile() {
                     <div className="row-setting">
                         <div className="Profile-setting-content">
                             <div className="Background-container">
-                                <img src="/Photo/Background_profile.jfif" alt="Background_profile" className="Background_profile" />
-                                <img src="/photo_icons/For_setting/Edit.png" alt="edit" className="edit-bg-icon" />
+                                <img src={backgroundImage} alt="Background_profile" className="Background_profile_image" />
+                                <img src="/photo_icons/For_setting/Edit.png" alt="edit" className="edit-bg-icon" onClick={() => setShowModalBackground(true)} />
                             </div>
-                            <img src="/Photo/Profile.jfif" alt="Profile" className="Profile" />
+                            <img src={profileImage} alt="Profile" className="Profile" />
                             <div className="Profile-content">
                                 <p className="Your-photo">Your Photo</p>
                                 <p className="This-will-display">this will displayed on your profile</p>
                                 <div className="Profile-content-buttons">
-                                    <button className="Upload-new-button">Upload New</button>
+                                    <button className="Upload-new-button" onClick={() => setShowModalProfile(true)}>Upload New</button>
                                     <button className="Save-photo-button">Save</button>
                                 </div>
                             </div>
+
+
+                            {showModalProfile && (
+                                <div className="modal-overlay" onClick={() => setShowModalProfile(false)}>
+                                    <div className="modal-content profile-upload-modal" onClick={(e) => e.stopPropagation()}>
+                                        <div className="modal-header">
+                                            <p>Update Profile Picture</p>
+                                            <img src="/photo_icons/For_setting/false.png" alt="close" onClick={() => setShowModalProfile(false)} style={{ cursor: 'pointer' }} />
+                                        </div>
+                                        <div className="modal-body">
+                                            <div className="profile-preview-container">
+                                                <img src={profileImage} alt="Profile Preview" className="profile-preview-large" />
+                                            </div>
+                                            <p className="upload-instruction">Choose a new photo to personalize your profile</p>
+                                        </div>
+                                        <div className="modal-footer">
+                                            <input
+                                                type="file"
+                                                id="profile-upload-input"
+                                                hidden
+                                                onChange={(e) => {
+                                                    handleImageProfile(e);
+                                                }}
+                                                accept="image/*"
+                                            />
+                                            <button className="modal-cancel-btn" onClick={() => setShowModalProfile(false)}>Cancel</button>
+                                            <button className="modal-save-btn" onClick={() => document.getElementById('profile-upload-input').click()}>
+                                                Choose Photo
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
+                            )}
+
+
+                            {showModalBackground && (
+                                <div className="modal-overlay" onClick={() => setShowModalBackground(false)}>
+                                    <div className="modal-content background-upload-modal" onClick={(e) => e.stopPropagation()}>
+                                        <div className="modal-header">
+                                            <p>Update Background Picture</p>
+                                            <img src="/photo_icons/For_setting/false.png" alt="close" onClick={() => setShowModalBackground(false)} style={{ cursor: 'pointer' }} />
+                                        </div>
+                                        <div className="modal-body">
+                                            <div className="background-preview-container clickable" onClick={() => document.getElementById('background-upload-input').click()}>
+                                                <img src={backgroundImage} alt="Background Preview" className="background-preview-large" />
+                                                <div className="upload-overlay">
+                                                    <img src="/photo_icons/For_setting/Edit.png" alt="upload" />
+                                                    <p>Change Image</p>
+                                                </div>
+                                            </div>
+                                            <div className="quick-selection-gallery">
+                                                <p className="gallery-title">Quick Selection</p>
+                                                <div className="gallery-items">
+                                                    {["/Photo/Background_profile.jfif", "/Photo/Free Online Courses to Future-Proof Your Career _.jfif", "/Photo/istockphoto-1956169795-1024x1024.jpg"].map((src, i) => (
+                                                        <img 
+                                                            key={i} 
+                                                            src={src} 
+                                                            alt={`default-${i}`} 
+                                                            className={`gallery-item ${backgroundImage === src ? 'active' : ''}`}
+                                                            onClick={() => setBackgroundImage(src)}
+                                                        />
+                                                    ))}
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div className="modal-footer">
+                                            <input type="file" id="background-upload-input" hidden onChange={(e) => {
+                                                handleImageBackground(e);
+                                            }} accept="image/*" />
+                                            <button className="modal-cancel-btn" onClick={() => setShowModalBackground(false)}>Cancel</button>
+                                            <button className="modal-save-btn" onClick={() => document.getElementById('background-upload-input').click()}>
+                                                Upload New
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
+                            )}
+
                         </div>
                         <div className="Interset-setting">
                             <p style={{ width: "100%", fontSize: "26px", fontWeight: "700", color: "#000" }}>Industry / Interset</p>
@@ -134,9 +230,26 @@ function Profile() {
                                 <p>Electronics marketing</p>
                                 <img src="/photo_icons/For_setting/false_blue.png"></img>
                             </div>
-                            <div className="Add-more">
+                            <div className="Add-more" onClick={() => setShowModalInterset(true)} style={{ cursor: "pointer" }}>
                                 <img src="/photo_icons/For_setting/add_more.png"></img>
                                 <p>Add more</p>
+                                {showModalInterset && (
+                                    <div className="modal-overlay" onClick={() => setShowModalInterset(false)}>
+                                        <div className="modal-content" onClick={(e) => e.stopPropagation()}>
+                                            <h2>Add New Interest</h2>
+                                            <p style={{ color: '#6B7280', fontSize: '14px' }}>Enter a new interest or industry to add to your profile.</p>
+                                            <input
+                                                type="text"
+                                                placeholder="e.g. Project Management"
+                                                autoFocus
+                                            />
+                                            <div className="modal-buttons">
+                                                <button className="modal-cancel-btn" onClick={() => setShowModalInterset(false)}>Cancel</button>
+                                                <button className="modal-save-btn" onClick={() => setShowModalInterset(false)}>Save</button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                )}
                             </div>
                         </div>
 
