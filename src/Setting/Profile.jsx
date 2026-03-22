@@ -15,6 +15,12 @@ function Profile() {
     const [profileImage, setProfileImage] = useState("/Photo/Profile.jfif");
     const [backgroundImage, setBackgroundImage] = useState("/Photo/Background_profile.jfif");
     const [expandedCourseIds, setExpandedCourseIds] = useState([]);
+    const [interests, setInterests] = useState([
+        "UI Design", "UX Design", "Mobile developer", 
+        "Web developer", "Data analysis", "Graphic designer", 
+        "Electronics marketing"
+    ]);
+    const [newInterest, setNewInterest] = useState("");
     const courses = [
         {
             id: 1,
@@ -239,34 +245,17 @@ function Profile() {
                         </div>
                         <div className="Interset-setting">
                             <p style={{ width: "100%", fontSize: "26px", fontWeight: "700", color: "#000" }}>Industry / Interset</p>
-                            <div className="Interset-setting-content">
-                                <p>UI Design</p>
-                                <img src="/photo_icons/For_setting/false_blue.png"></img>
-                            </div>
-                            <div className="Interset-setting-content">
-                                <p>UX Design</p>
-                                <img src="/photo_icons/For_setting/false_blue.png"></img>
-                            </div>
-                            <div className="Interset-setting-content">
-                                <p>Mobile developer</p>
-                                <img src="/photo_icons/For_setting/false_blue.png"></img>
-                            </div>
-                            <div className="Interset-setting-content">
-                                <p>Web developer</p>
-                                <img src="/photo_icons/For_setting/false_blue.png"></img>
-                            </div>
-                            <div className="Interset-setting-content">
-                                <p>Data analysis</p>
-                                <img src="/photo_icons/For_setting/false_blue.png"></img>
-                            </div>
-                            <div className="Interset-setting-content">
-                                <p>Graphic designer</p>
-                                <img src="/photo_icons/For_setting/false_blue.png"></img>
-                            </div>
-                            <div className="Interset-setting-content">
-                                <p>Electronics marketing</p>
-                                <img src="/photo_icons/For_setting/false_blue.png"></img>
-                            </div>
+                            {interests.map((interest, index) => (
+                                <div className="Interset-setting-content" key={index}>
+                                    <p>{interest}</p>
+                                    <img 
+                                        src="/photo_icons/For_setting/false_blue.png" 
+                                        alt="remove" 
+                                        style={{ cursor: 'pointer' }}
+                                        onClick={() => setInterests(interests.filter((_, i) => i !== index))}
+                                    />
+                                </div>
+                            ))}
                             <div className="Add-more" onClick={() => setShowModalInterset(true)} style={{ cursor: "pointer" }}>
                                 <img src="/photo_icons/For_setting/add_more.png"></img>
                                 <p>Add more</p>
@@ -279,10 +268,18 @@ function Profile() {
                                                 type="text"
                                                 placeholder="e.g. Project Management"
                                                 autoFocus
+                                                value={newInterest}
+                                                onChange={(e) => setNewInterest(e.target.value)}
                                             />
                                             <div className="modal-buttons">
                                                 <button className="modal-cancel-btn" onClick={() => setShowModalInterset(false)}>Cancel</button>
-                                                <button className="modal-save-btn" onClick={() => setShowModalInterset(false)}>Save</button>
+                                                <button className="modal-save-btn" onClick={() => {
+                                                    if (newInterest.trim()) {
+                                                        setInterests([...interests, newInterest]);
+                                                        setNewInterest("");
+                                                        setShowModalInterset(false);
+                                                    }
+                                                }}>Save</button>
                                             </div>
                                         </div>
                                     </div>
