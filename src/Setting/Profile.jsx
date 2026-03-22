@@ -12,10 +12,47 @@ function Profile() {
     const [showModalInterset, setShowModalInterset] = useState(false);
     const [showModalProfile, setShowModalProfile] = useState(false);
     const [showModalBackground, setShowModalBackground] = useState(false);
-
     const [profileImage, setProfileImage] = useState("/Photo/Profile.jfif");
     const [backgroundImage, setBackgroundImage] = useState("/Photo/Background_profile.jfif");
-
+    const [expandedCourseIds, setExpandedCourseIds] = useState([]);
+    const courses = [
+        {
+            id: 1,
+            title: "IBM Courses",
+            logo: "/photo_icons/IBM.png",
+            subtitle: "Getting Started with Git and GitHub",
+            skills: [
+                "Cloud Computing",
+                "Agile Methodologies",
+                "DevOps Practices",
+                "Project Management",
+            ],
+            extraSkills: [
+                "Collaboration",
+                "Leadership and Management",
+                "Software Engineering Tools",
+                "Software Engineering",
+            ]
+        },
+        {
+            id: 2,
+            title: "Microsoft Courses",
+            logo: "/photo_icons/microsoft.png",
+            subtitle: "Introduction to Excel",
+            skills: [
+                "Data Analysis Basics",
+                "Essential Excel Skill",
+                "Beginner Data Handling",
+                "Office Applications",
+            ],
+            extraSkills: [
+                "Pivot Tables & Charts",
+                "Power Query",
+                "Excel Formulas & Functions",
+                "Power BI Integration",
+            ]
+        },
+    ];
     const handleImageProfile = (e) => {
         if (e.target.files && e.target.files[0]) {
             const file = e.target.files[0];
@@ -175,10 +212,10 @@ function Profile() {
                                                 <p className="gallery-title">Quick Selection</p>
                                                 <div className="gallery-items">
                                                     {["/Photo/Background_profile.jfif", "/Photo/Free Online Courses to Future-Proof Your Career _.jfif", "/Photo/istockphoto-1956169795-1024x1024.jpg"].map((src, i) => (
-                                                        <img 
-                                                            key={i} 
-                                                            src={src} 
-                                                            alt={`default-${i}`} 
+                                                        <img
+                                                            key={i}
+                                                            src={src}
+                                                            alt={`default-${i}`}
                                                             className={`gallery-item ${backgroundImage === src ? 'active' : ''}`}
                                                             onClick={() => setBackgroundImage(src)}
                                                         />
@@ -298,38 +335,37 @@ function Profile() {
                         </div>
                         <div className="Training-courses-setting">
                             <p className="Training-courses-title">Training courses</p>
-                            <div className="Training-courses-content">
-                                <div className="Training-courses-content">
-                                    <img src="/photo_icons/IBM.png"></img>
-                                    <div className="Name-course">
-                                        <h3>IBM Courses</h3>
-                                        <p>Getting Started with Git and GitHub</p>
+                            {courses.map((course) => (
+                                <div className="Training-courses-content" key={course.id}>
+                                    <div className="Course-header" style={{ display: 'flex', alignItems: 'center', gap: '20px', width: '100%', marginBottom: '15px' }}>
+                                        <img src={course.logo} alt={course.title} style={{ width: '60px', height: '60px', objectFit: 'contain' }} />
+                                        <div className="Name-course">
+                                            <h3 style={{ margin: 0, fontSize: '20px' }}>{course.title}</h3>
+                                            <p style={{ margin: 0, fontSize: '22px', color: '#000000' }}>{course.subtitle}</p>
+                                        </div>
                                     </div>
-                                    <div className="Skills">
-                                        <p>Collaboration</p>
-                                        <p>Leadership and Management</p>
-                                        <p>Software Engineering Tools</p>
-                                        <p>Software Engineering</p>
-                                        <p className="see more">see more</p>
+                                    <div className="Skills" style={{ width: '100%' }}>
+                                        {course.skills.map((skill, idx) => (
+                                            <p key={idx}>{skill}</p>
+                                        ))}
+                                        {expandedCourseIds.includes(course.id) && course.extraSkills.map((skill, idx) => (
+                                            <p key={idx}>{skill}</p>
+                                        ))}
+                                        <p
+                                            className="see more"
+                                            onClick={() => {
+                                                if (expandedCourseIds.includes(course.id)) {
+                                                    setExpandedCourseIds(expandedCourseIds.filter(id => id !== course.id));
+                                                } else {
+                                                    setExpandedCourseIds([...expandedCourseIds, course.id]);
+                                                }
+                                            }}
+                                        >
+                                            {expandedCourseIds.includes(course.id) ? "see less" : "see more"}
+                                        </p>
                                     </div>
                                 </div>
-                            </div>
-                            <div className="Training-courses-content">
-                                <div className="Training-courses-content">
-                                    <img src="/photo_icons/microsoft.png"></img>
-                                    <div className="Name-course">
-                                        <h3>Microsoft Courses</h3>
-                                        <p>Introduction to Excel</p>
-                                    </div>
-                                    <div className="Skills">
-                                        <p>Data Analysis Basics</p>
-                                        <p>Essential Excel Skill</p>
-                                        <p>Beginner Data Handling</p>
-                                        <p>Office Applications</p>
-                                        <p className="see more">see more</p>
-                                    </div>
-                                </div>
-                            </div>
+                            ))}
                         </div>
                     </div>
                     <div className="Description-setting">
