@@ -174,6 +174,7 @@ header {
 .header-left {
     display: flex;
     align-items: center;
+    position: relative;
 }
 
 .header-right {
@@ -199,6 +200,12 @@ header {
 
 .nav-links a:hover {
     color: #0089EA;
+}
+
+.account-wrapper {
+    position: relative;
+    display: flex;
+    align-items: center;
 }
 
 .account {
@@ -228,7 +235,7 @@ header {
     min-width: 200px;
     width: auto;
     height: auto;
-    align-items: left;
+    align-items: flex-start;
 }
 
 .Menu li {
@@ -245,4 +252,192 @@ header {
     color: #0089EA;
     border-bottom: 2px solid #0089EA;
     padding-bottom: 8px;
+}
+
+/* Notification Panel Styling */
+.notification-panel {
+    position: absolute;
+    top: calc(100% + 20px);
+    left: -20px;
+    width: 380px;
+    background-color: #ffffff;
+    border-radius: 16px;
+    box-shadow: 0 15px 40px rgba(0, 0, 0, 0.15);
+    z-index: 10001;
+    overflow: hidden;
+    animation: slideUpFade 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+    border: 1px solid #f0f0f0;
+}
+
+@keyframes slideUpFade {
+    from {
+        opacity: 0;
+        transform: translateY(10px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.notification-header {
+    padding: 20px 24px;
+    border-bottom: 1px solid #f5f5f5;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.notification-header h3 {
+    font-family: "Outfit", sans-serif;
+    font-size: 18px;
+    font-weight: 600;
+    color: #1a1a1a;
+    margin: 0;
+}
+
+.mark-as-read {
+    font-family: "Inter", sans-serif;
+    background: none;
+    border: none;
+    color: #0089EA;
+    font-size: 14px;
+    font-weight: 500;
+    cursor: pointer;
+    padding: 4px 8px;
+    border-radius: 6px;
+    transition: background 0.2s;
+}
+
+.mark-as-read:hover {
+    background-color: rgba(0, 137, 234, 0.08);
+}
+
+.notification-list {
+    max-height: 400px;
+    overflow-y: auto;
+}
+
+.notification-item {
+    padding: 16px 24px;
+    display: flex;
+    gap: 16px;
+    cursor: pointer;
+    transition: background 0.2s;
+    position: relative;
+    border-bottom: 1px solid #fafafa;
+}
+
+.notification-item:hover {
+    background-color: #f9fbff;
+}
+
+.notification-item.unread {
+    background-color: rgba(0, 137, 234, 0.04);
+}
+
+.noti-icon-container {
+    width: 44px;
+    height: 44px;
+    background-color: #f0f7ff;
+    border-radius: 12px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-shrink: 0;
+}
+
+.noti-icon {
+    width: 22px;
+    height: 22px;
+}
+
+.noti-content {
+    flex: 1;
+}
+
+.noti-text {
+    font-family: "Inter", sans-serif;
+    font-size: 14px;
+    line-height: 1.5;
+    color: #444;
+    margin: 0 0 4px 0;
+}
+
+.noti-text strong {
+    color: #1a1a1a;
+    font-weight: 600;
+}
+
+.noti-time {
+    font-family: "Inter", sans-serif;
+    font-size: 12px;
+    color: #999;
+}
+
+.unread-dot {
+    width: 8px;
+    height: 8px;
+    background-color: #0089EA;
+    border-radius: 50%;
+    margin-top: 6px;
+    flex-shrink: 0;
+}
+
+.notification-footer {
+    padding: 15px 24px;
+    background-color: #fafbfc;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-top: 1px solid #f5f5f5;
+}
+
+.view-all-btn {
+    font-family: "Inter", sans-serif;
+    background: none;
+    border: none;
+    color: #0089EA;
+    font-size: 14px;
+    font-weight: 600;
+    cursor: pointer;
+}
+
+.noti-settings-btn {
+    font-family: "Inter", sans-serif;
+    background: none;
+    border: none;
+    color: #666;
+    font-size: 13px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    cursor: pointer;
+    padding: 6px 12px;
+    border-radius: 8px;
+    transition: all 0.2s;
+}
+
+.noti-settings-btn img {
+    width: 16px;
+    height: 16px;
+    opacity: 0.7;
+}
+
+.noti-settings-btn:hover {
+    background-color: #f0f0f0;
+    color: #333;
+}
+
+.notification-list::-webkit-scrollbar {
+    width: 6px;
+}
+
+.notification-list::-webkit-scrollbar-track {
+    background: transparent;
+}
+
+.notification-list::-webkit-scrollbar-thumb {
+    background: #e0e0e0;
+    border-radius: 10px;
 }

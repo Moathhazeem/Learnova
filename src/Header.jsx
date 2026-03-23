@@ -18,11 +18,30 @@ function Header() {
   const menuRef = useRef(null);
   const toggleMenu = () => {
     setIsOpen(!isOpen);
+    setIsNotificationOpen(false);
   }
   useEffect(() => {
     const handleClickOutside = (event) => {
       if (menuRef.current && !menuRef.current.contains(event.target)) {
         setIsOpen(false);
+      }
+    };
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    }
+  }, [])
+
+  const [isNotificationOpen, setIsNotificationOpen] = useState(false);
+  const notificationRef = useRef(null);
+  const toggleNotification = () => {
+    setIsNotificationOpen(!isNotificationOpen);
+    setIsOpen(false);
+  }
+  useEffect(() => {
+    const handleClickOutside = (event) => {
+      if (notificationRef.current && !notificationRef.current.contains(event.target)) {
+        setIsNotificationOpen(false);
       }
     };
     document.addEventListener("mousedown", handleClickOutside);
@@ -42,13 +61,13 @@ function Header() {
               <button className="log-in" onClick={() => Navigate("/log_in")}>Log In</button>
             </div>
           ) : (
-            <>
-              <div className="account" ref={menuRef}>
+            <div className="account-wrapper">
+              <div className="account">
                 <img src="/photo_icons/account.png" alt="Account icon" onClick={toggleMenu} />
-                <img src="/photo_icons/notification.png" alt="Notification icon" />
+                <img src="/photo_icons/notification.png" alt="Notification icon" onClick={toggleNotification} />
               </div>
               {isOpen && (
-                <div className="Menu">
+                <div className="Menu" ref={menuRef}>
                   <ul style={{ listStyleType: "none", padding: "0", margin: "0" }}>
                     <li style={{ padding: "8px 0", cursor: "pointer" }}>Profile</li>
                     <li style={{ padding: "8px 0", cursor: "pointer" }}>My learning</li>
@@ -60,7 +79,54 @@ function Header() {
                   </ul>
                 </div>
               )}
-            </>
+
+              {isNotificationOpen && (
+                <div className="notification-panel" ref={notificationRef}>
+                  <div className="notification-header">
+                    <h3>Notifications</h3>
+                    <button className="mark-as-read">Mark all as read</button>
+                  </div>
+                  <div className="notification-list">
+                    <div className="notification-item unread">
+                      <div className="noti-icon-container">
+                        <img src="/photo_icons/book.png" alt="book" className="noti-icon" />
+                      </div>
+                      <div className="noti-content">
+                        <p className="noti-text">Your course <strong>"React Masterclass"</strong> has new content!</p>
+                        <span className="noti-time">2 mins ago</span>
+                      </div>
+                      <div className="unread-dot"></div>
+                    </div>
+                    <div className="notification-item">
+                      <div className="noti-icon-container">
+                        <img src="/photo_icons/account.png" alt="account" className="noti-icon" />
+                      </div>
+                      <div className="noti-content">
+                        <p className="noti-text">You've completed <strong>"Advanced CSS Layouts"</strong>.</p>
+                        <span className="noti-time">1 hour ago</span>
+                      </div>
+                    </div>
+                    <div className="notification-item unread">
+                      <div className="noti-icon-container">
+                        <img src="/photo_icons/Rating.png" alt="rating" className="noti-icon" />
+                      </div>
+                      <div className="noti-content">
+                        <p className="noti-text">A new review was added to your profile.</p>
+                        <span className="noti-time">3 hours ago</span>
+                      </div>
+                      <div className="unread-dot"></div>
+                    </div>
+                  </div>
+                  <div className="notification-footer">
+                    <button className="view-all-btn" onClick={() => Navigate("/Setting/Notification")}>View all</button>
+                    <button className="noti-settings-btn" onClick={() => Navigate("/Setting/Notification")}>
+                      <img src="/photo_icons/For_setting/PreferencesBlack.png" alt="settings" />
+                      Notification Settings
+                    </button>
+                  </div>
+                </div>
+              )}
+            </div>
           )}
         </div>
 
