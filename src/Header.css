@@ -212,3 +212,37 @@ header {
     height: 32px;
     cursor: pointer;
 }
+
+.Menu {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    background-color: #ffffff;
+    border: 1px solid #EEEEEE;
+    border-radius: 10px;
+    padding: 30px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    z-index: 1000;
+    min-width: 200px;
+    width: auto;
+    height: auto;
+    align-items: left;
+}
+
+.Menu li {
+    font-family: "Inter";
+    font-size: 15px;
+    color: #000000;
+    padding: 8px 0;
+    cursor: pointer;
+    transition: color 0.2s;
+    border-bottom: 2px solid transparent;
+}
+
+.Menu li:hover {
+    color: #0089EA;
+    border-bottom: 2px solid #0089EA;
+    padding-bottom: 8px;
+}
