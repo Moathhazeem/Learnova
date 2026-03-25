@@ -144,22 +144,48 @@
 }
 
 .Security_password h3 {
+    width: 100%;
+    max-width: 483px;
+    height: 100%;
+    max-height: 42px;
+    display: flex;
+    justify-content: flex-start;
+    align-items: flex-start;
+    margin-top: 50px;
     font-size: 30px;
     font-weight: bold;
     color: #000000;
     font-family: 'Inter', 'Outfit', sans-serif;
 }
 
+.Security_password_header {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    justify-content: flex-start;
+    align-items: flex-start;
+    width: 100%;
+}
+
+.Security_password_content {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    justify-content: flex-start;
+    align-items: flex-start;
+    width: 100%;
+}
+
 .Security_password p {
     font-size: 16px;
     font-weight: 400;
-    color: #000000;
+    color: #666363;
     font-family: 'Inter', 'Outfit', sans-serif;
 }
 
 .Security_password h4 {
     font-size: 20px;
-    font-weight: 500;
+    font-weight: bold;
     color: #000000;
     font-family: 'Inter', 'Outfit', sans-serif;
 }
@@ -220,45 +246,78 @@
     transition: all 0.2s ease;
     text-align: center;
     line-height: 50px;
+    margin-top: 20px;
+    transition: all 0.3s ease;
 }
 
 .Security_password button:hover {
-    background-color: #0089EA;
+    background-color: #0076c9;
     border-radius: 5px;
-    border: 1px solid #0089EA;
+    border: 1px solid #0076c9;
     outline: none;
     cursor: pointer;
-    transition: all 0.2s ease;
+
 }
 
 .Secrity_2FA {
     display: flex;
     flex-direction: column;
-    gap: 30px;
+    gap: 20px;
     justify-content: flex-start;
     align-items: flex-start;
     width: 100%;
 }
 
+.Secrity_2FA_content_header {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    flex: 1; /* Take up remaining space */
+}
+
+.Secrity_2FA_content {
+    display: flex;
+    flex-direction: row;
+    align-items: center; /* Center switch with text vertically */
+    justify-content: space-between; /* Push switch to the right */
+    width: 100%;
+    max-width: 600px; /* Limit width for better readability */
+    padding: 15px 0;
+    border-bottom: 1px solid #f0f0f0; /* Optional: separate items */
+}
+
+.Secrity_2FA_content:last-child {
+    border-bottom: none;
+}
+
+.switch {
+    margin-left: 10px;
+    ;
+}
+
 .Secrity_2FA h3 {
-    font-size: 30px;
-    font-weight: bold;
+    font-size: 28px;
+    font-weight: 700;
     color: #000000;
-    font-family: 'Inter', 'Outfit', sans-serif;
+    margin-bottom: 5px;
 }
 
 .Secrity_2FA p {
-    font-size: 16px;
+    font-size: 15px;
     font-weight: 400;
-    color: #000000;
-    font-family: 'Inter', 'Outfit', sans-serif;
+    color: #666363;
+    margin-bottom: 10px;
 }
 
 .Secrity_2FA h4 {
-    font-size: 20px;
-    font-weight: 500;
+    font-size: 18px;
+    font-weight: 600;
     color: #000000;
-    font-family: 'Inter', 'Outfit', sans-serif;
+    margin-bottom: 4px;
+}
+
+.Secrity_2FA_content_header p {
+    margin-bottom: 0; /* Override the default p margin inside the item header */
 }
 
 .Active_session {

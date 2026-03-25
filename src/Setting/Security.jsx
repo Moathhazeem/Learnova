@@ -80,32 +80,43 @@ function Security() {
                 </div>
                 <div className="Secrity_content">
                     <div className="Security_password">
-                        <h3>Password</h3>
-                        <p>Change your password</p>
-                        <h4>Current password</h4>
-                        <input type="password" placeholder="Enter your current password" required></input>
-                        <h4>New password</h4>
-                        <input type="password" placeholder="Enter your New password" required></input>
-                        <h4>Confirm new password</h4>
-                        <input type="password" placeholder="Confirm your New password" required></input>
+                        <div className="Security_password_header">
+                            <h3>Password</h3>
+                            <p>Change your password</p>
+                        </div>
+                        <div className="Security_password_content">
+                            <h4>Current password</h4>
+                            <input type="password" placeholder="Enter your current password" required></input>
+                            <h4>New password</h4>
+                            <input type="password" placeholder="Enter your New password" required></input>
+                            <h4>Confirm new password</h4>
+                            <input type="password" placeholder="Confirm your New password" required></input>
+                        </div>
                         <button>Update Password</button>
                     </div>
                     <div className="Secrity_2FA">
                         <h3>Two Factor Authentication</h3>
                         <p>Enhance your account security by enabling 2FA.</p>
-                        <h4>Authenticator App</h4>
-                        <p>Use an app like Google Authenticator or Authy to generate verification codes.</p>
-                        <label className="switch">
-                            <input type="checkbox" checked={authenticator} onChange={() => setAuthenticator(!authenticator)} />
-                            <span className="slider"></span>
-                        </label>
-                        <button>Setup Authenticator App</button>
-                        <h4>SMS Recovery</h4>
-                        <p>Allow receiving recovery codes via SMS if you lose access to your authenticator app</p>
-                        <label className="switch">
-                            <input type="checkbox" checked={smsRecovery} onChange={() => setSmsRecovery(!smsRecovery)} />
-                            <span className="slider"></span>
-                        </label>
+                        <div className="Secrity_2FA_content">
+                            <div className="Secrity_2FA_content_header">
+                                <h4>Authenticator App</h4>
+                                <p>Use an app like Google Authenticator or Authy to generate verification codes.</p>
+                            </div>
+                            <label className="switch">
+                                <input type="checkbox" checked={authenticator} onChange={() => setAuthenticator(!authenticator)} />
+                                <span className="slider"></span>
+                            </label>
+                        </div>
+                        <div className="Secrity_2FA_content">
+                            <div className="Secrity_2FA_content_header">
+                                <h4>SMS Recovery</h4>
+                                <p>Allow receiving recovery codes via SMS if you lose access to your authenticator app</p>
+                            </div>
+                            <label className="switch">
+                                <input type="checkbox" checked={smsRecovery} onChange={() => setSmsRecovery(!smsRecovery)} />
+                                <span className="slider"></span>
+                            </label>
+                        </div>
                     </div>
                     <div className="Active_session">
                         <h3>Active Sessions</h3>
@@ -157,6 +168,7 @@ function Security() {
                 </div>
             </div>
         </div>
+
     )
 }
 export default Security;
