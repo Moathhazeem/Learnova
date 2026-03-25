@@ -320,7 +320,9 @@
     padding: 2px 12px;
     width: 100%;
     min-width: 457px;
+    transition: 0.3s ease;
 }
+
 
 .Full_Name input,
 .Email input {
@@ -332,7 +334,18 @@
     background: transparent;
     padding: 12px 10px 12px 40px;
     width: 100%;
+    box-sizing: border-box;
+
 }
+
+.input-wrapper:hover {
+    border: 1px solid #0089EA;
+    border-radius: 10px;
+    box-shadow: 0 0 5px rgba(0, 137, 234, 0.3);
+
+}
+
+
 
 .input-wrapper img.edit-icon {
     position: absolute;
@@ -345,6 +358,19 @@
 .phone-input-container-wrapper {
     width: 100%;
     min-width: 457px;
+    max-width: 457px;
+    height: 100%;
+    min-height: 48px;
+    max-height: 48px;
+    transition: 0.3s ease-in-out;
+    box-sizing: border-box;
+    border-radius: 10px;
+    transition: 0.3s ease;
+}
+
+.phone-input-container-wrapper:hover .custom-phone-container {
+    border: 1px solid #0089EA !important;
+    box-shadow: 0 0 5px rgba(0, 137, 234, 0.3);
 }
 
 .custom-phone-container {
@@ -353,6 +379,7 @@
     border-radius: 10px !important;
     background-color: #ffffff !important;
     overflow: hidden;
+    transition: 0.3s ease;
 }
 
 .custom-phone-input {
@@ -480,7 +507,15 @@
     max-width: 590px;
     flex-wrap: wrap;
     cursor: pointer;
+    border: 1px solid rgba(0, 137, 234, 0.20);
+    box-sizing: border-box;
+    transition: 0.3s ease;
+}
 
+.Interset-setting-content:hover {
+    color: #0089EA;
+    border: 1px solid #0089EA;
+    background-color: #ffffff;
 }
 
 .Interset-setting-content img {
@@ -506,6 +541,13 @@
     border: 1px solid rgb(0, 0, 0, 0.2);
     border-radius: 10px;
     padding: 10px;
+    transition: 0.3s ease;
+}
+
+.Add-more:hover {
+    background-color: #0089EA;
+    color: white;
+    border-color: #0089EA;
 }
 
 .Add-more img {
@@ -519,6 +561,10 @@
     font-weight: bold;
     color: #000000;
     margin: 0;
+}
+
+.Add-more:hover p {
+    color: white;
 }
 
 .Training-courses-title {
@@ -594,7 +640,14 @@
     flex-wrap: wrap;
     width: 100%;
     max-width: 356px;
+    height: 100%;
+    min-height: 100px;
+    cursor: pointer;
+    transition: 0.3s ease;
+
 }
+
+
 
 .Skills p {
     font-size: 12px;
@@ -607,6 +660,15 @@
     align-items: center;
     background-color: rgba(0, 137, 234, 0.20);
     border-radius: 20px;
+    transition: 0.3s ease;
+    border: 1px solid rgba(0, 137, 234, 0.20);
+    box-sizing: border-box;
+}
+
+.Skills p:hover {
+    color: #007bff;
+    border: 1px solid #007bff;
+    background-color: #ffffff;
 }
 
 .Skills p:last-child {
@@ -616,6 +678,12 @@
     font-size: 12px;
     font-weight: bold;
     cursor: pointer;
+    transition: 0.3s ease;
+}
+
+.Skills p:last-child:hover {
+    background-color: #005fc5;
+    border-color: #005fc5;
 }
 
 
@@ -969,13 +1037,14 @@
     display: flex;
     justify-content: center;
     align-items: center;
-    box-shadow: inset 0 2px 4px rgba(0,0,0,0.02);
+    box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.02);
 }
 
 .Background_profile_image {
     width: 100%;
     height: 100%;
-    object-fit: cover; /* changed from contain for consistency */
+    object-fit: cover;
+    /* changed from contain for consistency */
     border-radius: 20px;
 }
 

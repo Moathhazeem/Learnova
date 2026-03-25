@@ -16,10 +16,15 @@ function Profile() {
     const [backgroundImage, setBackgroundImage] = useState("/Photo/Background_profile.jfif");
     const [expandedCourseIds, setExpandedCourseIds] = useState([]);
     const [interests, setInterests] = useState([
-        "UI Design", "UX Design", "Mobile developer", 
-        "Web developer", "Data analysis", "Graphic designer", 
+        "UI Design", "UX Design", "Mobile developer",
+        "Web developer", "Data analysis", "Graphic designer",
         "Electronics marketing"
     ]);
+
+    const add_more_color = {
+        white: "/photo_icons/For_setting/add_more_white.png",
+        black: "/photo_icons/For_setting/add_more.png",
+    }
     const [newInterest, setNewInterest] = useState("");
     const courses = [
         {
@@ -248,16 +253,16 @@ function Profile() {
                             {interests.map((interest, index) => (
                                 <div className="Interset-setting-content" key={index}>
                                     <p>{interest}</p>
-                                    <img 
-                                        src="/photo_icons/For_setting/false_blue.png" 
-                                        alt="remove" 
+                                    <img
+                                        src="/photo_icons/For_setting/false_blue.png"
+                                        alt="remove"
                                         style={{ cursor: 'pointer' }}
                                         onClick={() => setInterests(interests.filter((_, i) => i !== index))}
                                     />
                                 </div>
                             ))}
-                            <div className="Add-more" onClick={() => setShowModalInterset(true)} style={{ cursor: "pointer" }}>
-                                <img src="/photo_icons/For_setting/add_more.png"></img>
+                            <div className="Add-more" onClick={() => setShowModalInterset(true)} style={{ cursor: "pointer" }} onMouseEnter={() => setHovered(true)} onMouseLeave={() => setHovered(false)}>
+                                <img src={hovered ? add_more_color.white : add_more_color.black} />
                                 <p>Add more</p>
                                 {showModalInterset && (
                                     <div className="modal-overlay" onClick={() => setShowModalInterset(false)}>

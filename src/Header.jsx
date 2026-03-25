@@ -69,12 +69,12 @@ function Header() {
               {isOpen && (
                 <div className="Menu" ref={menuRef}>
                   <ul style={{ listStyleType: "none", padding: "0", margin: "0" }}>
-                    <li style={{ padding: "8px 0", cursor: "pointer" }}>Profile</li>
-                    <li style={{ padding: "8px 0", cursor: "pointer" }}>My learning</li>
-                    <li style={{ padding: "8px 0", cursor: "pointer" }}>My Purchases</li>
-                    <li style={{ padding: "8px 0", cursor: "pointer" }}>Explore</li>
-                    <li style={{ padding: "8px 0", cursor: "pointer" }}>Settings</li>
-                    <li style={{ padding: "8px 0", cursor: "pointer" }}>Help center</li>
+                    <li style={{ padding: "8px 0", cursor: "pointer" }} onClick={() => Navigate("/Setting/Profile")}>Profile</li>
+                    <li style={{ padding: "8px 0", cursor: "pointer" }} onClick={() => Navigate("/My learning")}>My learning</li>
+                    <li style={{ padding: "8px 0", cursor: "pointer" }} onClick={() => Navigate("/My Purchases")}>My Purchases</li>
+                    <li style={{ padding: "8px 0", cursor: "pointer" }} onClick={() => Navigate("/Explore")}>Explore</li>
+                    <li style={{ padding: "8px 0", cursor: "pointer" }} onClick={() => Navigate("/Setting/Profile")}>Settings</li>
+                    <li style={{ padding: "8px 0", cursor: "pointer" }} onClick={() => Navigate("/Help center")}>Help center</li>
                     <li style={{ padding: "8px 0", cursor: "pointer" }}>Logout</li>
                   </ul>
                 </div>
