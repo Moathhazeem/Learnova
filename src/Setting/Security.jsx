@@ -6,59 +6,228 @@ function Security() {
     const [password, setPassword] = useState("");
     const [newPassword, setNewPassword] = useState("");
     const [confirmPassword, setConfirmPassword] = useState("");
+    const [passwordError, setPasswordError] = useState("");
+    const [passwordSuccess, setPasswordSuccess] = useState("");
+    const [confirmPasswordError, setConfirmPasswordError] = useState("");
+    const [confirmPasswordSuccess, setConfirmPasswordSuccess] = useState("");
+    const [newPasswordError, setNewPasswordError] = useState("");
+    const [newPasswordSuccess, setNewPasswordSuccess] = useState("");
+    const [passwordMatchError, setPasswordMatchError] = useState("");
+    const [passwordMatchSuccess, setPasswordMatchSuccess] = useState("");
+    const [showPassword, setShowPassword] = useState(false);
+    const [showNewPassword, setShowNewPassword] = useState(false);
+    const [showConfirmPassword, setShowConfirmPassword] = useState(false);
     const [authenticator, setAuthenticator] = useState(false);
+    const [IsOpenAuthenticator, setIsOpenAuthenticator] = useState(false);
     const [smsRecovery, setSmsRecovery] = useState(false);
+    const [IsOpenSmsRecovery, setIsOpenSmsRecovery] = useState(false);
     const location = useLocation();
     const [activeCategory, setActiveCategory] = useState("Security");
     const [hovered, setHovered] = useState(null);
-    const [isOpen, setIsOpen] = useState(false);
-    const openPopup = () => {
-        setIsOpen(true);
-        setEmailError("");
-        setPhoneError("");
+    const [isEmailOpen, setIsEmailOpen] = useState(false);
+    const [isPhoneOpen, setIsPhoneOpen] = useState(false);
+    const [isCodePopupOpen, setIsCodePopupOpen] = useState(false);
+    const [code, setCode] = useState(["", "", "", "", "", ""]);
+    // دوال فتح/اغلاق
+    const openCodePopup = () => setIsCodePopupOpen(true);
+    const closeCodePopup = () => setIsCodePopupOpen(false);
+
+    const [codeError, setCodeError] = useState("");
+    const [codeSuccess, setCodesuccess] = useState("");
+    const handleSubmit = (e) => {
+        setCodeError("");
+        setCodesuccess("");
+        e.preventDefault();
+        // Check if all code fields are filled (optional but recommended)
+        const fullcode = code.join("");
+        if (code.every(digit => digit === "")) {
+            setCodeError("Please fill in all fields");
+        }
+        else if (fullcode !== "123456") {
+            setCodeError("Code is incorrect");
+        }
+        else if (fullcode === "123456") {
+            setCodesuccess("Code is correct");
+            setTimeout(() => {
+                closeCodePopup();
+                closePop('smsRecovery');
+                setSmsRecovery(true);
+            }, 1000);
+        }
+    };
+
+
+    const handleChange = (e, index) => {
+        const value = e.target.value;
+        if (isNaN(value)) return;
+
+        const char = value.slice(-1);
+        const newCode = [...code];
+        newCode[index] = char;
+        setCode(newCode);
+
+        if (char !== "" && e.target.nextSibling) {
+            e.target.nextSibling.focus();
+        }
+    };
+
+    const handleKeyDown = (e, index) => {
+        if (e.key === "Backspace" && !code[index] && e.target.previousSibling) {
+            e.target.previousSibling.focus();
+        }
+    };
+
+    const openPop = (type) => {
+        if (type === 'email') {
+            setTempEmail(email);
+            setIsEmailOpen(true);
+            setEmailError("");
+        } else if (type === 'phone') {
+            setTempPhone(phone);
+            setIsPhoneOpen(true);
+            setPhoneError("");
+        }
+        else if (type === 'authenticator') {
+            setIsOpenAuthenticator(true);
+        }
+        else if (type === 'smsRecovery') {
+            setIsOpenSmsRecovery(true);
+        }
+
     }
-    const closePopup = () => {
-        setIsOpen(false);
+    const closePop = () => {
+        setIsEmailOpen(false);
+        setIsPhoneOpen(false);
         setEmailError("");
         setPhoneError("");
+        setIsOpenAuthenticator(false);
+        setIsOpenSmsRecovery(false);
     }
     const search = {
         white: "/photo_icons/For_setting/White_Search.png",
         black: "/photo_icons/For_setting/Gray_Search.png"
     }
-    const [email, setEmail] = useState("");
-    const [phone, setPhone] = useState("");
+    const [email, setEmail] = useState("user@gmail.com");
+    const [tempEmail, setTempEmail] = useState("");
+    const [phone, setPhone] = useState("+20 100 000 0000");
+    const [tempPhone, setTempPhone] = useState("");
     const [emailError, setEmailError] = useState("");
     const [phoneError, setPhoneError] = useState("");
-
-    const handleEmailChange = (e) => {
-        setEmail(e.target.value);
-        if (emailError) setEmailError("");
-    }
-
     const handleEmailSave = () => {
-        if (email.trim() === "") {
+        if (tempEmail.trim() === "") {
             setEmailError("Please enter your email");
             return;
         }
+        if (!tempEmail.includes("@gmail.com")) {
+            setEmailError("Please enter a valid email");
+            return;
+        }
+        setEmail(tempEmail);
         setEmailError("");
         // Here you would normally update the email on the server
-        closePopup();
+        closePop();
     }
-
-    const handlePhoneChange = (e) => {
-        setPhone(e.target.value);
-        if (phoneError) setPhoneError("");
-    }
-
     const handlePhoneSave = () => {
-        if (phone.trim() === "") {
+        if (tempPhone.trim() === "") {
             setPhoneError("Please enter your phone");
             return;
         }
+        // Basic check: Allow +, spaces, and digits
+        if (!/^[\d\s+]+$/.test(tempPhone)) {
+            setPhoneError("Please enter a valid phone number");
+            return;
+        }
+        if (tempPhone.replace(/\D/g, '').length < 8) {
+            setPhoneError("Phone number is too short");
+            return;
+        }
+        setPhone(tempPhone);
         setPhoneError("");
-        // Handle phone save logic here
+        closePop();
+    };
+    const handleAuthenticatorSave = () => {
+        setIsOpenAuthenticator(false);
     }
+    const handleSmsRecoverySave = () => {
+        setIsOpenSmsRecovery(false);
+    }
+    const toggleShowPassword = () => {
+        setShowPassword(!showPassword);
+    }
+    const toggleShowNewPassword = () => {
+        setShowNewPassword(!showNewPassword);
+    }
+    const toggleShowConfirmPassword = () => {
+        setShowConfirmPassword(!showConfirmPassword);
+    }
+
+    const handleUpdatePassword = () => {
+        setPasswordError("");
+        setPasswordSuccess("");
+        setNewPasswordError("");
+        setNewPasswordSuccess("");
+        setConfirmPasswordError("");
+        setConfirmPasswordSuccess("");
+
+        let isValid = true;
+
+        if (password.trim() === "") {
+            setPasswordError("Please fill the field");
+            isValid = false;
+        } else if (password !== "123456") {
+            setPasswordError("Please enter a correct password");
+            isValid = false;
+        } else {
+            setPasswordSuccess("Password is correct");
+        }
+        if (!isValid) {
+            return;
+        }
+
+        if (newPassword.trim() === "") {
+            setNewPasswordError("Please fill the field");
+            isValid = false;
+        } else if (newPassword === password) {
+            setNewPasswordError("New password cannot be the same as the old password");
+            isValid = false;
+        } else if (newPassword.length < 8) {
+            setNewPasswordError("New password must be at least 8 characters long");
+            isValid = false;
+        } else if (!/[a-z]/.test(newPassword)) {
+            setNewPasswordError("New password must contain at least one lowercase letter");
+            isValid = false;
+        } else if (!/[A-Z]/.test(newPassword)) {
+            setNewPasswordError("New password must contain at least one uppercase letter");
+            isValid = false;
+        } else if (!/[0-9]/.test(newPassword)) {
+            setNewPasswordError("New password must contain at least one number");
+            isValid = false;
+        } else if (!/[!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?]/.test(newPassword)) {
+            setNewPasswordError("New password must contain at least one special character");
+            isValid = false;
+        } else {
+            setNewPasswordSuccess("New password is correct");
+        }
+        if (!isValid) {
+            return;
+        }
+
+        if (confirmPassword.trim() === "") {
+            setConfirmPasswordError("Please fill the field");
+            isValid = false;
+        } else if (confirmPassword !== newPassword) {
+            setConfirmPasswordError("Confirm password does not match");
+            isValid = false;
+        } else {
+            setConfirmPasswordSuccess("Confirm password is correct");
+        }
+
+        if (isValid) {
+            alert("Password updated successfully!");
+        }
+    };
+
+
 
     const pathname = location.pathname.split("/").filter(x => x);
     const categories = [
@@ -141,7 +310,7 @@ function Security() {
                 </div>
                 <div className="Setting_option">
                     {categories.map((category, index) => {
-                        const isActive = location.pathname === category.path || location.pathname === `/${category.name}`;
+                        const isActive = location.pathname === category.path;
                         const isHovered = hovered === index;
                         return (
                             <Link
@@ -167,17 +336,40 @@ function Security() {
                     <div className="Security_password">
                         <div className="Security_password_header">
                             <h3>Password</h3>
-                            <p>Enter your current password to can change to new password</p>
+                            <p className="password_p">Enter your current password to can change to new password</p>
                         </div>
                         <div className="Security_password_content">
                             <h4>Enter your current password</h4>
-                            <input type="password" placeholder="Enter your current password" required></input>
+                            <div className="password-input-wrapper">
+                                <input type={showPassword ? "text" : "password"} placeholder="Enter your current password" value={password} onChange={(e) => setPassword(e.target.value)} required />
+                                <span onClick={toggleShowPassword}>
+                                    <img src={showPassword ? "/photo_icons/For_setting/not_see_pas_black.png" : "/photo_icons/For_setting/see_pas_black.png"} alt="toggle" />
+                                </span>
+                                {passwordError && <p className="error_password">{passwordError}</p>}
+                                {passwordSuccess && <p className="success_password">{passwordSuccess}</p>}
+                            </div>
+
                             <h4>Enter your new password</h4>
-                            <input type="password" placeholder="Enter your new password" required></input>
+                            <div className="password-input-wrapper">
+                                <input type={showNewPassword ? "text" : "password"} placeholder="Enter your new password" value={newPassword} onChange={(e) => setNewPassword(e.target.value)} required />
+                                <span onClick={toggleShowNewPassword}>
+                                    <img src={showNewPassword ? "/photo_icons/For_setting/not_see_pas_black.png" : "/photo_icons/For_setting/see_pas_black.png"} alt="toggle" />
+                                </span>
+                                {newPasswordError && <p className="error_password">{newPasswordError}</p>}
+                                {newPasswordSuccess && <p className="success_password">{newPasswordSuccess}</p>}
+                            </div>
+
                             <h4>Confirm your new password</h4>
-                            <input type="password" placeholder="Confirm your new password" required></input>
+                            <div className="password-input-wrapper">
+                                <input type={showConfirmPassword ? "text" : "password"} placeholder="Confirm your new password" value={confirmPassword} onChange={(e) => setConfirmPassword(e.target.value)} required />
+                                <span onClick={toggleShowConfirmPassword}>
+                                    <img src={showConfirmPassword ? "/photo_icons/For_setting/not_see_pas_black.png" : "/photo_icons/For_setting/see_pas_black.png"} alt="toggle" />
+                                </span>
+                                {confirmPasswordError && <p className="error_password">{confirmPasswordError}</p>}
+                                {confirmPasswordSuccess && <p className="success_password">{confirmPasswordSuccess}</p>}
+                            </div>
                         </div>
-                        <button>Update Password</button>
+                        <button onClick={handleUpdatePassword}>Update Password</button>
                     </div>
                     <div className="Secrity_2FA">
                         <h3>Two Factor Authentication</h3>
@@ -188,9 +380,32 @@ function Security() {
                                 <p>Use an app like Google Authenticator or Authy to generate verification codes.</p>
                             </div>
                             <label className="switch">
-                                <input type="checkbox" checked={authenticator} onChange={() => setAuthenticator(!authenticator)} />
+                                <input type="checkbox" checked={authenticator} onChange={() => setAuthenticator(!authenticator)} onClick={() => openPop('authenticator')} />
                                 <span className="slider"></span>
                             </label>
+                            {IsOpenAuthenticator && (
+                                <div className="popup-overlay_authenticator">
+                                    <div className="popup_authenticator">
+                                        <div className="popup-header_authenticator">
+                                            <h3>Setup Authenticator App</h3>
+                                            <button onClick={() => closePop('authenticator')}><img src="/photo_icons/For_setting/false.png" alt="close" /></button>
+                                        </div>
+                                        <div className="popup-content-header_authenticator">
+                                            <h4>Scan this QR code</h4>
+                                            <p>Use an app like Google Authenticator or Authy to generate verification codes.</p>
+                                        </div>
+                                        <div className="popup-content_authenticator">
+                                            <img src="/photo_icons/For_setting/QR_code.png" alt="QR code" />
+                                        </div>
+                                        <div className="popup-content-footer_authenticator">
+                                            <p>Can't scan? Use this code: 123 456 789</p>
+                                        </div>
+                                        {/*<div className="popup-content-footer_authenticator">
+                                            <button onClick={() => closePop('authenticator')}>Close</button>
+                                        </div>*/}
+                                    </div>
+                                </div>
+                            )}
                         </div>
                         <div className="Secrity_2FA_content">
                             <div className="Secrity_2FA_content_header">
@@ -198,10 +413,84 @@ function Security() {
                                 <p>Allow receiving recovery codes via SMS if you lose access to your authenticator app</p>
                             </div>
                             <label className="switch">
-                                <input type="checkbox" checked={smsRecovery} onChange={() => setSmsRecovery(!smsRecovery)} />
+                                <input type="checkbox" checked={smsRecovery} onChange={() => setSmsRecovery(!smsRecovery)} onClick={() => openPop('smsRecovery')} />
                                 <span className="slider"></span>
                             </label>
+
+
+
+
+
+
+
+
+                            {IsOpenSmsRecovery && (
+                                <div className="popup-overlay_smsRecovery">
+                                    <div className="popup_smsRecovery">
+                                        <div className="popup-header_smsRecovery">
+                                            <h3>Enter your phone number</h3>
+                                            <button onClick={() => closePop('smsRecovery')}><img src="/photo_icons/For_setting/false.png" alt="close" /></button>
+                                        </div>
+                                        <div className="popup-content-header_smsRecovery">
+                                            <h4>Enter your phone number to receive recovery codes</h4>
+                                            <p>We'll send a 6-digit code to this number to verify your account.</p>
+                                        </div>
+                                        <div className="popup-content_smsRecovery">
+                                            <h4>Phone Number</h4>
+                                            <input type="phone" placeholder="Enter your phone number" />
+                                            <p>We'll never share your phone number.</p>
+                                        </div>
+                                        <div className='popup-content-footer_smsRecovery'>
+                                            <button className='send-code-btn' onClick={openCodePopup}>Send Code</button>
+                                            {isCodePopupOpen && (
+                                                <div className="popup-overlay_code">
+                                                    <div className="popup_code">
+                                                        <div className="popup-header_code">
+                                                            <h3>Enter your verification code</h3>
+                                                            <button onClick={closeCodePopup}><img src="/photo_icons/For_setting/false.png" alt="close" /></button>
+                                                        </div>
+                                                        <div className="popup-content-header_code">
+                                                            <h4>6-digit code sent to +970 59 123 4567</h4>
+                                                        </div>
+                                                        <div className="popup-content_code">
+                                                            <h4>Verification Code</h4>
+                                                            <div style={{ display: "flex", gap: "10px" }}>
+                                                                {code.map((data, index) => (
+                                                                    <input
+                                                                        key={index}
+                                                                        type="text"
+                                                                        maxLength="1"
+                                                                        placeholder={index + 1}
+                                                                        required
+                                                                        value={data}
+                                                                        onChange={(e) => handleChange(e, index)}
+                                                                        onKeyDown={(e) => handleKeyDown(e, index)}
+                                                                        onFocus={(e) => e.target.select()}
+                                                                        style={{ textAlign: "center", width: "40px", height: "40px" }}
+                                                                    />
+                                                                ))}
+                                                            </div>
+                                                            <p>Check your phone for the 6-digit code we just sent</p>
+                                                            {codeError && <p className="error_password" style={{ color: "red" }}>{codeError}</p>}
+                                                            {codeSuccess && <p className="success_password" style={{ color: "green" }}>{codeSuccess}</p>}
+                                                        </div>
+                                                        <div className='popup-content-footer_code'>
+                                                            <button className='send-code-btn' onClick={handleSubmit}>Verify code</button>
+                                                            <button className='send-code-btn' onClick={() => setCode(["", "", "", "", "", ""])}>Resend code</button>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            )}
+                                        </div>
+                                    </div>
+                                </div>
+                            )}
                         </div>
+
+
+
+
+
                     </div>
                     <div className="Active_session">
                         <div className="Active_session_header">
@@ -244,23 +533,23 @@ function Security() {
                                 <div className="recovery-info">
                                     <div className="recovery-info-header">
                                         <h4>Email</h4>
-                                        <p>moathhazeem@gmail.com</p>
+                                        <p>{email}</p>
                                     </div>
-                                    <button className="edit" onClick={() => openPopup()}><img src="/photo_icons/For_setting/Edit_white.png" alt="edit" />Edit</button>
-                                    {isOpen && (
+                                    <button className="edit" onClick={() => openPop('email')}><img src="/photo_icons/For_setting/Edit_white.png" alt="edit" />Edit</button>
+                                    {isEmailOpen && (
                                         <div className="popup">
                                             <div className="popup-content">
                                                 <div className="popup-header">
                                                     <h3>Edit Email</h3>
-                                                    <button className="close" onClick={() => closePopup()}><img src="/photo_icons/For_setting/false.png" alt="close" /></button>
+                                                    <button className="close" onClick={() => closePop()}><img src="/photo_icons/For_setting/false.png" alt="close" /></button>
                                                 </div>
                                                 <div className="popup-body">
                                                     <h4>Enter your new email</h4>
-                                                    <input type="email" value={email} onChange={handleEmailChange} placeholder="Enter your email" required />
+                                                    <input type="email" value={tempEmail} onChange={(e) => setTempEmail(e.target.value)} placeholder="Enter your email" required />
                                                     {emailError && <div className="error"><p>{emailError}</p></div>}
                                                 </div>
                                                 <div className="popup-footer">
-                                                    <button onClick={() => closePopup()}>Cancel</button>
+                                                    <button onClick={() => closePop()}>Cancel</button>
                                                     <button onClick={() => handleEmailSave()}>Save</button>
                                                 </div>
                                             </div>
@@ -275,9 +564,28 @@ function Security() {
                                 <div className="recovery-info">
                                     <div className="recovery-info-header">
                                         <h4>Phone</h4>
-                                        <p>+20 100 000 0000</p>
+                                        <p>{phone}</p>
                                     </div>
-                                    <button className="edit"><img src="/photo_icons/For_setting/Edit_white.png" alt="edit" />Edit</button>
+                                    <button className="edit" onClick={() => openPop('phone')}><img src="/photo_icons/For_setting/Edit_white.png" alt="edit" />Edit</button>
+                                    {isPhoneOpen && (
+                                        <div className="popup">
+                                            <div className="popup-content">
+                                                <div className="popup-header">
+                                                    <h3>Edit Phone</h3>
+                                                    <button className="close" onClick={() => closePop()}><img src="/photo_icons/For_setting/false.png" alt="close" /></button>
+                                                </div>
+                                                <div className="popup-body">
+                                                    <h4>Enter your new phone</h4>
+                                                    <input type="tel" value={tempPhone} onChange={(e) => setTempPhone(e.target.value)} placeholder="Enter your phone" required />
+                                                    {phoneError && <div className="error"><p>{phoneError}</p></div>}
+                                                </div>
+                                                <div className="popup-footer">
+                                                    <button onClick={() => closePop()}>Cancel</button>
+                                                    <button onClick={() => handlePhoneSave()}>Save</button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    )}
                                 </div>
                             </div>
                         </div>
