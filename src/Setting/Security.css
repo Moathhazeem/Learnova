@@ -541,6 +541,7 @@
     gap: 20px;
 }
 
+
 .popup-header {
     display: flex;
     flex-direction: row;
@@ -555,16 +556,34 @@
     color: #000000;
 }
 
-.popup-header button {
-    background: transparent;
+.popup .popup-content .popup-header button {
+    background-color: white !important;
+    background-image: none !important;
     border: none;
     cursor: pointer;
-    padding: 5px;
+    width: 32px !important;
+    height: 32px !important;
+    border-radius: 50% !important;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 0 !important;
+    transition: all 0.3s ease;
+}
+
+
+
+.popup .popup-content .popup-header button:hover {
+    background-color: none !important;
+    opacity: 0.8;
 }
 
 .popup-header button img {
-    width: 20px;
-    height: 20px;
+    width: 14px;
+    height: 14px;
+    object-fit: contain;
+    background-color: none !important;
+    background-image: none !important;
 }
 
 .popup-body {
@@ -619,10 +638,20 @@
     border: 1px solid #D1D5DB;
 }
 
+.popup-footer button:first-child:hover {
+    background-color: #D1D5DB;
+    border: 1px solid #D1D5DB;
+}
+
 .popup-footer button:last-child {
     background-color: #0089EA;
     color: white;
     border: 1px solid #0089EA;
+}
+
+.popup-footer button:last-child:hover {
+    background-color: #0076c9;
+    border: 1px solid #0076c9;
 }
 
 .popup-footer button:hover {
@@ -639,7 +668,7 @@
     margin: 0;
 }
 
-.Acount-recovery button {
+.edit {
     display: flex;
     justify-content: center;
     align-items: center;
@@ -664,14 +693,14 @@
     padding: 10px 5px;
 }
 
-.Acount-recovery button img {
+.edit img {
     width: 100%;
     max-width: 20px;
     height: 100%;
     max-height: 20px;
 }
 
-.Acount-recovery button:hover {
+.edit:hover {
     background-color: #0076c9;
     border-radius: 5px;
     border: 1px solid #0076c9;

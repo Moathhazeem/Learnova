@@ -30,12 +30,12 @@ function Security() {
     const [phone, setPhone] = useState("");
     const [emailError, setEmailError] = useState("");
     const [phoneError, setPhoneError] = useState("");
-    
+
     const handleEmailChange = (e) => {
         setEmail(e.target.value);
         if (emailError) setEmailError("");
     }
-    
+
     const handleEmailSave = () => {
         if (email.trim() === "") {
             setEmailError("Please enter your email");
@@ -45,12 +45,12 @@ function Security() {
         // Here you would normally update the email on the server
         closePopup();
     }
-    
+
     const handlePhoneChange = (e) => {
         setPhone(e.target.value);
         if (phoneError) setPhoneError("");
     }
-    
+
     const handlePhoneSave = () => {
         if (phone.trim() === "") {
             setPhoneError("Please enter your phone");
@@ -246,13 +246,13 @@ function Security() {
                                         <h4>Email</h4>
                                         <p>moathhazeem@gmail.com</p>
                                     </div>
-                                    <button onClick={() => openPopup()}><img src="/photo_icons/For_setting/Edit_white.png" alt="edit" />Edit</button>
+                                    <button className="edit" onClick={() => openPopup()}><img src="/photo_icons/For_setting/Edit_white.png" alt="edit" />Edit</button>
                                     {isOpen && (
                                         <div className="popup">
                                             <div className="popup-content">
                                                 <div className="popup-header">
                                                     <h3>Edit Email</h3>
-                                                    <button onClick={() => closePopup()}><img src="/photo_icons/For_setting/false.png" alt="close" /></button>
+                                                    <button className="close" onClick={() => closePopup()}><img src="/photo_icons/For_setting/false.png" alt="close" /></button>
                                                 </div>
                                                 <div className="popup-body">
                                                     <h4>Enter your new email</h4>
@@ -277,7 +277,7 @@ function Security() {
                                         <h4>Phone</h4>
                                         <p>+20 100 000 0000</p>
                                     </div>
-                                    <button><img src="/photo_icons/For_setting/Edit_white.png" alt="edit" />Edit</button>
+                                    <button className="edit"><img src="/photo_icons/For_setting/Edit_white.png" alt="edit" />Edit</button>
                                 </div>
                             </div>
                         </div>
