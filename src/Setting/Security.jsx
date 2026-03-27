@@ -1,4 +1,4 @@
-﻿import { useState } from 'react';
+import { useState } from 'react';
 import { Link, useLocation } from "react-router-dom";
 import './Security.css';
 
@@ -21,6 +21,8 @@ function Security() {
     const [IsOpenAuthenticator, setIsOpenAuthenticator] = useState(false);
     const [smsRecovery, setSmsRecovery] = useState(false);
     const [IsOpenSmsRecovery, setIsOpenSmsRecovery] = useState(false);
+    const [smsPhoneInput, setSmsPhoneInput] = useState("");
+    const [smsPhoneError, setSmsPhoneError] = useState("");
     const [isSwitchOn, setIsSwitchOn] = useState(false); // حالة الـ Switch
     const [showPopup, setShowPopup] = useState(false);   // حالة ظهور النافذة
     const location = useLocation();
@@ -31,7 +33,14 @@ function Security() {
     const [isCodePopupOpen, setIsCodePopupOpen] = useState(false);
     const [code, setCode] = useState(["", "", "", "", "", ""]);
     // دوال فتح/اغلاق
-    const openCodePopup = () => setIsCodePopupOpen(true);
+    const openCodePopup = () => {
+        if (!smsPhoneInput || smsPhoneInput.trim() === "") {
+            setSmsPhoneError("Please enter your phone number");
+            return;
+        }
+        setSmsPhoneError("");
+        setIsCodePopupOpen(true);
+    };
     const closeCodePopup = () => setIsCodePopupOpen(false);
 
     const [codeError, setCodeError] = useState("");
@@ -42,7 +51,7 @@ function Security() {
         e.preventDefault();
         // Check if all code fields are filled (optional but recommended)
         const fullcode = code.join("");
-        if (code.every(digit => digit === "")) {
+        if (code.some(digit => digit === "")) {
             setCodeError("Please fill in all fields");
         }
         else if (fullcode !== "123456") {
@@ -266,8 +275,6 @@ function Security() {
             alert("Password updated successfully!");
         }
     };
-
-
 
     const pathname = location.pathname.split("/").filter(x => x);
     const categories = [
@@ -495,7 +502,8 @@ function Security() {
                                         </div>
                                         <div className="popup-content_smsRecovery">
                                             <h4>Phone Number</h4>
-                                            <input type="phone" placeholder="Enter your phone number" />
+                                            <input type="phone" value={smsPhoneInput} onChange={(e) => setSmsPhoneInput(e.target.value)} placeholder="Enter your phone number" />
+                                            {smsPhoneError && <p className="error_password" style={{ color: "red", marginTop: "5px" }}>{smsPhoneError}</p>}
                                             <p>We'll never share your phone number.</p>
                                         </div>
                                         <div className='popup-content-footer_smsRecovery'>
