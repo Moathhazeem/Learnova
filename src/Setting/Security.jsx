@@ -1,4 +1,4 @@
-import { useState } from 'react';
+﻿import { useState } from 'react';
 import { Link, useLocation } from "react-router-dom";
 import './Security.css';
 
@@ -10,8 +10,8 @@ function Security() {
     const [passwordSuccess, setPasswordSuccess] = useState("");
     const [confirmPasswordError, setConfirmPasswordError] = useState("");
     const [confirmPasswordSuccess, setConfirmPasswordSuccess] = useState("");
-    const [newPasswordError, setNewPasswordError] = useState("");
-    const [newPasswordSuccess, setNewPasswordSuccess] = useState("");
+    const [newPasswordError, setNewPasswordError] = useState([]);
+    const [newPasswordSuccess, setNewPasswordSuccess] = useState([]);
     const [passwordMatchError, setPasswordMatchError] = useState("");
     const [passwordMatchSuccess, setPasswordMatchSuccess] = useState("");
     const [showPassword, setShowPassword] = useState(false);
@@ -21,6 +21,8 @@ function Security() {
     const [IsOpenAuthenticator, setIsOpenAuthenticator] = useState(false);
     const [smsRecovery, setSmsRecovery] = useState(false);
     const [IsOpenSmsRecovery, setIsOpenSmsRecovery] = useState(false);
+    const [isSwitchOn, setIsSwitchOn] = useState(false); // حالة الـ Switch
+    const [showPopup, setShowPopup] = useState(false);   // حالة ظهور النافذة
     const location = useLocation();
     const [activeCategory, setActiveCategory] = useState("Security");
     const [hovered, setHovered] = useState(null);
@@ -183,30 +185,68 @@ function Security() {
         if (!isValid) {
             return;
         }
-
+        const newPasswordError = [];
+        const newPasswordSuccess = [];
         if (newPassword.trim() === "") {
             setNewPasswordError("Please fill the field");
             isValid = false;
-        } else if (newPassword === password) {
-            setNewPasswordError("New password cannot be the same as the old password");
-            isValid = false;
-        } else if (newPassword.length < 8) {
-            setNewPasswordError("New password must be at least 8 characters long");
-            isValid = false;
-        } else if (!/[a-z]/.test(newPassword)) {
-            setNewPasswordError("New password must contain at least one lowercase letter");
-            isValid = false;
-        } else if (!/[A-Z]/.test(newPassword)) {
-            setNewPasswordError("New password must contain at least one uppercase letter");
-            isValid = false;
-        } else if (!/[0-9]/.test(newPassword)) {
-            setNewPasswordError("New password must contain at least one number");
-            isValid = false;
-        } else if (!/[!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?]/.test(newPassword)) {
-            setNewPasswordError("New password must contain at least one special character");
-            isValid = false;
-        } else {
-            setNewPasswordSuccess("New password is correct");
+        }
+        else {
+            if (newPassword === password) {
+                setNewPasswordError("New password cannot be the same as the old password");
+                isValid = false;
+            }
+            else if (newPassword !== password) {
+
+                if (newPassword.length < 8) {
+                    newPasswordError.push("New password must be at least 8 characters long");
+                    setNewPasswordError(newPasswordError);
+                    isValid = false;
+                }
+                else if (newPassword.length >= 8) {
+                    newPasswordSuccess.push("New password is more than 8 characters long");
+                    setNewPasswordSuccess(newPasswordSuccess);
+                }
+                if (!/[a-z]/.test(newPassword)) {
+                    newPasswordError.push("New password must contain at least one lowercase letter");
+                    setNewPasswordError(newPasswordError);
+                    isValid = false;
+                }
+                else if (/[a-z]/.test(newPassword)) {
+                    newPasswordSuccess.push("New password contain at least one lowercase letter")
+                    setNewPasswordSuccess(newPasswordSuccess);
+                }
+                if (!/[A-Z]/.test(newPassword)) {
+                    newPasswordError.push("New password must contain at least one uppercase letter");
+                    setNewPasswordError(newPasswordError);
+                    isValid = false;
+                }
+                else if (/[A-Z]/.test(newPassword)) {
+                    newPasswordSuccess.push("New password contain at least one uppercase letter")
+                    setNewPasswordSuccess(newPasswordSuccess);
+                }
+                if (!/[0-9]/.test(newPassword)) {
+                    newPasswordError.push("New password must contain at least one number");
+                    setNewPasswordError(newPasswordError);
+                    isValid = false;
+                }
+                else if (/[0-9]/.test(newPassword)) {
+                    newPasswordSuccess.push("New password contain at least one number")
+                    setNewPasswordSuccess(newPasswordSuccess);
+                }
+                if (!/[!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?]/.test(newPassword)) {
+                    newPasswordError.push("New password must contain at least one special character");
+                    setNewPasswordError(newPasswordError);
+                    isValid = false;
+                }
+                else if (/[!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?]/.test(newPassword)) {
+                    newPasswordSuccess.push("New password contain at least one special character")
+                    setNewPasswordSuccess(newPasswordSuccess);
+                }
+            }
+            else {
+                setNewPasswordSuccess("New password is correct");
+            }
         }
         if (!isValid) {
             return;
@@ -345,29 +385,49 @@ function Security() {
                                 <span onClick={toggleShowPassword}>
                                     <img src={showPassword ? "/photo_icons/For_setting/not_see_pas_black.png" : "/photo_icons/For_setting/see_pas_black.png"} alt="toggle" />
                                 </span>
-                                {passwordError && <p className="error_password">{passwordError}</p>}
-                                {passwordSuccess && <p className="success_password">{passwordSuccess}</p>}
                             </div>
+                            {(passwordError || passwordSuccess) && (
+                                <div className="password_messages">
+                                    {passwordError && <p className="error_password"><img src="/photo_icons/Incorrect.png" alt="error" />{passwordError}</p>}
+                                    {passwordSuccess && <p className="success_password"><img src="/photo_icons/Correct.png" alt="success" />{passwordSuccess}</p>}
+                                </div>
+                            )}
 
-                            <h4>Enter your new password</h4>
+                            <h4 style={{ marginTop: "15px" }}>Enter your new password</h4>
                             <div className="password-input-wrapper">
                                 <input type={showNewPassword ? "text" : "password"} placeholder="Enter your new password" value={newPassword} onChange={(e) => setNewPassword(e.target.value)} required />
                                 <span onClick={toggleShowNewPassword}>
                                     <img src={showNewPassword ? "/photo_icons/For_setting/not_see_pas_black.png" : "/photo_icons/For_setting/see_pas_black.png"} alt="toggle" />
                                 </span>
-                                {newPasswordError && <p className="error_password">{newPasswordError}</p>}
-                                {newPasswordSuccess && <p className="success_password">{newPasswordSuccess}</p>}
                             </div>
+                            {((Array.isArray(newPasswordError) && newPasswordError.length > 0) || (typeof newPasswordError === 'string' && newPasswordError) || (Array.isArray(newPasswordSuccess) && newPasswordSuccess.length > 0) || (typeof newPasswordSuccess === 'string' && newPasswordSuccess)) && (
+                                <div className="password_messages">
+                                    {Array.isArray(newPasswordError) ? newPasswordError.map((err, i) => (
+                                        <p key={i} className="error_password"><img src="/photo_icons/Incorrect.png" alt="error" />{err}</p>
+                                    )) : newPasswordError && (
+                                        <p className="error_password"><img src="/photo_icons/Incorrect.png" alt="error" />{newPasswordError}</p>
+                                    )}
+                                    {Array.isArray(newPasswordSuccess) ? newPasswordSuccess.map((succ, i) => (
+                                        <p key={i} className="success_password"><img src="/photo_icons/Correct.png" alt="success" />{succ}</p>
+                                    )) : newPasswordSuccess && (
+                                        <p className="success_password"><img src="/photo_icons/Correct.png" alt="success" />{newPasswordSuccess}</p>
+                                    )}
+                                </div>
+                            )}
 
-                            <h4>Confirm your new password</h4>
+                            <h4 style={{ marginTop: "15px" }}>Confirm your new password</h4>
                             <div className="password-input-wrapper">
                                 <input type={showConfirmPassword ? "text" : "password"} placeholder="Confirm your new password" value={confirmPassword} onChange={(e) => setConfirmPassword(e.target.value)} required />
                                 <span onClick={toggleShowConfirmPassword}>
                                     <img src={showConfirmPassword ? "/photo_icons/For_setting/not_see_pas_black.png" : "/photo_icons/For_setting/see_pas_black.png"} alt="toggle" />
                                 </span>
-                                {confirmPasswordError && <p className="error_password">{confirmPasswordError}</p>}
-                                {confirmPasswordSuccess && <p className="success_password">{confirmPasswordSuccess}</p>}
                             </div>
+                            {(confirmPasswordError || confirmPasswordSuccess) && (
+                                <div className="password_messages">
+                                    {confirmPasswordError && <p className="error_password"><img src="/photo_icons/Incorrect.png" alt="error" />{confirmPasswordError}</p>}
+                                    {confirmPasswordSuccess && <p className="success_password"><img src="/photo_icons/Correct.png" alt="success" />{confirmPasswordSuccess}</p>}
+                                </div>
+                            )}
                         </div>
                         <button onClick={handleUpdatePassword}>Update Password</button>
                     </div>
@@ -380,7 +440,10 @@ function Security() {
                                 <p>Use an app like Google Authenticator or Authy to generate verification codes.</p>
                             </div>
                             <label className="switch">
-                                <input type="checkbox" checked={authenticator} onChange={() => setAuthenticator(!authenticator)} onClick={() => openPop('authenticator')} />
+                                <input type="checkbox" checked={authenticator} onChange={(e) => {
+                                    setAuthenticator(e.target.checked);
+                                    if (e.target.checked) openPop('authenticator');
+                                }} />
                                 <span className="slider"></span>
                             </label>
                             {IsOpenAuthenticator && (
@@ -413,17 +476,12 @@ function Security() {
                                 <p>Allow receiving recovery codes via SMS if you lose access to your authenticator app</p>
                             </div>
                             <label className="switch">
-                                <input type="checkbox" checked={smsRecovery} onChange={() => setSmsRecovery(!smsRecovery)} onClick={() => openPop('smsRecovery')} />
+                                <input type="checkbox" checked={smsRecovery} onChange={(e) => {
+                                    setSmsRecovery(e.target.checked);
+                                    if (e.target.checked) openPop('smsRecovery');
+                                }} />
                                 <span className="slider"></span>
                             </label>
-
-
-
-
-
-
-
-
                             {IsOpenSmsRecovery && (
                                 <div className="popup-overlay_smsRecovery">
                                     <div className="popup_smsRecovery">

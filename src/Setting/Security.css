@@ -239,17 +239,42 @@
 }
 
 .error_password {
-    font-size: 12px;
-    font-weight: 400;
+    display: flex;
+    flex-direction: row;
+    font-size: 14px;
+    font-weight: 500;
     color: #FF0000;
+    margin-top: 5px;
+    margin-bottom: 2px;
     font-family: 'Inter', 'Outfit', sans-serif;
+    align-items: center;
 }
 
 .success_password {
-    font-size: 12px;
-    font-weight: 400;
-    color: #0089EA;
+    display: flex;
+    flex-direction: row;
+    font-size: 14px;
+    font-weight: 500;
+    color: #28a745;
+    margin-top: 5px;
+    margin-bottom: 2px;
     font-family: 'Inter', 'Outfit', sans-serif;
+    align-items: center;
+}
+
+.password_messages {
+    display: flex;
+    flex-direction: column;
+    margin-top: 5px;
+    margin-bottom: 5px;
+}
+
+.error_password img,
+.success_password img {
+    width: 18px;
+    height: 18px;
+    margin-left: 5px;
+    margin-right: 5px;
 }
 
 .password-input-wrapper span {
@@ -261,6 +286,7 @@
     display: flex;
     align-items: center;
     justify-content: center;
+
 }
 
 .password-input-wrapper span img {
