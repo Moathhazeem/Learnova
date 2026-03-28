@@ -61,6 +61,12 @@ function Preferences() {
         australia: "/Photo/Australia.svg",
         new_zealand: "/Photo/New_Zealand.svg",
     }
+    const [themeChange, setThemeChange] = useState("light");
+    const theme = {
+        light: "/photo_icons/For_setting/light_mode.png",
+        dark: "/photo_icons/For_setting/dark_mode.png",
+        system: "/photo_icons/For_setting/system_mode.png",
+    }
     return (
         <div className="edit-profile-container">
             <nav className="breadcrumbs-nav">
@@ -154,11 +160,11 @@ function Preferences() {
                                     <h4>{t('setting.theme', 'Theme')}</h4>
                                 </div>
                                 <div className="select-wrapper">
-                                    <span className="select-icon">☀️</span>
-                                    <select>
-                                        <option>{t('setting.light', 'Light Mode')}</option>
-                                        <option>{t('setting.dark', 'Dark Mode')}</option>
-                                        <option>{t('setting.system', 'System Mode')}</option>
+                                    <span className="select-icon"><img src={theme[themeChange]} alt="theme" /></span>
+                                    <select value={themeChange} onChange={(e) => setThemeChange(e.target.value)}>
+                                        <option value={"light"}>{t('setting.light', 'Light Mode')}</option>
+                                        <option value={"dark"}>{t('setting.dark', 'Dark Mode')}</option>
+                                        <option value={"system"}>{t('setting.system', 'System Mode')}</option>
                                     </select>
                                 </div>
                             </div>

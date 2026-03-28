@@ -1,5 +1,8 @@
 {
     "setting": {
+        "what_are_you_learning": "ماذا تتعلم؟",
+        "my_learning": "تعلمي",
+        "explore": "استكشف",
         "home": "الرئيسية",
         "breadcrumb_separator": ">",
         "current_page": "الإعدادات",
@@ -25,7 +28,7 @@
         "text_size": "حجم النص",
         "text_size_description": "إدارة تفضيلات حجم النص.",
         "autoplay": "التشغيل التلقائي",
-        "autoplay_description": "إدارة تفضيلات التشغيل التلقائي.",
+        "autoplay_description": "تشغيل الدرس التالي تلقائياً عند الانتهاء.",
         "captions": "الترجمة",
         "captions_description": "إدارة تفضيلات الترجمة.",
         "light": "الوضع الفاتح",
@@ -58,7 +61,7 @@
         "advanced": "متقدم",
         "default_video_quality": "جودة الفيديو الافتراضية",
         "default_video_quality_description": "تعيين جودة الفيديو الافتراضية للفيديوهات.",
-        "quality_auto": "تلقائي",
+        "quality_auto": "تلقائي (موصى به)",
         "quality_1080p": "1080p",
         "quality_720p": "720p",
         "quality_480p": "480p",

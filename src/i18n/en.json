@@ -1,5 +1,8 @@
 {
     "setting": {
+        "what_are_you_learning": "What are you learning?",
+        "my_learning": "My Learning",
+        "Explore": "Explore",
         "home": "Home",
         "breadcrumb_separator": ">",
         "current_page": "Settings",
@@ -58,7 +61,7 @@
         "advanced": "Advanced",
         "default_video_quality": "Default Video Quality",
         "default_video_quality_description": "Set the default video quality for videos.",
-        "quality_auto": "Auto",
+        "quality_auto": "Auto (Recommended)",
         "quality_1080p": "1080p",
         "quality_720p": "720p",
         "quality_480p": "480p",

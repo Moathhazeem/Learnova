@@ -4,10 +4,19 @@ import { useNavigate } from "react-router-dom";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import LandingPage from "./LandingPage";
 import { useLocation } from "react-router-dom";
+import { useTranslation } from "react-i18next";
+
 function Header() {
   const Navigate = useNavigate()
   const [search, setSearch] = useState("")
   const location = useLocation();
+  const { t } = useTranslation();
+  const changeLanguage = (e) => {
+    const language = e.target.value;
+    i18n.changeLanguage(language);
+    document.documentElement.lang = language;
+    document.documentElement.dir = language === 'ar' ? 'rtl' : 'ltr';
+  }
   const isLandingPage = location.pathname === "/" || location.pathname === "/LandingPage";
   const isSettingPage = location.pathname === "/Setting/Profile" || location.pathname === "/Setting/Security" || location.pathname === "/Setting/Preferences" || location.pathname === "/Setting/Privacy" || location.pathname === "/Setting/Notification" || location.pathname === "/Setting/Payment";
 
@@ -137,7 +146,7 @@ function Header() {
           <div className="search-container">
             <input
               type="text"
-              placeholder="what you want learn ?"
+              placeholder={t("setting.what_are_you_learning", "What are you learning?")}
               value={search}
               onChange={handleSearch}
             />
@@ -147,8 +156,8 @@ function Header() {
           </div>
 
           <nav className="nav-links">
-            <a href="#" style={{ marginRight: "100px" }}>My learning</a>
-            <a href="#" style={{ marginRight: "100px" }}>Explore</a>
+            <a href="#" style={{ marginRight: "100px" }}>{t("setting.my_learning", "My Learning")}</a>
+            <a href="#" style={{ marginRight: "100px" }}>{t("setting.explore", "Explore")}</a>
           </nav>
           <h1 className="logo" onClick={() => Navigate("/LandingPage")}>
             <a href="/LandingPage">Learnova</a>
