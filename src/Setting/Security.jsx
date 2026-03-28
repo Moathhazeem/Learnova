@@ -1,8 +1,11 @@
 import { useState } from 'react';
 import { Link, useLocation } from "react-router-dom";
 import './Security.css';
+import "../config/i18n";
+import { useTranslation } from "react-i18next";
 
 function Security() {
+    const { t } = useTranslation();
     const [password, setPassword] = useState("");
     const [newPassword, setNewPassword] = useState("");
     const [confirmPassword, setConfirmPassword] = useState("");
@@ -25,6 +28,8 @@ function Security() {
     const [smsPhoneError, setSmsPhoneError] = useState("");
     const [isSwitchOn, setIsSwitchOn] = useState(false); // حالة الـ Switch
     const [showPopup, setShowPopup] = useState(false);   // حالة ظهور النافذة
+    const [isFirstOpen, setIsFirstOpen] = useState(false);
+    const [isSecondOpen, setIsSecondOpen] = useState(false);
     const location = useLocation();
     const [activeCategory, setActiveCategory] = useState("Security");
     const [hovered, setHovered] = useState(null);
@@ -78,6 +83,9 @@ function Security() {
         setCode(newCode);
 
         if (char !== "" && e.target.nextSibling) {
+            e.target.nextSibling.focus();
+        }
+        if (value && index < code.length - 1) {
             e.target.nextSibling.focus();
         }
     };
@@ -275,6 +283,21 @@ function Security() {
             alert("Password updated successfully!");
         }
     };
+    const handleFirstOpen = () => {
+        setIsFirstOpen(true);
+    }
+    const handleSecondOpen = () => {
+        if (!smsPhoneInput || smsPhoneInput.trim() === "") {
+            setSmsPhoneError("Please enter your phone number");
+            return;
+        }
+        setSmsPhoneError("");
+        setIsSecondOpen(true);
+    }
+    const handleClosePopup = () => {
+        setIsFirstOpen(false);
+        setIsSecondOpen(false);
+    }
 
     const pathname = location.pathname.split("/").filter(x => x);
     const categories = [
@@ -326,19 +349,20 @@ function Security() {
     return (
         <div className="edit-profile-container">
             <nav className="breadcrumbs-nav">
-                <Link to="/Home" className="Breadcrumbs">Home</Link>
+                <Link to="/Home" className="Breadcrumbs">{t("setting.home", "Home")}</Link>
 
                 {pathname.map((value, index) => {
                     const to = "/" + pathname.slice(0, index + 1).join("/");
                     const isLast = index === pathname.length - 1;
+                    const translationKey = value.toLowerCase() === "setting" ? "header" : value.toLowerCase();
 
                     return (
                         <span key={to}>
-                            <span className="breadcrumb-separator"> {">"} </span>
+                            <span className="breadcrumb-separator"> {t("setting.breadcrumb_separator", ">")} </span>
                             {isLast ? (
-                                <span className="current-page">{value.replace("_", " ")}</span>
+                                <span className="current-page">{t(`setting.${translationKey}`, value.replace("_", " "))}</span>
                             ) : (
-                                <Link to={to} className="Breadcrumbs">{value.replace("_", " ")}</Link>
+                                <Link to={to} className="Breadcrumbs">{t(`setting.${translationKey}`, value.replace("_", " "))}</Link>
                             )}
                         </span>
                     );
@@ -347,11 +371,11 @@ function Security() {
 
             <div className="Setting">
                 <div className="header_setting">
-                    <p>Settings</p>
+                    <p>{t('setting.header', 'Settings')}</p>
                     <div className="search_page_setting">
                         <img src={search.black}
                             alt="search" className="setting-search-icon" />
-                        <input type="search" placeholder="Search settings" />
+                        <input type="search" placeholder={t('setting.search', 'Search settings')} />
 
                     </div>
                 </div>
@@ -373,7 +397,7 @@ function Security() {
                                     alt={category.name}
                                 />
                                 <p style={isActive || isHovered ? { color: "#0089EA" } : { color: "#000000" }}>
-                                    {category.name}
+                                    {t(`setting.${category.name.toLowerCase()}`, category.name)}
                                 </p>
                             </Link>
                         );
@@ -485,16 +509,16 @@ function Security() {
                             <label className="switch">
                                 <input type="checkbox" checked={smsRecovery} onChange={(e) => {
                                     setSmsRecovery(e.target.checked);
-                                    if (e.target.checked) openPop('smsRecovery');
+                                    if (e.target.checked) handleFirstOpen();
                                 }} />
                                 <span className="slider"></span>
                             </label>
-                            {IsOpenSmsRecovery && (
+                            {isFirstOpen && (
                                 <div className="popup-overlay_smsRecovery">
                                     <div className="popup_smsRecovery">
                                         <div className="popup-header_smsRecovery">
                                             <h3>Enter your phone number</h3>
-                                            <button onClick={() => closePop('smsRecovery')}><img src="/photo_icons/For_setting/false.png" alt="close" /></button>
+                                            <button onClick={() => handleClosePopup()}><img src="/photo_icons/For_setting/false.png" alt="close" /></button>
                                         </div>
                                         <div className="popup-content-header_smsRecovery">
                                             <h4>Enter your phone number to receive recovery codes</h4>
@@ -502,18 +526,18 @@ function Security() {
                                         </div>
                                         <div className="popup-content_smsRecovery">
                                             <h4>Phone Number</h4>
-                                            <input type="phone" value={smsPhoneInput} onChange={(e) => setSmsPhoneInput(e.target.value)} placeholder="Enter your phone number" />
+                                            <input type="phone" onChange={(e) => setSmsPhoneInput(e.target.value)} placeholder="Enter your phone number" />
                                             {smsPhoneError && <p className="error_password" style={{ color: "red", marginTop: "5px" }}>{smsPhoneError}</p>}
                                             <p>We'll never share your phone number.</p>
                                         </div>
                                         <div className='popup-content-footer_smsRecovery'>
-                                            <button className='send-code-btn' onClick={openCodePopup}>Send Code</button>
-                                            {isCodePopupOpen && (
+                                            <button className='send-code-btn' onClick={handleSecondOpen}>Send Code</button>
+                                            {isSecondOpen && (
                                                 <div className="popup-overlay_code">
                                                     <div className="popup_code">
                                                         <div className="popup-header_code">
                                                             <h3>Enter your verification code</h3>
-                                                            <button onClick={closeCodePopup}><img src="/photo_icons/For_setting/false.png" alt="close" /></button>
+                                                            <button onClick={handleClosePopup}><img src="/photo_icons/For_setting/false.png" alt="close" /></button>
                                                         </div>
                                                         <div className="popup-content-header_code">
                                                             <h4>6-digit code sent to +970 59 123 4567</h4>
@@ -528,7 +552,6 @@ function Security() {
                                                                         maxLength="1"
                                                                         placeholder={index + 1}
                                                                         required
-                                                                        value={data}
                                                                         onChange={(e) => handleChange(e, index)}
                                                                         onKeyDown={(e) => handleKeyDown(e, index)}
                                                                         onFocus={(e) => e.target.select()}
@@ -611,7 +634,7 @@ function Security() {
                                                 </div>
                                                 <div className="popup-body">
                                                     <h4>Enter your new email</h4>
-                                                    <input type="email" value={tempEmail} onChange={(e) => setTempEmail(e.target.value)} placeholder="Enter your email" required />
+                                                    <input type="email" onChange={(e) => setTempEmail(e.target.value)} placeholder="Enter your email" required />
                                                     {emailError && <div className="error"><p>{emailError}</p></div>}
                                                 </div>
                                                 <div className="popup-footer">
@@ -642,7 +665,7 @@ function Security() {
                                                 </div>
                                                 <div className="popup-body">
                                                     <h4>Enter your new phone</h4>
-                                                    <input type="tel" value={tempPhone} onChange={(e) => setTempPhone(e.target.value)} placeholder="Enter your phone" required />
+                                                    <input type="tel" onChange={(e) => setTempPhone(e.target.value)} placeholder="Enter your phone" required />
                                                     {phoneError && <div className="error"><p>{phoneError}</p></div>}
                                                 </div>
                                                 <div className="popup-footer">

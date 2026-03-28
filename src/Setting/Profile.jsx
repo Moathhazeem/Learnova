@@ -3,8 +3,11 @@ import { Link, useLocation } from "react-router-dom";
 import "./Profile.css";
 import PhoneInput from 'react-phone-input-2';
 import 'react-phone-input-2/lib/style.css';
+import "../config/i18n";
+import { useTranslation } from "react-i18next";
 
 function Profile() {
+    const { t } = useTranslation();
     const location = useLocation();
     const pathname = location.pathname.split("/").filter(x => x);
     const [hovered, setHovered] = useState(null);
@@ -92,19 +95,20 @@ function Profile() {
     return (
         <div className="edit-profile-container">
             <nav className="breadcrumbs-nav">
-                <Link to="/Home" className="Breadcrumbs">Home</Link>
+                <Link to="/Home" className="Breadcrumbs">{t("setting.home", "Home")}</Link>
 
                 {pathname.map((value, index) => {
                     const to = "/" + pathname.slice(0, index + 1).join("/");
                     const isLast = index === pathname.length - 1;
+                    const translationKey = value.toLowerCase() === "setting" ? "header" : value.toLowerCase();
 
                     return (
                         <span key={to}>
-                            <span className="breadcrumb-separator"> {">"} </span>
+                            <span className="breadcrumb-separator"> {t("setting.breadcrumb_separator", ">")} </span>
                             {isLast ? (
-                                <span className="current-page">{value.replace("_", " ")}</span>
+                                <span className="current-page">{t(`setting.${translationKey}`, value.replace("_", " "))}</span>
                             ) : (
-                                <Link to={to} className="Breadcrumbs">{value.replace("_", " ")}</Link>
+                                <Link to={to} className="Breadcrumbs">{t(`setting.${translationKey}`, value.replace("_", " "))}</Link>
                             )}
                         </span>
                     );
@@ -113,11 +117,11 @@ function Profile() {
 
             <div className="Setting">
                 <div className="header_setting">
-                    <p>Settings</p>
+                    <p>{t('setting.header', 'Settings')}</p>
                     <div className="search_page_setting">
                         <img src={search.black}
                             alt="search" className="setting-search-icon" />
-                        <input type="search" placeholder="Search settings" />
+                        <input type="search" placeholder={t('setting.search', 'Search settings')} />
 
                     </div>
                 </div>
@@ -139,7 +143,7 @@ function Profile() {
                                     alt={category.name}
                                 />
                                 <p style={isActive || isHovered ? { color: "#0089EA" } : { color: "#000000" }}>
-                                    {category.name}
+                                    {t(`setting.${category.name.toLowerCase()}`, category.name)}
                                 </p>
                             </Link>
                         );
