@@ -3,11 +3,13 @@ import { Link, useLocation } from 'react-router-dom';
 import './Preferences.css';
 import "../config/i18n";
 import { useTranslation } from "react-i18next";
+import { useEffect } from 'react';
 function Preferences() {
     const [hovered, setHovered] = useState(null);
+    const [isDarkMode, setIsDarkMode] = useState(document.body.classList.contains("dark"));
     const search = {
-        white: "/photo_icons/For_setting/White_Search.png",
-        black: "/photo_icons/For_setting/Gray_Search.png"
+        white: "/photo_icons/search_white.png",
+        black: "/photo_icons/search_black.png"
     }
     const [searchQuery, setSearchQuery] = useState("");
     const [isSearchFocused, setIsSearchFocused] = useState(false);
@@ -41,12 +43,12 @@ function Preferences() {
     };
 
     const categories = [
-        { name: "Profile", path: "/Setting/Profile", black: "/photo_icons/For_setting/UserMaleBlack.png", blue: "/photo_icons/For_setting/UserMaleBlue.png" },
-        { name: "Security", path: "/Setting/Security", black: "/photo_icons/For_setting/SecrityBlack.png", blue: "/photo_icons/For_setting/SecrityBlue.png" },
+        { name: "Profile", path: "/Setting/Profile", black: "/photo_icons/For_setting/UserMaleBlack.png", white: "/photo_icons/For_setting/UserMaleWhite.png", blue: "/photo_icons/For_setting/UserMaleBlue.png" },
+        { name: "Security", path: "/Setting/Security", black: "/photo_icons/For_setting/SecrityBlack.png", white: "/photo_icons/For_setting/SecrityWhite.png", blue: "/photo_icons/For_setting/SecrityBlue.png" },
         { name: "Preferences", path: "/Setting/Preferences", black: "/photo_icons/For_setting/PreferencesBlack.png", blue: "/photo_icons/For_setting/PreferencesBlue.png" },
-        { name: "Privacy", path: "/Setting/Privacy", black: "/photo_icons/For_setting/PrivacyBlack.png", blue: "/photo_icons/For_setting/PrivacyBlue.png" },
-        { name: "Notification", path: "/Setting/Notification", black: "/photo_icons/For_setting/NotificationBlack.png", blue: "/photo_icons/For_setting/NotificationBlue.png" },
-        { name: "Payment", path: "/Setting/Payment", black: "/photo_icons/For_setting/PaymentBlack.png", blue: "/photo_icons/For_setting/PaymentBlue.png" },
+        { name: "Privacy", path: "/Setting/Privacy", black: "/photo_icons/For_setting/PrivacyBlack.png", white: "/photo_icons/For_setting/PrivacyWhite.png", blue: "/photo_icons/For_setting/PrivacyBlue.png" },
+        { name: "Notification", path: "/Setting/Notification", black: "/photo_icons/For_setting/NotificationBlack.png", white: "/photo_icons/For_setting/NotificationWhite.png", blue: "/photo_icons/For_setting/NotificationBlue.png" },
+        { name: "Payment", path: "/Setting/Payment", black: "/photo_icons/For_setting/PaymentBlack.png", white: "/photo_icons/For_setting/PaymentWhite.png", blue: "/photo_icons/For_setting/PaymentBlue.png" },
     ];
     const language = {
         english: "/Photo/US_America.jpg",
@@ -67,6 +69,48 @@ function Preferences() {
         dark: "/photo_icons/For_setting/dark_mode.png",
         system: "/photo_icons/For_setting/system_mode.png",
     }
+    useEffect(() => {
+        const root = document.documentElement;
+        if (themeChange === 'light') {
+            root.classList.remove('dark');
+            root.classList.add('light');
+        }
+        else if (themeChange === 'dark') {
+            root.classList.remove('light');
+            root.classList.add('dark');
+        }
+        else if (themeChange === 'system') {
+            const isDarkMode = window.matchMedia('(prefers-color-scheme: dark)').matches;
+            root.classList.remove('light', 'dark');
+            if (isDarkMode) {
+                root.classList.add('dark');
+            }
+            else {
+                root.classList.add('light');
+            }
+        }
+    }, [themeChange]);
+
+    useEffect(() => {
+        const updateThemeState = () => {
+            setIsDarkMode(document.documentElement.classList.contains("dark"));
+        };
+        updateThemeState();
+
+        const observer = new MutationObserver(updateThemeState);
+        observer.observe(document.documentElement, { attributes: true, attributeFilter: ["class"] });
+
+        return () => observer.disconnect();
+    }, []);
+    const [textsize, setTextsize] = useState("medium");
+    const textSizes = {
+        small: "12px",
+        medium: "16px",
+        large: "20px"
+    }
+    useEffect(() => {
+        document.documentElement.style.fontSize = textSizes[textsize];
+    }, [textsize])
     return (
         <div className="edit-profile-container">
             <nav className="breadcrumbs-nav">
@@ -94,7 +138,7 @@ function Preferences() {
                 <div className="header_setting">
                     <p>{t('setting.header', 'Settings')}</p>
                     <div className="search_page_setting">
-                        <img src={search.black}
+                        <img src={isDarkMode ? search.white : search.black}
                             alt="search" className="setting-search-icon" />
                         <input type="search" placeholder={t('setting.search', 'Search settings')} />
 
@@ -108,16 +152,17 @@ function Preferences() {
                             <Link
                                 to={category.path}
                                 key={index}
-                                className="category-tag"
+                                className={`category-tag ${isActive ? 'active' : ''}`}
                                 onMouseEnter={() => setHovered(index)}
                                 onMouseLeave={() => setHovered(null)}
-                                style={isActive || isHovered ? { backgroundColor: "rgba(0, 137, 234, 0.20)" } : { backgroundColor: "#FFFFFF" }}
+                                style={isActive || isHovered ? { backgroundColor: isDarkMode ? "rgba(0, 137, 234, 0.35)" : "rgba(0, 137, 234, 0.20)" } : { backgroundColor: isDarkMode ? "#141414" : "#FFFFFF" }}
                             >
                                 <img
-                                    src={isActive || isHovered ? category.blue : category.black}
+                                    src={isActive || isHovered ? category.blue : (isDarkMode ? (category.white || category.black) : category.black)}
                                     alt={category.name}
+                                    style={(!isActive && !isHovered && isDarkMode && !category.white) ? { filter: "brightness(0) invert(1)" } : {}}
                                 />
-                                <p style={isActive || isHovered ? { color: "#0089EA" } : { color: "#000000" }}>
+                                <p style={isActive || isHovered ? { color: "#0089EA" } : { color: isDarkMode ? "#F0F0F0" : "#000000" }}>
                                     {t(`setting.${category.name.toLowerCase()}`, category.name)}
                                 </p>
                             </Link>
@@ -160,11 +205,13 @@ function Preferences() {
                                     <h4>{t('setting.theme', 'Theme')}</h4>
                                 </div>
                                 <div className="select-wrapper">
-                                    <span className="select-icon"><img src={theme[themeChange]} alt="theme" /></span>
+                                    <span className="select-icon">
+                                        <img src={theme[themeChange]} alt="theme" />
+                                    </span>
                                     <select value={themeChange} onChange={(e) => setThemeChange(e.target.value)}>
-                                        <option value={"light"}>{t('setting.light', 'Light Mode')}</option>
-                                        <option value={"dark"}>{t('setting.dark', 'Dark Mode')}</option>
-                                        <option value={"system"}>{t('setting.system', 'System Mode')}</option>
+                                        <option value="light">{t('setting.light', 'Light Mode')}</option>
+                                        <option value="dark">{t('setting.dark', 'Dark Mode')}</option>
+                                        <option value="system">{t('setting.system', 'System Mode')}</option>
                                     </select>
                                 </div>
                             </div>
@@ -189,11 +236,11 @@ function Preferences() {
                                     <h4>{t('setting.text_size', 'Text Size')}</h4>
                                 </div>
                                 <div className="select-wrapper">
-                                    <span className="select-icon" style={{ fontWeight: 'bold', fontFamily: 'serif' }}>Tt</span>
-                                    <select>
-                                        <option>{t('setting.small', 'Small')}</option>
-                                        <option>{t('setting.medium', 'Medium')}</option>
-                                        <option>{t('setting.large', 'Large')}</option>
+                                    <span className="select-icon" style={{ fontWeight: 'bold', fontFamily: 'serif' }}><p>Tt</p></span>
+                                    <select value={textsize} onChange={(e) => setTextsize(e.target.value)}>
+                                        <option value="small">{t('setting.small', 'Small')}</option>
+                                        <option value="medium">{t('setting.medium', 'Medium')}</option>
+                                        <option value="large">{t('setting.large', 'Large')}</option>
                                     </select>
                                 </div>
                             </div>

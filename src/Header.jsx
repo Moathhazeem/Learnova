@@ -42,6 +42,7 @@ function Header() {
   }, [])
 
   const [isNotificationOpen, setIsNotificationOpen] = useState(false);
+  const [isDarkMode, setIsDarkMode] = useState(document.body.classList.contains("dark"));
   const notificationRef = useRef(null);
   const toggleNotification = () => {
     setIsNotificationOpen(!isNotificationOpen);
@@ -58,6 +59,18 @@ function Header() {
       document.removeEventListener("mousedown", handleClickOutside);
     }
   }, [])
+
+  useEffect(() => {
+    const updateThemeState = () => {
+      setIsDarkMode(document.body.classList.contains("dark"));
+    };
+    updateThemeState();
+
+    const observer = new MutationObserver(updateThemeState);
+    observer.observe(document.body, { attributes: true, attributeFilter: ["class"] });
+
+    return () => observer.disconnect();
+  }, []);
   return (
     <>
 
@@ -72,19 +85,29 @@ function Header() {
           ) : (
             <div className="account-wrapper">
               <div className="account">
-                <img src="/photo_icons/account.png" alt="Account icon" onClick={toggleMenu} />
-                <img src="/photo_icons/notification.png" alt="Notification icon" onClick={toggleNotification} />
+                <img
+                  src={isDarkMode ? "photo_icons/account_white.png" : "/photo_icons/account.png"}
+                  alt="Account icon"
+                  className={isDarkMode ? "header-account-icon dark" : "header-account-icon"}
+                  onClick={toggleMenu}
+                />
+                <img
+                  src={isDarkMode ? "/photo_icons/notification_white.png" : "/photo_icons/notification.png"}
+                  alt="Notification icon"
+                  className={isDarkMode ? "header-notification-icon-dark" : "header-notification-icon"}
+                  onClick={toggleNotification}
+                />
               </div>
               {isOpen && (
                 <div className="Menu" ref={menuRef}>
                   <ul style={{ listStyleType: "none", padding: "0", margin: "0" }}>
-                    <li style={{ padding: "8px 0", cursor: "pointer" }} onClick={() => Navigate("/Setting/Profile")}>Profile</li>
-                    <li style={{ padding: "8px 0", cursor: "pointer" }} onClick={() => Navigate("/My learning")}>My learning</li>
-                    <li style={{ padding: "8px 0", cursor: "pointer" }} onClick={() => Navigate("/My Purchases")}>My Purchases</li>
-                    <li style={{ padding: "8px 0", cursor: "pointer" }} onClick={() => Navigate("/Explore")}>Explore</li>
-                    <li style={{ padding: "8px 0", cursor: "pointer" }} onClick={() => Navigate("/Setting/Profile")}>Settings</li>
-                    <li style={{ padding: "8px 0", cursor: "pointer" }} onClick={() => Navigate("/Help center")}>Help center</li>
-                    <li style={{ padding: "8px 0", cursor: "pointer" }}>Logout</li>
+                    <li style={{ padding: "8px 0", cursor: "pointer" }} onClick={() => Navigate("/Setting/Profile")}>{t("setting.profile", "Profile")}</li>
+                    <li style={{ padding: "8px 0", cursor: "pointer" }} onClick={() => Navigate("/My learning")}>{t("setting.my_learning", "My Learning")}</li>
+                    <li style={{ padding: "8px 0", cursor: "pointer" }} onClick={() => Navigate("/My Purchases")}>{t("setting.my_purchases", "My Purchases")}</li>
+                    <li style={{ padding: "8px 0", cursor: "pointer" }} onClick={() => Navigate("/Explore")}>{t("setting.explore", "Explore")}</li>
+                    <li style={{ padding: "8px 0", cursor: "pointer" }} onClick={() => Navigate("/Setting/Profile")}>{t("setting.settings", "Settings")}</li>
+                    <li style={{ padding: "8px 0", cursor: "pointer" }} onClick={() => Navigate("/Help center")}>{t("setting.help_center", "Help Center")}</li>
+                    <li style={{ padding: "8px 0", cursor: "pointer" }}>{t("setting.logout", "Logout")}</li>
                   </ul>
                 </div>
               )}
@@ -92,8 +115,8 @@ function Header() {
               {isNotificationOpen && (
                 <div className="notification-panel" ref={notificationRef}>
                   <div className="notification-header">
-                    <h3>Notifications</h3>
-                    <button className="mark-as-read">Mark all as read</button>
+                    <h3>{t("setting.notification", "Notifications")}</h3>
+                    <button className="mark-as-read">{t("setting.mark_all_as_read", "Mark all as read")}</button>
                   </div>
                   <div className="notification-list">
                     <div className="notification-item unread">
@@ -108,7 +131,7 @@ function Header() {
                     </div>
                     <div className="notification-item">
                       <div className="noti-icon-container">
-                        <img src="/photo_icons/account.png" alt="account" className="noti-icon" />
+                        <img src="/photo_icons/account.png" alt="account" className="noti-icon" style={{ filter: isDarkMode ? "none" : "brightness(0) invert(1)" }} />
                       </div>
                       <div className="noti-content">
                         <p className="noti-text">You've completed <strong>"Advanced CSS Layouts"</strong>.</p>
@@ -127,10 +150,14 @@ function Header() {
                     </div>
                   </div>
                   <div className="notification-footer">
-                    <button className="view-all-btn" onClick={() => Navigate("/Setting/Notification")}>View all</button>
+                    <button className="view-all-btn" onClick={() => Navigate("/Setting/Notification")}>{t("setting.view_all", "View all")}</button>
                     <button className="noti-settings-btn" onClick={() => Navigate("/Setting/Notification")}>
-                      <img src="/photo_icons/For_setting/PreferencesBlack.png" alt="settings" />
-                      Notification Settings
+                      <img
+                        src="/photo_icons/For_setting/PreferencesBlack.png"
+                        alt="settings"
+                        className={isDarkMode ? "noti-settings-icon dark" : "noti-settings-icon"}
+                      />
+                      {t("setting.notification_settings", "Notification Settings")}
                     </button>
                   </div>
                 </div>
@@ -151,7 +178,7 @@ function Header() {
               onChange={handleSearch}
             />
             <div className="search-icon">
-              <img src="/photo_icons/search.png" alt="Search icon" />
+              <img src={isDarkMode ? "/photo_icons/search_white.png" : "/photo_icons/search.png"} alt="Search icon" />
             </div>
           </div>
 

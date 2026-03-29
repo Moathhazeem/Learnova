@@ -1,3 +1,468 @@
+/* ============================================
+   THEME VARIABLES — Light / Dark
+   ============================================ */
+:root {
+    --bg-color: #ffffff;
+    --bg-secondary: #f9fafb;
+    --bg-card: #ffffff;
+    --text-primary: #000000;
+    --text-secondary: #666363;
+    --text-muted: #9ca3af;
+    --border-color: #e5e7eb;
+    --input-bg: #ffffff;
+    --input-text: #4b5563;
+    --select-bg: #ffffff;
+    --select-text: #000000;
+    --chip-bg: #ffffff;
+    --chip-text: #4b5563;
+    --chip-border: #e5e7eb;
+    --chip-hover-bg: #f3f4f6;
+    --panel-shadow: rgba(0, 0, 0, 0.08);
+    --header-bg: #ffffff;
+    --nav-bg: #ffffff;
+    --nav-text: #666363;
+    --slider-bg: #d1d5db;
+    --font-size: 16px;
+}
+
+.light {
+    --bg-color: #ffffff;
+    --bg-secondary: #f9fafb;
+    --bg-card: #ffffff;
+    --text-primary: #000000;
+    --text-secondary: #666363;
+    --text-muted: #9ca3af;
+    --border-color: #e5e7eb;
+    --input-bg: #ffffff;
+    --input-text: #4b5563;
+    --select-bg: #ffffff;
+    --select-text: #000000;
+    --chip-bg: #ffffff;
+    --chip-text: #4b5563;
+    --chip-border: #e5e7eb;
+    --chip-hover-bg: #f3f4f6;
+    --panel-shadow: rgba(0, 0, 0, 0.08);
+    --header-bg: #ffffff;
+    --nav-bg: #ffffff;
+    --nav-text: #666363;
+    --slider-bg: #d1d5db;
+}
+
+.dark {
+    --bg-color: #0f0f0f;
+    --bg-secondary: #1a1a1a;
+    --bg-card: #1e1e1e;
+    --text-primary: #f0f0f0;
+    --text-secondary: #a0a0a0;
+    --text-muted: #666666;
+    --border-color: #2e2e2e;
+    --input-bg: #1e1e1e;
+    --input-text: #c0c0c0;
+    --select-bg: #1e1e1e;
+    --select-text: #f0f0f0;
+    --chip-bg: #1e1e1e;
+    --chip-text: #c0c0c0;
+    --chip-border: #2e2e2e;
+    --chip-hover-bg: #2a2a2a;
+    --panel-shadow: rgba(0, 0, 0, 0.4);
+    --header-bg: #141414;
+    --nav-bg: #141414;
+    --nav-text: #a0a0a0;
+    --slider-bg: #3a3a3a;
+}
+
+/* Apply theme to html and body */
+html {
+    background-color: var(--bg-color);
+    transition: background-color 0.3s ease;
+}
+
+body {
+    background-color: var(--bg-color);
+    color: var(--text-primary);
+    transition: background-color 0.3s ease, color 0.3s ease;
+    /* font-size will be inherited from html */
+}
+
+.dark .breadcrumbs-nav a,
+.dark .breadcrumbs-nav span.current-page {
+    color: var(--text-primary) !important;
+}
+
+/* Header bar */
+.dark header {
+    background-color: var(--header-bg) !important;
+    border-bottom-color: var(--border-color) !important;
+}
+
+.dark .nav-links a {
+    color: var(--nav-text) !important;
+}
+
+.dark .search-container input {
+    background-color: var(--input-bg) !important;
+    border-color: var(--border-color) !important;
+    color: var(--input-text) !important;
+}
+
+.dark .search-container input::placeholder {
+    color: var(--text-muted) !important;
+}
+
+/* Settings page wrapper */
+.dark .edit-profile-container {
+    background-color: var(--bg-color);
+}
+
+/* Settings header title */
+.dark .header_setting p {
+    color: var(--text-primary) !important;
+}
+
+/* Settings search input */
+.dark .search_page_setting input {
+    background-color: var(--input-bg) !important;
+    border-color: var(--border-color) !important;
+    color: var(--input-text) !important;
+}
+
+.dark .search_page_setting input::placeholder {
+    color: var(--text-muted) !important;
+}
+
+/* Category navigation tabs */
+.dark .category-tag {
+    background-color: var(--nav-bg);
+    border-color: var(--border-color);
+}
+
+.dark .category-tag:hover,
+.dark .category-tag.active {
+    background-color: rgba(0, 137, 234, 0.20) !important;
+    border-color: rgba(0, 137, 234, 0.20) !important;
+}
+
+.dark .category-tag p {
+    color: var(--text-primary) !important;
+}
+
+.dark .search_page_setting input::placeholder {
+    color: var(--text-primary) !important;
+}
+
+.dark .select-icon p {
+    color: var(--text-primary) !important;
+}
+
+/* Preferences sections */
+.dark .pref-section-header h3 {
+    color: var(--text-primary) !important;
+}
+
+.dark .pref-section-header p {
+    color: var(--text-secondary) !important;
+}
+
+.dark .pref-info h4 {
+    color: var(--text-primary) !important;
+}
+
+.dark .pref-info p {
+    color: var(--text-secondary) !important;
+}
+
+/* Select dropdowns */
+.dark .select-wrapper select {
+    background-color: var(--select-bg) !important;
+    color: var(--select-text) !important;
+    border-color: var(--border-color) !important;
+}
+
+.dark .select-wrapper select option {
+    background-color: var(--select-bg);
+    color: var(--select-text);
+}
+
+.dark .select-wrapper::after {
+    border-right-color: var(--text-secondary) !important;
+    border-bottom-color: var(--text-secondary) !important;
+}
+
+/* Toggle sliders */
+.dark .pref-slider {
+    background-color: var(--slider-bg) !important;
+}
+
+/* Chips */
+.dark .pref-chip {
+    background-color: var(--chip-bg) !important;
+    color: var(--chip-text) !important;
+    border-color: var(--chip-border) !important;
+}
+
+.dark .pref-chip:hover {
+    background-color: var(--chip-hover-bg) !important;
+}
+
+.dark .pref-chip.active {
+    background-color: #0089EA !important;
+    color: white !important;
+    border-color: #0089EA !important;
+}
+
+/* Profile menu popup */
+.dark .Menu {
+    background-color: var(--bg-card) !important;
+    border-color: var(--border-color) !important;
+}
+
+.dark .Menu li {
+    color: var(--text-primary) !important;
+}
+
+/* Notification panel */
+.dark .notification-panel {
+    background-color: var(--bg-card) !important;
+    border-color: var(--border-color) !important;
+}
+
+.dark .notification-header {
+    border-bottom-color: var(--border-color) !important;
+}
+
+.dark .notification-header h3 {
+    color: var(--text-primary) !important;
+}
+
+.dark .notification-item {
+    border-bottom-color: var(--border-color) !important;
+}
+
+.dark .notification-item:hover {
+    background-color: var(--bg-secondary) !important;
+}
+
+.dark .notification-item.unread {
+    background-color: rgba(0, 137, 234, 0.08) !important;
+}
+
+.dark .noti-text {
+    color: var(--text-secondary) !important;
+}
+
+.dark .noti-text strong {
+    color: var(--text-primary) !important;
+}
+
+.dark .noti-time {
+    color: var(--text-muted) !important;
+}
+
+.dark .noti-icon-container {
+    background-color: rgba(0, 137, 234, 0.12) !important;
+}
+
+.dark .notification-footer {
+    background-color: var(--bg-secondary) !important;
+    border-top-color: var(--border-color) !important;
+}
+
+.dark .noti-settings-btn {
+    color: var(--text-secondary) !important;
+}
+
+.dark .noti-settings-btn:hover {
+    background-color: var(--bg-secondary) !important;
+    color: var(--text-primary) !important;
+}
+
+/* Breadcrumbs */
+.dark .Breadcrumbs {
+    color: var(--text-secondary) !important;
+}
+
+.dark .breadcrumb-separator {
+    color: var(--text-muted) !important;
+}
+
+.dark .current-page {
+    color: var(--text-primary) !important;
+}
+
+/* ============================================
+   HEADER — Dark Mode
+   ============================================ */
+.dark header {
+    background-color: var(--header-bg) !important;
+    border-bottom-color: var(--border-color) !important;
+}
+
+.dark header p {
+    color: var(--text-primary) !important;
+}
+
+.dark header a {
+    color: var(--text-primary) !important;
+}
+
+.dark .logo a {
+    color: #0089EA !important;
+}
+
+.dark .nav-links a {
+    color: var(--nav-text) !important;
+}
+
+.dark .nav-links a:hover {
+    color: #0089EA !important;
+}
+
+.dark .search-container input {
+    background-color: var(--input-bg) !important;
+    border-color: var(--border-color) !important;
+    color: var(--input-text) !important;
+}
+
+.dark .search-container input::placeholder {
+    color: var(--text-muted) !important;
+}
+
+.dark .search-icon {
+    background-color: #0089EA !important;
+}
+
+.dark .Menu {
+    background-color: var(--bg-card) !important;
+    border-color: var(--border-color) !important;
+    box-shadow: 0 8px 30px var(--panel-shadow) !important;
+}
+
+.dark .Menu li {
+    color: var(--text-primary) !important;
+    border-bottom-color: transparent !important;
+}
+
+.dark .Menu li:hover {
+    color: #0089EA !important;
+    border-bottom-color: #0089EA !important;
+}
+
+.dark .sign-up {
+    background-color: var(--bg-card) !important;
+    color: var(--text-primary) !important;
+    border-color: var(--border-color) !important;
+}
+
+.dark .sign-up:hover {
+    color: #0089EA !important;
+    border-color: #0089EA !important;
+}
+
+/* Notification Panel */
+.dark .notification-panel {
+    background-color: var(--bg-card) !important;
+    border-color: var(--border-color) !important;
+    box-shadow: 0 15px 40px var(--panel-shadow) !important;
+}
+
+.dark .notification-header {
+    border-bottom-color: var(--border-color) !important;
+}
+
+.dark .notification-header h3 {
+    color: var(--text-primary) !important;
+}
+
+.dark .notification-item {
+    border-bottom-color: var(--border-color) !important;
+}
+
+.dark .notification-item:hover {
+    background-color: var(--bg-secondary) !important;
+}
+
+.dark .notification-item.unread {
+    background-color: rgba(0, 137, 234, 0.08) !important;
+}
+
+.dark .noti-icon-container {
+    background-color: rgba(0, 137, 234, 0.15) !important;
+}
+
+.dark .noti-text {
+    color: var(--text-secondary) !important;
+}
+
+.dark .noti-text strong {
+    color: var(--text-primary) !important;
+}
+
+.dark .noti-time {
+    color: var(--text-muted) !important;
+}
+
+.dark .notification-footer {
+    background-color: var(--bg-secondary) !important;
+    border-top-color: var(--border-color) !important;
+}
+
+.dark .noti-settings-btn {
+    color: var(--text-secondary) !important;
+}
+
+.dark .noti-settings-btn:hover {
+    background-color: rgba(255, 255, 255, 0.06) !important;
+    color: var(--text-primary) !important;
+}
+
+/* ============================================
+   FOOTER — Dark Mode
+   ============================================ */
+.dark .footer {
+    background-color: var(--bg-secondary) !important;
+    border-top-color: var(--border-color) !important;
+}
+
+.dark .footer-top ul li a {
+    color: var(--text-secondary) !important;
+}
+
+.dark .footer-top ul li a:hover {
+    color: #0089EA !important;
+}
+
+.dark .list_title {
+    color: var(--text-primary) !important;
+}
+
+.dark .footer-bottom {
+    border-top-color: var(--border-color) !important;
+}
+
+.dark .documentation {
+    color: var(--text-muted) !important;
+}
+
+.dark .social-icons img {
+    filter: invert(1) opacity(0.7);
+}
+
+.dark .social-icons img:hover {
+    filter: invert(1) opacity(1);
+}
+
+/* Store buttons stay dark (they're already black) — adjust for dark bg */
+.dark .store-button {
+    background-color: var(--bg-card) !important;
+    border: 1px solid var(--border-color);
+}
+
+.dark .store-button .button-text,
+.dark .store-button .top-text,
+.dark .store-button .bottom-text {
+    color: var(--text-primary) !important;
+}
+
 .Setting {
     padding: 53px 0px 0px 0px;
 }
@@ -11,7 +476,8 @@
 }
 
 .header_setting p {
-    font-size: 50px;
+    font-size: 3.125rem;
+    /* ~50px scaleable */
     margin-bottom: 10px;
     font-weight: bold;
     color: #000000;
@@ -88,7 +554,8 @@
 }
 
 .pref-section-header h3 {
-    font-size: 24px;
+    font-size: 1.5rem;
+    /* ~24px scaleable */
     font-weight: 700;
     color: #000;
     margin: 0;
@@ -122,7 +589,8 @@
 }
 
 .pref-info h4 {
-    font-size: 16px;
+    font-size: 1rem;
+    /* ~16px scaleable */
     font-weight: 600;
     color: #000;
     margin: 0;
@@ -272,7 +740,8 @@ html[dir="rtl"] input:checked+.pref-slider:before {
     border: 1px solid #E5E7EB;
     background-color: #ffffff;
     color: #4B5563;
-    font-size: 14px;
+    font-size: 0.875rem;
+    /* ~14px scaleable */
     font-weight: 500;
     cursor: pointer;
     transition: all 0.2s;
@@ -322,6 +791,7 @@ html[dir="rtl"] input:checked+.pref-slider:before {
 
 .category-tag p {
     margin: 0;
-    font-size: 14px;
+    font-size: 0.875rem;
+    /* ~14px scaleable */
     font-weight: 600;
 }
