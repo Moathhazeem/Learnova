@@ -29,7 +29,9 @@ function Privacy() {
     ];
     const [isOn, setIsOn] = useState(false);
     const [isOff, setIsOff] = useState(false);
-    const [switchs, setSwitchs] = useState([false, false, false]);
+    const [switchs, setSwitchs] = useState([false, false, false, false, false, false, false]);
+    const danger_zone = "/photo_icons/For_setting/danger_zone.png"; // Assuming this path exists or matches the pattern
+
     const toggleSwitch = (index) => {
         setSwitchs(prev => prev.map((item, i) => i === index ? !item : item));
     }
@@ -106,6 +108,7 @@ function Privacy() {
                     })}
                 </div>
             </div>
+
             <div className="Privacy_content">
                 <div className="Privacy_visiblity">
                     <div className="Privacy_visiblity_header">
@@ -133,6 +136,7 @@ function Privacy() {
                         </div>
                     </div>
                 </div>
+
                 <div className="Activity_status">
                     <div className="Activity_status_header">
                         <h3>{t('setting.activity_status', 'Activity Status')}</h3>
@@ -179,10 +183,86 @@ function Privacy() {
                         </div>
                     </div>
                 </div>
+
+                <div className="Data_sharing">
+                    <div className="Data_sharing_header">
+                        <h3>{t('setting.data_sharing', 'Data Sharing')}</h3>
+                        <p>{t('setting.data_sharing_description', 'Manage permissions for third-party integrations.')}</p>
+                    </div>
+                    <div className="Data_sharing_body">
+                        <div className="Data_sharing_option">
+                            <div className="Data_sharing_option_left">
+                                <div className="Data_sharing_option_text">
+                                    <h5>{t('setting.Learnova', 'Learnova')}</h5>
+                                    <p>{t('setting.Learnova_description', 'Allow Learnova to show your profile.')}</p>
+                                </div>
+                            </div>
+                            <div className={`switch ${switchs[3] ? "on" : ""}`} onClick={() => toggleSwitch(3)}>
+                                <div className="circle"></div>
+                            </div>
+                        </div>
+                        <div className="Data_sharing_option">
+                            <div className="Data_sharing_option_left">
+                                <div className="Data_sharing_option_text">
+                                    <h5>{t('setting.LinkedIn', 'LinkedIn')}</h5>
+                                    <p>{t('setting.LinkedIn_description', 'Share certificates automatically.')}</p>
+                                </div>
+                            </div>
+                            <div className={`switch ${switchs[4] ? "on" : ""}`} onClick={() => toggleSwitch(4)}>
+                                <div className="circle"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div className="Danger_zone">
+                    <div className="Danger_zone_header">
+                        <img src="/photo_icons/For_setting/danger.png" alt="Danger Zone"
+                            className="danger-icon" />
+                        <div className="danger-icon-container">
+                            <h3>{t('setting.danger_zone', 'Danger Zone')}</h3>
+                            <p>{t('setting.danger_zone_description', 'Irreversible actions related to your account and data.')}</p>
+                        </div>
+                    </div>
+                    <div className="Danger_zone_body">
+                        <div className="Danger_zone_option">
+                            <div className="Danger_zone_option_left">
+                                <img src="/photo_icons/For_setting/download_black.png" alt="Download Data"
+                                    style={isDarkMode ? { filter: "brightness(0) invert(1)" } : {}} />
+                                <div className="Danger_zone_option_text">
+                                    <h5>{t('setting.Download_Data', 'Download Data')}</h5>
+                                    <p>{t('setting.Download_Data_description', 'Request a copy of your personal data, including course history.')}</p>
+                                </div>
+                            </div>
+                            <button className="Danger_zone_button_white">
+                                <img src="/photo_icons/For_setting/download_black2.png" alt="" />
+                                {t('setting.Download_Data', 'Download Data')}
+                            </button>
+                        </div>
+                        <div className="Danger_zone_option">
+                            <div className="Danger_zone_option_left">
+                                <img src="/photo_icons/For_setting/delete.png" alt="Delete Account" />
+                                <div className="Danger_zone_option_text">
+                                    <h5 style={{ color: "#FF4D4D" }}>{t('setting.Delete_Account', 'Delete Account')}</h5>
+                                    <p>{t('setting.Delete_Account_description', 'Permanently remove your account and all data.')}</p>
+                                </div>
+                            </div>
+                            <button className="Danger_zone_button_red">
+                                <img src="/photo_icons/For_setting/delete2.png" alt="" />
+                                {t('setting.Delete_Account', 'Delete Account')}
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div className="page_actions_footer">
+                <button className="btn_save">{t('setting.save', 'Save')}</button>
+                <button className="btn_reset">{t('setting.reset', 'Reset')}</button>
+                <button className="btn_cancel">{t('setting.cancel', 'Cancel')}</button>
             </div>
         </div>
     );
 }
-
 
 export default Privacy;
