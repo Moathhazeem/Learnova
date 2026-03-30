@@ -1,0 +1,198 @@
+/* Main Container */
+.edit-profile-container {
+    margin-top: 100px;
+    padding: 20px 60px;
+    font-family: 'Inter', 'Outfit', sans-serif;
+}
+
+/* Breadcrumbs */
+.breadcrumbs-nav {
+    display: flex;
+    align-items: center;
+    gap: 0;
+    margin-bottom: 20px;
+}
+
+.Breadcrumbs,
+.breadcrumb-separator {
+    color: #0089EA;
+    font-size: 14px;
+    text-decoration: none;
+}
+
+.breadcrumb-separator {
+    margin: 0 10px;
+}
+
+.current-page {
+    color: #0089EA;
+    font-weight: 600;
+    font-size: 14px;
+}
+
+/* Settings Layout */
+.Setting {
+    padding-top: 50px;
+}
+
+.header_setting {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 30px;
+}
+
+.header_setting p {
+    font-size: 40px;
+    font-weight: 700;
+    margin: 0;
+    color: #000;
+}
+
+.search_page_setting {
+    position: relative;
+    width: 280px;
+}
+
+.search_page_setting input {
+    width: 100%;
+    padding: 10px 40px;
+    border-radius: 25px;
+    border: 1px solid #D1D5DB;
+    outline: none;
+}
+
+.setting-search-icon {
+    position: absolute;
+    left: 15px;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 18px;
+    opacity: 0.5;
+}
+
+.Setting_option {
+    display: flex;
+    gap: 15px;
+    margin-bottom: 40px;
+    flex-wrap: wrap;
+}
+
+.category-tag {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 8px 16px;
+    border-radius: 20px;
+    text-decoration: none;
+    transition: all 0.2s;
+}
+
+.category-tag img {
+    width: 18px;
+    height: 18px;
+}
+
+.category-tag p {
+    margin: 0;
+    font-size: 14px;
+    font-weight: 500;
+}
+
+.notification_header_left {
+    display: flex;
+    align-items: center;
+    direction: row;
+    gap: 10px;
+}
+
+.notification_header_left img {
+    width: 40px;
+    height: 40px;
+}
+
+.notification_header_left p {
+    font-size: 30px;
+    font-weight: bold;
+    color: #000000;
+}
+
+/* Switch Component */
+.switch {
+    width: 46px;
+    height: 24px;
+    background-color: #E5E7EB;
+    border-radius: 20px;
+    padding: 2px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    display: flex;
+    align-items: center;
+    flex-shrink: 0;
+}
+
+.switch.on {
+    background-color: #0089EA;
+}
+
+.switch .circle {
+    width: 20px;
+    height: 20px;
+    background-color: white;
+    border-radius: 50%;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+}
+
+.switch.on .circle {
+    transform: translateX(22px);
+}
+
+html[dir="rtl"] .switch.on .circle {
+    transform: translateX(-22px);
+}
+
+.notification_content {
+    display: flex;
+    flex-direction: column;
+    gap: 60px;
+}
+
+.notification_content .Disturb_content {
+    display: flex;
+    flex-direction: row;
+    gap: 10px;
+    margin-bottom: 20px;
+}
+
+.Disturb_content img {
+    width: 30px;
+    height: 30px;
+}
+
+.Disturb_content_right {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+}
+
+.Disturb_content_left {
+    display: flex;
+    flex-direction: row;
+    gap: 19px;
+    width: 30%;
+
+}
+
+.Disturb_content_right h4 {
+    font-size: 20px;
+    font-weight: 600;
+    color: #000000;
+}
+
+
+.Disturb_content_right p {
+    font-size: 16px;
+    font-weight: 500;
+    color: #666363;
+}

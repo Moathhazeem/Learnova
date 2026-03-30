@@ -118,21 +118,27 @@ function Privacy() {
                     <div className="Privacy_visiblity_body">
                         <div className="Privacy_visiblity_option">
                             <input type="radio" name="privacy" id="public" defaultChecked />
-                            <img src="/photo_icons/For_setting/Globe_black.png" alt="Public"
-                                style={isDarkMode ? { filter: "brightness(0) invert(1)" } : {}} />
-                            <label htmlFor="public">{t('setting.public', 'Public')}</label>
+                            <div className="Privacy_visiblity_option_left">
+                                <img src="/photo_icons/For_setting/Globe_black.png" alt="Public"
+                                    style={isDarkMode ? { filter: "brightness(0) invert(1)" } : {}} />
+                                <label htmlFor="public">{t('setting.public', 'Public')}</label>
+                            </div>
                         </div>
                         <div className="Privacy_visiblity_option">
                             <input type="radio" name="privacy" id="private" />
-                            <img src="/photo_icons/For_setting/private_black.png" alt="Private"
-                                style={isDarkMode ? { filter: "brightness(0) invert(1)" } : {}} />
-                            <label htmlFor="private">{t('setting.private', 'Private')}</label>
+                            <div className="Privacy_visiblity_option_left">
+                                <img src="/photo_icons/For_setting/private_black.png" alt="Private"
+                                    style={isDarkMode ? { filter: "brightness(0) invert(1)" } : {}} />
+                                <label htmlFor="private">{t('setting.private', 'Private')}</label>
+                            </div>
                         </div>
                         <div className="Privacy_visiblity_option">
                             <input type="radio" name="privacy" id="only_me" />
-                            <img src="/photo_icons/For_setting/only_me_black.png" alt="only_me"
-                                style={isDarkMode ? { filter: "brightness(0) invert(1)" } : {}} />
-                            <label htmlFor="only_me">{t('setting.only_me', 'Only me')}</label>
+                            <div className="Privacy_visiblity_option_left">
+                                <img src="/photo_icons/For_setting/only_me_black.png" alt="only_me"
+                                    style={isDarkMode ? { filter: "brightness(0) invert(1)" } : {}} />
+                                <label htmlFor="only_me">{t('setting.only_me', 'Only me')}</label>
+                            </div>
                         </div>
                     </div>
                 </div>

@@ -344,6 +344,11 @@ function Preferences() {
                         </div>
                     </div>
                 </div>
+                <div className="page_actions_footer">
+                    <button className="btn_save">{t('setting.save', 'Save')}</button>
+                    <button className="btn_reset">{t('setting.reset', 'Reset')}</button>
+                    <button className="btn_cancel">{t('setting.cancel', 'Cancel')}</button>
+                </div>
             </div>
         </div>
     );

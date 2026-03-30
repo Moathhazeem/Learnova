@@ -115,6 +115,20 @@
     gap: 20px;
 }
 
+.Privacy_visiblity_header,
+.Activity_status_header,
+.Data_sharing_header {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.Danger_zone_header {
+    display: flex;
+    flex-direction: row;
+    gap: 10px;
+}
+
 .Privacy_visiblity_header h3,
 .Activity_status_header h3,
 .Data_sharing_header h3,
@@ -137,13 +151,48 @@
 /* Shared Option Style */
 .Privacy_visiblity_option,
 .Activity_status_option,
-.Data_sharing_option,
+.Data_sharing_option {
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    direction: column;
+    padding: 15px 0;
+    gap: 20px;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+}
+
 .Danger_zone_option {
     display: flex;
     align-items: center;
-    justify-content: space-between;
+
+    direction: column;
     padding: 15px 0;
+    gap: 20px;
     border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+}
+
+.Privacy_visiblity_option input {
+    width: 18px;
+    height: 18px;
+    cursor: pointer;
+}
+
+.Privacy_visiblity_option_left {
+    display: flex;
+    align-items: center;
+    gap: 7px;
+}
+
+.Privacy_visiblity_option_left label {
+    font-size: 14px;
+    font-weight: 600;
+    margin: 0 0 4px 0;
+    color: #000000;
+}
+
+.Privacy_visiblity_option_left img {
+    width: 25px;
+    height: 25px;
 }
 
 .Danger_zone_option:last-child {
@@ -151,19 +200,30 @@
 }
 
 .Activity_status_option_left,
-.Data_sharing_option_left,
+.Data_sharing_option_left {
+    display: flex;
+    align-items: flex-start;
+    direction: row;
+    gap: 16px;
+    max-width: 555px;
+    width: 100%;
+}
+
 .Danger_zone_option_left {
     display: flex;
     align-items: flex-start;
+    direction: row;
     gap: 16px;
-    max-width: 80%;
+    max-width: 555px;
+    width: 100%;
 }
+
 
 .Activity_status_option_left img,
 .Data_sharing_option_left img,
 .Danger_zone_option_left img {
-    width: 22px;
-    height: 22px;
+    width: 30px;
+    height: 30px;
     margin-top: 2px;
 }
 
@@ -243,7 +303,8 @@ html[dir="rtl"] .switch.on .circle {
 .Danger_zone_button_white,
 .Danger_zone_button_red {
     display: flex;
-    align-items: center;
+    align-items: flex-end;
+    justify-content: flex-end;
     gap: 8px;
     padding: 8px 16px;
     border-radius: 8px;
@@ -258,11 +319,36 @@ html[dir="rtl"] .switch.on .circle {
     color: #333;
 }
 
+.Danger_zone_button_white:hover {
+    border: 1px solid #0089EA;
+    background-color: #0089EA;
+    color: white;
+    cursor: pointer;
+    transform: scale(1.05);
+}
+
+.Danger_zone_button_white:hover img {
+    filter: brightness(0) invert(1);
+}
+
 .Danger_zone_button_red {
     background: #FFF5F5;
     border: 1px solid #FFE4E4;
     color: #FF4D4D;
 }
+
+.Danger_zone_button_red:hover {
+    border: 1px solid #cc0000;
+    background-color: #cc0000;
+    color: white;
+    cursor: pointer;
+    transform: scale(1.05);
+}
+
+.Danger_zone_button_red:hover img {
+    filter: brightness(0) invert(1);
+}
+
 
 .Danger_zone_button_white img,
 .Danger_zone_button_red img {
@@ -273,7 +359,7 @@ html[dir="rtl"] .switch.on .circle {
 /* Footer Actions */
 .page_actions_footer {
     display: flex;
-    justify-content: flex-end;
+    justify-content: center;
     gap: 15px;
     margin-top: 60px;
     padding-top: 30px;
