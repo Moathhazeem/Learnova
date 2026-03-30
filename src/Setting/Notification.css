@@ -163,6 +163,8 @@ html[dir="rtl"] .switch.on .circle {
     flex-direction: row;
     gap: 10px;
     margin-bottom: 20px;
+    align-items: center;
+    max-width: 700px;
 }
 
 .Disturb_content img {
@@ -180,8 +182,7 @@ html[dir="rtl"] .switch.on .circle {
     display: flex;
     flex-direction: row;
     gap: 19px;
-    width: 30%;
-
+    flex: 1;
 }
 
 .Disturb_content_right h4 {
@@ -195,4 +196,67 @@ html[dir="rtl"] .switch.on .circle {
     font-size: 16px;
     font-weight: 500;
     color: #666363;
+}
+
+.Push_Notfifcation_content,
+.Email_Notifications_content {
+    display: flex;
+    flex-direction: row;
+    gap: 10px;
+    margin-bottom: 20px;
+    align-items: center;
+    max-width: 700px;
+}
+
+.Push_Notfifcation_header,
+.Email_Notifications_header {
+    display: flex;
+    flex-direction: row;
+    gap: 10px;
+    margin-bottom: 20px;
+}
+
+.Push_Notfifcation_header img,
+.Email_Notifications_header img {
+    width: 30px;
+    height: 30px;
+}
+
+.Push_Notfifcation_header h4,
+.Email_Notifications_header h4 {
+    font-size: 30px;
+    font-weight: bold;
+    color: #000000;
+}
+
+.Push_Notfifcation_content img,
+.Email_Notifications_content img {
+    width: 30px;
+    height: 30px;
+}
+
+.Push_Notfifcation_content_left,
+.Email_Notifications_content_left {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+}
+
+.Push_Notfifcation_content_left p,
+.Email_Notifications_content_left p {
+    font-size: 20px;
+    font-weight: 600;
+    color: #000000;
+}
+
+.Push_Notfifcation_content_left p:last-child,
+.Email_Notifications_content_left p:last-child {
+    font-size: 16px;
+    font-weight: 500;
+    color: #666363;
+}
+
+.notification_content .switch,
+.Email_Notifications_content .switch {
+    margin-inline-start: auto;
 }

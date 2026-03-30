@@ -132,6 +132,141 @@ function Notification() {
                                 <div className="circle"></div>
                             </div>
                         </div>
+                        <div className="Email_Notifications">
+                            <div className="Email_Notifications_header">
+                                <img src="/photo_icons/For_setting/email_black.png" alt="notification" />
+                                <h4>{t('setting.Email_Notifications_title', 'Email Notifications')}</h4>
+                            </div>
+                            <div className="Email_Notifications_content">
+                                <img src="/photo_icons/For_setting/new_courses.png" alt="notification" />
+                                <div className="Email_Notifications_content_left">
+                                    <p>{t('setting.New Courses', 'New Courses')}</p>
+                                    <p>{t('setting.New Courses Description', 'Get notified when new courses are available')}</p>
+                                </div>
+                                <div className={`switch ${switchs[1] ? "on" : "off"}`} onClick={() => toggleSwitch(1)}>
+                                    <div className="circle"></div>
+                                </div>
+                            </div>
+                            <div className="Email_Notifications_content">
+                                <img src="/photo_icons/For_setting/Course_Updates.png" alt="notification" />
+                                <div className="Email_Notifications_content_left">
+                                    <p>{t('setting.Course Updates', 'Course Updates')}</p>
+                                    <p>{t('setting.Course Updates Description', 'Receive updates when new lessons or courses are available')}</p>
+                                </div>
+                                <div className={`switch ${switchs[2] ? "on" : "off"}`} onClick={() => toggleSwitch(2)}>
+                                    <div className="circle"></div>
+                                </div>
+                            </div>
+                            <div className="Email_Notifications_content">
+                                <img src="/photo_icons/For_setting/Assignment_Deadlines.png" alt="notification" />
+                                <div className="Email_Notifications_content_left">
+                                    <p>{t('setting.Assignment Deadlines', 'Assignment Deadlines')}</p>
+                                    <p>{t('setting.Assignment Deadlines Description', 'Reminders for upcoming assignment deadlines')}</p>
+                                </div>
+                                <div className={`switch ${switchs[3] ? "on" : "off"}`} onClick={() => toggleSwitch(3)}>
+                                    <div className="circle"></div>
+                                </div>
+                            </div>
+                            <div className="Email_Notifications_content">
+                                <img src="/photo_icons/For_setting/Discussion_Replies.png" alt="notification" />
+                                <div className="Email_Notifications_content_left">
+                                    <p>{t('setting.Discussion Replies', 'Discussion Replies')}</p>
+                                    <p>{t('setting.Discussion Replies Description', 'When someone replies to your discussion posts')}</p>
+                                </div>
+                                <div className={`switch ${switchs[4] ? "on" : "off"}`} onClick={() => toggleSwitch(4)}>
+                                    <div className="circle"></div>
+                                </div>
+                            </div>
+                            <div className="Email_Notifications_content">
+                                <img src="/photo_icons/For_setting/Marketing_Promotions.png" alt="notification" />
+                                <div className="Email_Notifications_content_left">
+                                    <p>{t('setting.Marketing & Promotions', 'Marketing & Promotions')}</p>
+                                    <p>{t('setting.Marketing & Promotions Description', 'News about special offers and course recommendations')}</p>
+                                </div>
+                                <div className={`switch ${switchs[5] ? "on" : "off"}`} onClick={() => toggleSwitch(5)}>
+                                    <div className="circle"></div>
+                                </div>
+                            </div>
+                            <div className="Email_Notifications_content">
+                                <img src="/photo_icons/For_setting/Achievements_Certificates.png" alt="notification" />
+                                <div className="Email_Notifications_content_left">
+                                    <p>{t('setting.Achievements & Certificates', 'Achievements & Certificates')}</p>
+                                    <p>{t('setting.Achievements & Certificates Description', 'Be notified when you complete a course or earn a badge')}</p>
+                                </div>
+                                <div className={`switch ${switchs[6] ? "on" : "off"}`} onClick={() => toggleSwitch(6)}>
+                                    <div className="circle"></div>
+                                </div>
+                            </div>
+                        </div>
+
+
+
+                        <div className="Push_Notifications">
+                            <div className="Push_Notfifcation_header">
+                                <img src="/photo_icons/For_setting/Push_Notifications.png" alt="notification" />
+                                <h4>{t('setting.Push_Notifications_title', 'Push Notifications')}</h4>
+                            </div>
+                            <div className="Push_Notfifcation_content">
+                                <img src="/photo_icons/For_setting/new_courses.png" alt="notification" />
+                                <div className="Push_Notfifcation_content_left">
+                                    <p>{t('setting.New Courses', 'New Courses')}</p>
+                                    <p>{t('setting.New Courses Description', 'Get notified when new courses are available')}</p>
+                                </div>
+                                <div className={`switch ${switchs[1] ? "on" : "off"}`} onClick={() => toggleSwitch(1)}>
+                                    <div className="circle"></div>
+                                </div>
+                            </div>
+                            <div className="Push_Notfifcation_content">
+                                <img src="/photo_icons/For_setting/Course_Updates.png" alt="notification" />
+                                <div className="Push_Notfifcation_content_left">
+                                    <p>{t('setting.Course Updates', 'Course Updates')}</p>
+                                    <p>{t('setting.Course Updates Description', 'Receive updates when new lessons or courses are available')}</p>
+                                </div>
+                                <div className={`switch ${switchs[2] ? "on" : "off"}`} onClick={() => toggleSwitch(2)}>
+                                    <div className="circle"></div>
+                                </div>
+                            </div>
+                            <div className="Push_Notfifcation_content">
+                                <img src="/photo_icons/For_setting/Assignment_Deadlines.png" alt="notification" />
+                                <div className="Push_Notfifcation_content_left">
+                                    <p>{t('setting.Assignment Deadlines', 'Assignment Deadlines')}</p>
+                                    <p>{t('setting.Assignment Deadlines Description', 'Reminders for upcoming assignment deadlines')}</p>
+                                </div>
+                                <div className={`switch ${switchs[3] ? "on" : "off"}`} onClick={() => toggleSwitch(3)}>
+                                    <div className="circle"></div>
+                                </div>
+                            </div>
+                            <div className="Push_Notfifcation_content">
+                                <img src="/photo_icons/For_setting/Discussion_Replies.png" alt="notification" />
+                                <div className="Push_Notfifcation_content_left">
+                                    <p>{t('setting.Discussion Replies', 'Discussion Replies')}</p>
+                                    <p>{t('setting.Discussion Replies Description', 'When someone replies to your discussion posts')}</p>
+                                </div>
+                                <div className={`switch ${switchs[4] ? "on" : "off"}`} onClick={() => toggleSwitch(4)}>
+                                    <div className="circle"></div>
+                                </div>
+                            </div>
+                            <div className="Push_Notfifcation_content">
+                                <img src="/photo_icons/For_setting/Marketing_Promotions.png" alt="notification" />
+                                <div className="Push_Notfifcation_content_left">
+                                    <p>{t('setting.Marketing & Promotions', 'Marketing & Promotions')}</p>
+                                    <p>{t('setting.Marketing & Promotions Description', 'News about special offers and course recommendations')}</p>
+                                </div>
+                                <div className={`switch ${switchs[5] ? "on" : "off"}`} onClick={() => toggleSwitch(5)}>
+                                    <div className="circle"></div>
+                                </div>
+                            </div>
+                            <div className="Push_Notfifcation_content">
+                                <img src="/photo_icons/For_setting/Achievements_Certificates.png" alt="notification" />
+                                <div className="Push_Notfifcation_content_left">
+                                    <p>{t('setting.Achievements & Certificates', 'Achievements & Certificates')}</p>
+                                    <p>{t('setting.Achievements & Certificates Description', 'Be notified when you complete a course or earn a badge')}</p>
+                                </div>
+                                <div className={`switch ${switchs[6] ? "on" : "off"}`} onClick={() => toggleSwitch(6)}>
+                                    <div className="circle"></div>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
