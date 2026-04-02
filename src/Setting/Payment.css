@@ -1,0 +1,346 @@
+.payment-container {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.payment-content_header {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: row;
+    gap: 334px;
+
+}
+
+.payment-header {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: flex-start;
+    gap: 14px;
+}
+
+.payment-container h1 {
+    font-size: 30px;
+    font-weight: bold;
+    color: #000000;
+}
+
+.payment-container p {
+    font-size: 16px;
+    font-weight: 500;
+    color: #666363;
+}
+
+.button-payment {
+    width: 200px;
+    height: 50px;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+    padding: 10px;
+    background-color: #0089EA;
+    border-radius: 10px 10px 10px 10px;
+    cursor: pointer;
+}
+
+.button-payment:hover,
+.button-payment:active,
+.button-payment:focus {
+    background-color: #0077CC;
+}
+
+.button-payment img {
+    width: 100%;
+    height: 100%;
+    max-width: 30px;
+    max-height: 30px;
+}
+
+.button-payment button {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: row;
+    gap: 20px;
+    color: white;
+    font-size: 20px;
+    font-weight: 500;
+    border-radius: 10px 10px 10px 10px;
+    border: none;
+    cursor: pointer;
+    background-color: transparent;
+}
+
+.payment-card {
+    width: 900px;
+    height: 100px;
+    display: flex;
+    flex-direction: row;
+    border-radius: 8px;
+    border: 1px solid #E5E5E5;
+    padding: 0 30px;
+    box-sizing: border-box;
+    align-items: center;
+    background-color: #ffffff;
+    margin-bottom: 20px;
+}
+
+.payment-card_body {
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+}
+
+.card-brand-icon {
+    width: 40px;
+    height: 30px;
+    margin-right: 30px;
+    object-fit: contain;
+}
+
+.payment-card_body_text {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 8px;
+}
+
+.payment-card_body_text_default {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 15px;
+}
+
+.payment-card_body_default {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    color: #0089EA;
+    background-color: #D6EFFF;
+    border-radius: 12px;
+    padding: 4px 12px;
+}
+
+.payment-card_body_default p {
+    font-size: 12px;
+    font-weight: 500;
+    color: #0089EA;
+    margin: 0;
+}
+
+.payment-card_body_actions {
+    margin-inline-start: auto;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 30px;
+}
+
+.set-default-btn {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 16px;
+    font-weight: 600;
+    color: #0089EA;
+    background: transparent;
+    border: none;
+    cursor: pointer;
+    padding: 0;
+}
+
+.set-default-btn img {
+    width: 18px;
+    height: 18px;
+    object-fit: contain;
+}
+
+.delete-btn {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 16px;
+    font-weight: 500;
+    color: #EA4335;
+    background: transparent;
+    border: none;
+    cursor: pointer;
+    padding: 0;
+}
+
+.delete-btn img {
+    width: 16px;
+    height: 18px;
+    object-fit: contain;
+}
+
+.Purchase_History_header {
+    width: 100%;
+    height: 100%;
+    max-width: 900px;
+    max-height: 100px;
+    display: flex;
+    flex-direction: row;
+    gap: 439px;
+    box-sizing: border-box;
+    align-items: flex-start;
+    background-color: #ffffff;
+    margin-bottom: 20px;
+    margin-top: 102px;
+}
+
+.Purchase_History_header_text {
+    width: 100%;
+    height: 100%;
+    min-width: 329px;
+    min-height: 72px;
+    display: flex;
+    flex-direction: column;
+    gap: 17px;
+    box-sizing: border-box;
+    align-items: flex-start;
+    background-color: #ffffff;
+    margin-bottom: 20px;
+}
+
+.Purchase_History_header_button {
+    width: 170px;
+    height: 50px;
+    padding: 10px 9px;
+    display: flex;
+    flex-direction: row;
+    gap: 7px;
+    box-sizing: border-box;
+    align-items: center;
+    background-color: #ffffff;
+    margin-bottom: 20px;
+    cursor: pointer;
+    border-radius: 10px;
+    border: 1px solid rgba(0, 0, 0, 0.1);
+}
+
+.Purchase_History_header_button:hover,
+.Purchase_History_header_button:active,
+.Purchase_History_header_button:focus {
+    background-color: #0089EA;
+    border: 1px solid #0089EA;
+}
+
+.Purchase_History_header_button:hover button,
+.Purchase_History_header_button:active button,
+.Purchase_History_header_button:focus button {
+    color: white;
+}
+
+.Purchase_History_header_button:hover img,
+.Purchase_History_header_button:active img,
+.Purchase_History_header_button:focus img {
+    filter: brightness(0) invert(1);
+}
+
+.Purchase_History_header_button button {
+    font-size: 16px;
+    font-family: 'Inter', sans-serif;
+    font-style: normal;
+    width: 96px;
+    height: 24px;
+    font-weight: 500;
+    color: #000000;
+    margin: 0;
+    border: none;
+    background-color: transparent;
+    cursor: pointer;
+}
+
+.Purchase_History_header_button img {
+    width: 30px;
+    height: 30px;
+    object-fit: contain;
+}
+
+
+.Purchase_History_body {
+    width: 100%;
+    height: 100%;
+    max-width: 900px;
+    max-height: 100px;
+    display: flex;
+    flex-direction: column;
+    gap: 439px;
+    box-sizing: border-box;
+    align-items: flex-start;
+    background-color: #ffffff;
+    margin-bottom: 20px;
+    margin-top: 102px;
+}
+
+.Purchase_History_body_header {
+    width: 100%;
+    height: 100%;
+    max-width: 824px;
+    max-height: 20px;
+    display: flex;
+    flex-direction: row;
+    gap: 87px;
+    box-sizing: border-box;
+    align-items: flex-start;
+    background-color: #ffffff;
+    margin-bottom: 20px;
+    margin-top: 102px;
+    border-bottom: 1px solid rgba(102, 99, 99, 0.2);
+    padding-bottom: 50px;
+
+}
+
+.Purchase_History_body_header p {
+    color: #000000;
+    font-size: 16px;
+    font-weight: bold;
+}
+
+.Purchase_History_body_content {
+    width: 100%;
+    height: 100%;
+    max-width: 824px;
+    max-height: 20px;
+    display: flex;
+    flex-direction: row;
+    gap: 87px;
+    box-sizing: border-box;
+    align-items: flex-start;
+    background-color: #ffffff;
+    margin-bottom: 20px;
+    margin-top: 102px;
+    border-bottom: 1px solid rgba(102, 99, 99, 0.2);
+    padding-bottom: 50px;
+
+}
+
+.course {
+    width: 100%;
+    height: 100%;
+    max-width: 824px;
+    max-height: 20px;
+    display: flex;
+    flex-direction: row;
+    gap: 87px;
+    box-sizing: border-box;
+    align-items: flex-start;
+    background-color: #ffffff;
+    margin-bottom: 20px;
+    margin-top: 102px;
+    border-bottom: 1px solid rgba(102, 99, 99, 0.2);
+    padding-bottom: 50px;
+
+}

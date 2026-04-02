@@ -16,6 +16,7 @@ import Security from './Setting/Security'
 import Preferences from './Setting/Preferences'
 import Privacy from './Setting/Privacy'
 import Notification from './Setting/Notification'
+import Payment from './Setting/Payment'
 function Layout({ children }) {
   const location = useLocation();
   const noheaderfooter = ["/log_in", "/sign_up", "/Forgot_pas", "/check_email", '/Verification_Code', '/Create_new_pas'];
@@ -47,6 +48,7 @@ function App() {
           <Route path="/Setting/Preferences" element={<Preferences />} />
           <Route path="/Setting/Privacy" element={<Privacy />} />
           <Route path="/Setting/Notification" element={<Notification />} />
+          <Route path="/Setting/Payment" element={<Payment />} />
         </Routes>
       </Layout>
     </Router>

@@ -181,7 +181,7 @@ html[dir="rtl"] .switch.on .circle {
 .Disturb_content_left {
     display: flex;
     flex-direction: row;
-    gap: 19px;
+    gap: 11px;
     flex: 1;
 }
 
@@ -202,7 +202,7 @@ html[dir="rtl"] .switch.on .circle {
 .Email_Notifications_content {
     display: flex;
     flex-direction: row;
-    gap: 10px;
+    gap: 11px;
     margin-bottom: 20px;
     align-items: center;
     max-width: 700px;
@@ -213,13 +213,13 @@ html[dir="rtl"] .switch.on .circle {
     display: flex;
     flex-direction: row;
     gap: 10px;
-    margin-bottom: 20px;
+    margin-bottom: 60px;
 }
 
 .Push_Notfifcation_header img,
 .Email_Notifications_header img {
-    width: 30px;
-    height: 30px;
+    width: 40px;
+    height: 40px;
 }
 
 .Push_Notfifcation_header h4,
@@ -258,5 +258,65 @@ html[dir="rtl"] .switch.on .circle {
 
 .notification_content .switch,
 .Email_Notifications_content .switch {
+    margin-inline-start: auto;
+}
+
+.In-app-notification {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.In-app-notification-header {
+    display: flex;
+    flex-direction: row;
+    gap: 10px;
+    margin-bottom: 60px;
+}
+
+.In-app-notification-header img {
+    width: 30px;
+    height: 30px;
+}
+
+.In-app-notification-header h4 {
+    font-size: 30px;
+    font-weight: bold;
+    color: #000000;
+}
+
+.In-app-notification-content {
+    display: flex;
+    flex-direction: row;
+    gap: 11px;
+    margin-bottom: 20px;
+    align-items: center;
+    max-width: 700px;
+}
+
+.In-app-notification-content img {
+    width: 30px;
+    height: 30px;
+}
+
+.In-app-notification-content-left {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+}
+
+.In-app-notification-content-left p {
+    font-size: 20px;
+    font-weight: 600;
+    color: #000000;
+}
+
+.In-app-notification-content-left p:last-child {
+    font-size: 16px;
+    font-weight: 500;
+    color: #666363;
+}
+
+.In-app-notification-content .switch {
     margin-inline-start: auto;
 }
