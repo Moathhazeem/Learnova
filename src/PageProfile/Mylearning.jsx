@@ -53,6 +53,14 @@ function MyLearning() {
         }
     ];
 
+    const [filter, setFilter] = useState("all");
+
+    const filteredCourses = courses.filter(course => {
+        if (filter === "Completed") return course.progress === 100;
+        if (filter === "In Progress") return course.progress < 100;
+        return true;
+    });
+
     return (
         <div className="my-learning-container">
             <nav className="breadcrumbs-nav">
@@ -81,13 +89,29 @@ function MyLearning() {
             <div className="my-learning-content">
                 <div className="learning-header">
                     <div className="Courses_complete_inProgress">
-                        <button className="Courses_complete">Completed</button>
-                        <button className="Courses_inProgress">In Progress</button>
+                        <button 
+                            className={`Courses_all ${filter === "all" ? "active" : ""}`} 
+                            onClick={() => setFilter("all")}
+                        >
+                            All
+                        </button>
+                        <button 
+                            className={`Courses_complete ${filter === "Completed" ? "active" : ""}`} 
+                            onClick={() => setFilter("Completed")}
+                        >
+                            Completed
+                        </button>
+                        <button 
+                            className={`Courses_inProgress ${filter === "In Progress" ? "active" : ""}`} 
+                            onClick={() => setFilter("In Progress")}
+                        >
+                            In Progress
+                        </button>
                     </div>
                 </div>
 
                 <div className="my-learning-content-myLearning">
-                    {courses.map((course, index) => {
+                    {filteredCourses.map((course, index) => {
                         const isProgram = !!course.specialization;
                         return (
                             <div key={index} className="course-specialization-group">

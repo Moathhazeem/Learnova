@@ -109,20 +109,7 @@
     gap: 12px;
 }
 
-.Courses_inProgress {
-    height: 32px;
-    padding: 0 16px;
-    border-radius: 20px;
-    border: 1px solid rgba(0, 0, 0, 0.1);
-    background-color: #0089EA;
-    color: white;
-    font-size: 13px;
-    font-weight: 600;
-    cursor: pointer;
-    transition: all 0.2s;
-}
-
-.Courses_complete {
+.Courses_inProgress, .Courses_complete, .Courses_all {
     height: 32px;
     padding: 0 16px;
     border-radius: 20px;
@@ -134,6 +121,25 @@
     cursor: pointer;
     transition: all 0.2s;
 }
+
+.Courses_complete_inProgress button.active {
+    background-color: #0089EA;
+    color: white;
+    border-color: #0089EA;
+}
+
+.dark .Courses_inProgress, .dark .Courses_complete, .dark .Courses_all {
+    background-color: #1a1a1a;
+    color: #f5f5f5;
+    border-color: #333;
+}
+
+.dark .Courses_complete_inProgress button.active {
+    background-color: #0089EA;
+    color: white;
+    border-color: #0089EA;
+}
+
 
 /* Course Cards */
 .my-learning-content-myLearning {
