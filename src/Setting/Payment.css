@@ -47,12 +47,28 @@
     background-color: #0089EA;
     border-radius: 10px 10px 10px 10px;
     cursor: pointer;
+    transition: all 0.3s ease;
 }
 
-.button-payment:hover,
-.button-payment:active,
+.button-payment:hover {
+    background-color: #0089EA;
+    border-color: #0089EA;
+    transform: translateY(-3px);
+    box-shadow: 0 6px 15px rgba(0, 0, 0, 0.15);
+}
+
+.button-payment:active {
+    background-color: #0089EA;
+    border-color: #0089EA;
+    transform: translateY(0px);
+    box-shadow: 0 6px 15px rgba(0, 0, 0, 0.15);
+}
+
 .button-payment:focus {
-    background-color: #0077CC;
+    background-color: #0089EA;
+    border-color: #0089EA;
+    transform: translateY(0px);
+    box-shadow: 0 6px 15px rgba(0, 0, 0, 0.15);
 }
 
 .button-payment img {
@@ -228,13 +244,16 @@
     cursor: pointer;
     border-radius: 10px;
     border: 1px solid rgba(0, 0, 0, 0.1);
+    transition: all 0.3s ease;
 }
 
 .Purchase_History_header_button:hover,
 .Purchase_History_header_button:active,
 .Purchase_History_header_button:focus {
     background-color: #0089EA;
-    border: 1px solid #0089EA;
+    border-color: #0089EA;
+    transform: translateY(-2px);
+    box-shadow: 0 8px 20px rgba(0, 137, 234, 0.3);
 }
 
 .Purchase_History_header_button:hover button,
@@ -455,9 +474,53 @@
     font-weight: 500;
 
     cursor: pointer;
-    transition: 0.2s;
+    transition: all 0.3s ease;
 }
 
 .add-card-btn:hover {
     background: #0077CC;
+}
+
+.error {
+    color: #EA4335 !important;
+    font-size: 13px;
+    font-weight: 500;
+    margin-top: 6px;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    animation: msgFadeIn 0.3s ease-out;
+}
+
+.success {
+    color: #1c9d46 !important;
+    font-size: 13px;
+    font-weight: 500;
+    margin-top: 6px;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    animation: msgFadeIn 0.3s ease-out;
+}
+
+.error::before {
+    content: '●';
+    font-size: 8px;
+}
+
+.success::before {
+    content: '✓';
+    font-size: 12px;
+    font-weight: bold;
+}
+
+@keyframes msgFadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(-5px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
 }

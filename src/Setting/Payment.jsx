@@ -48,10 +48,43 @@ function Payment() {
     const [cardExpiry, setCardExpiry] = useState("");
     const [cardCVV, setCardCVV] = useState("");
     const [showModal, setShowModal] = useState(false);
+    const [error, setError] = useState([]);
+    const [success, setSuccess] = useState([])
     const handleSubmit = (e) => {
         e.preventDefault();
-        if (!cardNumber || !cardExpiry) return;
+        /*(if (!cardNumber || !cardExpiry) return;*/
+        let newErrors = [];
+        let newSuccess = [];
 
+        if (cardNumber.replace(/\s/g, '').length < 16) {
+            newErrors.push("Card number must be 16 digits");
+        } else {
+            newSuccess.push("Card number is valid");
+        }
+
+        if (cardName.length < 2) {
+            newErrors.push("Card name must be at least 2 characters");
+        } else {
+            newSuccess.push("Card name is valid");
+        }
+
+        if (cardExpiry.length < 5) {
+            newErrors.push("Card expiry must be at least 5 characters");
+        } else {
+            newSuccess.push("Card expiry is valid");
+        }
+
+        if (cardCVV.length < 3) {
+            newErrors.push("Card CVV must be at least 3 characters");
+        } else {
+            newSuccess.push("Card CVV is valid");
+        }
+
+        if (newErrors.length > 0) {
+            setError(newErrors);
+            setSuccess(newSuccess);
+            return;
+        }
         const newCard = {
             id: Date.now(),
             last4: cardNumber.slice(-4) || "****",
@@ -65,6 +98,8 @@ function Payment() {
         setCardName("");
         setCardExpiry("");
         setCardCVV("");
+        setSuccess(["Card added successfully"]);
+        setError([]);
     }
     const handleSetDefault = (id) => {
         const updatedCards = cards.map(card => ({ ...card, isDefault: card.id === id }));
@@ -82,6 +117,34 @@ function Payment() {
         setCards(updatedCards);
 
     }
+    const [purchaseHistory, setPurchaseHistory] = useState([
+        { id: 1, course: "Logo design", date: "12 / 12 / 2025", price: "$ 80", status: "Completed", method: "**** **** **** 4242" },
+        { id: 2, course: "Video edit", date: "12 / 3 / 2024", price: "$ 100", status: "Completed", method: "**** **** **** 4122" },
+        { id: 3, course: "Java Script", date: "3 / 3 / 2023", price: "$ 100", status: "Completed", method: "**** **** **** 3332" },
+        { id: 4, course: "React native", date: "3 / 9 / 2024", price: "$ 50", status: "Refunded", method: "**** **** **** 1234" },
+    ]);
+
+    const handleDownload = () => {
+        const headers = ["Course", "Date", "Price", "Status", "Payment Method"];
+        const csvContent = [
+            headers.join(","),
+            ...purchaseHistory.map(row =>
+                `"${row.course}","${row.date}","${row.price}","${row.status}","${row.method}"`
+            )
+        ].join("\n");
+
+        const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
+        const url = URL.createObjectURL(blob);
+        const link = document.createElement("a");
+        link.setAttribute("href", url);
+        link.setAttribute("download", "purchase_history.csv");
+        link.style.visibility = 'hidden';
+        document.body.appendChild(link);
+        link.click();
+        document.body.removeChild(link);
+        URL.revokeObjectURL(url); // Clean up the URL to free up memory
+    };
+
     return (
         <div className="edit-profile-container">
             <nav className="breadcrumbs-nav">
@@ -155,7 +218,7 @@ function Payment() {
                         <h1>Payment Cards</h1>
                         <p>Manage your payment methods and default billing card.</p>
                     </div>
-                    <div className="button-payment" onClick={() => setShowModal(true)}>
+                    <div className="button-payment" onClick={() => { setShowModal(true); setError([]); setSuccess([]); }}>
                         <img src="/photo_icons/For_setting/add.png" alt="add" />
                         <button>Add New Card</button>
                     </div>
@@ -169,7 +232,7 @@ function Payment() {
 
                                 <div className="modal-header">
                                     <h2>Add New Card</h2>
-                                    <button onClick={() => setShowModal(false)}>✕</button>
+                                    <button onClick={() => { setShowModal(false); setError([]); setSuccess([]); }}>✕</button>
                                 </div>
 
                                 <div className="modal-body">
@@ -186,6 +249,8 @@ function Payment() {
                                                 value={cardNumber}
                                                 onChange={(e) => setCardNumber(e.target.value)}
                                             />
+                                            {error.find(m => m.toLowerCase().includes("card number")) && <p className="error">{error.find(m => m.toLowerCase().includes("card number"))}</p>}
+                                            {success.find(m => m.toLowerCase().includes("card number")) && <p className="success">{success.find(m => m.toLowerCase().includes("card number"))}</p>}
                                         </div>
 
                                         <div className="form-group">
@@ -197,6 +262,8 @@ function Payment() {
                                                 value={cardName}
                                                 onChange={(e) => setCardName(e.target.value)}
                                             />
+                                            {error.find(m => m.toLowerCase().includes("card name")) && <p className="error">{error.find(m => m.toLowerCase().includes("card name"))}</p>}
+                                            {success.find(m => m.toLowerCase().includes("card name")) && <p className="success">{success.find(m => m.toLowerCase().includes("card name"))}</p>}
                                         </div>
 
                                         {/* صف مشترك */}
@@ -211,6 +278,8 @@ function Payment() {
                                                     value={cardExpiry}
                                                     onChange={(e) => setCardExpiry(e.target.value)}
                                                 />
+                                                {error.find(m => m.toLowerCase().includes("card expiry")) && <p className="error">{error.find(m => m.toLowerCase().includes("card expiry"))}</p>}
+                                                {success.find(m => m.toLowerCase().includes("card expiry")) && <p className="success">{success.find(m => m.toLowerCase().includes("card expiry"))}</p>}
                                             </div>
 
                                             <div className="form-group">
@@ -223,6 +292,8 @@ function Payment() {
                                                     value={cardCVV}
                                                     onChange={(e) => setCardCVV(e.target.value)}
                                                 />
+                                                {error.find(m => m.toLowerCase().includes("card cvv")) && <p className="error">{error.find(m => m.toLowerCase().includes("card cvv"))}</p>}
+                                                {success.find(m => m.toLowerCase().includes("card cvv")) && <p className="success">{success.find(m => m.toLowerCase().includes("card cvv"))}</p>}
                                             </div>
                                         </div>
 
@@ -281,7 +352,7 @@ function Payment() {
                             <h1>Purchase History</h1>
                             <p>View and download your course purchases</p>
                         </div>
-                        <div className="Purchase_History_header_button">
+                        <div className="Purchase_History_header_button" onClick={handleDownload}>
                             <img src="/photo_icons/For_setting/download_black.png" alt="download" />
                             <button>Download</button>
                         </div>
@@ -294,34 +365,19 @@ function Payment() {
                             <p>Status</p>
                             <p>Payment Method</p>
                         </div>
-                        <div className="Purchase_History_table_row">
-                            <p className="course">Logo design</p>
-                            <p className="date">12 / 12 / 2025</p>
-                            <p className="price">$ 80</p>
-                            <div className="status"><span className="status-completed">Completed</span></div>
-                            <p className="payment-method">**** **** **** 4242</p>
-                        </div>
-                        <div className="Purchase_History_table_row">
-                            <p className="course">Video edit</p>
-                            <p className="date">12 / 3 / 2024</p>
-                            <p className="price">$ 100</p>
-                            <div className="status"><span className="status-completed">Completed</span></div>
-                            <p className="payment-method">**** **** **** 4122</p>
-                        </div>
-                        <div className="Purchase_History_table_row">
-                            <p className="course">Java Script</p>
-                            <p className="date">3 / 3 / 2023</p>
-                            <p className="price">$ 100</p>
-                            <div className="status"><span className="status-completed">Completed</span></div>
-                            <p className="payment-method">**** **** **** 3332</p>
-                        </div>
-                        <div className="Purchase_History_table_row">
-                            <p className="course">React native</p>
-                            <p className="date">3 / 9 / 2024</p>
-                            <p className="price">$ 50</p>
-                            <div className="status"><span className="status-refunded">Refunded</span></div>
-                            <p className="payment-method">**** **** **** 1234</p>
-                        </div>
+                        {purchaseHistory.map(item => (
+                            <div key={item.id} className="Purchase_History_table_row">
+                                <p className="course">{item.course}</p>
+                                <p className="date">{item.date}</p>
+                                <p className="price">{item.price}</p>
+                                <div className="status">
+                                    <span className={`status-${item.status.toLowerCase()}`}>
+                                        {item.status}
+                                    </span>
+                                </div>
+                                <p className="payment-method">{item.method}</p>
+                            </div>
+                        ))}
                     </div>
                 </div>
             </div>
