@@ -330,7 +330,7 @@ function MyLearning() {
                                                     </button>
                                                     <div className="see-more-link">
                                                         <span>see more</span>
-                                                        <img src="/photo_icons/show_more.png" alt="" />
+                                                        <img src="/photo_icons/arrow-down.png" alt="" />
                                                     </div>
                                                 </div>
                                                 <div className="course-card-right">
