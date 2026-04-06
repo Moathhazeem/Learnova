@@ -146,3 +146,221 @@
     background-color: #2a2a2a;
     border-color: #555;
 }
+
+.courses-container {
+    display: flex;
+    flex-wrap: wrap;
+    /* مهم جداً */
+    gap: 100px;
+
+    /* مسافة بين الكروت */
+}
+
+.explore-content-courses {
+    margin-top: 30px;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    flex-wrap: wrap;
+}
+
+.total-courses {
+    font-size: 22px;
+    font-weight: 500;
+    color: #666363;
+    margin-top: 28px;
+    margin-bottom: 28px;
+}
+
+.course-item {
+    display: relative;
+    flex-direction: row;
+    gap: 12px;
+    flex-wrap: wrap;
+    width: calc(33.33% - 20px);
+    height: 100%;
+    max-width: 514px;
+    min-height: 494px;
+    border: 1px solid rgba(0, 0, 0, 0.2);
+    border-radius: 20px;
+    align-items: center;
+    justify-content: center;
+
+}
+
+.course-item-image img {
+    display: absolute;
+    width: 514px;
+    height: 247px;
+    object-fit: cover;
+    border-radius: 20px;
+    align-items: flex-start;
+    justify-content: flex-start;
+    top: 0;
+    left: 0;
+}
+
+.course-info {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 28px;
+    padding: 12px;
+    margin-top: 28px;
+}
+
+.course-info .course-title {
+    font-size: 22px;
+    width: 100%;
+    font-weight: bold;
+    color: #000000;
+}
+
+.course-info .course-price {
+    font-size: 22px;
+    font-weight: 500;
+    color: #666363;
+}
+
+.course-info .course-duration {
+    font-size: 22px;
+    font-weight: 500;
+    color: #666363;
+}
+
+.course-info .course-level {
+    font-size: 22px;
+    font-weight: 500;
+    color: #666363;
+}
+
+.course-info-PRL {
+    display: flex;
+    flex-direction: row;
+    align-items: flex-start;
+    justify-content: flex-start;
+    flex-wrap: wrap;
+    gap: 28px;
+    width: 100%;
+}
+
+.course-info .course-instructor {
+    font-size: 22px;
+    font-weight: 500;
+    color: #666363;
+}
+
+.course-info .course-rating {
+    font-size: 22px;
+    font-weight: 500;
+    color: #666363;
+}
+
+.course-info-PRL-item {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: flex-start;
+    flex-wrap: wrap;
+    gap: 12px;
+}
+
+.course-info-IR-item {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: flex-start;
+    flex-wrap: wrap;
+    gap: 12px;
+}
+
+.course-info-IR {
+    display: flex;
+    flex-direction: row;
+    align-items: flex-start;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 200px;
+}
+
+.course-info-IR-item img {
+    width: 24px;
+    height: 24px;
+    object-fit: cover;
+    border-radius: 20px;
+    align-items: flex-start;
+    justify-content: flex-start;
+    top: 0;
+    left: 0;
+    gap: 12px;
+}
+
+.courses-container-footer {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 30px;
+    margin-top: 100px;
+}
+
+.courses-container-fillter {
+    display: flex;
+    flex-direction: row;
+    align-items: flex-start;
+    justify-content: flex-start;
+    flex-wrap: wrap;
+    gap: 12px;
+
+    width: 100%;
+}
+
+.courses-container-fillter-item {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+
+    gap: 12px;
+    width: fit-content;
+    padding: 0 16px;
+    min-height: 50px;
+    border-radius: 5px;
+    background-color: #ffffff;
+    border: 1px solid rgba(0, 0, 0, 0.2);
+    color: #666363;
+    font-size: 22px;
+    font-weight: 500;
+    margin-bottom: 30px;
+    white-space: nowrap;
+}
+
+.courses-container-fillter-item img {
+    width: 24px;
+    height: 24px;
+    object-fit: cover;
+    border-radius: 20px;
+    align-items: flex-start;
+    justify-content: flex-start;
+    top: 0;
+    left: 0;
+    gap: 12px;
+}
+
+.page-number {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 12px;
+    width: 70px;
+    height: 70px;
+    border-radius: 5px;
+    background-color: #ffffff;
+    border: 1px solid rgba(0, 0, 0, 0.2);
+    color: #000000;
+}

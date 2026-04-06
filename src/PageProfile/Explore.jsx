@@ -78,6 +78,152 @@ function Explore() {
             title: "Photography & Videography",
         },
     ]
+    const courses = [
+        {
+            id: 1,
+            image: "/Photo/Adobe Illustrator logo design.png",
+            title: "Adobe Illustrator Logo Design",
+            price: "$50",
+            rating: "5.0",
+            category: "Graphic Design",
+            instructor: "Dimitri Abdelhak",
+            duration: "1h",
+            level: "Beginner",
+            instructorImage: "/Photo/Dimitri Abdelhak.png",
+            ratingImage: "/photo_icons/Rating.png",
+            priceImage: "/photo_icons/price.png",
+            durationImage: "/photo_icons/Timing.png",
+            levelImage: "/photo_icons/Level.png",
+        },
+        {
+            id: 2,
+            image: "/Photo/Adobe Photoshop - Social media designs.png",
+            title: "Adobe Photoshop - Social media designs",
+            price: "$50",
+            rating: "5.0",
+            category: "Graphic Design",
+            instructor: "Dimitri Abdelhak",
+            duration: "1h",
+            level: "Intermediate",
+            instructorImage: "/Photo/Dimitri Abdelhak.png",
+            ratingImage: "/photo_icons/Rating.png",
+            priceImage: "/photo_icons/price.png",
+            durationImage: "/photo_icons/Timing.png",
+            levelImage: "/photo_icons/Level.png",
+        },
+        {
+            id: 3,
+            image: "/Photo/Adobe InDesign - Book cover designs.png",
+            title: "Adobe InDesign - Book cover designs",
+            price: "$50",
+            rating: "5.0",
+            category: "Graphic Design",
+            instructor: "Dimitri Abdelhak",
+            duration: "1h",
+            level: "Advanced",
+            instructorImage: "/Photo/Dimitri Abdelhak.png",
+            ratingImage: "/photo_icons/Rating.png",
+            priceImage: "/photo_icons/price.png",
+            durationImage: "/photo_icons/Timing.png",
+            levelImage: "/photo_icons/Level.png",
+        },
+        {
+            id: 4,
+            image: "/Photo/Adobe Premiere pro - Advertisements.png",
+            title: "Adobe Premiere pro - Advertisements",
+            price: "$100",
+            rating: "4.1",
+            category: "Graphic Design",
+            instructor: "Alex Johnson",
+            duration: "1h 30m",
+            level: "Beginner",
+            instructorImage: "/Photo/Alex Johnson.png",
+            ratingImage: "/photo_icons/Rating.png",
+            priceImage: "/photo_icons/price.png",
+            durationImage: "/photo_icons/Timing.png",
+            levelImage: "/photo_icons/Level.png",
+        },
+        {
+            id: 5,
+            image: "/Photo/Adobe After effects-Motion Graphics.png",
+            title: "Adobe After effects - Motion Graphics",
+            price: "$50",
+            rating: "4.5",
+            category: "Graphic Design",
+            instructor: "George Smith",
+            duration: "1h 30m",
+            level: "Advanced",
+            instructorImage: "/Photo/George Smith.png",
+            ratingImage: "/photo_icons/Rating.png",
+            priceImage: "/photo_icons/price.png",
+            durationImage: "/photo_icons/Timing.png",
+            levelImage: "/photo_icons/Level.png",
+        },
+        {
+            id: 6,
+            image: "/Photo/Adobe Audition-Acoustic engineering.png",
+            title: "Adobe Audition-Acoustic engineering",
+            price: "$50",
+            rating: "4.5",
+            category: "Graphic Design",
+            instructor: "Adam Smith",
+            duration: "1h 30m",
+            level: "Advanced",
+            instructorImage: "/Photo/Adam Smith.png",
+            ratingImage: "/photo_icons/Rating.png",
+            priceImage: "/photo_icons/price.png",
+            durationImage: "/photo_icons/Timing.png",
+            levelImage: "/photo_icons/Level.png",
+        },
+    ]
+    const PageNumbers = [
+        {
+            id: 1,
+            number: 1,
+        },
+        {
+            id: 2,
+            number: 2,
+        },
+        {
+            id: 3,
+            number: 3,
+        },
+        {
+            id: 4,
+            number: 4,
+        },
+        {
+            id: 5,
+            number: 5,
+        },
+    ]
+    const Fillter = [
+        {
+            id: 1,
+            title: "Price",
+            icon: "/photo_icons/price.png",
+            arrow: "/photo_icons/arrow-down.png",
+        },
+        {
+            id: 2,
+            title: "Time",
+            icon: "/photo_icons/Timing.png",
+            arrow: "/photo_icons/arrow-down.png",
+        },
+        {
+            id: 3,
+            title: "Level",
+            icon: "/photo_icons/Level.png",
+            arrow: "/photo_icons/arrow-down.png",
+        },
+        {
+            id: 4,
+            title: "Sort by",
+            icon: "/photo_icons/Sort by.png",
+            arrow: "/photo_icons/arrow-down.png",
+        },
+    ]
     return (
         <div className="explore">
             {/* Breadcrumbs */}
@@ -124,6 +270,73 @@ function Explore() {
                             <p className="explore-item-text">{item.title}</p>
                         </button>
                     ))}
+                </div>
+
+                <div className="explore-content-courses">
+                    <h3 className="total-courses">Showing {explore.length} results</h3>
+                    <div className="courses-container-fillter">
+                        {Fillter.map((item) => (
+
+                            <div className="courses-container-fillter-item">
+                                <img src={item.icon} alt={item.title} />
+                                <p className="courses-container-fillter-item-text">{item.title}</p>
+                                <img src={item.arrow} alt={item.title} />
+                            </div>
+                        ))}
+                    </div>
+                    <div className="courses-container">
+                        {courses.map((courses) => {
+                            return (
+                                <div className="course-item">
+                                    <div className="course-item-image">
+                                        <img src={courses.image} alt={courses.title}></img>
+                                    </div>
+                                    <div className="course-info">
+                                        <h3 className="course-title">{courses.title}</h3>
+                                        <div className="course-info-PRL">
+                                            <div className="course-info-PRL-item">
+                                                <img src={courses.priceImage} alt="price" />
+                                                <p className="course-price">{courses.price}</p>
+                                            </div>
+                                            <div className="course-info-PRL-item">
+                                                <img src={courses.durationImage} alt="duration" />
+                                                <p className="course-duration">{courses.duration}</p>
+                                            </div>
+                                            <div className="course-info-PRL-item">
+                                                <img src={courses.levelImage} alt="level" />
+                                                <p className="course-level">{courses.level}</p>
+                                            </div>
+                                        </div>
+                                        <div className="course-info-IR">
+                                            <div className="course-info-IR-item">
+                                                <img src={courses.instructorImage} alt="instructor" />
+                                                <p className="course-instructor">{courses.instructor}</p>
+                                            </div>
+                                            <div className="course-info-IR-item">
+                                                <img src={courses.ratingImage} alt="rating" />
+                                                <p className="course-rating">{courses.rating}</p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            )
+                        })}
+                    </div>
+                </div>
+                <div className="courses-container-footer">
+                    <div className="page-number-item">
+                        <img src="/photo_icons/arrow-left.png" alt="page-number" />
+                    </div>
+                    {PageNumbers.map((pageNumber) => {
+                        return (
+                            <div className="page-number">
+                                <p>{pageNumber.number}</p>
+                            </div>
+                        )
+                    })}
+                    <div className="page-number-item">
+                        <img src="/photo_icons/arrow-right.png" alt="page-number" />
+                    </div>
                 </div>
             </div>
         </div>
