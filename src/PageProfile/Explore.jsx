@@ -234,6 +234,31 @@ function Explore() {
     const [FillterTimeOpen, setFillterTimeOpen] = useState(false);
     const [FillterLevelOpen, setFillterLevelOpen] = useState(false);
     const [FillterSortByOpen, setFillterSortByOpen] = useState(false);
+    const [selectedFilter, setSelectedFilter] = useState("");
+
+    const filterCourses = courses.filter((course) => {
+        if (!selectedFilter || selectedFilter === "All") return true;
+
+        const price = parseInt(course.price.replace("$", ""));
+        const hours = parseInt(course.duration);
+
+        // Level Filters
+        if (["Beginner", "Intermediate", "Advanced"].includes(selectedFilter)) {
+            return course.level === selectedFilter;
+        }
+
+        // Price Filters
+        if (selectedFilter === "Less or equal than $50") return price <= 50;
+        if (selectedFilter === "More than $50") return price > 50;
+        if (selectedFilter === "More than $100") return price >= 100;
+
+        // Time Filters
+        if (selectedFilter === "Less than 10 hours") return hours < 10;
+        if (selectedFilter === "More than 10 hours") return hours > 10;
+        if (selectedFilter === "10 - 20 hours") return hours >= 10 && hours <= 20;
+
+        return true;
+    });
     return (
         <div className="explore">
             {/* Breadcrumbs */}
@@ -315,72 +340,84 @@ function Explore() {
 
                                 {item.title === "Price" && FillterPrice && (
                                     <div className="courses-container-fillter-price">
-                                        <div className="fillter-price-option">Less than $50</div>
-                                        <div className="fillter-price-option">More than $50</div>
-                                        <div className="fillter-price-option">$100 - $200</div>
+                                        <div className="fillter-price-option" onClick={() => { setSelectedFilter("All"); setFillterPrice(false); }}>All Prices</div>
+                                        <div className="fillter-price-option" onClick={() => { setSelectedFilter("Less or equal than $50"); setFillterPrice(false); }}>Less or equal than $50</div>
+                                        <div className="fillter-price-option" onClick={() => { setSelectedFilter("More than $50"); setFillterPrice(false); }}>More than $50</div>
+                                        <div className="fillter-price-option" onClick={() => { setSelectedFilter("More than $100"); setFillterPrice(false); }}>More than $100</div>
                                     </div>
                                 )}
                                 {item.title === "Time" && FillterTime && (
                                     <div className="courses-container-fillter-price">
-                                        <div className="fillter-time-option">Less than 10 hours</div>
-                                        <div className="fillter-time-option">More than 10 hours</div>
-                                        <div className="fillter-time-option">10 - 20 hours</div>
+                                        <div className="fillter-price-option" onClick={() => { setSelectedFilter("All"); setFillterTime(false); }}>All Times</div>
+                                        <div className="fillter-time-option" onClick={() => { setSelectedFilter("Less than 10 hours"); setFillterTime(false); }}>Less than 10 hours</div>
+                                        <div className="fillter-time-option" onClick={() => { setSelectedFilter("More than 10 hours"); setFillterTime(false); }}>More than 10 hours</div>
+                                        <div className="fillter-time-option" onClick={() => { setSelectedFilter("10 - 20 hours"); setFillterTime(false); }}>10 - 20 hours</div>
                                     </div>
                                 )}
                                 {item.title === "Level" && FillterLevel && (
                                     <div className="courses-container-fillter-price">
-                                        <div className="fillter-level-option">Beginner</div>
-                                        <div className="fillter-level-option">Intermediate</div>
-                                        <div className="fillter-level-option">Advanced</div>
+                                        <div className="fillter-price-option" onClick={() => { setSelectedFilter("All"); setFillterLevel(false); }}>All Levels</div>
+                                        <div className="fillter-level-option" onClick={() => { setSelectedFilter("Beginner"); setFillterLevel(false); }}>Beginner</div>
+                                        <div className="fillter-level-option" onClick={() => { setSelectedFilter("Intermediate"); setFillterLevel(false); }}>Intermediate</div>
+                                        <div className="fillter-level-option" onClick={() => { setSelectedFilter("Advanced"); setFillterLevel(false); }}>Advanced</div>
                                     </div>
                                 )}
                                 {item.title === "Sort by" && FillterSortBy && (
                                     <div className="courses-container-fillter-price">
-                                        <div className="fillter-sort-by-option">Newest</div>
-                                        <div className="fillter-sort-by-option">Oldest</div>
-                                        <div className="fillter-sort-by-option">Most Popular</div>
+                                        <div className="fillter-price-option" onClick={() => { setSelectedFilter("All"); setFillterSortBy(false); }}>All Sorts</div>
+                                        <div className="fillter-sort-by-option" onClick={() => { setSelectedFilter("Newest"); setFillterSortBy(false); }}>Newest</div>
+                                        <div className="fillter-sort-by-option" onClick={() => { setSelectedFilter("Oldest"); setFillterSortBy(false); }}>Oldest</div>
+                                        <div className="fillter-sort-by-option" onClick={() => { setSelectedFilter("Most Popular"); setFillterSortBy(false); }}>Most Popular</div>
                                     </div>
                                 )}
                             </div>
                         ))}
                     </div>
                     <div className="courses-container">
-                        {courses.map((courses) => {
-                            return (
-                                <div className="course-item">
-                                    <div className="course-item-image">
-                                        <img src={courses.image} alt={courses.title}></img>
-                                    </div>
-                                    <div className="course-info">
-                                        <h3 className="course-title">{courses.title}</h3>
-                                        <div className="course-info-PRL">
-                                            <div className="course-info-PRL-item">
-                                                <img src={courses.priceImage} alt="price" />
-                                                <p className="course-price">{courses.price}</p>
+                        {currentPage === 1 ? (
+                            filterCourses.map((courses) => {
+                                return (
+                                    <div className="course-item" key={courses.id}>
+                                        <div className="course-item-image">
+                                            <img src={courses.image} alt={courses.title}></img>
+                                        </div>
+                                        <div className="course-info">
+                                            <h3 className="course-title">{courses.title}</h3>
+                                            <div className="course-info-PRL">
+                                                <div className="course-info-PRL-item">
+                                                    <img src={courses.priceImage} alt="price" />
+                                                    <p className="course-price">{courses.price}</p>
+                                                </div>
+                                                <div className="course-info-PRL-item">
+                                                    <img src={courses.durationImage} alt="duration" />
+                                                    <p className="course-duration">{courses.duration}</p>
+                                                </div>
+                                                <div className="course-info-PRL-item">
+                                                    <img src={courses.levelImage} alt="level" />
+                                                    <p className="course-level">{courses.level}</p>
+                                                </div>
                                             </div>
-                                            <div className="course-info-PRL-item">
-                                                <img src={courses.durationImage} alt="duration" />
-                                                <p className="course-duration">{courses.duration}</p>
-                                            </div>
-                                            <div className="course-info-PRL-item">
-                                                <img src={courses.levelImage} alt="level" />
-                                                <p className="course-level">{courses.level}</p>
+                                            <div className="course-info-IR">
+                                                <div className="course-info-IR-item">
+                                                    <img src={courses.instructorImage} alt="instructor" />
+                                                    <p className="course-instructor">{courses.instructor}</p>
+                                                </div>
+                                                <div className="course-info-IR-item">
+                                                    <img src={courses.ratingImage} alt="rating" />
+                                                    <p className="course-rating">{courses.rating}</p>
+                                                </div>
                                             </div>
                                         </div>
-                                        <div className="course-info-IR">
-                                            <div className="course-info-IR-item">
-                                                <img src={courses.instructorImage} alt="instructor" />
-                                                <p className="course-instructor">{courses.instructor}</p>
-                                            </div>
-                                            <div className="course-info-IR-item">
-                                                <img src={courses.ratingImage} alt="rating" />
-                                                <p className="course-rating">{courses.rating}</p>
-                                            </div>
-                                        </div>
                                     </div>
-                                </div>
-                            )
-                        })}
+                                )
+                            })
+                        ) : (
+                            <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', width: '100%', height: '300px', color: '#666363', gap: '20px' }}>
+                                <img src="/photo_icons/book.png" alt="Coming Soon" style={{ width: '80px', opacity: '0.5' }} />
+                                <h3 style={{ fontSize: '28px' }}>Coming Soon...</h3>
+                                <p style={{ fontSize: '20px' }}>Content for Page {currentPage} is currently under development.</p>
+                            </div>
+                        )}
                     </div>
                 </div>
                 <div className="courses-container-footer">
