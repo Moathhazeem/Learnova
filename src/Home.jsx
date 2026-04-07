@@ -112,36 +112,36 @@ function Home() {
                 <div className="section-header">
                     <h2>Recommended for You</h2>
                 </div>
-                <div className="courses-grid">
+                <div className="courses-container">
                     {recommendedCourses.map((course, index) => (
-                        <div key={index} className="course-card">
-                            <div className="course-image-container">
-                                <img src={course.image} alt={course.title} className="course-image" />
+                        <div key={index} className="course-item">
+                            <div className="course-item-image">
+                                <img src={course.image} alt={course.title} />
                             </div>
-                            <div className="course-body">
-                                <h4 className="course-title">{course.title}</h4>
-                                <div className="course-meta">
-                                    <div className="meta-item">
-                                        <img src="/photo_icons/price.png" alt="Price" />
-                                        <span>{course.price}</span>
+                            <div className="course-info">
+                                <h3 className="course-title">{course.title}</h3>
+                                <div className="course-info-PRL">
+                                    <div className="course-info-PRL-item">
+                                        <img src="/photo_icons/price.png" alt="price" />
+                                        <p className="course-price">{course.price}</p>
                                     </div>
-                                    <div className="meta-item">
-                                        <img src="/photo_icons/Timing.png" alt="Duration" />
-                                        <span>{course.duration}</span>
+                                    <div className="course-info-PRL-item">
+                                        <img src="/photo_icons/Timing.png" alt="duration" />
+                                        <p className="course-duration">{course.duration}</p>
                                     </div>
-                                    <div className="meta-item">
-                                        <img src="/photo_icons/Level.png" alt="Level" />
-                                        <span>{course.level}</span>
+                                    <div className="course-info-PRL-item">
+                                        <img src="/photo_icons/Level.png" alt="level" />
+                                        <p className="course-level">{course.level}</p>
                                     </div>
                                 </div>
-                                <div className="course-footer">
-                                    <div className="instructor">
-                                        <img src={course.instructorImage} alt={course.instructor} className="instructor-avatar" />
-                                        <span>{course.instructor}</span>
+                                <div className="course-info-IR">
+                                    <div className="course-info-IR-item">
+                                        <img src={course.instructorImage} alt="instructor" />
+                                        <p className="course-instructor">{course.instructor}</p>
                                     </div>
-                                    <div className="rating">
-                                        <img src="/photo_icons/Rating.png" alt="Rating" />
-                                        <span>{course.rating}</span>
+                                    <div className="course-info-IR-item">
+                                        <img src="/photo_icons/Rating.png" alt="rating" />
+                                        <p className="course-rating">{course.rating}</p>
                                     </div>
                                 </div>
                             </div>

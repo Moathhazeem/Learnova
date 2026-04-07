@@ -184,7 +184,7 @@ function Header() {
 
           <nav className="nav-links">
             <a href="#" style={{ marginRight: "100px" }}>{t("setting.my_learning", "My Learning")}</a>
-            <a href="#" style={{ marginRight: "100px" }}>{t("setting.explore", "Explore")}</a>
+            <a href="/Explore" style={{ marginRight: "100px" }}>{t("setting.explore", "Explore")}</a>
           </nav>
           <h1 className="logo" onClick={() => Navigate("/LandingPage")}>
             <a href="/LandingPage">Learnova</a>

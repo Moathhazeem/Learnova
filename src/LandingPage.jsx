@@ -16,107 +16,71 @@ function LandingPage() {
                 <div className="popular-courses-section">
                     <h2 className="popular-courses-title">Popular Courses</h2>
                     <div className="courses-container">
-                        {/* One course card */}
-                        <div className="Courses_info">
-                            <div className="course-card">
-                                <img className="course-image" src="/Photo/Adobe Illustrator logo design.png" alt="Adobe Illustrator logo design" />
-                                <div className="course-content">
-                                    <p className="Name_course">Adobe Illustrator - logos design</p>
-                                    <div className="course-details-row">
-                                        <div className="price_info">
-                                            <img className="price-icon" src="/photo_icons/price.png" alt="price" />
-                                            <p className="price">$50</p>
+                        {[
+                            {
+                                image: "/Photo/Adobe Illustrator logo design.png",
+                                title: "Adobe Illustrator - logos design",
+                                price: "$50",
+                                duration: "1 h",
+                                level: "Beginner",
+                                instructor: "Dimitri Abdelhak",
+                                instructorImage: "/Photo/Dimitri Abdelhak.png",
+                                rating: "5.0"
+                            },
+                            {
+                                image: "/Photo/Adobe Photoshop - Social media designs.png",
+                                title: "Adobe Photoshop - Social media designs",
+                                price: "$50",
+                                duration: "1 h",
+                                level: "Intermediate",
+                                instructor: "Dimitri Abdelhak",
+                                instructorImage: "/Photo/Dimitri Abdelhak.png",
+                                rating: "5.0"
+                            },
+                            {
+                                image: "/Photo/Adobe InDesign - Book cover designs.png",
+                                title: "Adobe InDesign - Book cover designs",
+                                price: "$50",
+                                duration: "1 h",
+                                level: "Advanced",
+                                instructor: "Dimitri Abdelhak",
+                                instructorImage: "/Photo/Dimitri Abdelhak.png",
+                                rating: "5.0"
+                            }
+                        ].map((course, index) => (
+                            <div className="course-item" key={index}>
+                                <div className="course-item-image">
+                                    <img src={course.image} alt={course.title} />
+                                </div>
+                                <div className="course-info">
+                                    <h3 className="course-title">{course.title}</h3>
+                                    <div className="course-info-PRL">
+                                        <div className="course-info-PRL-item">
+                                            <img src="/photo_icons/price.png" alt="price" />
+                                            <p className="course-price">{course.price}</p>
                                         </div>
-                                        <div className="timing_info">
-                                            <img className="timing-icon" src="/photo_icons/Timing.png" alt="Timing" />
-                                            <p className="Timing">1 h</p>
+                                        <div className="course-info-PRL-item">
+                                            <img src="/photo_icons/Timing.png" alt="duration" />
+                                            <p className="course-duration">{course.duration}</p>
                                         </div>
-                                        <div className="level_info">
-                                            <img className="level-icon" src="/photo_icons/Level.png" alt="Level" />
-                                            <p className="Level">Beginner</p>
+                                        <div className="course-info-PRL-item">
+                                            <img src="/photo_icons/Level.png" alt="level" />
+                                            <p className="course-level">{course.level}</p>
                                         </div>
                                     </div>
-                                    <div className="course-instructor-row">
-                                        <div className="teacher_info">
-                                            <img className="teacher-image" src="/Photo/Dimitri Abdelhak.png" alt="Dimitri Abdelhak" />
-                                            <p className="Teacher">Dimitri Abdelhak</p>
+                                    <div className="course-info-IR">
+                                        <div className="course-info-IR-item">
+                                            <img src={course.instructorImage} alt="instructor" />
+                                            <p className="course-instructor">{course.instructor}</p>
                                         </div>
-                                        <div className="rating_info">
-                                            <img className="rating-icon" src="/photo_icons/Rating.png" alt="Rating" />
-                                            <p className="Rating">5.0</p>
+                                        <div className="course-info-IR-item">
+                                            <img src="/photo_icons/Rating.png" alt="rating" />
+                                            <p className="course-rating">{course.rating}</p>
                                         </div>
                                     </div>
                                 </div>
                             </div>
-                        </div>
-                        {/*Two courses card */}
-                        <div className="Courses_info">
-                            <div className="course-card">
-                                <img className="course-image" src="/Photo/Adobe Photoshop - Social media designs.png" alt="Adobe Photoshop - Social media designs" />
-                                <div className="course-content">
-                                    <p className="Name_course">Adobe Photoshop - Social media designs</p>
-                                    <div className="course-details-row">
-                                        <div className="price_info">
-                                            <img className="price-icon" src="/photo_icons/price.png" alt="price" />
-                                            <p className="price">$50</p>
-                                        </div>
-                                        <div className="timing_info">
-                                            <img className="timing-icon" src="/photo_icons/Timing.png" alt="Timing" />
-                                            <p className="Timing">1 h</p>
-                                        </div>
-                                        <div className="level_info">
-                                            <img className="level-icon" src="/photo_icons/Level.png" alt="Level" />
-                                            <p className="Level">Intermediate</p>
-                                        </div>
-                                    </div>
-                                    <div className="course-instructor-row">
-                                        <div className="teacher_info">
-                                            <img className="teacher-image" src="/Photo/Dimitri Abdelhak.png" alt="Dimitri Abdelhak" />
-                                            <p className="Teacher">Dimitri Abdelhak</p>
-                                        </div>
-                                        <div className="rating_info">
-                                            <img className="rating-icon" src="/photo_icons/Rating.png" alt="Rating" />
-                                            <p className="Rating">5.0</p>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-
-
-                        {/*Three courses card */}
-                        <div className="Courses_info">
-                            <div className="course-card">
-                                <img className="course-image" src="/Photo/Adobe InDesign - Book cover designs.png" alt="Adobe InDesign - Book cover designs" />
-                                <div className="course-content">
-                                    <p className="Name_course">Adobe InDesign - Book cover designs</p>
-                                    <div className="course-details-row">
-                                        <div className="price_info">
-                                            <img className="price-icon" src="/photo_icons/price.png" alt="price" />
-                                            <p className="price">$50</p>
-                                        </div>
-                                        <div className="timing_info">
-                                            <img className="timing-icon" src="/photo_icons/Timing.png" alt="Timing" />
-                                            <p className="Timing">1 h</p>
-                                        </div>
-                                        <div className="level_info">
-                                            <img className="level-icon" src="/photo_icons/Level.png" alt="Level" />
-                                            <p className="Level">Intermediate</p>
-                                        </div>
-                                    </div>
-                                    <div className="course-instructor-row">
-                                        <div className="teacher_info">
-                                            <img className="teacher-image" src="/Photo/Dimitri Abdelhak.png" alt="Dimitri Abdelhak" />
-                                            <p className="Teacher">Dimitri Abdelhak</p>
-                                        </div>
-                                        <div className="rating_info">
-                                            <img className="rating-icon" src="/photo_icons/Rating.png" alt="Rating" />
-                                            <p className="Rating">5.0</p>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
+                        ))}
                     </div>
                 </div>
             </div>

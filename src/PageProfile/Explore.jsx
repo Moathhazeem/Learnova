@@ -11,6 +11,8 @@ function Explore() {
     const [isDarkMode, setIsDarkMode] = useState(
         document.documentElement.classList.contains("dark")
     );
+    const [currentPage, setCurrentPage] = useState(1);
+    const [totalPages, setTotalPages] = useState(1);
     const explore = [
         {
             id: 1,
@@ -224,6 +226,14 @@ function Explore() {
             arrow: "/photo_icons/arrow-down.png",
         },
     ]
+    const [FillterPrice, setFillterPrice] = useState(false);
+    const [FillterTime, setFillterTime] = useState(false);
+    const [FillterLevel, setFillterLevel] = useState(false);
+    const [FillterSortBy, setFillterSortBy] = useState(false);
+    const [FillterPriceOpen, setFillterPriceOpen] = useState(false);
+    const [FillterTimeOpen, setFillterTimeOpen] = useState(false);
+    const [FillterLevelOpen, setFillterLevelOpen] = useState(false);
+    const [FillterSortByOpen, setFillterSortByOpen] = useState(false);
     return (
         <div className="explore">
             {/* Breadcrumbs */}
@@ -276,11 +286,61 @@ function Explore() {
                     <h3 className="total-courses">Showing {explore.length} results</h3>
                     <div className="courses-container-fillter">
                         {Fillter.map((item) => (
+                            <div key={item.id} className="filter-item-container">
+                                <div
+                                    className="courses-container-fillter-item"
+                                    onClick={() => {
+                                        if (item.title === "Price") setFillterPrice(!FillterPrice);
+                                        if (item.title === "Time") setFillterTime(!FillterTime);
+                                        if (item.title === "Level") setFillterLevel(!FillterLevel);
+                                        if (item.title === "Sort by") setFillterSortBy(!FillterSortBy);
+                                    }}
+                                >
+                                    <img src={item.icon} alt={item.title} />
+                                    <p className="courses-container-fillter-item-text">{item.title}</p>
+                                    <img
+                                        src={item.arrow}
+                                        alt="arrow"
+                                        style={{
+                                            transition: 'transform 0.3s ease',
+                                            transform: (
+                                                (item.title === "Price" && FillterPrice) ||
+                                                (item.title === "Time" && FillterTime) ||
+                                                (item.title === "Level" && FillterLevel) ||
+                                                (item.title === "Sort by" && FillterSortBy)
+                                            ) ? 'rotate(180deg)' : 'rotate(0)'
+                                        }}
+                                    />
+                                </div>
 
-                            <div className="courses-container-fillter-item">
-                                <img src={item.icon} alt={item.title} />
-                                <p className="courses-container-fillter-item-text">{item.title}</p>
-                                <img src={item.arrow} alt={item.title} />
+                                {item.title === "Price" && FillterPrice && (
+                                    <div className="courses-container-fillter-price">
+                                        <div className="fillter-price-option">Less than $50</div>
+                                        <div className="fillter-price-option">More than $50</div>
+                                        <div className="fillter-price-option">$100 - $200</div>
+                                    </div>
+                                )}
+                                {item.title === "Time" && FillterTime && (
+                                    <div className="courses-container-fillter-price">
+                                        <div className="fillter-time-option">Less than 10 hours</div>
+                                        <div className="fillter-time-option">More than 10 hours</div>
+                                        <div className="fillter-time-option">10 - 20 hours</div>
+                                    </div>
+                                )}
+                                {item.title === "Level" && FillterLevel && (
+                                    <div className="courses-container-fillter-price">
+                                        <div className="fillter-level-option">Beginner</div>
+                                        <div className="fillter-level-option">Intermediate</div>
+                                        <div className="fillter-level-option">Advanced</div>
+                                    </div>
+                                )}
+                                {item.title === "Sort by" && FillterSortBy && (
+                                    <div className="courses-container-fillter-price">
+                                        <div className="fillter-sort-by-option">Newest</div>
+                                        <div className="fillter-sort-by-option">Oldest</div>
+                                        <div className="fillter-sort-by-option">Most Popular</div>
+                                    </div>
+                                )}
                             </div>
                         ))}
                     </div>
@@ -324,18 +384,19 @@ function Explore() {
                     </div>
                 </div>
                 <div className="courses-container-footer">
-                    <div className="page-number-item">
-                        <img src="/photo_icons/arrow-left.png" alt="page-number" />
+                    <div className="page-number-item-arrow" onClick={() => setCurrentPage(Math.max(1, currentPage - 1))}>
+                        <ChevronLeft size={30} />
                     </div>
-                    {PageNumbers.map((pageNumber) => {
+
+                    {Array.from({ length: 5 }, (_, i) => i + 1).map((pageNumber) => {
                         return (
-                            <div className="page-number">
-                                <p>{pageNumber.number}</p>
+                            <div className={`page-number ${currentPage === pageNumber ? "active" : ""}`} key={pageNumber} onClick={() => setCurrentPage(pageNumber)}>
+                                <p>{pageNumber}</p>
                             </div>
                         )
                     })}
-                    <div className="page-number-item">
-                        <img src="/photo_icons/arrow-right.png" alt="page-number" />
+                    <div className="page-number-item-arrow" onClick={() => setCurrentPage(Math.min(5, currentPage + 1))}>
+                        <ChevronRight size={30} />
                     </div>
                 </div>
             </div>
