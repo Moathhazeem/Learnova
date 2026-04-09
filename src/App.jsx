@@ -19,6 +19,7 @@ import Notification from './Setting/Notification'
 import Payment from './Setting/Payment'
 import MyLearning from './PageProfile/My Learning'
 import Explore from './PageProfile/Explore'
+import Course from './courses/Course'
 function Layout({ children }) {
   const location = useLocation();
   const noheaderfooter = ["/log_in", "/sign_up", "/Forgot_pas", "/check_email", '/Verification_Code', '/Create_new_pas'];
@@ -53,6 +54,7 @@ function App() {
           <Route path="/Setting/Payment" element={<Payment />} />
           <Route path="/My Learning" element={<MyLearning />} />
           <Route path="/Explore" element={<Explore />} />
+          <Route path="/Explore/Course" element={<Course />} />
         </Routes>
       </Layout>
     </Router>

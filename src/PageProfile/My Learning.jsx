@@ -187,7 +187,7 @@ function MyLearning() {
         {
             specialization: "IBM Full-Stack JavaScript Developer",
             title: "Introduction to Software Engineering",
-            progress: 30,
+            progress: 100,
             lastLesson: "Nov 14, 7:20 AM",
             providerLogo: "/photo_icons/IBM.png",
         },

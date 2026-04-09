@@ -1,11 +1,13 @@
 import React, { useState, useEffect } from "react";
-import { Link, useLocation } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 import { ChevronLeft, ChevronRight, Pencil } from "lucide-react";
 import "../config/i18n";
 import "./Explore.css";
 
 function Explore() {
+    const navigate = useNavigate();
+    const location = useLocation();
     const pathname = location.pathname.split("/").filter((x) => x);
     const { t, i18n } = useTranslation();
     const [isDarkMode, setIsDarkMode] = useState(
@@ -269,21 +271,20 @@ function Explore() {
                 {pathname.map((value, index) => {
                     const to = "/" + pathname.slice(0, index + 1).join("/");
                     const isLast = index === pathname.length - 1;
-                    const translationKey =
-                        value.toLowerCase() === "setting" ? "header" : value.toLowerCase();
+                    const translationKey = value.toLowerCase().replace("%20", "_").replace(" ", "_");
+
                     return (
-                        <span key={to}>
+                        <span key={to} style={{ display: 'flex', alignItems: 'center' }}>
                             <span className="breadcrumb-separator">
-                                {" "}
-                                {t("setting.breadcrumb_separator", ">")}{" "}
+                                {t("setting.breadcrumb_separator", ">")}
                             </span>
                             {isLast ? (
                                 <span className="current-page">
-                                    {t(`setting.${translationKey}`, value.replace("%20", " "))}
+                                    {t(`setting.${translationKey}`, decodeURIComponent(value))}
                                 </span>
                             ) : (
                                 <Link to={to} className="Breadcrumbs">
-                                    {t(`setting.${translationKey}`, value.replace("%20", " "))}
+                                    {t(`setting.${translationKey}`, decodeURIComponent(value))}
                                 </Link>
                             )}
                         </span>
@@ -298,12 +299,12 @@ function Explore() {
                 </div>
                 <div className="explore-content">
                     {explore.map((item) => (
-                        <button className="explore-item" key={item.id}>
+                        <Link className="explore-item" key={item.id}>
                             <div className="explore-item-icon">
                                 <img src={item.image} alt={item.title} />
                             </div>
                             <p className="explore-item-text">{item.title}</p>
-                        </button>
+                        </Link>
                     ))}
                 </div>
 
@@ -377,7 +378,11 @@ function Explore() {
                         {currentPage === 1 ? (
                             filterCourses.map((courses) => {
                                 return (
-                                    <div className="course-item" key={courses.id}>
+                                    <div className="course-item" key={courses.id} onClick={() => {
+                                        if (courses.title === "Adobe Illustrator Logo Design") {
+                                            navigate("/Explore/Course");
+                                        }
+                                    }}>
                                         <div className="course-item-image">
                                             <img src={courses.image} alt={courses.title}></img>
                                         </div>
