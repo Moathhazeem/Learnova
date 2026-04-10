@@ -10,7 +10,6 @@
 }
 
 .container {
-    max-width: 1200px;
     width: 100%;
     margin: 0 auto;
 }
@@ -71,4 +70,369 @@
 
 .dark .course-name {
     color: #b0b0b0;
+}
+
+.course-content {
+    display: flex;
+    justify-content: space-between;
+    gap: 40px;
+}
+
+.course-content-left {
+    flex: 2;
+    display: flex;
+    flex-direction: column;
+    gap: 40px;
+}
+
+.course-content-left-header {
+    display: flex;
+    flex-direction: column;
+    gap: 25px;
+}
+
+.course-content-left-header h3 {
+    font-size: 32px;
+    font-weight: bold;
+    line-height: 1.2;
+    color: var(--text-primary, #1a1a1a);
+}
+
+.course-content-left-header p {
+    font-size: 16px;
+    font-weight: 400;
+    line-height: 1.5;
+    color: #666363;
+}
+
+.course-content-left-body {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    justify-content: flex-start;
+    align-items: flex-start;
+}
+
+.course-content-left-body p {
+    display: flex;
+    flex-direction: row;
+}
+
+.name_teacher {
+    font-size: 16px;
+    font-weight: 400;
+    line-height: 1.5;
+    color: black;
+    gap: 10px;
+}
+
+.date {
+    font-size: 16px;
+    font-weight: 400;
+    line-height: 1.5;
+    color: black;
+    gap: 10px;
+}
+
+.language_speak {
+    font-size: 16px;
+    font-weight: 400;
+    line-height: 1.5;
+    color: black;
+    gap: 10px;
+}
+
+.language_word {
+    font-size: 16px;
+    font-weight: 400;
+    line-height: 1.5;
+    color: black;
+    gap: 10px;
+}
+
+.course-content-right {
+    flex: 1;
+    max-width: 400px;
+}
+
+.course-card-sticky {
+    position: sticky;
+    top: 120px;
+    z-index: 10;
+}
+
+.card-course {
+    background: var(--bg-card, #ffffff);
+    border-radius: 16px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+    overflow: hidden;
+    border: 1px solid var(--border-color, #f0f0f0);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.card-course:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 15px 40px rgba(0, 0, 0, 0.12);
+}
+
+.card-image-container {
+    position: relative;
+    cursor: pointer;
+    overflow: hidden;
+}
+
+.card-image-container img {
+    width: 100%;
+    height: 220px;
+    object-fit: cover;
+    display: block;
+    transition: transform 0.5s ease;
+}
+
+.card-image-container:hover img {
+    transform: scale(1.05);
+}
+
+.overlay-play {
+    position: absolute;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.3);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+    backdrop-filter: blur(2px);
+}
+
+.card-image-container:hover .overlay-play {
+    opacity: 1;
+}
+
+.overlay-play span {
+    margin-top: 12px;
+    font-weight: 600;
+    font-size: 16px;
+}
+
+.card_body {
+    padding: 24px;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.price-section {
+    display: flex;
+    align-items: baseline;
+    gap: 12px;
+    flex-wrap: wrap;
+}
+
+.current-price {
+    font-size: 32px;
+    font-weight: 800;
+    color: var(--text-primary, #1a1a1a);
+}
+
+.original-price {
+    font-size: 18px;
+    text-decoration: line-through;
+    color: #999;
+}
+
+.discount-badge {
+    background: #e8f5e9;
+    color: #2e7d32;
+    padding: 4px 10px;
+    border-radius: 6px;
+    font-size: 14px;
+    font-weight: 700;
+}
+
+.card_body_buttons {
+    display: flex;
+    gap: 12px;
+}
+
+.Add_to_cart {
+    flex: 1;
+    height: 52px;
+    background: #0089EA;
+    color: white;
+    border: none;
+    border-radius: 12px;
+    font-size: 16px;
+    font-weight: 700;
+    cursor: pointer;
+    transition: background 0.2s, transform 0.1s;
+}
+
+.Add_to_cart:hover {
+    background: #0076c9;
+}
+
+.Add_to_cart:active {
+    transform: scale(0.98);
+}
+
+.love-btn {
+    width: 52px;
+    height: 52px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: transparent;
+    border: 1px solid #e0e0e0;
+    border-radius: 12px;
+    cursor: pointer;
+    color: #666;
+    transition: all 0.2s;
+}
+
+.love-btn:hover {
+    border-color: #ff4d4f;
+    color: #ff4d4f;
+    background: #fff1f0;
+}
+
+.buy_now {
+    width: 100%;
+    height: 52px;
+    background: white;
+    color: #1a1a1a;
+    border: 1px solid #1a1a1a;
+    border-radius: 12px;
+    font-size: 16px;
+    font-weight: 700;
+    cursor: pointer;
+    transition: all 0.2s;
+}
+
+.buy_now:hover {
+    background: #f5f5f5;
+}
+
+.guarantee {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    font-size: 13px;
+    color: #666;
+    font-weight: 500;
+}
+
+.include-course {
+    margin-top: 10px;
+}
+
+.include-course h4 {
+    font-size: 16px;
+    font-weight: 700;
+    margin-bottom: 15px;
+    color: var(--text-primary, #1a1a1a);
+}
+
+.include-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.include-list li {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    font-size: 14px;
+    color: #555;
+}
+
+.include-list li .icon {
+    color: #0089EA;
+    flex-shrink: 0;
+}
+
+.share-section {
+    display: flex;
+    border-top: 1px solid var(--border-color, #f0f0f0);
+    padding-top: 20px;
+    gap: 20px;
+}
+
+.share-btn, .coupon-btn {
+    background: none;
+    border: none;
+    padding: 0;
+    font-size: 14px;
+    font-weight: 700;
+    color: #1a1a1a;
+    cursor: pointer;
+    text-decoration: underline;
+    text-underline-offset: 4px;
+}
+
+.share-btn:hover, .coupon-btn:hover {
+    color: #0089EA;
+}
+
+/* Dark Mode Adjustments */
+.dark .card-course {
+    background: #1e1e1e;
+    border-color: #333;
+}
+
+.dark .current-price {
+    color: #fff;
+}
+
+.dark .buy_now {
+    background: transparent;
+    color: #fff;
+    border-color: #fff;
+}
+
+.dark .buy_now:hover {
+    background: #333;
+}
+
+.dark .include-list li {
+    color: #ccc;
+}
+
+.dark .guarantee {
+    color: #999;
+}
+
+.dark .share-btn, .dark .coupon-btn {
+    color: #fff;
+}
+
+.dark .love-btn {
+    border-color: #444;
+    color: #aaa;
+}
+
+.dark .discount-badge {
+    background: #1b3a21;
+    color: #81c784;
+}
+
+@media (max-width: 1024px) {
+    .course-content {
+        flex-direction: column-reverse;
+    }
+    .course-content-right {
+        max-width: 100%;
+        width: 100%;
+    }
+    .course-card-sticky {
+        position: relative;
+        top: 0;
+    }
 }
