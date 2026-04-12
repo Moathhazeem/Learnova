@@ -286,3 +286,63 @@
     font-weight: 500;
     color: #000;
 }
+
+/* ─── Server Error Banner ─────────────────────────────────────────────────── */
+.server-error-banner {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    width: 100%;
+    max-width: 540px;
+    padding: 12px 16px;
+    margin-bottom: 16px;
+    background-color: #fff0f0;
+    border: 1px solid #ffcccc;
+    border-radius: 10px;
+    color: #cc0000;
+    font-size: 16px;
+    font-weight: 500;
+    direction: ltr;
+    animation: bannerFadeIn 0.3s ease;
+}
+
+.server-error-banner img {
+    width: 20px;
+    height: 20px;
+    flex-shrink: 0;
+}
+
+@keyframes bannerFadeIn {
+    from { opacity: 0; transform: translateY(-6px); }
+    to   { opacity: 1; transform: translateY(0); }
+}
+
+/* ─── Loading Spinner ─────────────────────────────────────────────────────── */
+.btn-loading {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+}
+
+.spinner {
+    display: inline-block;
+    width: 20px;
+    height: 20px;
+    border: 3px solid rgba(255, 255, 255, 0.4);
+    border-top-color: #ffffff;
+    border-radius: 50%;
+    animation: spin 0.75s linear infinite;
+}
+
+@keyframes spin {
+    to { transform: rotate(360deg); }
+}
+
+/* ─── Disabled button state ───────────────────────────────────────────────── */
+.sign-in-button:disabled {
+    background-color: #7ec4f5;
+    cursor: not-allowed;
+    transform: none;
+    box-shadow: none;
+}
