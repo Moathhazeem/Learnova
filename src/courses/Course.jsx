@@ -4,7 +4,7 @@ import "../config/i18n";
 import { useTranslation } from "react-i18next";
 import { useEffect } from 'react';
 import './Course.css';
-import { PlayCircle, ShieldCheck, Monitor, Award, Heart, Share2, ChevronDown, Star, ThumbsUp, ThumbsDown, Reply } from 'lucide-react';
+import { PlayCircle, ShieldCheck, Monitor, Award, Heart, Share2, ChevronDown, Star, ThumbsUp, ThumbsDown, Reply, Globe, Languages } from 'lucide-react';
 function Course() {
     const { t } = useTranslation();
     const location = useLocation();
@@ -98,7 +98,15 @@ function Course() {
             description: "Export and share work"
         }
     ]
-    const Comments = [
+    const [rating,setRating] = useState(0);
+    const [comment,setComment] = useState("");
+    const [showMoreSpeak, setShowMoreSpeak] = useState(false);
+    const [showMoreWord, setShowMoreWord] = useState(false);
+    const [showMoreBenefits, setShowMoreBenefits] = useState(false);
+    const [replyToId, setReplyToId] = useState(null);
+    const [showRepliesId, setShowRepliesId] = useState(null);
+    const [replyText, setReplyText] = useState("");
+    const [commentsList, setCommentsList] = useState([
         {
             id: 1,
             img: "/Photo/Profile.jfif",
@@ -108,7 +116,8 @@ function Course() {
             description: "Indeed, the course is excellent and explained everything to me in an easy way. I felt that I could design logos from scratch without any prior experience.",
             likes: 50,
             dislikes: 11,
-            repliesCount: 10
+            repliesCount: 10,
+            replies: []
         },
         {
             id: 2,
@@ -119,12 +128,55 @@ function Course() {
             description: "The instructor is very helpful and responsive.",
             likes: 12,
             dislikes: 2,
-            repliesCount: 3
+            repliesCount: 3,
+            replies: []
         },
-    ]
-    const [rating,setRating] = useState(0);
-    const [comment,setComment] = useState("");
+    ]);
 
+    const handleAddComment = () => {
+        if (!comment.trim()) return;
+        const newComment = {
+            id: Date.now(),
+            img: "/Photo/Profile.jfif",
+            name: "User", // Assuming a default user name
+            rating: rating,
+            duration: "Just now",
+            description: comment,
+            likes: 0,
+            dislikes: 0,
+            repliesCount: 0,
+            replies: []
+        };
+        setCommentsList([newComment, ...commentsList]);
+        setComment("");
+        setRating(0);
+    };
+
+    const handleAddReply = (commentId) => {
+        if (!replyText.trim()) return;
+        const newReply = {
+            id: Date.now(),
+            img: "/Photo/Profile.jfif",
+            name: "User",
+            duration: "Just now",
+            description: replyText,
+        };
+        
+        setCommentsList(commentsList.map(c => {
+            if (c.id === commentId) {
+                return {
+                    ...c,
+                    replies: [...c.replies, newReply],
+                    repliesCount: c.repliesCount + 1
+                };
+            }
+            return c;
+        }));
+        setReplyText("");
+        setReplyToId(null);
+    };
+
+const language = ["English", "Spanish", "French", "German", "Italian"];
 
     return (    
         <div className="course-page">
@@ -166,23 +218,45 @@ function Course() {
                         <div className="course-content-left-body">
                             <p className="name_teacher">Create by <Link to="/teacher" style={{ color: "#0089EA", textDecoration: "underline" }}>Dimitri Abdelhakim</Link></p>
                             <p className="date">Last updated 1 / 1 / 2025</p>
-                            <p className="language_speak"><img src="Photo/Profile.jfif" alt="" /> English , <p style={{ color: "#0089EA", textDecoration: "underline" }}>26 more</p></p>
-                            <p className="language_word"><img src="Photo/Profile.jfif" alt="" /> English , <p style={{ color: "#0089EA", textDecoration: "underline" }}>26 more</p></p>
+                            <p className="language_speak">
+                                <Globe size={18} /> {language[0]} 
+                                {showMoreSpeak && ` , ${language.slice(1).join(", ")}`} 
+                                <span 
+                                    onClick={() => setShowMoreSpeak(!showMoreSpeak)} 
+                                    style={{ color: "#0089EA", textDecoration: "underline", cursor: "pointer", marginLeft: "5px" }}
+                                >
+                                    {showMoreSpeak ? t("courses.show_less", "Show less") : "26 more"}
+                                </span>
+                            </p>
+                            <p className="language_word">
+                                <Languages size={18} /> {language[0]} 
+                                {showMoreWord && ` , ${language.slice(1).join(", ")}`} 
+                                <span 
+                                    onClick={() => setShowMoreWord(!showMoreWord)} 
+                                    style={{ color: "#0089EA", textDecoration: "underline", cursor: "pointer", marginLeft: "5px" }}
+                                >
+                                    {showMoreWord ? t("courses.show_less", "Show less") : "26 more"}
+                                </span>
+                            </p>
                         </div>
                         <div className="course-content-left" style={{ marginTop: "100px" }}>
                             <div className="BenfiteOfCourse">
                                 <h3>{t("courses.What you'II learn", "What you'II learn")}</h3>
                                 <div className="BenfiteOfCourse-body" style={{ marginTop: "20px" }}>
-                                    {BenfiteOfCourse.map((item) => (
+                                    {(showMoreBenefits ? BenfiteOfCourse : BenfiteOfCourse.slice(0, 4)).map((item) => (
                                         <div key={item.id} className="BenfiteOfCourse-item">
                                             <img src={item.img} alt="" />
                                             <p>{item.description}</p>
                                         </div>
 
                                     ))}
-                                    <div className="show_more">
-                                        <img src="/photo_icons/arrow-down.png" alt="" />
-                                        <p>{t("courses.show_more", "Show more")}</p>
+                                    <div className="show_more" onClick={() => setShowMoreBenefits(!showMoreBenefits)}>
+                                        <img 
+                                            src="/photo_icons/arrow-down.png" 
+                                            alt="" 
+                                            style={{ transform: showMoreBenefits ? "rotate(180deg)" : "rotate(0deg)", transition: "transform 0.3s" }} 
+                                        />
+                                        <p>{showMoreBenefits ? t("courses.show_less", "Show less") : t("courses.show_more", "Show more")}</p>
                                     </div>
                                 </div>
                             </div>
@@ -236,11 +310,11 @@ function Course() {
                                                 </span>
                                             ))}
                                         </div>
-                                        <button className="send-btn">{t("courses.send", "Send")}</button>
+                                        <button className="send-btn" onClick={handleAddComment}>{t("courses.send", "Send")}</button>
                                     </div>
                                 </div>
                                 <div className="Comments-list">
-                                    {Comments.map((item) => (
+                                    {commentsList.map((item) => (
                                         <div key={item.id} className="Comment-item">
                                             <div className="comment-header">
                                                 <img src={item.img} alt="" className="user-avatar" />
@@ -274,16 +348,50 @@ function Course() {
                                                         <span>{item.dislikes}</span>
                                                         <ThumbsDown size={20} className="action-icon" />
                                                     </div>
-                                                    <div className="action-item reply-btn">
+                                                    <div className="action-item reply-btn" onClick={() => setReplyToId(replyToId === item.id ? null : item.id)}>
                                                         <Reply size={20} className="action-icon" />
                                                         <span>{t("courses.reply", "Reply")}</span>
                                                     </div>
                                                 </div>
-                                                <div className="see-replies">
-                                                    <ChevronDown size={18} />
+                                                <div className="see-replies" onClick={() => setShowRepliesId(showRepliesId === item.id ? null : item.id)}>
+                                                    <ChevronDown size={18} style={{ transform: showRepliesId === item.id ? "rotate(180deg)" : "rotate(0deg)", transition: "transform 0.3s" }} />
                                                     <span>{t("courses.see_replies", `See ${item.repliesCount} Replies`, { count: item.repliesCount })}</span>
                                                 </div>
                                             </div>
+
+                                            {/* Reply Input */}
+                                            {replyToId === item.id && (
+                                                <div className="reply-input-section">
+                                                    <div className="input-group">
+                                                        <input
+                                                            type="text"
+                                                            placeholder={t("courses.add_reply", "Add a reply...")}
+                                                            value={replyText}
+                                                            onChange={(e) => setReplyText(e.target.value)}
+                                                            autoFocus
+                                                        />
+                                                        <button className="send-btn" onClick={() => handleAddReply(item.id)}>{t("courses.reply_send", "Reply")}</button>
+                                                    </div>
+                                                </div>
+                                            )}
+
+                                            {/* Replies List */}
+                                            {showRepliesId === item.id && item.replies && item.replies.length > 0 && (
+                                                <div className="replies-list">
+                                                    {item.replies.map((reply) => (
+                                                        <div key={reply.id} className="reply-item">
+                                                            <div className="comment-header">
+                                                                 <img src={reply.img} alt="" className="user-avatar reply-avatar" />
+                                                                 <div className="user-info">
+                                                                     <p className="comment-name reply-name">{reply.name}</p>
+                                                                     <span className="comment-duration reply-duration">{reply.duration}</span>
+                                                                 </div>
+                                                             </div>
+                                                             <p className="comment-description reply-description">{reply.description}</p>
+                                                        </div>
+                                                    ))}
+                                                </div>
+                                            )}
                                         </div>
                                     ))}
                                 </div>

@@ -122,32 +122,55 @@
     font-size: 16px;
     font-weight: 400;
     line-height: 1.5;
-    color: black;
+    color: var(--text-primary, #1a1a1a);
     gap: 10px;
+    display: flex;
+    align-items: center;
 }
 
 .date {
     font-size: 16px;
     font-weight: 400;
     line-height: 1.5;
-    color: black;
+    color: var(--text-primary, #1a1a1a);
     gap: 10px;
+    display: flex;
+    align-items: center;
 }
 
 .language_speak {
     font-size: 16px;
     font-weight: 400;
     line-height: 1.5;
-    color: black;
+    color: var(--text-primary, #1a1a1a);
     gap: 10px;
+    display: flex;
+    align-items: center;
+}
+
+.language_speak span:hover {
+    cursor: pointer;
 }
 
 .language_word {
     font-size: 16px;
     font-weight: 400;
     line-height: 1.5;
-    color: black;
+    color: var(--text-primary, #1a1a1a);
     gap: 10px;
+    display: flex;
+    align-items: center;
+}
+
+.language_word span:hover {
+    cursor: pointer;
+}
+
+.dark .name_teacher,
+.dark .date,
+.dark .language_speak,
+.dark .language_word {
+    color: #ffffff;
 }
 
 .course-content-right {
@@ -446,24 +469,31 @@
     border-radius: 10px;
     border: 1px solid rgba(0, 0, 0, 0.2);
     width: 668px;
-    height: 350px;
+    min-height: 250px;
+    height: auto;
     gap: 10px;
     padding: 19px 36px;
 }
-
+.BenfiteOfCourse h3 {
+    font-size: 24px;
+    font-weight: 700;
+    margin-bottom: 20px;
+    color: var(--text-primary, #1a1a1a);
+}
 .BenfiteOfCourse-body {
     display: flex;
     flex-direction: column;
-    flex-wrap: wrap;
     gap: 10px;
-    width: 624px;
-    height: 453px;
+    width: 100%;
 }
 
 .BenfiteOfCourse-item {
     display: flex;
     flex-direction: row;
     gap: 13px;
+    align-items: flex-start;
+    justify-content: flex-start;
+    color: #666363;
 }
 
 .BenfiteOfCourse-item img {
@@ -743,6 +773,43 @@
     font-size: 14px;
     font-weight: 600;
     cursor: pointer;
+}
+
+.reply-input-section {
+    margin-top: 15px;
+    margin-left: 60px;
+}
+
+.replies-list {
+    margin-left: 60px;
+    margin-top: 15px;
+}
+
+.reply-item {
+    margin-bottom: 15px;
+    border-left: 2px solid #e0e0e0;
+    padding-left: 15px;
+}
+
+.reply-avatar {
+    width: 35px !important;
+    height: 35px !important;
+}
+
+.reply-name {
+    font-size: 14px !important;
+}
+
+.reply-duration {
+    font-size: 12px !important;
+}
+
+.reply-description {
+    font-size: 14px !important;
+}
+
+.dark .reply-item {
+    border-left-color: #444;
 }
 
 /* Dark Mode Support for Comment Section */
