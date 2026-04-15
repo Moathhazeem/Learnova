@@ -4,7 +4,7 @@ import "../config/i18n";
 import { useTranslation } from "react-i18next";
 import { useEffect } from 'react';
 import './Course.css';
-import { PlayCircle, ShieldCheck, Monitor, Award, Heart, Share2 } from 'lucide-react';
+import { PlayCircle, ShieldCheck, Monitor, Award, Heart, Share2, ChevronDown, Star, ThumbsUp, ThumbsDown, Reply } from 'lucide-react';
 function Course() {
     const { t } = useTranslation();
     const location = useLocation();
@@ -22,8 +22,111 @@ function Course() {
 
         return () => observer.disconnect();
     }, []);
+    const BenfiteOfCourse = [
+        {
+            id: 1,
+            img: "/photo_icons/Done.png",
+            description: "Use Illustrator confidently to design vector-based logos"
+        },
+        {
+            id: 2,
+            img: "/photo_icons/Done.png",
+            description: "Develop strong logo concepts and convert them into clean visuals"
+        },
+        {
+            id: 3,
+            img: "/photo_icons/Done.png",
+            description: "Apply color theory and typography effectively"
+        },
+        {
+            id: 4,
+            img: "/photo_icons/Done.png",
+            description: "Create modern, simple, and professional logo styles"
+        },
+        {
+            id: 5,
+            img: "/photo_icons/Done.png",
+            description: "Export logos correctly for print, web, and clients"
+        },
+        {
+            id: 6,
+            img: "/photo_icons/Done.png",
+            description: "Build a mini-portfolio of your own logo designs"
+        }
+    ]
+    const RequirementsOfCourse = [
+        {
+            id: 1,
+            description: "A computer or laptop capable of running Adobe Illustrator.",
+        },
+        {
+            id: 2,
+            description: "An installed copy of Adobe Illustrator (preferably the latest version or CC).",
+        },
+        {
+            id: 3,
+            description: "Basic knowledge of using a computer (opening programs, using a mouse and keyboard).",
+        },
+        {
+            id: 4,
+            description: "No prior experience in design or other design software is required.",
+        },
+    ]
+    const CourseContent = [
+        {
+            id: 1,
+            description: "Introduction and basics of Illustrator",
+        },
+        {
+            id: 2,
+            description: "Shapes and gradients"
+        },
+        {
+            id: 3,
+            description: "Texts and typography"
+        },
+        {
+            id: 4,
+            description: "Advanced tools and design techniques"
+        },
+        {
+            id: 5,
+            description: "Designing a complete logo step by step"
+        },
+        {
+            id: 6,
+            description: "Export and share work"
+        }
+    ]
+    const Comments = [
+        {
+            id: 1,
+            img: "/Photo/Profile.jfif",
+            name: "Jamez Ramiez",
+            rating: 5,
+            duration: "One day ago",
+            description: "Indeed, the course is excellent and explained everything to me in an easy way. I felt that I could design logos from scratch without any prior experience.",
+            likes: 50,
+            dislikes: 11,
+            repliesCount: 10
+        },
+        {
+            id: 2,
+            img: "/Photo/Profile.jfif",
+            name: "Jane Doe",
+            rating: 4,
+            duration: "2 days ago",
+            description: "The instructor is very helpful and responsive.",
+            likes: 12,
+            dislikes: 2,
+            repliesCount: 3
+        },
+    ]
+    const [rating,setRating] = useState(0);
+    const [comment,setComment] = useState("");
 
-    return (
+
+    return (    
         <div className="course-page">
             <div className="container">
                 {/* Breadcrumbs */}
@@ -54,7 +157,6 @@ function Course() {
                         );
                     })}
                 </nav>
-
                 <div className="course-content" >
                     <div className="course-content-left">
                         <div className="course-content-left-header">
@@ -64,8 +166,128 @@ function Course() {
                         <div className="course-content-left-body">
                             <p className="name_teacher">Create by <Link to="/teacher" style={{ color: "#0089EA", textDecoration: "underline" }}>Dimitri Abdelhakim</Link></p>
                             <p className="date">Last updated 1 / 1 / 2025</p>
-                            <p className="language_speak"><img src="" alt="" /> English , <p style={{ color: "#0089EA", textDecoration: "underline" }}>26 more</p></p>
-                            <p className="language_word"><img src="" alt="" /> English , <p style={{ color: "#0089EA", textDecoration: "underline" }}>26 more</p></p>
+                            <p className="language_speak"><img src="Photo/Profile.jfif" alt="" /> English , <p style={{ color: "#0089EA", textDecoration: "underline" }}>26 more</p></p>
+                            <p className="language_word"><img src="Photo/Profile.jfif" alt="" /> English , <p style={{ color: "#0089EA", textDecoration: "underline" }}>26 more</p></p>
+                        </div>
+                        <div className="course-content-left" style={{ marginTop: "100px" }}>
+                            <div className="BenfiteOfCourse">
+                                <h3>{t("courses.What you'II learn", "What you'II learn")}</h3>
+                                <div className="BenfiteOfCourse-body" style={{ marginTop: "20px" }}>
+                                    {BenfiteOfCourse.map((item) => (
+                                        <div key={item.id} className="BenfiteOfCourse-item">
+                                            <img src={item.img} alt="" />
+                                            <p>{item.description}</p>
+                                        </div>
+
+                                    ))}
+                                    <div className="show_more">
+                                        <img src="/photo_icons/arrow-down.png" alt="" />
+                                        <p>{t("courses.show_more", "Show more")}</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div className="course-content-left" style={{ marginTop: "20px" }}>
+                            <div className="RequirementsOfCourse">
+                                <h3>{t("courses.Requirements", "Requirements")}</h3>
+                                <ul className="RequirementOfCourse-list">
+                                    {RequirementsOfCourse.map((item) => (
+                                        <li key={item.id}>{item.description}</li>
+                                    ))}
+                                </ul>
+                            </div>
+                        </div>
+                        <div className="course-content-left" style={{ marginTop: "20px" }}>
+                            <div className="Course_content">
+                                <h3>{t("courses.Course_content", "Course content")}</h3>
+                                <div className="Course_content-list">
+                                    {CourseContent.map((item) => (
+                                        <div key={item.id} className="CourseContent-item">
+                                            <ChevronDown size={20} className="CourseContent-icon" />
+                                            <p>{item.description}</p>
+                                        </div>
+                                    ))}
+                                </div>
+                            </div>
+                        </div>
+                        <div className="course-content-left" style={{ marginTop: "20px" }}>
+                            <div className="Comments-section">
+                                <h3>{t("courses.Comments", "Comments")}</h3>
+                                <div className="Add-comment">
+                                    <img src="/Photo/Profile.jfif" alt="" />
+                                    <div className="input-group">
+                                        <input
+                                            type="text"
+                                            placeholder={t("courses.add_comment", "Add a comment")}
+                                            value={comment}
+                                            onChange={(e) => setComment(e.target.value)}
+                                        />
+                                        <div className="rating">
+                                            {[1, 2, 3, 4, 5].map((star) => (
+                                                <span
+                                                    key={star}
+                                                    onClick={() => setRating(star)}
+                                                    style={{
+                                                        fontSize: "20px",
+                                                        cursor: "pointer",
+                                                        color: rating >= star ? "#FFD700" : "#999",
+                                                    }}>
+                                                    <Star size={20} fill={rating >= star ? "#FFD700" : "transparent"} />
+                                                </span>
+                                            ))}
+                                        </div>
+                                        <button className="send-btn">{t("courses.send", "Send")}</button>
+                                    </div>
+                                </div>
+                                <div className="Comments-list">
+                                    {Comments.map((item) => (
+                                        <div key={item.id} className="Comment-item">
+                                            <div className="comment-header">
+                                                <img src={item.img} alt="" className="user-avatar" />
+                                                <div className="user-info">
+                                                    <p className="comment-name">{item.name}</p>
+                                                    <div className="rating-duration">
+                                                        <div className="stars">
+                                                            {[1, 2, 3, 4, 5].map((star) => (
+                                                                <Star 
+                                                                    key={star} 
+                                                                    size={16} 
+                                                                    fill={item.rating >= star ? "#FFD700" : "transparent"} 
+                                                                    color={item.rating >= star ? "#FFD700" : "#999"} 
+                                                                />
+                                                            ))}
+                                                        </div>
+                                                        <span className="comment-duration">{item.duration}</span>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div className="comment-body">
+                                                <p className="comment-description">{item.description}</p>
+                                            </div>
+                                            <div className="comment-footer">
+                                                <div className="actions">
+                                                    <div className="action-item">
+                                                        <span>{item.likes}</span>
+                                                        <ThumbsUp size={20} className="action-icon like-icon" fill="#0089EA" />
+                                                    </div>
+                                                    <div className="action-item">
+                                                        <span>{item.dislikes}</span>
+                                                        <ThumbsDown size={20} className="action-icon" />
+                                                    </div>
+                                                    <div className="action-item reply-btn">
+                                                        <Reply size={20} className="action-icon" />
+                                                        <span>{t("courses.reply", "Reply")}</span>
+                                                    </div>
+                                                </div>
+                                                <div className="see-replies">
+                                                    <ChevronDown size={18} />
+                                                    <span>{t("courses.see_replies", `See ${item.repliesCount} Replies`, { count: item.repliesCount })}</span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    ))}
+                                </div>
+                            </div>
                         </div>
                     </div>
                     <div className="course-content-right">
@@ -92,7 +314,7 @@ function Course() {
                                         </button>
                                     </div>
                                     <button className="buy_now">{t("courses.buy_now", "Buy Now")}</button>
-                                    
+
                                     <p className="guarantee">
                                         <ShieldCheck size={16} />
                                         {t("courses.guarantee", "30-Day Money-Back Guarantee")}
@@ -119,7 +341,7 @@ function Course() {
                                             </li>
                                         </ul>
                                     </div>
-                                    
+
                                     <div className="share-section">
                                         <button className="share-btn">{t("courses.share", "Share")}</button>
                                         <button className="coupon-btn">{t("courses.apply_coupon", "Apply Coupon")}</button>

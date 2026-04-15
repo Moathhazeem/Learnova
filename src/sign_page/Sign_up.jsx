@@ -4,7 +4,7 @@ import "./Sign_up.css"
 
 /**
  * مكون صفحة إنشاء حساب جديد (SignUp)
- * يوفر واجهة للمستخدم لتدخيل بياناته والتحقق من صحتها قبل إرسالها إلى الـ API.
+ * يوفر واجهة للمستخدم لتدخيل بياناته والتحقق من صحتها قبل إرسالها.
  */
 function SignUp() {
     const navigate = useNavigate();
@@ -33,8 +33,6 @@ function SignUp() {
     const [confirmPasswordError, setConfirmPasswordError] = useState("");
     const [phoneError, setPhoneError] = useState("");
     const [agreeError, setAgreeError] = useState("");
-    const [serverError, setServerError] = useState("");   // ← خطأ من الـ API
-    const [isLoading, setIsLoading] = useState(false);    // ← حالة التحميل
 
     // حالات رسائل النجاح لكل حقل
     const [firstNameSuccess, setFirstNameSuccess] = useState("");
@@ -48,12 +46,12 @@ function SignUp() {
      * التحقق المحلي من الحقول
      * @returns {boolean} isValid
      */
-    const validateLocally = () => {
+    const validateForm = () => {
         // إعادة تعيين جميع الرسائل
         setFirstNameError(""); setLastNameError("");
         setEmailError([]); setPasswordError([]);
         setConfirmPasswordError(""); setPhoneError("");
-        setAgreeError(""); setServerError("");
+        setAgreeError("");
         setFirstNameSuccess(""); setLastNameSuccess("");
         setEmailSuccess([]); setPasswordSuccess([]);
         setConfirmPasswordSuccess(""); setPhoneSuccess("");
@@ -154,44 +152,13 @@ function SignUp() {
     };
 
     /**
-     * وظيفة معالجة إرسال النموذج → تستدعي Express API
+     * وظيفة معالجة إرسال النموذج
      * @param {Event} e
      */
-    const handleSubmit = async (e) => {
+    const handleSubmit = (e) => {
         e.preventDefault();
-        if (!validateLocally()) return;
-
-        setIsLoading(true);
-        try {
-            const response = await fetch("/api/auth/register", {
-                method: "POST",
-                headers: { "Content-Type": "application/json" },
-                body: JSON.stringify({
-                    firstName: firstName.trim(),
-                    lastName: lastName.trim(),
-                    email: email.trim(),
-                    password: password.trim(),
-                    confirmPassword: confirmPassword.trim(),
-                    phone: phone.trim(),
-                }),
-            });
-
-            const data = await response.json();
-
-            if (!response.ok) {
-                // 409 = email already in use, else generic error
-                setServerError(data.errors?.[0] || "Registration failed. Please try again.");
-                setIsLoading(false);
-                return;
-            }
-
-            // ✅ Success: store token & user, navigate home
-            localStorage.setItem("learnova_token", data.token);
-            localStorage.setItem("learnova_user", JSON.stringify(data.user));
+        if (validateForm()) {
             navigate("/home");
-        } catch (err) {
-            setServerError("Cannot connect to server. Make sure the backend is running.");
-            setIsLoading(false);
         }
     };
 
@@ -201,14 +168,6 @@ function SignUp() {
             <div className="sign-up-page-container">
                 <div className="sign-up-form">
                     <h1 className="title-sign-up">Sign up to <label style={{ color: "#0089EA" }}>Learnova</label></h1>
-
-                    {/* ── Server-level error banner ── */}
-                    {serverError && (
-                        <div className="server-error-banner">
-                            <img src="/photo_icons/Inchorrect.png" alt="error" />
-                            {serverError}
-                        </div>
-                    )}
 
                     <form onSubmit={handleSubmit} noValidate>
                         <div className="fullName" style={{ marginBottom: "20px" }}>
@@ -343,13 +302,7 @@ function SignUp() {
                             {agreeError && <span className="error-message"><img src="/photo_icons/Inchorrect.png" alt="error" />{agreeError}</span>}
                         </div>
 
-                        <button type="submit" className="sign-in-button" disabled={isLoading}>
-                            {isLoading ? (
-                                <span className="btn-loading">
-                                    <span className="spinner" /> Creating account...
-                                </span>
-                            ) : "Sign Up"}
-                        </button>
+                        <button type="submit" className="sign-in-button">Sign Up</button>
 
                         <div className="or">
                             <span>Or register with</span>

@@ -14,18 +14,14 @@ function LogIn() {
     const [passError, setPassError]     = useState([]);
     const [emailSuccess, setEmailSuccess] = useState("");
     const [passSuccess, setPassSuccess]   = useState([]);
-    const [serverError, setServerError]   = useState("");
-    const [isLoading, setIsLoading]       = useState(false);
 
-    // ── Client-side validation ─────────────────────────────────────────────
-    const validateLocally = () => {
+    const validateForm = () => {
         let isValid = true;
         const trimmedEmail = email.trim();
         const trimmedPass  = pass.trim();
 
         setEmailError(""); setEmailSuccess("");
         setPassError([]);  setPassSuccess([]);
-        setServerError("");
 
         if (!trimmedEmail) {
             setEmailError("Please fill in this field.");
@@ -53,35 +49,10 @@ function LogIn() {
         return isValid;
     };
 
-    // ── Form submit → calls Express API ───────────────────────────────────
-    const handleSubmit = async (e) => {
+    const handleSubmit = (e) => {
         e.preventDefault();
-        if (!validateLocally()) return;
-
-        setIsLoading(true);
-        try {
-            const response = await fetch("/api/auth/login", {
-                method: "POST",
-                headers: { "Content-Type": "application/json" },
-                body: JSON.stringify({ email: email.trim(), password: pass.trim() }),
-            });
-
-            const data = await response.json();
-
-            if (!response.ok) {
-                // Map server errors to UI
-                setServerError(data.errors?.[0] || "Login failed. Please try again.");
-                setIsLoading(false);
-                return;
-            }
-
-            // ✅ Success: store token & user, navigate home
-            localStorage.setItem("learnova_token", data.token);
-            localStorage.setItem("learnova_user", JSON.stringify(data.user));
+        if (validateForm()) {
             navigate("/home");
-        } catch (err) {
-            setServerError("Cannot connect to server. Make sure the backend is running.");
-            setIsLoading(false);
         }
     };
 
@@ -93,16 +64,7 @@ function LogIn() {
                         Login to <label style={{ color: "#0089EA" }}>Learnova</label>
                     </h1>
 
-                    {/* ── Server-level error banner ── */}
-                    {serverError && (
-                        <div className="server-error-banner">
-                            <img src="/photo_icons/Inchorrect.png" alt="error" />
-                            {serverError}
-                        </div>
-                    )}
-
                     <form onSubmit={handleSubmit} noValidate>
-                        {/* ── Email ── */}
                         <div className="form-group">
                             <label htmlFor="email">Email</label>
                             <input
@@ -113,7 +75,6 @@ function LogIn() {
                                 onChange={(e) => setEmail(e.target.value)}
                                 required
                                 placeholder="example@gmail.com"
-                                disabled={isLoading}
                             />
                             {emailError && (
                                 <span className="error-message" style={{ marginTop: "-30px" }}>
@@ -129,7 +90,6 @@ function LogIn() {
                             )}
                         </div>
 
-                        {/* ── Password ── */}
                         <div className="form-group">
                             <label htmlFor="password">Password</label>
                             <input
@@ -140,7 +100,6 @@ function LogIn() {
                                 onChange={(e) => setPass(e.target.value)}
                                 required
                                 placeholder="Your password"
-                                disabled={isLoading}
                             />
                             {passError.map((err, i) => (
                                 <span key={i} className="error-message">
@@ -156,7 +115,6 @@ function LogIn() {
                             ))}
                         </div>
 
-                        {/* ── Options ── */}
                         <div className="form-options">
                             <div className="form-group_remember">
                                 <input type="checkbox" id="remember" name="remember" />
@@ -169,14 +127,7 @@ function LogIn() {
                             </div>
                         </div>
 
-                        {/* ── Submit ── */}
-                        <button type="submit" className="sign-in-button" disabled={isLoading}>
-                            {isLoading ? (
-                                <span className="btn-loading">
-                                    <span className="spinner" /> Signing in...
-                                </span>
-                            ) : "Sign In"}
-                        </button>
+                        <button type="submit" className="sign-in-button">Sign In</button>
 
                         <div className="or"><span>Or sign in with</span></div>
 
