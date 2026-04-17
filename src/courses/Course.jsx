@@ -4,7 +4,7 @@ import "../config/i18n";
 import { useTranslation } from "react-i18next";
 import { useEffect } from 'react';
 import './Course.css';
-import { PlayCircle, ShieldCheck, Monitor, Award, Heart, Share2, ChevronDown, Star, ThumbsUp, ThumbsDown, Reply, Globe, Languages } from 'lucide-react';
+import { PlayCircle, ShieldCheck, Monitor, Award, Heart, Share2, ChevronDown, Star, ThumbsUp, ThumbsDown, Reply, Globe, Languages, Tag, X } from 'lucide-react';
 function Course() {
     const { t } = useTranslation();
     const location = useLocation();
@@ -106,6 +106,9 @@ function Course() {
     const [replyToId, setReplyToId] = useState(null);
     const [showRepliesId, setShowRepliesId] = useState(null);
     const [replyText, setReplyText] = useState("");
+    const [isFavorite, setIsFavorite] = useState(false);
+    const [showCouponModal, setShowCouponModal] = useState(false);
+    const [couponCode, setCouponCode] = useState("");
     const [commentsList, setCommentsList] = useState([
         {
             id: 1,
@@ -116,8 +119,23 @@ function Course() {
             description: "Indeed, the course is excellent and explained everything to me in an easy way. I felt that I could design logos from scratch without any prior experience.",
             likes: 50,
             dislikes: 11,
-            repliesCount: 10,
-            replies: []
+            repliesCount: 2,
+            replies: [
+                {
+                    id: 101,
+                    img: "/Photo/Profile.jfif",
+                    name: "Dimitri Abdelhakim",
+                    duration: "20 hours ago",
+                    description: "Thank you Jamez! I'm glad you found the course helpful. Keep up the great work!",
+                },
+                {
+                    id: 102,
+                    img: "/Photo/Profile.jfif",
+                    name: "Sarah Smith",
+                    duration: "15 hours ago",
+                    description: "I agree, the vector tools explanation was top-notch!",
+                }
+            ]
         },
         {
             id: 2,
@@ -128,8 +146,16 @@ function Course() {
             description: "The instructor is very helpful and responsive.",
             likes: 12,
             dislikes: 2,
-            repliesCount: 3,
-            replies: []
+            repliesCount: 1,
+            replies: [
+                {
+                    id: 201,
+                    img: "/Photo/Profile.jfif",
+                    name: "Dimitri Abdelhakim",
+                    duration: "1 day ago",
+                    description: "Happy to help, Jane! Let me know if you have any more questions.",
+                }
+            ]
         },
     ]);
 
@@ -174,6 +200,16 @@ function Course() {
         }));
         setReplyText("");
         setReplyToId(null);
+    };
+
+    const handleApplyCoupon = () => {
+        // Here you can add logic to validate the coupon if needed
+        if (couponCode.trim()) {
+            // For now, we'll just close the modal as requested
+            setShowCouponModal(false);
+            setCouponCode("");
+            // You could also show a success toast/message here
+        }
     };
 
 const language = ["English", "Spanish", "French", "German", "Italian"];
@@ -417,8 +453,11 @@ const language = ["English", "Spanish", "French", "German", "Italian"];
 
                                     <div className="card_body_buttons">
                                         <button className="Add_to_cart">{t("courses.add_to_cart", "Add to Cart")}</button>
-                                        <button className="love-btn">
-                                            <Heart size={24} />
+                                        <button 
+                                            className={`love-btn ${isFavorite ? 'active' : ''}`}
+                                            onClick={() => setIsFavorite(!isFavorite)}
+                                        >
+                                            <Heart size={24} fill={isFavorite ? "#ff4d4f" : "transparent"} color={isFavorite ? "#ff4d4f" : "currentColor"} />
                                         </button>
                                     </div>
                                     <button className="buy_now">{t("courses.buy_now", "Buy Now")}</button>
@@ -452,7 +491,7 @@ const language = ["English", "Spanish", "French", "German", "Italian"];
 
                                     <div className="share-section">
                                         <button className="share-btn">{t("courses.share", "Share")}</button>
-                                        <button className="coupon-btn">{t("courses.apply_coupon", "Apply Coupon")}</button>
+                                        <button className="coupon-btn" onClick={() => setShowCouponModal(true)}>{t("courses.apply_coupon", "Apply Coupon")}</button>
                                     </div>
                                 </div>
                             </div>
@@ -460,7 +499,46 @@ const language = ["English", "Spanish", "French", "German", "Italian"];
                     </div>
                 </div>
 
-
+                {/* Coupon Modal */}
+                {showCouponModal && (
+                    <div className="modal-overlay" onClick={() => setShowCouponModal(false)}>
+                        <div className="modal-content" onClick={(e) => e.stopPropagation()}>
+                            <div className="modal-header">
+                                <div className="header-title">
+                                    <Tag size={20} color="#0089EA" />
+                                    <h3>{t("courses.apply_coupon", "Apply Coupon")}</h3>
+                                </div>
+                                <button className="close-modal-btn" onClick={() => setShowCouponModal(false)}>
+                                    <X size={20} />
+                                </button>
+                            </div>
+                            <div className="modal-body">
+                                <p>{t("courses.enter_coupon_desc", "Enter your coupon code below to get a discount on this course.")}</p>
+                                <div className="coupon-input-wrapper">
+                                    <input 
+                                        type="text" 
+                                        placeholder={t("courses.coupon_placeholder", "e.g. LEARNOVA2026")}
+                                        value={couponCode}
+                                        onChange={(e) => setCouponCode(e.target.value)}
+                                        autoFocus
+                                    />
+                                    <div className="modal-actions">
+                                        <button className="cancel-btn" onClick={() => setShowCouponModal(false)}>
+                                            {t("courses.cancel", "Cancel")}
+                                        </button>
+                                        <button 
+                                            className="apply-btn" 
+                                            onClick={handleApplyCoupon}
+                                            disabled={!couponCode.trim()}
+                                        >
+                                            {t("courses.apply", "Apply")}
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                )}
             </div>
         </div>
     );
