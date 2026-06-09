@@ -2,7 +2,7 @@ import React, { useState, useMemo } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { useTranslation } from "react-i18next";
 import './Contact_us.css';
-
+import './PhoneInputCustom.css';
 import 'react-phone-number-input/style.css';
 import { 
     Mail, 
@@ -17,7 +17,7 @@ import {
     X,
     User,
     MapPin,
-    Send
+    Send    
 } from 'lucide-react';
 import PhoneInput from 'react-phone-number-input';
 import Select from 'react-select';
@@ -28,7 +28,7 @@ function Contact_us() {
     const location = useLocation();
     const pathname = location.pathname.split("/").filter(x => x);
 
-    // الحصول على قائمة الدول بالكامل (تحتوي على الاسم والرمز مثل PS)
+    // الحصول على قائمة الدول
     const options = useMemo(() => countryList().getData(), []);
 
     const [formData, setFormData] = useState({
@@ -41,15 +41,15 @@ function Contact_us() {
         subjects: []
     });
 
-    // تخصيص طريقة عرض الدولة ليظهر العلم بجانب الاسم
-    const formatOptionLabel = ({ label, value }) => (
-        <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+    // تنسيق عرض الدولة في القائمة المنسدلة
+    const formatOptionLabel = ({ label, value }, { context }) => (
+        <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
             <img
-                src={`https://flagcdn.com/16x12/${value.toLowerCase()}.png`}
+                src={`https://flagcdn.com/w20/${value.toLowerCase()}.png`}
                 alt={label}
-                style={{ borderRadius: '2px', width: '20px', height: 'auto', boxShadow: '0 1px 2px rgba(0,0,0,0.1)' }}
+                style={{ borderRadius: '2px', width: '20px' }}
             />
-            <span style={{ fontSize: '15px' }}>{label}</span>
+            <span style={{ fontSize: context === 'menu' ? '14px' : '15px' }}>{label}</span>
         </div>
     );
 
@@ -181,19 +181,36 @@ function Contact_us() {
 
                                 <div className="form-group">
                                     <label>{t("contact.location", "Location")}</label>
-                                    <div className="location-selector-container">
-                                        <div className="location-input-wrapper">
-                                            <Select
-                                                value={formData.location}
-                                                onChange={(val) => setFormData(prev => ({ ...prev, location: val }))}
-                                                options={options}
-                                                formatOptionLabel={formatOptionLabel}
-                                                className="location-select-container"
-                                                classNamePrefix="location-select"
-                                                placeholder={t("contact.select_country", "Select country")}
-                                                isSearchable={true}
-                                            />
-                                        </div>
+                                    <div className="location-input-wrapper">
+                                        <MapPin size={18} className="input-icon" />
+                                        <Select
+                                            value={formData.location}
+                                            onChange={(val) => setFormData(prev => ({ ...prev, location: val }))}
+                                            options={options}
+                                            formatOptionLabel={formatOptionLabel}
+                                            className="location-select-container"
+                                            classNamePrefix="location-select"
+                                            placeholder={t("contact.select_country", "Select country")}
+                                            isSearchable={true}
+                                            menuPortalTarget={document.body}
+                                            styles={{
+                                                menuPortal: base => ({ ...base, zIndex: 9999 }),
+                                                control: (base) => ({
+                                                    ...base,
+                                                    backgroundColor: 'transparent',
+                                                    border: 'none',
+                                                    boxShadow: 'none',
+                                                    minHeight: '52px',
+                                                    cursor: 'pointer',
+                                                    zIndex: 5
+                                                }),
+                                                container: (base) => ({
+                                                    ...base,
+                                                    width: '100%',
+                                                    flex: 1
+                                                })
+                                            }}
+                                        />
                                     </div>
                                 </div>
 

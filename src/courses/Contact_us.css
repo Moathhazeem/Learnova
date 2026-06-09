@@ -258,19 +258,18 @@
     align-items: center;
 }
 
-.location-selector-container {
-    width: 100%;
-}
-
+/* Phone & Location Selectors Refined */
 .location-input-wrapper {
     position: relative;
     display: flex;
     align-items: center;
+    width: 100%;
     background: #f8fafc;
     border: 2px solid #f1f5f9;
     border-radius: 14px;
-    transition: all 0.3s ease;
-    overflow: hidden;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    /* Removed overflow: hidden to allow dropdown menu to be visible */
+    min-height: 52px;
 }
 
 .location-input-wrapper:focus-within {
@@ -279,17 +278,29 @@
     box-shadow: 0 0 0 4px rgba(0, 137, 234, 0.1);
 }
 
+.location-input-wrapper .input-icon {
+    left: 16px;
+    z-index: 10; /* Higher than select control but should have pointer-events: none */
+    color: #94a3b8;
+    pointer-events: none; /* Crucial to allow clicks to reach the select below */
+}
+
+.location-input-wrapper:focus-within .input-icon {
+    color: #0089EA;
+}
+
 .location-select-container {
     width: 100%;
+    flex: 1;
 }
 
 .location-select__control {
     background: transparent !important;
     border: none !important;
     box-shadow: none !important;
-    min-height: 48px !important;
+    min-height: 52px !important;
     cursor: pointer !important;
-    padding-left: 8px !important; /* Flag starts from here */
+    padding-left: 36px !important; /* Space for the icon */
 }
 
 .location-select__value-container {
@@ -299,15 +310,13 @@
 .location-select__placeholder {
     color: #94a3b8 !important;
     font-size: 15px !important;
-    margin-left: 0 !important;
+    font-weight: 500 !important;
 }
 
 .location-select__single-value {
     color: #1e293b !important;
     font-size: 15px !important;
-    margin-left: 0 !important;
-    display: flex !important;
-    align-items: center !important;
+    font-weight: 500 !important;
 }
 
 .location-select__indicator-separator {
@@ -321,12 +330,14 @@
     border: 1px solid #f1f5f9 !important;
     z-index: 100 !important;
     margin-top: 4px !important;
+    padding: 4px !important;
 }
 
 .location-select__option {
     cursor: pointer !important;
-    font-size: 14px !important;
-    padding: 10px 16px !important;
+    border-radius: 8px !important;
+    margin-bottom: 2px !important;
+    transition: all 0.2s ease !important;
 }
 
 .location-select__option--is-focused {
@@ -337,32 +348,6 @@
 .location-select__option--is-selected {
     background: #0089EA !important;
     color: #fff !important;
-}
-
-/* Dark Mode Professional Refinement */
-.dark .phone-input-wrapper-container,
-.dark .location-input-wrapper {
-    background: #0f172a;
-    border-color: #334155;
-}
-
-.dark .custom-phone-input .PhoneInputCountry {
-    background: rgba(255, 255, 255, 0.03);
-    border-right-color: #334155;
-}
-
-.dark .custom-phone-input .PhoneInputInput,
-.dark .location-select__single-value {
-    color: #f1f5f9 !important;
-}
-
-.dark .location-select__menu {
-    background: #1e293b !important;
-    border-color: #334155 !important;
-}
-
-.dark .location-select__option--is-focused {
-    background: #334155 !important;
 }
 
 /* Subject Chips Style */
@@ -577,7 +562,7 @@
 .dark .form-group input, 
 .dark .form-group textarea, 
 .dark .phone-input-wrapper, 
-.dark .location-selector {
+.dark .location-input-wrapper {
     background: #0f172a;
     border-color: #334155;
     color: #f1f5f9;
@@ -603,6 +588,15 @@
 .dark .info-section {
     background: #1e293b;
     border-color: rgba(255, 255, 255, 0.05);
+}
+
+.dark .location-select__menu {
+    background: #1e293b !important;
+    border-color: #334155 !important;
+}
+
+.dark .location-select__option--is-focused {
+    background: #334155 !important;
 }
 
 .dark .info-title { color: #f8fafc; }
