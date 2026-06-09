@@ -1,0 +1,307 @@
+import React, { useState, useMemo } from 'react';
+import { Link, useLocation } from 'react-router-dom';
+import { useTranslation } from "react-i18next";
+import './Contact_us.css';
+
+import 'react-phone-number-input/style.css';
+import { 
+    Mail, 
+    Phone, 
+    Clock, 
+    HelpCircle, 
+    ChevronDown,
+    Globe,
+    MessageSquare,
+    Users,
+    Video,
+    X,
+    User,
+    MapPin,
+    Send
+} from 'lucide-react';
+import PhoneInput from 'react-phone-number-input';
+import Select from 'react-select';
+import countryList from 'react-select-country-list';
+
+function Contact_us() {
+    const { t } = useTranslation();
+    const location = useLocation();
+    const pathname = location.pathname.split("/").filter(x => x);
+
+    // الحصول على قائمة الدول بالكامل (تحتوي على الاسم والرمز مثل PS)
+    const options = useMemo(() => countryList().getData(), []);
+
+    const [formData, setFormData] = useState({
+        firstName: '',
+        lastName: '',
+        email: '',
+        phone: '',
+        location: null,
+        message: '',
+        subjects: []
+    });
+
+    // تخصيص طريقة عرض الدولة ليظهر العلم بجانب الاسم
+    const formatOptionLabel = ({ label, value }) => (
+        <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+            <img
+                src={`https://flagcdn.com/16x12/${value.toLowerCase()}.png`}
+                alt={label}
+                style={{ borderRadius: '2px', width: '20px', height: 'auto', boxShadow: '0 1px 2px rgba(0,0,0,0.1)' }}
+            />
+            <span style={{ fontSize: '15px' }}>{label}</span>
+        </div>
+    );
+
+    const subjects = [
+        "Question about the course",
+        "Technical support",
+        "General complaint",
+        "Comments",
+        "Payment problems",
+        "Other"
+    ];
+
+    const handleInputChange = (e) => {
+        const { name, value } = e.target;
+        setFormData(prev => ({ ...prev, [name]: value }));
+    };
+
+    const handleSubjectChange = (subject) => {
+        setFormData(prev => {
+            const newSubjects = prev.subjects.includes(subject)
+                ? prev.subjects.filter(s => s !== subject)
+                : [...prev.subjects, subject];
+            return { ...prev, subjects: newSubjects };
+        });
+    };
+
+    return (
+        <div className="contact-page">
+            <div className="container">
+                {/* Breadcrumbs */}
+                <nav className="breadcrumbs-nav">
+                    <Link to="/Home" className="Breadcrumbs">
+                        {t("setting.home", "Home")}
+                    </Link>
+                    {pathname.map((value, index) => {
+                        const to = "/" + pathname.slice(0, index + 1).join("/");
+                        const isLast = index === pathname.length - 1;
+                        const translationKey = value.toLowerCase().replace("%20", "_").replace(" ", "_");
+
+                        return (
+                            <span key={to} style={{ display: 'flex', alignItems: 'center' }}>
+                                <span className="breadcrumb-separator">
+                                    {t("setting.breadcrumb_separator", ">")}
+                                </span>
+                                {isLast ? (
+                                    <span className="current-page" style={{ textDecoration: 'none' }}>
+                                        {t(`setting.${translationKey}`, decodeURIComponent(value).replace("_", " "))}
+                                    </span>
+                                ) : (
+                                    <Link to={to} className="Breadcrumbs">
+                                        {t(`setting.${translationKey}`, decodeURIComponent(value).replace("_", " "))}
+                                    </Link>
+                                )}
+                            </span>
+                        );
+                    })}
+                </nav>
+
+                <div className="contact-header">
+                    <h1 className="contact-title">{t("contact.title", "Contact us")}</h1>
+                    <p className="contact-description">
+                        {t("contact.description", "We care about your experience and strive to provide the best possible support. Whether you have a question about the courses, a suggestion for improving the platform, or any problem you are facing, you can easily contact us here. Fill out the form below or use other means of communication, and we will get back to you as soon as possible to ensure you get the help you need.")}
+                    </p>
+                </div>
+
+                <div className="contact-main-layout">
+                    {/* Left Column: Form */}
+                    <div className="contact-form-container">
+                        <div className="contact-form-card">
+                            <form className="contact-form">
+                                <div className="form-row">
+                                    <div className="form-group">
+                                        <label>{t("contact.first_name", "First name")}</label>
+                                        <div className="input-with-icon">
+                                            <User size={18} className="input-icon" />
+                                            <input 
+                                                type="text" 
+                                                name="firstName"
+                                                placeholder="Moath" 
+                                                value={formData.firstName}
+                                                onChange={handleInputChange}
+                                            />
+                                        </div>
+                                    </div>
+                                    <div className="form-group">
+                                        <label>{t("contact.last_name", "Last name")}</label>
+                                        <div className="input-with-icon">
+                                            <User size={18} className="input-icon" />
+                                            <input 
+                                                type="text" 
+                                                name="lastName"
+                                                placeholder="Hazeem" 
+                                                value={formData.lastName}
+                                                onChange={handleInputChange}
+                                            />
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div className="form-group">
+                                    <label>{t("contact.email", "Email")}</label>
+                                    <div className="input-with-icon">
+                                        <Mail size={18} className="input-icon" />
+                                        <input 
+                                            type="email" 
+                                            name="email"
+                                            placeholder="Moathhazeem661@gmail.com" 
+                                            value={formData.email}
+                                            onChange={handleInputChange}
+                                        />
+                                    </div>
+                                </div>
+
+                                <div className="form-group">
+                                    <label>{t("contact.phone", "Phone number")}</label>
+                                    <div className="phone-input-wrapper-container">
+                                        <PhoneInput 
+                                            placeholder="+970 59 286 4889 (optional)" 
+                                            value={formData.phone}
+                                            onChange={(val) => setFormData(prev => ({ ...prev, phone: val }))}
+                                            defaultCountry="PS"
+                                            className="custom-phone-input"
+                                        />
+                                        <div className="phone-icon-right">
+                                            <Phone size={18} />
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div className="form-group">
+                                    <label>{t("contact.location", "Location")}</label>
+                                    <div className="location-selector-container">
+                                        <div className="location-input-wrapper">
+                                            <Select
+                                                value={formData.location}
+                                                onChange={(val) => setFormData(prev => ({ ...prev, location: val }))}
+                                                options={options}
+                                                formatOptionLabel={formatOptionLabel}
+                                                className="location-select-container"
+                                                classNamePrefix="location-select"
+                                                placeholder={t("contact.select_country", "Select country")}
+                                                isSearchable={true}
+                                            />
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div className="form-group">
+                                    <label>{t("contact.message", "Message")}</label>
+                                    <div className="textarea-wrapper">
+                                        {/*<MessageSquare size={18} className="textarea-icon" />*/}
+                                        <textarea 
+                                            name="message"
+                                            placeholder="Leave us a message" 
+                                            value={formData.message}
+                                            onChange={handleInputChange}
+                                        />
+                                    </div>
+                                </div>
+
+                                <div className="subjects-section">
+                                    <label className="section-label">{t("contact.how_can_we_help", "How can we help?")}</label>
+                                    <div className="subjects-grid">
+                                        {subjects.map(subject => (
+                                            <label key={subject} className={`subject-chip ${formData.subjects.includes(subject) ? 'active' : ''}`}>
+                                                <input 
+                                                    type="checkbox" 
+                                                    checked={formData.subjects.includes(subject)}
+                                                    onChange={() => handleSubjectChange(subject)}
+                                                />
+                                                <span className="subject-label">{t(`contact.subject_${subject.toLowerCase().replace(/ /g, '_')}`, subject)}</span>
+                                            </label>
+                                        ))}
+                                    </div>
+                                </div>
+
+                                <button type="submit" className="send-message-btn">
+                                    <span>{t("contact.send_message", "Send message")}</span>
+                                    <Send size={18} />
+                                </button>
+                            </form>
+                        </div>
+                    </div>
+
+                    {/* Right Column: Info */}
+                    <div className="contact-info-container">
+                        <div className="info-section">
+                            <h3 className="info-title">{t("contact.email_support_title", "Email support")}</h3>
+                            <p className="info-text">{t("contact.email_support_desc", "Email us and we'll get back to you within 24 hours")}</p>
+                            <a href="mailto:Learnovasupport@gmail.com" className="info-link">Learnovasupport@gmail.com</a>
+                        </div>
+
+                        <div className="info-section">
+                            <h3 className="info-title">{t("contact.call_us_title", "Call us")}</h3>
+                            <p className="info-text">{t("contact.call_us_desc", "If you prefer to speak directly with us, you can call the number below. Our support team is ready to answer your questions and help you with any problem you encounter while using the platform.")}</p>
+                            <a href="tel:0592994880" className="info-link">0592994880</a>
+                        </div>
+
+                        <div className="info-section">
+                            <h3 className="info-title">{t("contact.working_hours_title", "Working hours")}</h3>
+                            <p className="info-text">{t("contact.working_hours_desc", "Our team is available to answer your questions during working hours: Sunday – Thursday, 9:00 AM – 5:00 PM")}</p>
+                        </div>
+
+                        <div className="info-section">
+                            <h3 className="info-title">{t("contact.faq_title", "FAQ")}</h3>
+                            <p className="info-text">
+                                {t("contact.faq_desc_prefix", "For more information, you can visit the Frequently Asked Questions (")}
+                                <Link to="/faq" className="inline-link">FAQ</Link>
+                                {t("contact.faq_desc_suffix", ") section where you will find answers to the most common questions without having to send a message.")}
+                            </p>
+                        </div>
+
+                        <div className="info-section">
+                            <h3 className="info-title">{t("contact.social_media_title", "Social media")}</h3>
+                            <div className="social-links">
+                                <div className="social-item">
+                                    <div className="social-icon-wrapper fb">
+                                        <img src="/photo_icons/facebook.png" alt="Facebook" style={{ width: '20px', height: '20px' }} />
+                                    </div>
+                                    <p className="social-text">{t("contact.fb_desc", "Follow us on Facebook for the latest updates.")}</p>
+                                </div>
+                                <div className="social-item">
+                                    <div className="social-icon-wrapper ig">
+                                        <img src="/photo_icons/instagram.png" alt="Instagram" style={{ width: '20px', height: '20px' }} />
+                                    </div>
+                                    <p className="social-text">{t("contact.ig_desc", "Check out the course content and tips on Instagram.")}</p>
+                                </div>
+                                <div className="social-item">
+                                    <div className="social-icon-wrapper li">
+                                        <img src="/photo_icons/linkedin.png" alt="LinkedIn" style={{ width: '20px', height: '20px' }} />
+                                    </div>
+                                    <p className="social-text">{t("contact.li_desc", "Connect with us on LinkedIn for company news and opportunities.")}</p>
+                                </div>
+                                <div className="social-item">
+                                    <div className="social-icon-wrapper yt">
+                                        <img src="/photo_icons/youtube.png" alt="YouTube" style={{ width: '20px', height: '20px' }} />
+                                    </div>
+                                    <p className="social-text">{t("contact.yt_desc", "Subscribe to our YouTube channel to watch course explanations and educational videos.")}</p>
+                                </div>
+                                <div className="social-item">
+                                    <div className="social-icon-wrapper tw">
+                                        <X size={20} />
+                                    </div>
+                                    <p className="social-text">{t("contact.tw_desc", "Follow us on X for the latest news, updates, and quick content.")}</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    );
+}
+
+export default Contact_us;

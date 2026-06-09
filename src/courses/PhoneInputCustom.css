@@ -1,0 +1,104 @@
+/* Custom Phone Input Styles */
+.phone-input-wrapper-container {
+    display: flex;
+    align-items: center;
+    width: 100%;
+    background: #ffffff;
+    border: 1.5px solid #edf2f7;
+    border-radius: 16px;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    overflow: hidden;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.02);
+    position: relative;
+}
+
+.phone-input-wrapper-container:hover {
+    border-color: #cbd5e0;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.04);
+}
+
+.phone-input-wrapper-container:focus-within {
+    border-color: #0089EA;
+    background: #fff;
+    box-shadow: 0 0 0 4px rgba(0, 137, 234, 0.1), 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+}
+
+.custom-phone-input {
+    width: 0%;
+    display: flex;
+    align-items: center;
+}
+
+/* Aligning the flag to the far left neatly */
+.custom-phone-input .PhoneInputCountry {
+    margin: 0;
+    padding: 0 8px 0 12px;
+    height: 52px;
+    display: flex;
+    align-items: center;
+    border-right: 1.5px solid #e2e8f0;
+    background: #f8fafc;
+    transition: background 0.3s ease;
+}
+
+.phone-input-wrapper-container:focus-within .PhoneInputCountry {
+    background: #fff;
+    border-right-color: #0089EA;
+    opacity: 1;
+}
+
+.custom-phone-input .PhoneInputCountryIcon {
+    width: 22px !important;
+    height: auto !important;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+    border-radius: 3px;
+}
+
+.custom-phone-input .PhoneInputInput {
+    border: none !important;
+    background: transparent !important;
+    padding: 14px 45px 14px 8px !important;
+    font-size: 15px;
+    font-weight: 500;
+    color: #2d3748;
+    outline: none !important;
+    flex: 1;
+}
+
+.phone-icon-right {
+    position: absolute;
+    right: 18px;
+    color: #a0aec0;
+    pointer-events: none;
+    display: flex;
+    align-items: center;
+    transition: color 0.3s ease;
+}
+
+.phone-input-wrapper-container:focus-within .phone-icon-right {
+    color: #0089EA;
+}
+
+/* Dark Mode Professional Refinement */
+.dark .phone-input-wrapper-container {
+    background: #1e293b;
+    border-color: #334155;
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+}
+
+.dark .phone-input-wrapper-container:hover {
+    border-color: #475569;
+}
+
+.dark .custom-phone-input .PhoneInputCountry {
+    background: #0f172a;
+    border-right-color: #334155;
+}
+
+.dark .phone-input-wrapper-container:focus-within .PhoneInputCountry {
+    background: #1e293b;
+}
+
+.dark .custom-phone-input .PhoneInputInput {
+    color: #f1f5f9 !important;
+}

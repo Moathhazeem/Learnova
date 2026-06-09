@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { Link } from "react-router-dom";
 import "./Footer.css";
 function Footer() {
     return (
@@ -7,27 +8,22 @@ function Footer() {
                 <div className="footer-top">
                     <ul>
                         <li className="list_title">Learnova</li>
-                        <li><a href="#">About us</a></li>
-                        <li><a href="#">What We Offer</a></li>
-                        <li><a href="#">Leadership</a></li>
-                        <li><a href="#">Careers</a></li>
-                        <li><a href="#">Catalog</a></li>
+                        <li><Link to="/Explore">Explore Courses</Link></li>
+                        <li><Link to="/My Learning">My Learning</Link></li>
+                        <li><Link to="/Teacher">Teachers</Link></li>
+                        <li><Link to="/Contact_us">Contact Us</Link></li>
                     </ul>
                     <ul>
                         <li className="list_title">Community</li>
-                        <li><a href="#">Learners</a></li>
-                        <li><a href="#">Partners</a></li>
-                        <li><a href="#">Beta Testers</a></li>
                         <li><a href="#">Blog</a></li>
-                        <li><a href="#">The Coursera Podcast</a></li>
+                        <li><a href="#">Partners</a></li>
+                        <li><a href="#">Help Center</a></li>
                     </ul>
                     <ul>
-                        <li className="list_title">More</li>
-                        <li><a href="#">Press</a></li>
-                        <li><a href="#">Investors</a></li>
-                        <li><a href="#">Terms</a></li>
-                        <li><a href="#">Privacy</a></li>
-                        <li><a href="#">Help</a></li>
+                        <li className="list_title">Legal</li>
+                        <li><Link to="/Setting/Privacy">Privacy Policy</Link></li>
+                        <li><a href="#">Terms of Service</a></li>
+                        <li><a href="#">Cookie Settings</a></li>
                     </ul>
                     <ul className="store-buttons">
                         <li className="store-button_1">
