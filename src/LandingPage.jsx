@@ -1,6 +1,7 @@
-import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import "./LandingPage.css";
 function LandingPage() {
+    const navigate = useNavigate();
     return (
         <>
             <div className="landing-page">
@@ -10,8 +11,8 @@ function LandingPage() {
                 </div>
                 {/*buttons about sign in or view courses*/}
                 <div className="auth-buttons">
-                    <button className="Started">Get Started For free</button>
-                    <button className="View-courses">View all courses</button>
+                    <button className="Started" onClick={() => navigate("/sign_up")}>Get Started For free</button>
+                    <button className="View-courses" onClick={() => navigate("/Explore")}>View all courses</button>
                 </div>
                 <div className="popular-courses-section">
                     <h2 className="popular-courses-title">Popular Courses</h2>

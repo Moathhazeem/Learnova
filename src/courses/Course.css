@@ -468,7 +468,8 @@
 .BenfiteOfCourse {
     border-radius: 10px;
     border: 1px solid rgba(0, 0, 0, 0.2);
-    width: 668px;
+    width: 100%;
+    max-width: 668px;
     min-height: 250px;
     height: auto;
     gap: 10px;
@@ -572,6 +573,29 @@
     margin: 0;
 }
 
+.CourseContent-details {
+    padding: 12px 16px 12px 52px;
+    background-color: var(--bg-card-hover, #f9f9f9);
+    border-radius: 8px;
+    margin-top: 4px;
+    animation: fadeIn 0.3s ease;
+}
+
+.CourseContent-details p {
+    font-size: 14px;
+    line-height: 1.6;
+    color: var(--text-muted, #666);
+    margin: 0;
+}
+
+.dark .CourseContent-details {
+    background-color: #252525;
+}
+
+.dark .CourseContent-details p {
+    color: #aaa;
+}
+
 /* Dark Mode Support */
 .dark .Course_content {
     background-color: #1e1e1e;
@@ -622,7 +646,8 @@
     gap: 12px;
 }
 
-.input-group input {
+.input-group input,
+.input-group textarea {
     width: 100%;
     padding: 12px 16px;
     border: 1px solid #e0e0e0;
@@ -630,10 +655,44 @@
     font-size: 14px;
     outline: none;
     transition: border-color 0.2s;
+    background: white;
 }
 
-.input-group input:focus {
+.input-group textarea {
+    min-height: 50px;
+    resize: none;
+}
+
+.input-group input:focus,
+.input-group textarea:focus {
     border-color: #0089EA;
+}
+
+.comment-actions {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+    margin-top: 8px;
+}
+
+.submit-comment-btn {
+    padding: 10px 24px;
+    background: #0089EA;
+    color: white;
+    border: none;
+    border-radius: 8px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background 0.2s, transform 0.1s;
+}
+
+.submit-comment-btn:hover {
+    background: #0076c9;
+}
+
+.submit-comment-btn:active {
+    transform: scale(0.98);
 }
 
 .rating {
@@ -698,6 +757,28 @@
     font-weight: 700;
     color: var(--text-primary, #1a1a1a);
     margin: 0;
+}
+
+.name-author-badge {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.author-badge {
+    background-color: #0089EA;
+    color: white;
+    font-size: 10px;
+    font-weight: 700;
+    padding: 2px 8px;
+    border-radius: 4px;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.reply-author-badge {
+    font-size: 9px;
+    padding: 1px 6px;
 }
 
 .rating-duration {

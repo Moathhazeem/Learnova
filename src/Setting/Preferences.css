@@ -1,77 +1,8 @@
 /* ============================================
    THEME VARIABLES — Light / Dark
    ============================================ */
-:root {
-    --bg-color: #ffffff;
-    --bg-secondary: #f9fafb;
-    --bg-card: #ffffff;
-    --text-primary: #000000;
-    --text-secondary: #666363;
-    --text-muted: #9ca3af;
-    --border-color: #e5e7eb;
-    --input-bg: #ffffff;
-    --input-text: #4b5563;
-    --select-bg: #ffffff;
-    --select-text: #000000;
-    --chip-bg: #ffffff;
-    --chip-text: #4b5563;
-    --chip-border: #e5e7eb;
-    --chip-hover-bg: #f3f4f6;
-    --panel-shadow: rgba(0, 0, 0, 0.08);
-    --header-bg: #ffffff;
-    --nav-bg: #ffffff;
-    --nav-text: #666363;
-    --slider-bg: #d1d5db;
-    --font-size: 16px;
-}
+/* Variables moved to index.css for global availability */
 
-.light {
-    --bg-color: #ffffff;
-    --bg-secondary: #f9fafb;
-    --bg-card: #ffffff;
-    --text-primary: #000000;
-    --text-secondary: #666363;
-    --text-muted: #9ca3af;
-    --border-color: #e5e7eb;
-    --input-bg: #ffffff;
-    --input-text: #4b5563;
-    --select-bg: #ffffff;
-    --select-text: #000000;
-    --chip-bg: #ffffff;
-    --chip-text: #4b5563;
-    --chip-border: #e5e7eb;
-    --chip-hover-bg: #f3f4f6;
-    --panel-shadow: rgba(0, 0, 0, 0.08);
-    --header-bg: #ffffff;
-    --nav-bg: #ffffff;
-    --nav-text: #666363;
-    --slider-bg: #d1d5db;
-}
-
-.dark {
-    --bg-color: #0f0f0f;
-    --bg-secondary: #1a1a1a;
-    --bg-card: #1e1e1e;
-    --text-primary: #f0f0f0;
-    --text-secondary: #a0a0a0;
-    --text-muted: #666666;
-    --border-color: #2e2e2e;
-    --input-bg: #1e1e1e;
-    --input-text: #c0c0c0;
-    --select-bg: #1e1e1e;
-    --select-text: #f0f0f0;
-    --chip-bg: #1e1e1e;
-    --chip-text: #c0c0c0;
-    --chip-border: #2e2e2e;
-    --chip-hover-bg: #2a2a2a;
-    --panel-shadow: rgba(0, 0, 0, 0.4);
-    --header-bg: #141414;
-    --nav-bg: #141414;
-    --nav-text: #a0a0a0;
-    --slider-bg: #3a3a3a;
-}
-
-/* Apply theme to html and body */
 html {
     background-color: var(--bg-color);
     transition: background-color 0.3s ease;
@@ -81,7 +12,6 @@ body {
     background-color: var(--bg-color);
     color: var(--text-primary);
     transition: background-color 0.3s ease, color 0.3s ease;
-    /* font-size will be inherited from html */
 }
 
 .dark .breadcrumbs-nav a,

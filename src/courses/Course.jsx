@@ -1,8 +1,7 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Link, useLocation } from 'react-router-dom';
-import "../config/i18n";
+import i18n from "../config/i18n";
 import { useTranslation } from "react-i18next";
-import { useEffect } from 'react';
 import './Course.css';
 import { PlayCircle, ShieldCheck, Monitor, Award, Heart, Share2, ChevronDown, Star, ThumbsUp, ThumbsDown, Reply, Globe, Languages, Tag, X } from 'lucide-react';
 function Course() {
@@ -76,28 +75,35 @@ function Course() {
         {
             id: 1,
             description: "Introduction and basics of Illustrator",
+            details: "Overview of Illustrator interface, tools, and basic concepts of vector design. Learn how to set up your workspace for maximum efficiency."
         },
         {
             id: 2,
-            description: "Shapes and gradients"
+            description: "Shapes and gradients",
+            details: "Mastering the Pen Tool, shape builder, and creating complex gradients for depth. Understand how to combine basic shapes to create complex icons."
         },
         {
             id: 3,
-            description: "Texts and typography"
+            description: "Texts and typography",
+            details: "Working with character styles, typography layout, and converting text to outlines. Learn how to choose the right fonts for your brand identity."
         },
         {
             id: 4,
-            description: "Advanced tools and design techniques"
+            description: "Advanced tools and design techniques",
+            details: "Using masks, effects, and advanced path manipulations for professional results. Explore the power of the appearance panel and graphic styles."
         },
         {
             id: 5,
-            description: "Designing a complete logo step by step"
+            description: "Designing a complete logo step by step",
+            details: "A step-by-step walkthrough of creating a brand logo from sketch to vector. From initial concept and sketching to final vector refinement."
         },
         {
             id: 6,
-            description: "Export and share work"
+            description: "Export and share work",
+            details: "Best practices for exporting files for web, print, and client handovers. Learn about different file formats like AI, EPS, SVG, and PNG."
         }
     ]
+    const [expandedContent, setExpandedContent] = useState(null);
     const [rating,setRating] = useState(0);
     const [comment,setComment] = useState("");
     const [showMoreSpeak, setShowMoreSpeak] = useState(false);
@@ -124,7 +130,8 @@ function Course() {
                 {
                     id: 101,
                     img: "/Photo/Profile.jfif",
-                    name: "Dimitri Abdelhakim",
+                    name: "Dimitri Abdelhak",
+                    isAuthor: true,
                     duration: "20 hours ago",
                     description: "Thank you Jamez! I'm glad you found the course helpful. Keep up the great work!",
                 },
@@ -132,6 +139,7 @@ function Course() {
                     id: 102,
                     img: "/Photo/Profile.jfif",
                     name: "Sarah Smith",
+                    isAuthor: false,
                     duration: "15 hours ago",
                     description: "I agree, the vector tools explanation was top-notch!",
                 }
@@ -151,7 +159,8 @@ function Course() {
                 {
                     id: 201,
                     img: "/Photo/Profile.jfif",
-                    name: "Dimitri Abdelhakim",
+                    name: "Dimitri Abdelhak",
+                    isAuthor: true,
                     duration: "1 day ago",
                     description: "Happy to help, Jane! Let me know if you have any more questions.",
                 }
@@ -248,11 +257,11 @@ const language = ["English", "Spanish", "French", "German", "Italian"];
                 <div className="course-content" >
                     <div className="course-content-left">
                         <div className="course-content-left-header">
-                            <h3>{t("courses.Adobe_Illustrator_Logo_Design_Course", "Adobe Illustrator Logo Design Course")}</h3>
+                            <h3>{t("courses.Adobe_Illustrator_logos_design", "Adobe illustrator - logos design")}</h3>
                             <p>{t("courses.Adobe_Illustrator_Logo_Design_Course_description", "This course gives you a practical,no-nonsense path to designing professional logos using Adobe Illustrator. You will learn how to build clean, scalable, and modern logos from scratch, starting with basic vector tools and moving toward full brand-ready designs. The focus is on real skills—concept creation, shape building, typography, color theory, and exporting final files for clients.")}</p>
                         </div>
                         <div className="course-content-left-body">
-                            <p className="name_teacher">Create by <Link to="/teacher" style={{ color: "#0089EA", textDecoration: "underline" }}>Dimitri Abdelhakim</Link></p>
+                            <p className="name_teacher">Create by <Link to="/Teacher" style={{ color: "#0089EA", textDecoration: "underline" }}>Dimitri Abdelhak</Link></p>
                             <p className="date">Last updated 1 / 1 / 2025</p>
                             <p className="language_speak">
                                 <Globe size={18} /> {language[0]} 
@@ -277,7 +286,7 @@ const language = ["English", "Spanish", "French", "German", "Italian"];
                         </div>
                         <div className="course-content-left" style={{ marginTop: "100px" }}>
                             <div className="BenfiteOfCourse">
-                                <h3>{t("courses.What you'II learn", "What you'II learn")}</h3>
+                                <h3>{t("courses.What you'll learn", "What you'll learn")}</h3>
                                 <div className="BenfiteOfCourse-body" style={{ marginTop: "20px" }}>
                                     {(showMoreBenefits ? BenfiteOfCourse : BenfiteOfCourse.slice(0, 4)).map((item) => (
                                         <div key={item.id} className="BenfiteOfCourse-item">
@@ -287,12 +296,12 @@ const language = ["English", "Spanish", "French", "German", "Italian"];
 
                                     ))}
                                     <div className="show_more" onClick={() => setShowMoreBenefits(!showMoreBenefits)}>
+                                        <p>{showMoreBenefits ? t("courses.show_less", "Show less") : t("courses.show_more", "Show more")}</p>
                                         <img 
                                             src="/photo_icons/arrow-down.png" 
                                             alt="" 
                                             style={{ transform: showMoreBenefits ? "rotate(180deg)" : "rotate(0deg)", transition: "transform 0.3s" }} 
                                         />
-                                        <p>{showMoreBenefits ? t("courses.show_less", "Show less") : t("courses.show_more", "Show more")}</p>
                                     </div>
                                 </div>
                             </div>
@@ -312,9 +321,24 @@ const language = ["English", "Spanish", "French", "German", "Italian"];
                                 <h3>{t("courses.Course_content", "Course content")}</h3>
                                 <div className="Course_content-list">
                                     {CourseContent.map((item) => (
-                                        <div key={item.id} className="CourseContent-item">
-                                            <ChevronDown size={20} className="CourseContent-icon" />
-                                            <p>{item.description}</p>
+                                        <div key={item.id} className="CourseContent-wrapper">
+                                            <div 
+                                                className="CourseContent-item" 
+                                                onClick={() => setExpandedContent(expandedContent === item.id ? null : item.id)}
+                                                style={{ cursor: "pointer" }}
+                                            >
+                                                <ChevronDown 
+                                                    size={20} 
+                                                    className="CourseContent-icon" 
+                                                    style={{ transform: expandedContent === item.id ? "rotate(180deg)" : "rotate(0deg)", transition: "transform 0.3s" }}
+                                                />
+                                                <p>{item.description}</p>
+                                            </div>
+                                            {expandedContent === item.id && (
+                                                <div className="CourseContent-details">
+                                                    <p>{item.details}</p>
+                                                </div>
+                                            )}
                                         </div>
                                     ))}
                                 </div>
@@ -326,27 +350,35 @@ const language = ["English", "Spanish", "French", "German", "Italian"];
                                 <div className="Add-comment">
                                     <img src="/Photo/Profile.jfif" alt="" />
                                     <div className="input-group">
-                                        <input
-                                            type="text"
-                                            placeholder={t("courses.add_comment", "Add a comment")}
+                                        <textarea
+                                            placeholder={t("courses.comment_here", "Comment here")}
                                             value={comment}
                                             onChange={(e) => setComment(e.target.value)}
                                         />
-                                        <div className="rating">
-                                            {[1, 2, 3, 4, 5].map((star) => (
-                                                <span
-                                                    key={star}
-                                                    onClick={() => setRating(star)}
-                                                    style={{
-                                                        fontSize: "20px",
-                                                        cursor: "pointer",
-                                                        color: rating >= star ? "#FFD700" : "#999",
-                                                    }}>
-                                                    <Star size={20} fill={rating >= star ? "#FFD700" : "transparent"} />
-                                                </span>
-                                            ))}
+                                        <div className="comment-actions">
+                                            <div className="rating">
+                                                {[1, 2, 3, 4, 5].map((star) => (
+                                                    <span
+                                                        key={star}
+                                                        onClick={() => setRating(star)}
+                                                        style={{
+                                                            fontSize: "20px",
+                                                            cursor: "pointer",
+                                                            color: rating >= star ? "#FFD700" : "#999",
+                                                        }}>
+                                                        <Star size={20} fill={rating >= star ? "#FFD700" : "transparent"} color={rating >= star ? "#FFD700" : "#ccc"} />
+                                                    </span>
+                                                ))}
+                                            </div>
+                                            <button 
+                                                 className="submit-comment-btn" 
+                                                 onClick={handleAddComment}
+                                                 disabled={!comment.trim() || rating === 0}
+                                                 style={{ opacity: (!comment.trim() || rating === 0) ? 0.6 : 1, cursor: (!comment.trim() || rating === 0) ? 'not-allowed' : 'pointer' }}
+                                             >
+                                                 {t("courses.submit", "Submit")}
+                                             </button>
                                         </div>
-                                        <button className="send-btn" onClick={handleAddComment}>{t("courses.send", "Send")}</button>
                                     </div>
                                 </div>
                                 <div className="Comments-list">
@@ -355,7 +387,10 @@ const language = ["English", "Spanish", "French", "German", "Italian"];
                                             <div className="comment-header">
                                                 <img src={item.img} alt="" className="user-avatar" />
                                                 <div className="user-info">
-                                                    <p className="comment-name">{item.name}</p>
+                                                    <div className="name-author-badge">
+                                                        <p className="comment-name">{item.name}</p>
+                                                        {item.isAuthor && <span className="author-badge">{t("courses.author", "Author")}</span>}
+                                                    </div>
                                                     <div className="rating-duration">
                                                         <div className="stars">
                                                             {[1, 2, 3, 4, 5].map((star) => (
@@ -418,10 +453,13 @@ const language = ["English", "Spanish", "French", "German", "Italian"];
                                                         <div key={reply.id} className="reply-item">
                                                             <div className="comment-header">
                                                                  <img src={reply.img} alt="" className="user-avatar reply-avatar" />
-                                                                 <div className="user-info">
+                                                             <div className="user-info">
+                                                                 <div className="name-author-badge">
                                                                      <p className="comment-name reply-name">{reply.name}</p>
-                                                                     <span className="comment-duration reply-duration">{reply.duration}</span>
+                                                                     {reply.isAuthor && <span className="author-badge reply-author-badge">{t("courses.author", "Author")}</span>}
                                                                  </div>
+                                                                 <span className="comment-duration reply-duration">{reply.duration}</span>
+                                                             </div>
                                                              </div>
                                                              <p className="comment-description reply-description">{reply.description}</p>
                                                         </div>
@@ -446,9 +484,7 @@ const language = ["English", "Spanish", "French", "German", "Italian"];
                                 </div>
                                 <div className="card_body">
                                     <div className="price-section">
-                                        <span className="current-price">50$</span>
-                                        <span className="original-price">100$</span>
-                                        <span className="discount-badge">50% OFF</span>
+                                        <span className="current-price">$50</span>
                                     </div>
 
                                     <div className="card_body_buttons">

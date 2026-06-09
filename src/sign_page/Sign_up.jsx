@@ -1,22 +1,21 @@
 import { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
+import { Eye, EyeOff, Check, AlertCircle } from 'lucide-react'
 import "./Sign_up.css"
 
 /**
- * مكون صفحة إنشاء حساب جديد (SignUp)
- * يوفر واجهة للمستخدم لتدخيل بياناته والتحقق من صحتها قبل إرسالها.
+ * Modernized Centered SignUp Component
+ * Offers rich real-time input validations, password strength progress analytics,
+ * interactive SVGs, show/hide toggles, premium submission states, and a clean centered card structure.
  */
 function SignUp() {
     const navigate = useNavigate();
 
-    /**
-     * وظيفة للانتقال إلى صفحة تسجيل الدخول
-     */
     const goToLogIn = () => {
-        navigate("/log_in")
-    }
+        navigate("/log_in");
+    };
 
-    // حالات التخزين لبيانات المدخلات
+    // Form inputs state
     const [firstName, setFirstName] = useState("");
     const [lastName, setLastName] = useState("");
     const [email, setEmail] = useState("");
@@ -25,310 +24,471 @@ function SignUp() {
     const [phone, setPhone] = useState("");
     const [agree, setAgree] = useState(false);
 
-    // حالات رسائل الخطأ لكل حقل
-    const [firstNameError, setFirstNameError] = useState("");
-    const [lastNameError, setLastNameError] = useState("");
-    const [emailError, setEmailError] = useState([]);
-    const [passwordError, setPasswordError] = useState([]);
-    const [confirmPasswordError, setConfirmPasswordError] = useState("");
-    const [phoneError, setPhoneError] = useState("");
-    const [agreeError, setAgreeError] = useState("");
+    // Track focused and blurred fields for natural, non-aggressive real-time feedback
+    const [touched, setTouched] = useState({
+        firstName: false,
+        lastName: false,
+        email: false,
+        password: false,
+        confirmPassword: false,
+        phone: false,
+        agree: false
+    });
 
-    // حالات رسائل النجاح لكل حقل
-    const [firstNameSuccess, setFirstNameSuccess] = useState("");
-    const [lastNameSuccess, setLastNameSuccess] = useState("");
-    const [emailSuccess, setEmailSuccess] = useState([]);
-    const [passwordSuccess, setPasswordSuccess] = useState([]);
-    const [confirmPasswordSuccess, setConfirmPasswordSuccess] = useState("");
-    const [phoneSuccess, setPhoneSuccess] = useState("");
+    // Password focus tracking to display requirements checklist
+    const [passwordFocused, setPasswordFocused] = useState(false);
+
+    // Password visibility toggles
+    const [showPassword, setShowPassword] = useState(false);
+    const [showConfirmPassword, setShowConfirmPassword] = useState(false);
+
+    // Primary Submission loading state
+    const [isSubmitting, setIsSubmitting] = useState(false);
 
     /**
-     * التحقق المحلي من الحقول
-     * @returns {boolean} isValid
+     * Calculates Password Strength & Rule checklist satisfaction
      */
-    const validateForm = () => {
-        // إعادة تعيين جميع الرسائل
-        setFirstNameError(""); setLastNameError("");
-        setEmailError([]); setPasswordError([]);
-        setConfirmPasswordError(""); setPhoneError("");
-        setAgreeError("");
-        setFirstNameSuccess(""); setLastNameSuccess("");
-        setEmailSuccess([]); setPasswordSuccess([]);
-        setConfirmPasswordSuccess(""); setPhoneSuccess("");
+    const checkPasswordStrength = (pass) => {
+        let score = 0;
+        const requirements = {
+            length: pass.length >= 8,
+            number: /[0-9]/.test(pass),
+            upper: /[A-Z]/.test(pass),
+            lower: /[a-z]/.test(pass),
+            special: /[!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?]/.test(pass)
+        };
 
-        let isValid = true;
-        const trimmedFirstName      = firstName.trim();
-        const trimmedLastName       = lastName.trim();
-        const trimmedEmail          = email.trim();
-        const trimmedPassword       = password.trim();
-        const trimmedConfirmPassword = confirmPassword.trim();
-        const trimmedPhone          = phone.trim();
+        score += requirements.length ? 1 : 0;
+        score += requirements.number ? 1 : 0;
+        score += requirements.upper ? 1 : 0;
+        score += requirements.lower ? 1 : 0;
+        score += requirements.special ? 1 : 0;
 
-        // 1. الاسم الأول
-        if (!trimmedFirstName) {
-            setFirstNameError("Please fill in this field."); isValid = false;
-        } else if (trimmedFirstName.length < 5) {
-            setFirstNameError("First name must be at least 5 characters long."); isValid = false;
-        } else if (!/[A-Za-z]/.test(trimmedFirstName)) {
-            setFirstNameError("First name must contain only letters."); isValid = false;
-        } else {
-            setFirstNameSuccess("First name is valid.");
-        }
+        let text = "Too Short";
+        let color = "#cbd5e1"; // neutral grey
 
-        // 2. اسم العائلة
-        if (!trimmedLastName) {
-            setLastNameError("Please fill in this field."); isValid = false;
-        } else if (trimmedLastName.length < 2) {
-            setLastNameError("Last name must be at least 2 characters long."); isValid = false;
-        } else if (!/[A-Za-z]/.test(trimmedLastName)) {
-            setLastNameError("Last name must contain only letters."); isValid = false;
-        } else {
-            setLastNameSuccess("Last name is valid.");
-        }
-
-        // 3. البريد الإلكتروني
-        let emailErrors = [], emailSuccesses = [];
-        if (!trimmedEmail) {
-            emailErrors.push("Please fill in this field."); isValid = false;
-        } else {
-            if (trimmedEmail.length < 8) {
-                emailErrors.push("Email must be at least 8 characters long."); isValid = false;
-            } else {
-                emailSuccesses.push("Email has at least 8 characters.");
-            }
-            if (!trimmedEmail.includes("@gmail.com")) {
-                emailErrors.push("Please enter a valid email address (must include @gmail.com)."); isValid = false;
-            } else {
-                emailSuccesses.push("Email contains @gmail.com.");
+        if (pass.length > 0) {
+            if (score <= 2) {
+                text = "Weak";
+                color = "#ef4444"; // red
+            } else if (score === 3) {
+                text = "Fair";
+                color = "#f97316"; // orange
+            } else if (score === 4) {
+                text = "Good";
+                color = "#eab308"; // amber/yellow
+            } else if (score === 5) {
+                text = "Strong";
+                color = "#10b981"; // emerald/green
             }
         }
-        setEmailError(emailErrors);
-        setEmailSuccess(emailSuccesses);
 
-        // 4. كلمة المرور
-        let passErrors = [], passSuccesses = [];
-        if (!trimmedPassword) {
-            passErrors.push("Please fill in this field."); isValid = false;
-        } else {
-            if (trimmedPassword.length < 8) { passErrors.push("Password must be at least 8 characters long."); isValid = false; }
-            else { passSuccesses.push("Password has at least 8 characters."); }
-            if (!/[0-9]/.test(trimmedPassword))      { passErrors.push("Password must contain at least one number."); isValid = false; }
-            else { passSuccesses.push("Password has at least one number."); }
-            if (!/[A-Z]/.test(trimmedPassword))      { passErrors.push("Password must contain at least one uppercase letter."); isValid = false; }
-            else { passSuccesses.push("Password has at least one uppercase letter."); }
-            if (!/[a-z]/.test(trimmedPassword))      { passErrors.push("Password must contain at least one lowercase letter."); isValid = false; }
-            else { passSuccesses.push("Password has at least one lowercase letter."); }
-            if (!/[!@#$%^&*]/.test(trimmedPassword)) { passErrors.push("Password must contain at least one special character."); isValid = false; }
-            else { passSuccesses.push("Password has at least one special character."); }
+        return { score, text, color, requirements };
+    };
+
+    const { score: passwordStrength, text: passwordStrengthText, color: passwordStrengthColor, requirements: passRequirements } = checkPasswordStrength(password);
+
+    // Real-time computed validation errors
+    const errors = {};
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    const phoneRegex = /^[0-9]{10,15}$/;
+
+    // 1. First Name
+    if (!firstName.trim()) {
+        errors.firstName = "First name is required.";
+    } else if (firstName.trim().length < 2) {
+        errors.firstName = "First name must be at least 2 characters.";
+    } else if (!/^[A-Za-z\s\u0621-\u064A]+$/.test(firstName.trim())) {
+        errors.firstName = "First name must contain only letters.";
+    }
+
+    // 2. Last Name
+    if (!lastName.trim()) {
+        errors.lastName = "Last name is required.";
+    } else if (lastName.trim().length < 2) {
+        errors.lastName = "Last name must be at least 2 characters.";
+    } else if (!/^[A-Za-z\s\u0621-\u064A]+$/.test(lastName.trim())) {
+        errors.lastName = "Last name must contain only letters.";
+    }
+
+    // 3. Email
+    if (!email.trim()) {
+        errors.email = "Email address is required.";
+    } else if (!emailRegex.test(email.trim())) {
+        errors.email = "Please enter a valid email address.";
+    }
+
+    // 4. Password
+    if (!password) {
+        errors.password = "Password is required.";
+    } else if (passwordStrength < 5) {
+        errors.password = "Password does not meet all security guidelines.";
+    }
+
+    // 5. Confirm Password
+    if (!confirmPassword) {
+        errors.confirmPassword = "Please confirm your password.";
+    } else if (confirmPassword !== password) {
+        errors.confirmPassword = "Passwords do not match.";
+    }
+
+    // 6. Phone
+    if (!phone.trim()) {
+        errors.phone = "Phone number is required.";
+    } else if (!phoneRegex.test(phone.trim())) {
+        errors.phone = "Please enter a valid phone number (10-15 digits).";
+    }
+
+    // 7. Consent / Agree Checkbox
+    if (!agree) {
+        errors.agree = "You must agree to the Terms & Conditions.";
+    }
+
+    // Input handlers
+    const handleBlur = (field) => {
+        setTouched(prev => ({ ...prev, [field]: true }));
+    };
+
+    const handleInputChange = (field, value, setter) => {
+        setter(value);
+        // Clean error display triggers instantly on modification if already touched
+        if (!touched[field]) {
+            setTouched(prev => ({ ...prev, [field]: true }));
         }
-        setPasswordError(passErrors);
-        setPasswordSuccess(passSuccesses);
-
-        // 5. تأكيد كلمة المرور
-        if (!trimmedConfirmPassword) {
-            setConfirmPasswordError("Please confirm your password."); isValid = false;
-        } else if (trimmedConfirmPassword !== trimmedPassword) {
-            setConfirmPasswordError("Passwords do not match!"); isValid = false;
-        } else {
-            setConfirmPasswordSuccess("Passwords match.");
-        }
-
-        // 6. رقم الهاتف
-        const phoneRegex = /^[0-9]{10,15}$/;
-        if (!trimmedPhone) {
-            setPhoneError("Please fill in this field."); isValid = false;
-        } else if (!phoneRegex.test(trimmedPhone)) {
-            setPhoneError("Please enter a valid phone number (10-15 digits)."); isValid = false;
-        } else {
-            setPhoneSuccess("Phone number is valid.");
-        }
-
-        // 7. الموافقة على الشروط
-        if (!agree) {
-            setAgreeError("You must agree to the terms and conditions."); isValid = false;
-        }
-
-        return isValid && passErrors.length === 0;
     };
 
     /**
-     * وظيفة معالجة إرسال النموذج
-     * @param {Event} e
+     * Submits the sign-up request
      */
     const handleSubmit = (e) => {
         e.preventDefault();
-        if (validateForm()) {
-            navigate("/home");
+
+        // Mark all fields touched to trigger all visual warnings
+        setTouched({
+            firstName: true,
+            lastName: true,
+            email: true,
+            password: true,
+            confirmPassword: true,
+            phone: true,
+            agree: true
+        });
+
+        const isValid = Object.keys(errors).length === 0;
+
+        if (isValid) {
+            setIsSubmitting(true);
+            // Simulate standard network registration request (1.2s delay)
+            setTimeout(() => {
+                setIsSubmitting(false);
+                navigate("/home");
+            }, 1200);
         }
     };
 
-
     return (
-        <>
-            <div className="sign-up-page-container">
-                <div className="sign-up-form">
-                    <h1 className="title-sign-up">Sign up to <label style={{ color: "#0089EA" }}>Learnova</label></h1>
+        <div className="sign-up-page-container">
+            <div className="sign-up-form">
+                <div className="signup-card">
+                    <h1 className="title-sign-up">
+                        Sign up to <span className="brand-accent">Learnova</span>
+                    </h1>
+                    <p className="signup-subtitle">Join thousands of students learning today.</p>
 
                     <form onSubmit={handleSubmit} noValidate>
-                        <div className="fullName" style={{ marginBottom: "20px" }}>
-                            <div className="form-group">
-                                <label htmlFor="first_name">First Name</label>
+                        {/* Name Fields */}
+                        <div className="form-group">
+                            <label htmlFor="first_name">First Name</label>
+                            <div className={`input-wrapper ${touched.firstName && errors.firstName ? 'has-error' : touched.firstName && !errors.firstName ? 'has-success' : ''}`}>
                                 <input
                                     type="text"
                                     id="first_name"
                                     name="first_name"
+                                    className="name-field-input"
                                     value={firstName}
-                                    onChange={(e) => setFirstName(e.target.value)}
-                                    required
-                                    placeholder="example Moath"
+                                    onChange={(e) => handleInputChange("firstName", e.target.value, setFirstName)}
+                                    onBlur={() => handleBlur("firstName")}
+                                    disabled={isSubmitting}
+                                    placeholder="Moath"
                                 />
-                                {firstNameError && <span className="error-message"><img src="/photo_icons/Inchorrect.png" alt="error" />{firstNameError}</span>}
-                                {firstNameSuccess && <span className="success-message"><img src="/photo_icons/Chorrect.png" alt="success" />{firstNameSuccess}</span>}
+                                {touched.firstName && (
+                                    <span className="feedback-icon">
+                                        {errors.firstName ? (
+                                            <AlertCircle className="icon-err" size={22} strokeWidth={2.5} />
+                                        ) : (
+                                            <Check className="icon-succ" size={22} strokeWidth={3} />
+                                        )}
+                                    </span>
+                                )}
                             </div>
-                            <div className="form-group">
-                                <label htmlFor="last_name" >Last Name</label>
+                            {touched.firstName && errors.firstName && (
+                                <span className="error-message">{errors.firstName}</span>
+                            )}
+                        </div>
+
+                        <div className="form-group">
+                            <label htmlFor="last_name">Last Name</label>
+                            <div className={`input-wrapper ${touched.lastName && errors.lastName ? 'has-error' : touched.lastName && !errors.lastName ? 'has-success' : ''}`}>
                                 <input
                                     type="text"
                                     id="last_name"
                                     name="last_name"
+                                    className="name-field-input"
                                     value={lastName}
-                                    onChange={(e) => setLastName(e.target.value)}
-                                    required
-                                    placeholder="example Hazeem"
+                                    onChange={(e) => handleInputChange("lastName", e.target.value, setLastName)}
+                                    onBlur={() => handleBlur("lastName")}
+                                    disabled={isSubmitting}
+                                    placeholder="Hazeem"
                                 />
-                                {lastNameError && <span className="error-message"><img src="/photo_icons/Inchorrect.png" alt="error" />{lastNameError}</span>}
-                                {lastNameSuccess && <span className="success-message"><img src="/photo_icons/Chorrect.png" alt="success" />{lastNameSuccess}</span>}
+                                {touched.lastName && (
+                                    <span className="feedback-icon">
+                                        {errors.lastName ? (
+                                            <AlertCircle className="icon-err" size={22} strokeWidth={2.5} />
+                                        ) : (
+                                            <Check className="icon-succ" size={22} strokeWidth={3} />
+                                        )}
+                                    </span>
+                                )}
                             </div>
+                            {touched.lastName && errors.lastName && (
+                                <span className="error-message">{errors.lastName}</span>
+                            )}
                         </div>
 
-                        <div className="form-group" style={{ marginBottom: "-20px" }}>
+                        {/* Email Address */}
+                        <div className="form-group">
                             <label htmlFor="email">Email</label>
-                            <input
-                                type="email"
-                                id="email"
-                                name="email"
-                                value={email}
-                                onChange={(e) => setEmail(e.target.value)}
-                                required
-                                placeholder="example Moath_hazeem665@gmail.com"
-                            />
-                            {emailError.length > 0 &&
-                                emailError.map((err, i) => (
-                                    <span key={i} className="error-message" style={{ marginTop: i === 0 ? "-30px" : "10px" }}>
-                                        <img src="/photo_icons/Inchorrect.png" alt="error" />
-                                        {err}
+                            <div className={`input-wrapper ${touched.email && errors.email ? 'has-error' : touched.email && !errors.email ? 'has-success' : ''}`}>
+                                <input
+                                    type="email"
+                                    id="email"
+                                    name="email"
+                                    className="name-field-input"
+                                    value={email}
+                                    onChange={(e) => handleInputChange("email", e.target.value, setEmail)}
+                                    onBlur={() => handleBlur("email")}
+                                    disabled={isSubmitting}
+                                    placeholder="moath@gmail.com"
+                                />
+                                {touched.email && (
+                                    <span className="feedback-icon">
+                                        {errors.email ? (
+                                            <AlertCircle className="icon-err" size={22} strokeWidth={2.5} />
+                                        ) : (
+                                            <Check className="icon-succ" size={22} strokeWidth={3} />
+                                        )}
                                     </span>
-                                ))}
-
-                            {emailSuccess.length > 0 &&
-                                emailSuccess.map((succ, i) => (
-                                    <span key={i} className="success-message" style={{ marginTop: i === 0 ? "-30px" : "10px" }}>
-                                        <img src="/photo_icons/Chorrect.png" alt="success" />
-                                        {succ}
-                                    </span>
-                                ))}
-
+                                )}
+                            </div>
+                            {touched.email && errors.email && (
+                                <span className="error-message">{errors.email}</span>
+                            )}
                         </div>
 
-                        <div className="form-group" style={{ marginBottom: "20px" }}>
+                        {/* Password Field */}
+                        <div className="form-group">
                             <label htmlFor="password">Password</label>
-                            <input
-                                type="password"
-                                id="password"
-                                name="password"
-                                value={password}
-                                onChange={(e) => setPassword(e.target.value)}
-                                required
-                                placeholder="example 4645456qwwe#$"
-                            />
-                            {passwordError.length > 0 &&
-                                passwordError.map((err, i) => (
-                                    <span key={i} className="error-message">
-                                        <img src="/photo_icons/Inchorrect.png" alt="error" /> {err}
-                                    </span>
-                                ))}
+                            <div className={`input-wrapper ${touched.password && errors.password ? 'has-error' : touched.password && !errors.password ? 'has-success' : ''}`}>
+                                <input
+                                    type={showPassword ? "text" : "password"}
+                                    id="password"
+                                    name="password"
+                                    className="name-field-input"
+                                    value={password}
+                                    onChange={(e) => handleInputChange("password", e.target.value, setPassword)}
+                                    onBlur={() => { handleBlur("password"); setPasswordFocused(false); }}
+                                    onFocus={() => setPasswordFocused(true)}
+                                    disabled={isSubmitting}
+                                    placeholder="Create secure password"
+                                />
+                                <button
+                                    type="button"
+                                    className="password-toggle-btn"
+                                    onClick={() => setShowPassword(!showPassword)}
+                                    tabIndex="-1"
+                                    aria-label={showPassword ? "Hide password" : "Show password"}
+                                >
+                                    {showPassword ? <EyeOff size={24} /> : <Eye size={24} />}
+                                </button>
+                            </div>
 
-                            {passwordSuccess.length > 0 &&
-                                passwordSuccess.map((succ, i) => (
-                                    <span key={i} className="success-message">
-                                        <img src="/photo_icons/Chorrect.png" alt="success" /> {succ}
-                                    </span>
-                                ))}
+                            {/* Real-time Password Strength Analytics */}
+                            {password.length > 0 && (
+                                <div className="password-strength-container">
+                                    <div className="strength-meta">
+                                        <span className="strength-label">Password Strength:</span>
+                                        <span className="strength-text" style={{ color: passwordStrengthColor }}>
+                                            {passwordStrengthText}
+                                        </span>
+                                    </div>
+                                    <div className="strength-bar-bg">
+                                        <div
+                                            className="strength-bar-fill"
+                                            style={{
+                                                width: `${(passwordStrength / 5) * 100}%`,
+                                                backgroundColor: passwordStrengthColor
+                                            }}
+                                        ></div>
+                                    </div>
+                                </div>
+                            )}
 
+                            {/* Dynamic checklist dropdown. Displays when user focuses the field */}
+                            {(passwordFocused || (touched.password && passwordStrength < 5)) && (
+                                <div className="password-rules-popover">
+                                    <p className="popover-title">Password must contain:</p>
+                                    <ul className="rules-list">
+                                        <li className={passRequirements.length ? "satisfied" : "unsatisfied"}>
+                                            <span className="check-bullet">✓</span> At least 8 characters
+                                        </li>
+                                        <li className={passRequirements.number ? "satisfied" : "unsatisfied"}>
+                                            <span className="check-bullet">✓</span> At least 1 number
+                                        </li>
+                                        <li className={passRequirements.upper ? "satisfied" : "unsatisfied"}>
+                                            <span className="check-bullet">✓</span> At least 1 uppercase letter
+                                        </li>
+                                        <li className={passRequirements.lower ? "satisfied" : "unsatisfied"}>
+                                            <span className="check-bullet">✓</span> At least 1 lowercase letter
+                                        </li>
+                                        <li className={passRequirements.special ? "satisfied" : "unsatisfied"}>
+                                            <span className="check-bullet">✓</span> At least 1 special character
+                                        </li>
+                                    </ul>
+                                </div>
+                            )}
+                            
+                            {touched.password && errors.password && !passwordFocused && (
+                                <span className="error-message">{errors.password}</span>
+                            )}
                         </div>
 
-                        <div className="form-group" style={{ marginBottom: "20px" }}>
+                        {/* Confirm Password Field */}
+                        <div className="form-group">
                             <label htmlFor="confirm_password">Confirm Password</label>
-                            <input
-                                type="password"
-                                id="confirm_password"
-                                name="confirm_password"
-                                value={confirmPassword}
-                                onChange={(e) => setConfirmPassword(e.target.value)}
-                                required
-                                placeholder="example 4645456qwwe#$"
-                            />
-                            {confirmPasswordError && <span className="error-message"><img src="/photo_icons/Inchorrect.png" alt="error" />{confirmPasswordError}</span>}
-                            {confirmPasswordSuccess && <span className="success-message"><img src="/photo_icons/Chorrect.png" alt="success" />{confirmPasswordSuccess}</span>}
+                            <div className={`input-wrapper ${touched.confirmPassword && errors.confirmPassword ? 'has-error' : touched.confirmPassword && !errors.confirmPassword ? 'has-success' : ''}`}>
+                                <input
+                                    type={showConfirmPassword ? "text" : "password"}
+                                    id="confirm_password"
+                                    name="confirm_password"
+                                    className="name-field-input"
+                                    value={confirmPassword}
+                                    onChange={(e) => handleInputChange("confirmPassword", e.target.value, setConfirmPassword)}
+                                    onBlur={() => handleBlur("confirmPassword")}
+                                    disabled={isSubmitting}
+                                    placeholder="Repeat secure password"
+                                />
+                                <button
+                                    type="button"
+                                    className="password-toggle-btn"
+                                    onClick={() => setShowConfirmPassword(!showConfirmPassword)}
+                                    tabIndex="-1"
+                                    aria-label={showConfirmPassword ? "Hide password" : "Show password"}
+                                >
+                                    {showConfirmPassword ? <EyeOff size={24} /> : <Eye size={24} />}
+                                </button>
+                            </div>
+                            {touched.confirmPassword && errors.confirmPassword && (
+                                <span className="error-message">{errors.confirmPassword}</span>
+                            )}
+                             {touched.confirmPassword && !errors.confirmPassword && confirmPassword && (
+                                <span className="success-message-subtle">
+                                    <Check className="icon-succ-subtle" size={18} strokeWidth={3} />
+                                    Passwords match
+                                </span>
+                            )}
                         </div>
 
-                        <div className="form-group" style={{ marginBottom: "40px" }}>
-                            <label htmlFor="phone">Phone</label>
-                            <input
-                                type="tel"
-                                id="phone"
-                                name="phone"
-                                value={phone}
-                                onChange={(e) => setPhone(e.target.value)}
-                                required
-                                placeholder="example 0528885023"
-                            />
-                            {phoneError && <span className="error-message"><img src="/photo_icons/Inchorrect.png" alt="error" />{phoneError}</span>}
-                            {phoneSuccess && <span className="success-message"><img src="/photo_icons/Chorrect.png" alt="success" />{phoneSuccess}</span>}
+                        {/* Phone Field */}
+                        <div className="form-group">
+                            <label htmlFor="phone">Phone Number</label>
+                            <div className={`input-wrapper ${touched.phone && errors.phone ? 'has-error' : touched.phone && !errors.phone ? 'has-success' : ''}`}>
+                                <input
+                                    type="tel"
+                                    id="phone"
+                                    name="phone"
+                                    className="name-field-input"
+                                    value={phone}
+                                    onChange={(e) => handleInputChange("phone", e.target.value, setPhone)}
+                                    onBlur={() => handleBlur("phone")}
+                                    disabled={isSubmitting}
+                                    placeholder="0528885023"
+                                />
+                                {touched.phone && (
+                                    <span className="feedback-icon">
+                                        {errors.phone ? (
+                                            <AlertCircle className="icon-err" size={22} strokeWidth={2.5} />
+                                        ) : (
+                                            <Check className="icon-succ" size={22} strokeWidth={3} />
+                                        )}
+                                    </span>
+                                )}
+                            </div>
+                            {touched.phone && errors.phone && (
+                                <span className="error-message">{errors.phone}</span>
+                            )}
                         </div>
 
-                        <div className="form-options" style={{ marginBottom: "20px" }}>
-                            <div className="form-group_remember">
+                        {/* Terms & Conditions Checkbox */}
+                        <div className={`signup-options ${touched.agree && errors.agree ? 'has-error' : ''}`}>
+                            <div className="custom-checkbox-wrapper">
                                 <input
                                     type="checkbox"
                                     id="confirmation"
                                     name="confirmation"
                                     checked={agree}
-                                    onChange={(e) => setAgree(e.target.checked)}
-                                    required
+                                    onChange={(e) => handleInputChange("agree", e.target.checked, setAgree)}
+                                    onBlur={() => handleBlur("agree")}
+                                    disabled={isSubmitting}
                                 />
-                                <label htmlFor="confirmation">I agree to the <span style={{ color: "#0089EA", cursor: "pointer" }}>Terms & Condition</span></label>
+                                <label htmlFor="confirmation" className="checkbox-label">
+                                    <span className="checkbox-box">
+                                        <Check className="checkmark" size={14} strokeWidth={4} />
+                                    </span>
+                                    <span>I agree to the <span className="terms-link">Terms & Conditions</span></span>
+                                </label>
                             </div>
-                            {agreeError && <span className="error-message"><img src="/photo_icons/Inchorrect.png" alt="error" />{agreeError}</span>}
+                            {touched.agree && errors.agree && (
+                                <span className="error-message-agree">{errors.agree}</span>
+                            )}
                         </div>
 
-                        <button type="submit" className="sign-in-button">Sign Up</button>
+                        {/* Submit Button */}
+                        <button type="submit" className="signup-submit-btn" disabled={isSubmitting}>
+                            {isSubmitting ? (
+                                <div className="btn-loading">
+                                    <div className="spinner"></div>
+                                    <span>Creating Account...</span>
+                                </div>
+                            ) : (
+                                <span>Sign Up</span>
+                            )}
+                        </button>
 
-                        <div className="or">
+                        <div className="signup-divider">
                             <span>Or register with</span>
                         </div>
 
+                        {/* Social Media Sign Up Buttons */}
                         <div className="social-media-container">
-                            <div className="social-button">
-                                <img src="/photo_icons/Google.png" alt="logo_Google" />
+                            <div className="signup-social-btn" onClick={() => !isSubmitting && alert("Google signup is a mock option in this design.")}>
+                                <img src="/photo_icons/Google.png" alt="Google logo" />
                                 <span>Google</span>
                             </div>
-                            <div className="social-button">
-                                <img src="/photo_icons/Facebook_Logo.png" alt="logo_Facebook" />
+                            <div className="signup-social-btn" onClick={() => !isSubmitting && alert("Facebook signup is a mock option in this design.")}>
+                                <img src="/photo_icons/Facebook_Logo.png" alt="Facebook logo" />
                                 <span>Facebook</span>
                             </div>
                         </div>
 
-                        <div className='DHAA'>
-                            <p style={{ color: "#514C4Ca5" }}>Already have an account? <a onClick={goToLogIn} style={{ color: "#0089EA", fontWeight: "bold", cursor: "pointer" }}>Log In</a></p>
+                        <div className='signup-footer'>
+                            <p className="login-prompt">
+                                Already have an account? <a onClick={goToLogIn} className="login-link">Log In</a>
+                            </p>
                         </div>
                     </form>
                 </div>
-                <div className="Photo">
-                    <img src="/Photo/Photo_Sign_up.jpg" alt="Photo related to sign up" title="Photo related to sign up" />
-                </div>
             </div>
-        </>
+        </div>
     )
 }
 

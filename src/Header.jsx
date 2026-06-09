@@ -1,10 +1,8 @@
 import { useState, useEffect, useRef } from "react";
 import "./Header.css"
-import { useNavigate } from "react-router-dom";
-import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
-import LandingPage from "./LandingPage";
-import { useLocation } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
 import { useTranslation } from "react-i18next";
+import i18n from "i18next";
 
 function Header() {
   const Navigate = useNavigate()
@@ -182,8 +180,12 @@ function Header() {
             </div>
           </div>
 
+          {!isLandingPage && (
+            <nav className="nav-links">
+              <a href="/My Learning" style={{ marginRight: "100px" }}>{t("setting.my_learning", "My Learning")}</a>
+            </nav>
+          )}
           <nav className="nav-links">
-            <a href="#" style={{ marginRight: "100px" }}>{t("setting.my_learning", "My Learning")}</a>
             <a href="/Explore" style={{ marginRight: "100px" }}>{t("setting.explore", "Explore")}</a>
           </nav>
           <h1 className="logo" onClick={() => Navigate("/LandingPage")}>

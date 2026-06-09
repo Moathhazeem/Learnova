@@ -1,4 +1,6 @@
 import { useState } from "react";
+import { Link } from "react-router-dom";
+import { BookOpen, Play, ChevronRight } from "lucide-react";
 import "./Home.css";
 
 function Home() {
@@ -47,62 +49,90 @@ function Home() {
 
     return (
         <div className="home-container">
-            <div className="page-header">
-                <h1>Welcome back, Moath!</h1>
+            <div className="home-welcome-section">
+                <div className="welcome-text-block">
+                    <p className="welcome-eyebrow">Your learning dashboard</p>
+                    <h1>Welcome back, Moath!</h1>
+                    <p className="welcome-subtitle">
+                        Pick up where you left off and discover something new today.
+                    </p>
+                </div>
+                {/*
+                <div className="welcome-progress-chip" aria-label={`${progress}% course progress`}>
+                    <div
+                        className="welcome-progress-ring"
+                        style={{ "--progress": progress }}
+                        role="img"
+                        aria-hidden="true"
+                    >
+                        <div className="welcome-progress-ring-inner">
+                            <span>{progress}%</span>
+                        </div>
+                    </div>
+                    <span className="welcome-progress-label">Course progress</span>
+                </div>
+                */}
             </div>
 
             <section className="in-progress-section">
                 <div className="section-title">
-                    <img src="/photo_icons/book.png" alt="Progress" />
+                    <span className="section-icon-wrap">
+                        <BookOpen size={20} strokeWidth={2.25} />
+                    </span>
                     <h2>In progress</h2>
                 </div>
 
-                <div className="progress-card">
+                <article className="progress-card">
                     <div className="progress-card-image">
                         <img src="/Photo/Adobe Illustrator logo design.png" alt="Adobe Illustrator" />
+                        <span className="progress-card-badge">Graphic Design</span>
                     </div>
                     <div className="progress-card-info">
                         <div className="info-top">
                             <span className="learning-label">Continue learning</span>
-                            <div className="play-button">
-                                <img src="/photo_icons/play.png" alt="Play" />
-                            </div>
+                            <button type="button" className="play-button" aria-label="Resume course">
+                                <Play size={16} fill="currentColor" strokeWidth={0} />
+                            </button>
                         </div>
                         <h3 className="course-title">Adobe Illustrator - logos design</h3>
 
                         <div className="progress-details">
                             <div className="progress-stats">
-                                <span>{progress}% complete</span>
+                                <span><strong>{progress}%</strong> complete</span>
                                 <span>6h 30m left</span>
                             </div>
                             <div className="progress-bar-container">
                                 <div
                                     className="progress-bar-fill"
                                     style={{ width: `${progress}%` }}
-                                ></div>
+                                />
                             </div>
                         </div>
                     </div>
-                </div>
+                </article>
             </section>
 
             <section className="explore-section">
                 <div className="section-header">
                     <h2>Explore Categories</h2>
-                    <a href="#" className="show-more">
+                    <Link to="/Explore" className="show-more">
                         Show More
-                        <img src="/photo_icons/show_more.png" alt="More" />
-                    </a>
+                        <ChevronRight size={18} strokeWidth={2.5} />
+                    </Link>
                 </div>
                 <div className="categories-grid">
                     {categories.map((cat, index) => (
-                        <button key={index} className="category-tag" onMouseEnter={() => setImage(index)}
-                            onMouseLeave={() => setImage(null)}>
-                            <img src={image === index ? cat.white : cat.blue}
-                                style={{ cursor: "pointer" }}
-                                alt={cat.name}
-                            />
-                            {cat.name}
+                        <button
+                            key={index}
+                            type="button"
+                            className={`category-tag ${image === index ? "is-hovered" : ""}`}
+                            onMouseEnter={() => setImage(index)}
+                            onMouseLeave={() => setImage(null)}
+                        >
+                            <span className="category-tag-icon">
+                                <img src={image === index ? cat.white : cat.blue} alt="" aria-hidden="true" />
+                            </span>
+                            <span>{cat.name}</span>
                         </button>
                     ))}
                 </div>
@@ -111,6 +141,10 @@ function Home() {
             <section className="recommended-section">
                 <div className="section-header">
                     <h2>Recommended for You</h2>
+                    <Link to="/Explore" className="show-more">
+                        View all
+                        <ChevronRight size={18} strokeWidth={2.5} />
+                    </Link>
                 </div>
                 <div className="courses-container">
                     {recommendedCourses.map((course, index) => (
