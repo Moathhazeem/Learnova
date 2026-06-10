@@ -1,4 +1,3 @@
-import { useState } from 'react'
 import './App.css'
 import Header from './Header'
 import LandingPage from './LandingPage'
@@ -22,7 +21,7 @@ import Explore from './PageProfile/Explore'
 import Course from './courses/Course'
 import Teacher from './courses/Teacher'
 import Contact_us from './courses/Contact_us'
-
+import AboutUs from './courses/About_us';
 function Layout({ children }) {
   const location = useLocation();
   const noheaderfooter = ["/log_in", "/sign_up", "/Forgot_pas", "/check_email", '/Verification_Code', '/Create_new_pas'];
@@ -35,7 +34,6 @@ function Layout({ children }) {
   )
 }
 function App() {
-  const [count, setCount] = useState(0)
   return (
     <Router>
       <Layout>
@@ -61,6 +59,7 @@ function App() {
           <Route path="/Teacher" element={<Teacher />} />
           <Route path="/Teacher/Course" element={<Course />} />
           <Route path="/Contact_us" element={<Contact_us />} />
+          <Route path="/About_us" element={<AboutUs />} />
         </Routes>
       </Layout>
     </Router>

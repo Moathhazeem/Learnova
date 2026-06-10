@@ -12,6 +12,7 @@ function Footer() {
                         <li><Link to="/My Learning">My Learning</Link></li>
                         <li><Link to="/Teacher">Teachers</Link></li>
                         <li><Link to="/Contact_us">Contact Us</Link></li>
+                        <li><Link to="/About_us">About Us</Link></li>
                     </ul>
                     <ul>
                         <li className="list_title">Community</li>
