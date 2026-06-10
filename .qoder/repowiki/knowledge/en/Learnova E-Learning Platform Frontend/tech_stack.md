@@ -1,0 +1,4 @@
+- React 19 with Vite 7 build tooling.
+- `react-i18next` for internationalization (English/Arabic).
+- `lucide-react` for iconography.
+- `react-phone-input-2` for specialized phone number input fields.

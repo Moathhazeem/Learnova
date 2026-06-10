@@ -1,0 +1,3 @@
+- Components use co-located CSS modules with matching filenames (e.g., `Profile.jsx` and `Profile.css`).
+- Authentication and settings routes follow a consistent PascalCase naming convention for paths (e.g., `/Forgot_pas`, `/Setting/Profile`).
+- Static assets are referenced using absolute paths from the public root (e.g., `/photo_icons/...`) rather than relative imports.

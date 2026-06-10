@@ -217,10 +217,24 @@
 .custom-phone-input {
     width: 100%;
     display: flex;
-    align-items: left;
+    align-items: center;      /* بتجيب العلم بالمنتصف عمودياً */
+    justify-content: center;   /* بتخليه بالمنتصف أفقياً داخل مساحته */
     margin-left: -58px;
+    margin-bottom:5px;
+}
+/* 1. بنشيل العجقة والـ shadow الداخلي المشوه */
+.custom-phone-input:focus,
+.PhoneInput input:focus {
+    outline: none !important;
+    box-shadow: none !important;
 }
 
+/* 2. بنعطي التأثير الأزرق المرتب للحاوية الخارجية الكبيرة عند الكتابة */
+.PhoneInput:focus-within {
+    border-color: #2684FF !important; /* نفس درجة الأزرق */
+    box-shadow: 0 0 0 0px rgba(38, 132, 255, 0.2) !important; /* بعمل تفعيل الشاشة */
+    transition: all 0.2s ease;
+}
 /* Aligning the flag to the far left neatly */
 .custom-phone-input .PhoneInputCountry {
     margin: 0;
@@ -241,6 +255,7 @@
 
 .custom-phone-input .PhoneInputInput {
     border: none !important;
+    border-radius:0px;
     background: transparent !important;
     padding: 14px 45px 14px 16px !important;
     font-size: 15px;
@@ -302,7 +317,15 @@
     cursor: pointer !important;
     padding-left: 36px !important; /* Space for the icon */
 }
-
+/* إلغاء الـ outline الغريب عند الـ focus على القائمة أو عناصرها الداخلية */
+.location-select__control:focus,
+.location-select__control:focus-within,
+.css-1lwsz03e-control:focus-within,
+.location-select__control input:focus {
+    outline: none !important;
+    box-shadow: none !important;
+    border-color: transparent !important;
+}
 .location-select__value-container {
     padding: 0 16px !important;
 }
@@ -529,11 +552,17 @@
     transform: scale(1.1) rotate(5deg);
 }
 
-.social-icon-wrapper.fb { background: #1877F2; }
+.social-icon-wrapper.fb { background: #1877F2;  }
 .social-icon-wrapper.ig { background: linear-gradient(45deg, #f09433 0%, #e6683c 25%, #dc2743 50%, #cc2366 75%, #bc1888 100%); }
 .social-icon-wrapper.li { background: #0077B5; }
 .social-icon-wrapper.yt { background: #FF0000; }
 .social-icon-wrapper.tw { background: #000000; }
+.social-icon-wrapper img {
+    width: 20px;
+    height: 20px;
+    filter: invert(1) brightness(2);
+}
+
 
 .social-text {
     font-size: 14px;

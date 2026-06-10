@@ -2,33 +2,25 @@ import React, { useState, useMemo } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { useTranslation } from "react-i18next";
 import './Contact_us.css';
-import './PhoneInputCustom.css';
 import 'react-phone-number-input/style.css';
-import { 
-    Mail, 
-    Phone, 
-    Clock, 
-    HelpCircle, 
-    ChevronDown,
-    Globe,
-    MessageSquare,
-    Users,
-    Video,
+
+import {
+    Mail,
+    Phone,
     X,
     User,
     MapPin,
-    Send    
+    Send
 } from 'lucide-react';
 import PhoneInput from 'react-phone-number-input';
 import Select from 'react-select';
 import countryList from 'react-select-country-list';
-
 function Contact_us() {
     const { t } = useTranslation();
     const location = useLocation();
     const pathname = location.pathname.split("/").filter(x => x);
 
-    // الحصول على قائمة الدول
+    // Get country list for the location selector
     const options = useMemo(() => countryList().getData(), []);
 
     const [formData, setFormData] = useState({
@@ -41,7 +33,7 @@ function Contact_us() {
         subjects: []
     });
 
-    // تنسيق عرض الدولة في القائمة المنسدلة
+    // Format country option to show flag + name
     const formatOptionLabel = ({ label, value }, { context }) => (
         <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
             <img
@@ -185,7 +177,7 @@ function Contact_us() {
                                         <MapPin size={18} className="input-icon" />
                                         <Select
                                             value={formData.location}
-                                            onChange={(val) => setFormData(prev => ({ ...prev, location: val }))}
+                                            onChange={(opt) => setFormData(prev => ({ ...prev, location: opt }))}
                                             options={options}
                                             formatOptionLabel={formatOptionLabel}
                                             className="location-select-container"
@@ -308,7 +300,7 @@ function Contact_us() {
                                 </div>
                                 <div className="social-item">
                                     <div className="social-icon-wrapper tw">
-                                        <X size={20} />
+                                        <img src="/photo_icons/twitter.png" alt="Twitter" style={{ width: '20px', height: '20px' }} />
                                     </div>
                                     <p className="social-text">{t("contact.tw_desc", "Follow us on X for the latest news, updates, and quick content.")}</p>
                                 </div>
@@ -320,5 +312,4 @@ function Contact_us() {
         </div>
     );
 }
-
 export default Contact_us;

@@ -1,0 +1,270 @@
+schema_version: 1
+module_path: ""
+title: Learnova E-Learning Platform Frontend
+scope:
+    - README.md
+    - .gitignore
+    - package.json
+    - package-lock.json
+    - vite.config.js
+    - eslint.config.js
+    - index.html
+    - src/
+    - .github/
+    - test-results/
+    - .github\workflows\build.yml
+    - public\Photo\15 Fixes for Android_Honor Phones Not Receiving Verification Codes.jfif
+    - public\Photo\Adam Smith.png
+    - public\Photo\Adobe After effects-Motion Graphics.png
+    - public\Photo\Adobe Audition-Acoustic engineering.png
+    - public\Photo\Adobe Illustrator logo design.png
+    - public\Photo\Adobe InDesign - Book cover designs.png
+    - public\Photo\Adobe Photoshop - Social media designs.png
+    - public\Photo\Adobe Premiere pro - Advertisements.png
+    - public\Photo\Alex Johnson.png
+    - public\Photo\Australia.svg
+    - public\Photo\Background_profile.jfif
+    - public\Photo\Canada.svg
+    - public\Photo\Check_email_photo.jfif
+    - public\Photo\Create_new_password.jfif
+    - public\Photo\Dimitri Abdelhak.png
+    - public\Photo\Free Online Courses to Future-Proof Your Career _.jfif
+    - public\Photo\George Smith.png
+    - public\Photo\How to Prevent Pwned and Reused Passwords in Your Active Directory - Copy.jfif
+    - public\Photo\Microsoft.png
+    - public\Photo\New_Zealand.svg
+    - public\Photo\Palestine.png
+    - public\Photo\Photo_Log_in.jpg
+    - public\Photo\Photo_Sign_up.jfif
+    - public\Photo\Photo_Sign_up.jpg
+    - public\Photo\Photo_password.jpg
+    - public\Photo\Profile.jfif
+    - public\Photo\Saudi_Arabia.svg
+    - public\Photo\Savannah_College_of_Art_and_Design_seal.png
+    - public\Photo\Screenshot 2025-11-20 140653.png
+    - public\Photo\Screenshot 2025-11-20 175047.png
+    - public\Photo\Screenshot 2025-12-01 104154.png
+    - public\Photo\Screenshot 2025-12-01 104559.png
+    - public\Photo\Screenshot 2025-12-01 120711.png
+    - public\Photo\Screenshot 2025-12-01 120902.png
+    - public\Photo\Screenshot_2025-12-01_110847-removebg-preview.png
+    - public\Photo\Screenshot_2025-12-01_110906-removebg-preview.png
+    - public\Photo\Screenshot_2025-12-01_110938-removebg-preview.png
+    - public\Photo\Screenshot_2025-12-01_111006-removebg-preview.png
+    - public\Photo\Send_code_photo.jfif
+    - public\Photo\UK.svg
+    - public\Photo\US_America.jpg
+    - public\Photo\Xbox.png
+    - public\Photo\Yale_School_of_Art.png
+    - public\Photo\apple_store.png
+    - public\Photo\email-correspondence-mail-message-concept.jpg
+    - public\Photo\google_play.png
+    - public\Photo\istockphoto-1956169795-1024x1024.jpg
+    - public\Photo\keys-set-arrangement-still-life.jpg
+    - public\Photo\palestine_flag.png
+    - public\photo_icons\3D Modeling & Animation.png
+    - public\photo_icons\Apple_pay.png
+    - public\photo_icons\Apple_store.png
+    - public\photo_icons\Artificial Intelligence.png
+    - public\photo_icons\Back.png
+    - public\photo_icons\Business-blue.png
+    - public\photo_icons\Business-white.png
+    - public\photo_icons\Business.png
+    - public\photo_icons\Computer Science.png
+    - public\photo_icons\Computer-science-blue.png
+    - public\photo_icons\Computer-science-white.png
+    - public\photo_icons\Correct.png
+    - public\photo_icons\Data Science.png
+    - public\photo_icons\Done.png
+    - public\photo_icons\Facebook_Logo.png
+    - public\photo_icons\For_setting\Achievements_Certificates.png
+    - public\photo_icons\For_setting\Assignment_Deadlines.png
+    - public\photo_icons\For_setting\Course_Updates.png
+    - public\photo_icons\For_setting\Discussion_Replies.png
+    - public\photo_icons\For_setting\Do_Not_Disturb.png
+    - public\photo_icons\For_setting\Edit.png
+    - public\photo_icons\For_setting\Edit_white.png
+    - public\photo_icons\For_setting\Globe_black.png
+    - public\photo_icons\For_setting\Globe_blue.png
+    - public\photo_icons\For_setting\Globe_white.png
+    - public\photo_icons\For_setting\Gray_Search.png
+    - public\photo_icons\For_setting\Marketing_Promotions.png
+    - public\photo_icons\For_setting\NotificationBlack.png
+    - public\photo_icons\For_setting\NotificationBlue.png
+    - public\photo_icons\For_setting\NotificationWhite.png
+    - public\photo_icons\For_setting\PaymentBlack.png
+    - public\photo_icons\For_setting\PaymentBlue.png
+    - public\photo_icons\For_setting\PaymentWhite.png
+    - public\photo_icons\For_setting\PreferencesBlack.png
+    - public\photo_icons\For_setting\PreferencesBlue.png
+    - public\photo_icons\For_setting\PrivacyBlack.png
+    - public\photo_icons\For_setting\PrivacyBlue.png
+    - public\photo_icons\For_setting\PrivacyWhite.png
+    - public\photo_icons\For_setting\Push_Notifications.png
+    - public\photo_icons\For_setting\QR_code.png
+    - public\photo_icons\For_setting\SecrityBlack.png
+    - public\photo_icons\For_setting\SecrityBlue.png
+    - public\photo_icons\For_setting\SecrityWhite.png
+    - public\photo_icons\For_setting\UserMaleBlack.png
+    - public\photo_icons\For_setting\UserMaleBlue.png
+    - public\photo_icons\For_setting\UserMaleWhite.png
+    - public\photo_icons\For_setting\White_Search.png
+    - public\photo_icons\For_setting\account.png
+    - public\photo_icons\For_setting\add.png
+    - public\photo_icons\For_setting\add_more.png
+    - public\photo_icons\For_setting\add_more_white.png
+    - public\photo_icons\For_setting\arrow-up-right.png
+    - public\photo_icons\For_setting\card.png
+    - public\photo_icons\For_setting\card_blue.png
+    - public\photo_icons\For_setting\danger.png
+    - public\photo_icons\For_setting\dark_mode.png
+    - public\photo_icons\For_setting\delete.png
+    - public\photo_icons\For_setting\delete2.png
+    - public\photo_icons\For_setting\download_black.png
+    - public\photo_icons\For_setting\download_black2.png
+    - public\photo_icons\For_setting\download_blue.png
+    - public\photo_icons\For_setting\download_blue2.png
+    - public\photo_icons\For_setting\download_white.png
+    - public\photo_icons\For_setting\download_white2.png
+    - public\photo_icons\For_setting\email.png
+    - public\photo_icons\For_setting\email_black.png
+    - public\photo_icons\For_setting\false.png
+    - public\photo_icons\For_setting\false_blue.png
+    - public\photo_icons\For_setting\false_white.png
+    - public\photo_icons\For_setting\iphone.png
+    - public\photo_icons\For_setting\laptop_black.png
+    - public\photo_icons\For_setting\light_mode.png
+    - public\photo_icons\For_setting\macbook_black.png
+    - public\photo_icons\For_setting\new_courses.png
+    - public\photo_icons\For_setting\not_see_pas_black.png
+    - public\photo_icons\For_setting\not_see_pas_white.png
+    - public\photo_icons\For_setting\notification.png
+    - public\photo_icons\For_setting\online_black.png
+    - public\photo_icons\For_setting\online_blue.png
+    - public\photo_icons\For_setting\online_white.png
+    - public\photo_icons\For_setting\only_me_black.png
+    - public\photo_icons\For_setting\only_me_blue.png
+    - public\photo_icons\For_setting\only_me_white.png
+    - public\photo_icons\For_setting\phone.png
+    - public\photo_icons\For_setting\private_black.png
+    - public\photo_icons\For_setting\private_blue.png
+    - public\photo_icons\For_setting\private_white.png
+    - public\photo_icons\For_setting\progress_black.png
+    - public\photo_icons\For_setting\progress_blue.png
+    - public\photo_icons\For_setting\progress_white.png
+    - public\photo_icons\For_setting\remove_white.png
+    - public\photo_icons\For_setting\search.png
+    - public\photo_icons\For_setting\search_black.png
+    - public\photo_icons\For_setting\search_white.png
+    - public\photo_icons\For_setting\see_pas_black.png
+    - public\photo_icons\For_setting\see_pas_white.png
+    - public\photo_icons\For_setting\system_mode.png
+    - public\photo_icons\Game Development.png
+    - public\photo_icons\Google.png
+    - public\photo_icons\Google_play.png
+    - public\photo_icons\Graphic Design.png
+    - public\photo_icons\Graphic Design_white.png
+    - public\photo_icons\Healthcare.png
+    - public\photo_icons\IBM.png
+    - public\photo_icons\Incorrect.png
+    - public\photo_icons\Level.png
+    - public\photo_icons\Marketing.png
+    - public\photo_icons\Mobile Development.png
+    - public\photo_icons\Photography & Videography.png
+    - public\photo_icons\Rating.png
+    - public\photo_icons\Sort by.png
+    - public\photo_icons\Timing.png
+    - public\photo_icons\UIUX Design.png
+    - public\photo_icons\Web Development.png
+    - public\photo_icons\account.png
+    - public\photo_icons\account_blue.png
+    - public\photo_icons\account_white.png
+    - public\photo_icons\arrow-down.png
+    - public\photo_icons\arrow-left.png
+    - public\photo_icons\arrow-right.png
+    - public\photo_icons\artificial-intelligence-blue.png
+    - public\photo_icons\artificial-intelligence-white.png
+    - public\photo_icons\book.png
+    - public\photo_icons\call.png
+    - public\photo_icons\chat.png
+    - public\photo_icons\data-science-blue.png
+    - public\photo_icons\data-science-white.png
+    - public\photo_icons\data-science-whitep1.png
+    - public\photo_icons\facebook.png
+    - public\photo_icons\fire.png
+    - public\photo_icons\google-play.png
+    - public\photo_icons\heart-health-blue.png
+    - public\photo_icons\heart-health-white.png
+    - public\photo_icons\info.png
+    - public\photo_icons\instagram.png
+    - public\photo_icons\linkedin.png
+    - public\photo_icons\love.png
+    - public\photo_icons\meta.png
+    - public\photo_icons\microsoft.png
+    - public\photo_icons\notification.png
+    - public\photo_icons\notification_white.png
+    - public\photo_icons\play.png
+    - public\photo_icons\price.png
+    - public\photo_icons\search.png
+    - public\photo_icons\search_black.png
+    - public\photo_icons\search_white.png
+    - public\photo_icons\show_more.png
+    - public\photo_icons\twitter.png
+    - public\photo_icons\youtube.png
+    - public\photo_icons\youtube_1051299.png
+    - public\vite.svg
+    - src\App.css
+    - src\App.jsx
+    - src\Footer.css
+    - src\Footer.jsx
+    - src\Header.css
+    - src\Header.jsx
+    - src\Home.css
+    - src\Home.jsx
+    - src\LandingPage.css
+    - src\LandingPage.jsx
+    - src\PageProfile\Explore.css
+    - src\PageProfile\Explore.jsx
+    - src\PageProfile\My Learning.css
+    - src\PageProfile\My Learning.jsx
+    - src\Setting\Notification.css
+    - src\Setting\Notification.jsx
+    - src\Setting\Payment.css
+    - src\Setting\Payment.jsx
+    - src\Setting\Preferences.css
+    - src\Setting\Preferences.jsx
+    - src\Setting\Privacy.css
+    - src\Setting\Privacy.jsx
+    - src\Setting\Profile.css
+    - src\Setting\Profile.jsx
+    - src\Setting\Security.css
+    - src\Setting\Security.jsx
+    - src\assets\react.svg
+    - src\config\i18n.js
+    - src\courses\Contact_us.css
+    - src\courses\Contact_us.jsx
+    - src\courses\Course.css
+    - src\courses\Course.jsx
+    - src\courses\PhoneInputCustom.css
+    - src\courses\Teacher.css
+    - src\courses\Teacher.jsx
+    - src\i18n\ar.json
+    - src\i18n\en.json
+    - src\index.css
+    - src\main.jsx
+    - src\sign_page\Check_email.css
+    - src\sign_page\Check_email.jsx
+    - src\sign_page\Create_new_pas.css
+    - src\sign_page\Create_new_pas.jsx
+    - src\sign_page\Forgot_pas.css
+    - src\sign_page\Forgot_pas.jsx
+    - src\sign_page\Log_in.css
+    - src\sign_page\Log_in.jsx
+    - src\sign_page\Sign_up.css
+    - src\sign_page\Sign_up.jsx
+    - src\sign_page\Verification_Code.css
+    - src\sign_page\Verification_Code.jsx
+    - test-results\.last-run.json
+source_files: []
+depends_on: []
+related_to: []

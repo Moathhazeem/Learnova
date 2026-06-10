@@ -1,0 +1,1 @@
+A React-based single-page application for an e-learning platform, featuring course browsing, user authentication, and comprehensive profile management.

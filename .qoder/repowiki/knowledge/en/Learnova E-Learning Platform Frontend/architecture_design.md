@@ -1,0 +1,5 @@
+- Entry point: `src/main.jsx` renders `<App />` which sets up `react-router-dom` routing.
+- Layout: `App.jsx` defines a conditional `Layout` component that hides `Header` and `Footer` on authentication routes.
+- Feature modules: Code is organized into domain-specific directories: `sign_page/` (auth flow), `Setting/` (user preferences/profile), `courses/` (course details/teachers), and `PageProfile/` (learning dashboard).
+- Internationalization: Configured in `src/config/i18n.js` using `i18next` with English and Arabic resources, supporting RTL/LTR direction switching in `Header.jsx`.
+- Asset management: Static assets (icons, photos) are served from `public/` and referenced via absolute paths in components.
