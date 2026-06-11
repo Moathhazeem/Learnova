@@ -1,8 +1,8 @@
-import React from "react";
+import React, { useState } from "react";
 import "./About_us.css";
 import { useTranslation } from "react-i18next";
 import { Link, useLocation } from "react-router-dom";
-import { Users, BookOpen, UserCheck, Clock, Award } from "lucide-react";
+import { Users, BookOpen, UserCheck, Clock, Award, ChevronLeft, ChevronRight } from "lucide-react";
 
 function AboutUs() {
     const { t } = useTranslation();
@@ -103,6 +103,26 @@ const Achievements = [
     { id: 4, icon: <Clock size={32} />,     number: "10000+", description: "Total educational hours available to students." },
     { id: 5, icon: <Award size={32} />,     number: "1500+",  description: "Number of certificates awarded to students after completing the courses." }
 ];
+const Team = [
+    { id: 1, name: "Mohammed Ali", role: "CEO",    image: "/Photo/man_suites.jpg" },
+    { id: 2, name: "George Smith",     role: "CTO",   image: "/Photo/man_suites_2.jpg" },
+    { id: 3, name: "Adam Smith",       role: "COO",    image: "/Photo/man_suites_3.jpg" },
+    { id: 4, name: "Alex Johnson",     role: "CFO",      image: "/Photo/man_suites_4.jpg" },
+    { id: 5, name: "Mohammed Salah",   role: "Senior Developer",  image: "/Photo/man_suites_5.jpg" },
+    { id: 6, name: "Emnaoui Hajar",    role: "Junior Developer",  image: "/Photo/women_suites_1.jpg" },
+    { id: 7, name: "Mohammed Ali",     role: "Marketing Manager", image: "/Photo/man_suites_6.jpg" },
+    { id: 8, name: "George Smith",     role: "CTO",               image: "/Photo/man_suites_7.jpg" },
+    { id: 9, name: "Mohammed Ali",     role: "Marketing Manager", image: "/Photo/man_suites_8.jpg" },
+    { id: 10, name: "Emnaoui Hajar",    role: "Junior Developer",  image: "/Photo/women_suites_2.jpg" },
+];
+
+const VISIBLE = 4;
+
+    const [teamIndex, setTeamIndex] = useState(0);
+    const canPrev = teamIndex > 0;
+    const canNext = teamIndex + VISIBLE < Team.length;
+    const visibleTeam = Team.slice(teamIndex, teamIndex + VISIBLE);
+
   return (
    <div className="about-us-container">
        {/* Breadcrumbs */}
@@ -179,6 +199,36 @@ const Achievements = [
                                             <p className="achievement-description">{achievement.description}</p>
                                         </div>
                                     ))}
+                                </div>
+                            </div>
+                            <div className="Team_learnova">
+                                <h1 className="Team_title">{t("setting.about_us_team_title", "Our Team")}</h1>
+                                <div className="team-carousel-wrapper">
+                                    <button
+                                        className={`team-arrow team-arrow-left ${!canPrev ? 'disabled' : ''}`}
+                                        onClick={() => canPrev && setTeamIndex(i => i - 1)}
+                                        aria-label="Previous"
+                                    >
+                                        <ChevronLeft size={24} />
+                                    </button>
+                                    <div className="team-cards-track">
+                                        {visibleTeam.map((member) => (
+                                            <div className="team-card" key={member.id}>
+                                                <div className="team-image-wrapper">
+                                                    <img src={member.image} alt={member.name} className="team-image" />
+                                                </div>
+                                                <h3 className="team-name">{member.name}</h3>
+                                                <p className="team-role">{member.role}</p>
+                                            </div>
+                                        ))}
+                                    </div>
+                                    <button
+                                        className={`team-arrow team-arrow-right ${!canNext ? 'disabled' : ''}`}
+                                        onClick={() => canNext && setTeamIndex(i => i + 1)}
+                                        aria-label="Next"
+                                    >
+                                        <ChevronRight size={24} />
+                                    </button>
                                 </div>
                             </div>
                         </div>

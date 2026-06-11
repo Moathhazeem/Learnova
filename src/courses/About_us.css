@@ -311,6 +311,118 @@
     margin: 0;
 }
 
+/* ─── Team Section ──────────────────────────────────────────────────────── */
+.Team_learnova {
+    width: 100%;
+    margin-top: 100px;
+    margin-bottom: 60px;
+}
+
+.Team_title {
+    font-size: 36px;
+    font-weight: 700;
+    margin-bottom: 50px;
+    color: #1a1a1a;
+    text-align: center;
+    letter-spacing: -0.4px;
+}
+
+/* Carousel outer wrapper — positions the arrows on the sides */
+.team-carousel-wrapper {
+    position: relative;
+    display: flex;
+    align-items: center;
+    gap: 16px;
+}
+
+/* The sliding track — clips overflow so only 4 cards show */
+.team-cards-track {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 24px;
+    flex: 1;
+    overflow: hidden;
+}
+
+/* Individual team card */
+.team-card {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    background-color: #fff;
+    border-radius: 14px;
+    overflow: hidden;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
+    transition: transform 0.25s ease, box-shadow 0.25s ease;
+}
+
+.team-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.1);
+}
+
+/* Photo area — light grey background exactly like the design */
+.team-image-wrapper {
+    width: 100%;
+    aspect-ratio: 3 / 4;
+    background-color: #e8e8e8;
+    overflow: hidden;
+    border-radius: 12px;
+}
+
+.team-image {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: top center;
+    display: block;
+}
+
+.team-name {
+    font-size: 16px;
+    font-weight: 700;
+    color: #1a1a1a;
+    margin: 14px 14px 4px;
+}
+
+.team-role {
+    font-size: 13px;
+    font-weight: 400;
+    color: #7a8694;
+    margin: 0 14px 16px;
+}
+
+/* Arrow buttons */
+.team-arrow {
+    flex-shrink: 0;
+    width: 44px;
+    height: 44px;
+    border-radius: 50%;
+    border: 1.5px solid #e0e0e0;
+    background-color: #fff;
+    color: #1a1a1a;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
+    transition: background-color 0.2s ease, border-color 0.2s ease,
+                box-shadow 0.2s ease, transform 0.2s ease;
+}
+
+.team-arrow:hover:not(.disabled) {
+    background-color: #0089EA;
+    border-color: #0089EA;
+    color: #fff;
+    box-shadow: 0 4px 16px rgba(0, 137, 234, 0.3);
+    transform: scale(1.08);
+}
+
+.team-arrow.disabled {
+    opacity: 0.3;
+    cursor: not-allowed;
+}
+
 /* ─── Responsive ────────────────────────────────────────────────────────── */
 @media (max-width: 1024px) {
     .about-us-container {
@@ -333,6 +445,11 @@
         flex: 1 1 140px;
         max-width: 200px;
     }
+
+    /* Show 2 team cards on tablet */
+    .team-cards-track {
+        grid-template-columns: repeat(2, 1fr);
+    }
 }
 
 @media (max-width: 600px) {
@@ -343,6 +460,16 @@
     .story-grid-container,
     .Trust_student_container {
         grid-template-columns: 1fr;
+    }
+
+    /* Show 1 team card on mobile */
+    .team-cards-track {
+        grid-template-columns: 1fr;
+    }
+
+    .team-arrow {
+        width: 36px;
+        height: 36px;
     }
 
     /* Full-width single column on mobile */
