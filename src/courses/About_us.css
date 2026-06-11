@@ -1,23 +1,14 @@
+/* ─── Page Container ────────────────────────────────────────────────────── */
 .about-us-container {
     margin-top: 100px;
-    padding: 60px 80px;
+    padding: 60px 80px 100px;
     font-family: 'Inter', 'Outfit', sans-serif;
     color: var(--text-primary, #1a1a1a);
     background-color: var(--bg-color, #fdfdfd);
     min-height: 100vh;
 }
-.about-us-content{
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-}
-.container {
-    max-width: 1200px;
-    margin: 0 auto;
-}
 
-/* Breadcrumbs */
+/* ─── Breadcrumbs ───────────────────────────────────────────────────────── */
 .breadcrumbs-nav {
     display: flex;
     align-items: center;
@@ -32,13 +23,17 @@
     font-size: 14px;
     font-weight: 500;
     text-decoration: none;
-    transition: all 0.3s ease;
-    
+    transition: color 0.2s ease;
+}
+
+.Breadcrumbs:hover {
+    color: #006fbb;
+    text-decoration: underline;
 }
 
 .breadcrumb-separator {
     color: #0089EA;
-    margin: 0 12px;
+    margin: 0 10px;
     font-size: 14px;
 }
 
@@ -47,87 +42,334 @@
     font-weight: 600;
     font-size: 14px;
     text-transform: capitalize;
-    
 }
-.about-us-title {
+
+/* ─── About Content Wrapper ─────────────────────────────────────────────── */
+.about-us-content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+/* ─── Hero Slogan ───────────────────────────────────────────────────────── */
+.about-us-description {
+    font-size: 42px;
+    font-weight: 400;
+    width: 100%;
+    max-width: 860px;
+    margin-bottom: 100px;
+    color: #0089EA;
+    line-height: 1.5;
+    text-align: center;
+    font-family: 'Kranky', Courier, monospace;
+    letter-spacing: 0.5px;
+}
+
+/* ─── Story Section ─────────────────────────────────────────────────────── */
+.about_us_Story {
+    width: 100%;
+    margin-bottom: 100px;
+}
+
+.Story_title {
     font-size: 36px;
     font-weight: 700;
-    margin-bottom: 20px;
-}
-.about-us-description {
-    font-size: 40px;
-    font-weight: 400;
-    width:100%;
-    max-width:1000px;
-    margin-bottom: 200px;
-    color: #0089EA;
-    line-height: 1.6;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    text-align: center  ;
-    font-family: 'Kranky', Courier, monospace;
-}
-.about_us_Story {
-    margin-top: 20px;
-}
-.Story_title {
-    font-size: 40px;
-    font-weight: 700;
-    margin-bottom: 100px;
+    margin-bottom: 60px;
     color: #1a1a1a;
     text-align: center;
 }
+
 .story-grid-container {
     display: grid;
     grid-template-columns: repeat(3, 1fr);
-    gap: 30px;
-
+    gap: 28px;
 }
 
 .story-card {
     background-color: #fff;
-    border-radius: 12px;
-    padding: 24px;
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
-    transition: all 0.3s ease;
+    border-radius: 14px;
+    padding: 28px;
+    box-shadow: 0 2px 12px rgba(0, 0, 0, 0.07);
+    transition: transform 0.25s ease, box-shadow 0.25s ease;
 }
+
 .story-card:hover {
-    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.08);
-    transform: translateY(-4px);
-    cursor:pointer;
+    transform: translateY(-5px);
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.11);
+    cursor: pointer;
 }
+
 .story-title {
-    font-size: 30px;
+    font-size: 20px;
     font-weight: 700;
-    margin-bottom: 12px;
+    margin-bottom: 14px;
     color: #1a1a1a;
 }
+
 .story-description-box {
     display: flex;
     flex-direction: column;
-    gap: 29px;
+    gap: 12px;
 }
 
 .story-text {
-    font-size: 16px;
+    font-size: 15px;
     font-weight: 400;
-    color: #666363;
-    line-height: 1.7;
+    color: #555;
+    line-height: 1.75;
     margin: 0;
 }
 
+/* ─── Trusted Students Section ──────────────────────────────────────────── */
+.Trust_student {
+    width: 100%;
+}
+
+.Trust_title {
+    font-size: 36px;
+    font-weight: 700;
+    margin-bottom: 50px;
+    color: #1a1a1a;
+    text-align: center;
+}
+
+.Trust_student_container {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 24px;
+}
+
+/* ─── Student Testimonial Card ──────────────────────────────────────────── */
+.student_card {
+    background-color: #fff;
+    border-radius: 14px;
+    padding: 28px 26px 22px;
+    box-shadow: 0 2px 12px rgba(0, 0, 0, 0.07);
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    gap: 20px;
+    transition: transform 0.25s ease, box-shadow 0.25s ease;
+    position: relative;
+}
+
+.student_card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.11);
+}
+
+/* Blue quote mark at top */
+.student_card::before {
+    content: '\201C';
+    font-size: 52px;
+    font-weight: 900;
+    color: #0089EA;
+    line-height: 1;
+    display: block;
+    margin-bottom: -8px;
+}
+
+.student_description {
+    font-size: 14px;
+    font-weight: 400;
+    color: #444;
+    line-height: 1.75;
+    margin: 0;
+    flex: 1;
+}
+
+/* Avatar + Name row */
+.student_container {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-top: 8px;
+}
+
+.student_image {
+    width: 44px;
+    height: 44px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 2px solid #e8e8e8;
+}
+
+.student_name {
+    font-size: 14px;
+    font-weight: 600;
+    color: #1a1a1a;
+    margin: 0;
+}
+
+/* ─── Achievements Section ──────────────────────────────────────────────── */
+
+/* 1. Section wrapper — soft off-white background so white cards pop */
+.our-achievements {
+    width: 100%;
+    margin-top: 100px;
+    margin-bottom: 80px;
+    padding: 60px 0;
+    border-radius: 24px;
+}
+
+/* Section title */
+.Achievements_title {
+    font-size: 36px;
+    font-weight: 700;
+    margin-bottom: 50px;
+    color: #1a1a1a;
+    text-align: center;
+    letter-spacing: -0.4px;
+}
+
+/* 2. Cards container — flex so cards breathe with generous gap */
+.Achievements_container {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 22px;
+    padding: 0 40px;
+    background-color: transparent;
+    box-shadow: none;
+    border: none;
+}
+
+/* 3. Individual card — standalone floating card */
+.achievement-card {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-start;
+    text-align: center;
+    flex: 1 1 160px;
+    max-width: 220px;
+    padding: 36px 24px 32px;
+
+    /* Pure white so it pops against #f8fafc background */
+    background-color: #ffffff;
+
+    /* All four corners rounded — no shared borders */
+    border-radius: 16px;
+
+    /* Soft, blurred floating shadow */
+    box-shadow:
+        0 2px 4px rgba(0, 0, 0, 0.04),
+        0 8px 24px rgba(0, 0, 0, 0.07);
+
+    border: 1px solid rgba(0, 137, 234, 0.08);
+
+    /* Smooth micro-interaction base */
+    transition: transform 0.28s cubic-bezier(0.34, 1.56, 0.64, 1),
+                box-shadow 0.28s ease;
+}
+
+/* 4. Hover — subtle lift + deeper glow */
+.achievement-card:hover {
+    transform: translateY(-7px);
+    box-shadow:
+        0 4px 8px rgba(0, 0, 0, 0.05),
+        0 16px 40px rgba(0, 137, 234, 0.13);
+    border-color: rgba(0, 137, 234, 0.2);
+    cursor: default;
+}
+
+/* Icon wrapper */
+.achievement-icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 58px;
+    height: 58px;
+    border-radius: 14px;
+    background-color: #f0f8ff;
+    color: #0089EA;
+    margin-bottom: 18px;
+    transition: background-color 0.28s ease, color 0.28s ease;
+}
+
+.achievement-card:hover .achievement-icon {
+    background-color: #0089EA;
+    color: #ffffff;
+}
+
+/* 5. Number — bold & prominent */
+.achievement-number {
+    font-size: 30px;
+    font-weight: 800;
+    color: #1a1a1a;
+    margin: 0 0 10px 0;
+    letter-spacing: -0.8px;
+    line-height: 1;
+}
+
+/* 6. Description — muted for visual hierarchy */
+.achievement-description {
+    font-size: 13px;
+    font-weight: 400;
+    color: #7a8694;
+    line-height: 1.65;
+    margin: 0;
+}
+
+/* ─── Responsive ────────────────────────────────────────────────────────── */
+@media (max-width: 1024px) {
+    .about-us-container {
+        padding: 60px 40px 80px;
+    }
+}
+
 @media (max-width: 900px) {
-    .story-grid-container {
+    .story-grid-container,
+    .Trust_student_container {
         grid-template-columns: repeat(2, 1fr);
+    }
+
+    .about-us-description {
+        font-size: 32px;
+    }
+
+    /* 3 cards per row on tablet */
+    .achievement-card {
+        flex: 1 1 140px;
+        max-width: 200px;
     }
 }
 
 @media (max-width: 600px) {
-    .story-grid-container {
+    .about-us-container {
+        padding: 40px 20px 60px;
+    }
+
+    .story-grid-container,
+    .Trust_student_container {
         grid-template-columns: 1fr;
     }
-    .about-us-container {
-        padding: 40px 20px;
+
+    /* Full-width single column on mobile */
+    .Achievements_container {
+        padding: 0 20px;
+        gap: 16px;
+    }
+
+    .achievement-card {
+        flex: 1 1 100%;
+        max-width: 100%;
+        padding: 28px 20px;
+    }
+
+    .about-us-description {
+        font-size: 26px;
+        margin-bottom: 60px;
+    }
+
+    .Story_title,
+    .Trust_title,
+    .Achievements_title {
+        font-size: 26px;
+    }
+
+    .our-achievements {
+        border-radius: 16px;
+        padding: 40px 0;
     }
 }
