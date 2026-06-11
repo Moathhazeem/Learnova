@@ -423,6 +423,76 @@
     cursor: not-allowed;
 }
 
+/* ─── CTA Section ───────────────────────────────────────────────────────── */
+.about-cta-section {
+    width: 100%;
+    margin-top: 100px;
+    margin-bottom: 20px;
+    padding: 72px 40px;
+    background-color: #ffffff;
+    border-radius: 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    gap: 20px;
+}
+
+/* Heading */
+.about-cta-title {
+    font-size: 36px;
+    font-weight: 800;
+    color: #1a1a1a;
+    margin: 0;
+    letter-spacing: -0.6px;
+    line-height: 1.2;
+}
+
+/* "Learnova" brand word in blue */
+.about-cta-brand {
+    color: #0089EA;
+}
+
+/* Subtitle */
+.about-cta-subtitle {
+    font-size: 15px;
+    font-weight: 400;
+    color: #7a8694;
+    margin: 0;
+    max-width: 520px;
+    line-height: 1.7;
+}
+
+/* Button */
+.about-cta-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    margin-top: 8px;
+    padding: 14px 30px;
+    background-color: #0089EA;
+    color: #ffffff;
+    border-radius: 10px;
+    font-size: 15px;
+    font-weight: 600;
+    text-decoration: none;
+    box-shadow: 0 4px 16px rgba(0, 137, 234, 0.3);
+    transition: background-color 0.22s ease,
+                transform 0.22s ease,
+                box-shadow 0.22s ease;
+}
+
+.about-cta-btn:hover {
+    background-color: #006fbb;
+    transform: translateY(-2px);
+    box-shadow: 0 8px 24px rgba(0, 137, 234, 0.4);
+}
+
+.about-cta-btn:active {
+    transform: translateY(0);
+    box-shadow: 0 4px 12px rgba(0, 137, 234, 0.25);
+}
+
 /* ─── Responsive ────────────────────────────────────────────────────────── */
 @media (max-width: 1024px) {
     .about-us-container {
@@ -498,5 +568,14 @@
     .our-achievements {
         border-radius: 16px;
         padding: 40px 0;
+    }
+
+    .about-cta-section {
+        padding: 50px 24px;
+        border-radius: 16px;
+    }
+
+    .about-cta-title {
+        font-size: 26px;
     }
 }

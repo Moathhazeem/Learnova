@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import "./About_us.css";
 import { useTranslation } from "react-i18next";
 import { Link, useLocation } from "react-router-dom";
-import { Users, BookOpen, UserCheck, Clock, Award, ChevronLeft, ChevronRight } from "lucide-react";
+import { Users, BookOpen, UserCheck, Clock, Award, ChevronLeft, ChevronRight, LayoutGrid } from "lucide-react";
 
 function AboutUs() {
     const { t } = useTranslation();
@@ -230,6 +230,21 @@ const VISIBLE = 4;
                                         <ChevronRight size={24} />
                                     </button>
                                 </div>
+                            </div>
+                            {/* CTA Section */}
+                            <div className="about-cta-section">
+                                <h2 className="about-cta-title">
+                                    {t("setting.about_cta_prefix", "Start Learning with")}{" "}
+                                    <span className="about-cta-brand">Learnova</span>{" "}
+                                    {t("setting.about_cta_suffix", "Today")}
+                                </h2>
+                                <p className="about-cta-subtitle">
+                                    {t("setting.about_cta_desc", "Discover high-quality courses taught by expert instructors and learn at your own pace, anytime and anywhere.")}
+                                </p>
+                                <Link to="/Explore" className="about-cta-btn">
+                                    <LayoutGrid size={18} />
+                                    <span>{t("setting.about_cta_btn", "Browse Courses")}</span>
+                                </Link>
                             </div>
                         </div>
                         
