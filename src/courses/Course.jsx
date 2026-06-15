@@ -1,12 +1,14 @@
 import React, { useState, useEffect } from 'react';
-import { Link, useLocation } from 'react-router-dom';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
 import i18n from "../config/i18n";
 import { useTranslation } from "react-i18next";
 import './Course.css';
 import { PlayCircle, ShieldCheck, Monitor, Award, Heart, Share2, ChevronDown, Star, ThumbsUp, ThumbsDown, Reply, Globe, Languages, Tag, X } from 'lucide-react';
+import Payment_pay from './Payment_pay';
 function Course() {
     const { t } = useTranslation();
     const location = useLocation();
+    const navigate = useNavigate();
     const pathname = location.pathname.split("/").filter(x => x);
     const [isDarkMode, setIsDarkMode] = useState(document.body.classList.contains("dark"));
 
@@ -104,8 +106,8 @@ function Course() {
         }
     ]
     const [expandedContent, setExpandedContent] = useState(null);
-    const [rating,setRating] = useState(0);
-    const [comment,setComment] = useState("");
+    const [rating, setRating] = useState(0);
+    const [comment, setComment] = useState("");
     const [showMoreSpeak, setShowMoreSpeak] = useState(false);
     const [showMoreWord, setShowMoreWord] = useState(false);
     const [showMoreBenefits, setShowMoreBenefits] = useState(false);
@@ -196,7 +198,7 @@ function Course() {
             duration: "Just now",
             description: replyText,
         };
-        
+
         setCommentsList(commentsList.map(c => {
             if (c.id === commentId) {
                 return {
@@ -221,9 +223,9 @@ function Course() {
         }
     };
 
-const language = ["English", "Spanish", "French", "German", "Italian"];
+    const language = ["English", "Spanish", "French", "German", "Italian"];
 
-    return (    
+    return (
         <div className="course-page">
             <div className="container">
                 {/* Breadcrumbs */}
@@ -264,20 +266,20 @@ const language = ["English", "Spanish", "French", "German", "Italian"];
                             <p className="name_teacher">Create by <Link to="/Teacher" style={{ color: "#0089EA", textDecoration: "underline" }}>Dimitri Abdelhak</Link></p>
                             <p className="date">Last updated 1 / 1 / 2025</p>
                             <p className="language_speak">
-                                <Globe size={18} /> {language[0]} 
-                                {showMoreSpeak && ` , ${language.slice(1).join(", ")}`} 
-                                <span 
-                                    onClick={() => setShowMoreSpeak(!showMoreSpeak)} 
+                                <Globe size={18} /> {language[0]}
+                                {showMoreSpeak && ` , ${language.slice(1).join(", ")}`}
+                                <span
+                                    onClick={() => setShowMoreSpeak(!showMoreSpeak)}
                                     style={{ color: "#0089EA", textDecoration: "underline", cursor: "pointer", marginLeft: "5px" }}
                                 >
                                     {showMoreSpeak ? t("courses.show_less", "Show less") : "26 more"}
                                 </span>
                             </p>
                             <p className="language_word">
-                                <Languages size={18} /> {language[0]} 
-                                {showMoreWord && ` , ${language.slice(1).join(", ")}`} 
-                                <span 
-                                    onClick={() => setShowMoreWord(!showMoreWord)} 
+                                <Languages size={18} /> {language[0]}
+                                {showMoreWord && ` , ${language.slice(1).join(", ")}`}
+                                <span
+                                    onClick={() => setShowMoreWord(!showMoreWord)}
                                     style={{ color: "#0089EA", textDecoration: "underline", cursor: "pointer", marginLeft: "5px" }}
                                 >
                                     {showMoreWord ? t("courses.show_less", "Show less") : "26 more"}
@@ -297,10 +299,10 @@ const language = ["English", "Spanish", "French", "German", "Italian"];
                                     ))}
                                     <div className="show_more" onClick={() => setShowMoreBenefits(!showMoreBenefits)}>
                                         <p>{showMoreBenefits ? t("courses.show_less", "Show less") : t("courses.show_more", "Show more")}</p>
-                                        <img 
-                                            src="/photo_icons/arrow-down.png" 
-                                            alt="" 
-                                            style={{ transform: showMoreBenefits ? "rotate(180deg)" : "rotate(0deg)", transition: "transform 0.3s" }} 
+                                        <img
+                                            src="/photo_icons/arrow-down.png"
+                                            alt=""
+                                            style={{ transform: showMoreBenefits ? "rotate(180deg)" : "rotate(0deg)", transition: "transform 0.3s" }}
                                         />
                                     </div>
                                 </div>
@@ -322,14 +324,14 @@ const language = ["English", "Spanish", "French", "German", "Italian"];
                                 <div className="Course_content-list">
                                     {CourseContent.map((item) => (
                                         <div key={item.id} className="CourseContent-wrapper">
-                                            <div 
-                                                className="CourseContent-item" 
+                                            <div
+                                                className="CourseContent-item"
                                                 onClick={() => setExpandedContent(expandedContent === item.id ? null : item.id)}
                                                 style={{ cursor: "pointer" }}
                                             >
-                                                <ChevronDown 
-                                                    size={20} 
-                                                    className="CourseContent-icon" 
+                                                <ChevronDown
+                                                    size={20}
+                                                    className="CourseContent-icon"
                                                     style={{ transform: expandedContent === item.id ? "rotate(180deg)" : "rotate(0deg)", transition: "transform 0.3s" }}
                                                 />
                                                 <p>{item.description}</p>
@@ -370,14 +372,14 @@ const language = ["English", "Spanish", "French", "German", "Italian"];
                                                     </span>
                                                 ))}
                                             </div>
-                                            <button 
-                                                 className="submit-comment-btn" 
-                                                 onClick={handleAddComment}
-                                                 disabled={!comment.trim() || rating === 0}
-                                                 style={{ opacity: (!comment.trim() || rating === 0) ? 0.6 : 1, cursor: (!comment.trim() || rating === 0) ? 'not-allowed' : 'pointer' }}
-                                             >
-                                                 {t("courses.submit", "Submit")}
-                                             </button>
+                                            <button
+                                                className="submit-comment-btn"
+                                                onClick={handleAddComment}
+                                                disabled={!comment.trim() || rating === 0}
+                                                style={{ opacity: (!comment.trim() || rating === 0) ? 0.6 : 1, cursor: (!comment.trim() || rating === 0) ? 'not-allowed' : 'pointer' }}
+                                            >
+                                                {t("courses.submit", "Submit")}
+                                            </button>
                                         </div>
                                     </div>
                                 </div>
@@ -394,11 +396,11 @@ const language = ["English", "Spanish", "French", "German", "Italian"];
                                                     <div className="rating-duration">
                                                         <div className="stars">
                                                             {[1, 2, 3, 4, 5].map((star) => (
-                                                                <Star 
-                                                                    key={star} 
-                                                                    size={16} 
-                                                                    fill={item.rating >= star ? "#FFD700" : "transparent"} 
-                                                                    color={item.rating >= star ? "#FFD700" : "#999"} 
+                                                                <Star
+                                                                    key={star}
+                                                                    size={16}
+                                                                    fill={item.rating >= star ? "#FFD700" : "transparent"}
+                                                                    color={item.rating >= star ? "#FFD700" : "#999"}
                                                                 />
                                                             ))}
                                                         </div>
@@ -452,16 +454,16 @@ const language = ["English", "Spanish", "French", "German", "Italian"];
                                                     {item.replies.map((reply) => (
                                                         <div key={reply.id} className="reply-item">
                                                             <div className="comment-header">
-                                                                 <img src={reply.img} alt="" className="user-avatar reply-avatar" />
-                                                             <div className="user-info">
-                                                                 <div className="name-author-badge">
-                                                                     <p className="comment-name reply-name">{reply.name}</p>
-                                                                     {reply.isAuthor && <span className="author-badge reply-author-badge">{t("courses.author", "Author")}</span>}
-                                                                 </div>
-                                                                 <span className="comment-duration reply-duration">{reply.duration}</span>
-                                                             </div>
-                                                             </div>
-                                                             <p className="comment-description reply-description">{reply.description}</p>
+                                                                <img src={reply.img} alt="" className="user-avatar reply-avatar" />
+                                                                <div className="user-info">
+                                                                    <div className="name-author-badge">
+                                                                        <p className="comment-name reply-name">{reply.name}</p>
+                                                                        {reply.isAuthor && <span className="author-badge reply-author-badge">{t("courses.author", "Author")}</span>}
+                                                                    </div>
+                                                                    <span className="comment-duration reply-duration">{reply.duration}</span>
+                                                                </div>
+                                                            </div>
+                                                            <p className="comment-description reply-description">{reply.description}</p>
                                                         </div>
                                                     ))}
                                                 </div>
@@ -488,8 +490,8 @@ const language = ["English", "Spanish", "French", "German", "Italian"];
                                     </div>
 
                                     <div className="card_body_buttons">
-                                        <button className="Add_to_cart">{t("courses.add_to_cart", "Add to Cart")}</button>
-                                        <button 
+                                        <button className="Add_to_cart" onClick={() => navigate("/Payment_pay")}>{t("courses.add_to_cart", "Add to Cart")}</button>
+                                        <button
                                             className={`love-btn ${isFavorite ? 'active' : ''}`}
                                             onClick={() => setIsFavorite(!isFavorite)}
                                         >
@@ -551,8 +553,8 @@ const language = ["English", "Spanish", "French", "German", "Italian"];
                             <div className="modal-body">
                                 <p>{t("courses.enter_coupon_desc", "Enter your coupon code below to get a discount on this course.")}</p>
                                 <div className="coupon-input-wrapper">
-                                    <input 
-                                        type="text" 
+                                    <input
+                                        type="text"
                                         placeholder={t("courses.coupon_placeholder", "e.g. LEARNOVA2026")}
                                         value={couponCode}
                                         onChange={(e) => setCouponCode(e.target.value)}
@@ -562,8 +564,8 @@ const language = ["English", "Spanish", "French", "German", "Italian"];
                                         <button className="cancel-btn" onClick={() => setShowCouponModal(false)}>
                                             {t("courses.cancel", "Cancel")}
                                         </button>
-                                        <button 
-                                            className="apply-btn" 
+                                        <button
+                                            className="apply-btn"
                                             onClick={handleApplyCoupon}
                                             disabled={!couponCode.trim()}
                                         >

@@ -1,0 +1,792 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:ital,wght@0,400;0,500;0,600;0,700;0,800;1,700&display=swap');
+
+/* ═══════════════════════════════════════════════
+   PAYMENT PAGE — UI Express Design System
+   Brand Blue: #0089EA
+   ═══════════════════════════════════════════════ */
+
+/* ── Page Shell ─────────────────────────────── */
+/*
+ * KEY FIX: The global Header is `position: fixed; height: 68px`.
+ * We must add `padding-top` to push the page content below the header.
+ * We also do NOT set `min-height: 100vh` here to avoid fighting the footer.
+ * The page background is set on `body` globally; we remove the
+ * background here so it doesn't cover the footer below.
+ */
+.payment-page-wrapper {
+  padding-top: calc(var(--header-h, 68px) + 28px); /* clear fixed header + breathing room */
+  padding-bottom: 80px;
+  background: #f4f7fb;
+  min-height: calc(100vh - var(--header-h, 68px));
+}
+
+.payment-container {
+  max-width: 1180px;
+  margin: 0 auto;
+  padding: 0 32px;
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  color: #0d1117;
+}
+
+/* ── Breadcrumbs ─────────────────────────────── */
+.payment-breadcrumbs {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 13px;
+  font-weight: 500;
+  margin-bottom: 36px;
+  color: #94a3b8;
+}
+
+.payment-breadcrumbs a {
+  color: #64748b;
+  text-decoration: none;
+  transition: color 0.15s;
+}
+
+.payment-breadcrumbs a:hover {
+  color: #0089EA;
+}
+
+.payment-breadcrumbs svg {
+  color: #cbd5e1;
+}
+
+.payment-breadcrumbs .current {
+  color: #0089EA;
+  font-weight: 600;
+}
+
+/* ── Page Header ─────────────────────────────── */
+.payment-header {
+  margin-bottom: 40px;
+}
+
+.payment-header h1 {
+  font-size: 34px;
+  font-weight: 800;
+  letter-spacing: -1px;
+  line-height: 1.15;
+  color: #0d1117;
+  margin: 0 0 10px;
+  background: linear-gradient(135deg, #0d1117 0%, #374151 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.payment-header p {
+  font-size: 15px;
+  color: #64748b;
+  line-height: 1.65;
+  max-width: 580px;
+  margin: 0;
+}
+
+/* ── Main Grid ───────────────────────────────── */
+.payment-content {
+  display: grid;
+  grid-template-columns: 1fr 390px;
+  gap: 28px;
+  align-items: start;
+}
+
+@media (max-width: 960px) {
+  .payment-content { grid-template-columns: 1fr; }
+  .payment-right { position: static !important; }
+}
+
+.payment-left {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  min-width: 0; /* prevent grid blowout */
+}
+
+/* ── Section Cards ───────────────────────────── */
+.payment-section {
+  background: #ffffff;
+  border: 1px solid #dde5ef;
+  border-radius: 18px;
+  padding: 28px 32px;
+  box-shadow:
+    0 1px 2px rgba(0,0,0,0.03),
+    0 4px 16px rgba(0,0,0,0.04);
+  transition: box-shadow 0.2s;
+}
+
+.payment-section:hover {
+  box-shadow:
+    0 1px 2px rgba(0,0,0,0.04),
+    0 8px 28px rgba(0,137,234,0.07);
+}
+
+/* ── Section Header ──────────────────────────── */
+.section-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: 24px;
+  padding-bottom: 20px;
+  border-bottom: 1px solid #f0f4f8;
+}
+
+.header-text h2 {
+  font-size: 18px;
+  font-weight: 700;
+  color: #0d1117;
+  margin: 0 0 4px;
+  letter-spacing: -0.3px;
+}
+
+.header-text p {
+  font-size: 13px;
+  color: #94a3b8;
+  margin: 0;
+}
+
+.selected-count {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 1px;
+}
+
+.selected-count span {
+  font-size: 11px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.6px;
+  color: #94a3b8;
+}
+
+.selected-count strong {
+  font-size: 28px;
+  font-weight: 800;
+  line-height: 1;
+  color: #0089EA;
+  letter-spacing: -1px;
+}
+
+/* ── Courses List ────────────────────────────── */
+.courses-list {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.course-item {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  padding: 16px 18px;
+  border: 1.5px solid #e8edf5;
+  border-radius: 12px;
+  cursor: pointer;
+  background: #fafbfd;
+  transition: all 0.2s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  position: relative;
+  overflow: hidden;
+}
+
+.course-item::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  width: 3px;
+  background: transparent;
+  transition: background 0.2s;
+}
+
+.course-item:hover {
+  border-color: #7ec8f8;
+  background: #f8fbff;
+  transform: translateX(2px);
+  box-shadow: 0 4px 14px rgba(0,137,234,0.08);
+}
+
+.course-item:hover::before {
+  background: #7ec8f8;
+}
+
+.course-item.selected {
+  border-color: #0089EA;
+  background: linear-gradient(135deg, #f8fbff 0%, #edf6ff 100%);
+  box-shadow: 0 4px 18px rgba(0,137,234,0.12);
+}
+
+.course-item.selected::before {
+  background: linear-gradient(180deg, #0089EA, #38b6ff);
+}
+
+/* Custom Checkbox */
+.course-checkbox {
+  flex-shrink: 0;
+}
+
+.checkbox-unchecked {
+  width: 20px;
+  height: 20px;
+  border: 2px solid #d1d8e8;
+  border-radius: 6px;
+  background: #fff;
+  transition: all 0.2s;
+}
+
+.course-item:hover .checkbox-unchecked {
+  border-color: #38b6ff;
+}
+
+.checkbox-checked {
+  width: 20px;
+  height: 20px;
+  background: linear-gradient(135deg, #0089EA, #38b6ff);
+  border-radius: 6px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #fff;
+  box-shadow: 0 2px 8px rgba(0,137,234,0.38);
+}
+
+/* Course Text */
+.course-details {
+  flex: 1;
+  min-width: 0;
+}
+
+.course-details h3 {
+  font-size: 14.5px;
+  font-weight: 600;
+  color: #111827;
+  margin: 0 0 5px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.course-meta {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 12.5px;
+  color: #94a3b8;
+}
+
+/* Course Price */
+.course-price {
+  font-size: 16px;
+  font-weight: 700;
+  color: #111827;
+  letter-spacing: -0.3px;
+  white-space: nowrap;
+}
+
+.course-item.selected .course-price {
+  color: #0089EA;
+}
+
+/* ── Payment Methods ─────────────────────────── */
+.payment-methods-list {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.method-item {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  padding: 16px 18px;
+  border: 1.5px solid #e8edf5;
+  border-radius: 12px;
+  cursor: pointer;
+  background: #fafbfd;
+  transition: all 0.2s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+}
+
+.method-item:hover {
+  border-color: #7ec8f8;
+  background: #f8fbff;
+  box-shadow: 0 4px 14px rgba(0,137,234,0.08);
+}
+
+.method-item.selected {
+  border-color: #0089EA;
+  background: linear-gradient(135deg, #f8fbff 0%, #edf6ff 100%);
+  box-shadow: 0 4px 18px rgba(0,137,234,0.12);
+}
+
+.method-icon {
+  width: 44px;
+  height: 36px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  color: #475569;
+  background: #f4f7fb;
+  border-radius: 8px;
+  border: 1px solid #dde5ef;
+  transition: all 0.2s;
+}
+
+.method-item.selected .method-icon {
+  background: #e8f4fd;
+  border-color: #7ec8f8;
+  color: #0089EA;
+}
+
+/* PayPal branding */
+.paypal-icon {
+  font-size: 18px;
+  font-weight: 900;
+  font-style: italic;
+  letter-spacing: -2px;
+}
+
+.p-blue-dark { color: #003087; }
+.p-blue-light { color: #009cde; }
+
+/* Apple Pay */
+.apple-pay-text {
+  font-size: 15px;
+  font-weight: 700;
+  letter-spacing: -0.5px;
+  margin-left: 1px;
+}
+
+.method-details {
+  flex: 1;
+}
+
+.method-details h3 {
+  font-size: 14.5px;
+  font-weight: 600;
+  color: #111827;
+  margin: 0 0 3px;
+}
+
+.method-details p {
+  font-size: 12.5px;
+  color: #94a3b8;
+  margin: 0;
+  line-height: 1.4;
+}
+
+/* Custom Radio */
+.method-radio {
+  position: relative;
+  width: 20px;
+  height: 20px;
+  flex-shrink: 0;
+}
+
+.method-radio input {
+  opacity: 0;
+  position: absolute;
+  inset: 0;
+  cursor: pointer;
+  z-index: 2;
+  margin: 0;
+}
+
+.radio-custom {
+  position: absolute;
+  inset: 0;
+  border: 2px solid #d1d8e8;
+  border-radius: 50%;
+  background: #fff;
+  transition: all 0.2s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  box-sizing: border-box;
+}
+
+.method-radio input:checked + .radio-custom {
+  border-color: #0089EA;
+  border-width: 6px;
+  background: #fff;
+  box-shadow: 0 2px 8px rgba(0,137,234,0.28);
+}
+
+/* ── Right Column: Order Summary ─────────────── */
+.payment-right {
+  position: sticky;
+  top: calc(var(--header-h, 68px) + 20px); /* stick below the fixed header */
+}
+
+.order-summary-card {
+  background: #ffffff;
+  border: 1px solid #dde5ef;
+  border-radius: 20px;
+  padding: 28px;
+  box-shadow:
+    0 1px 2px rgba(0,0,0,0.03),
+    0 8px 32px rgba(0,137,234,0.07);
+}
+
+.order-summary-card h2 {
+  font-size: 19px;
+  font-weight: 800;
+  color: #0d1117;
+  margin: 0 0 4px;
+  letter-spacing: -0.5px;
+}
+
+.summary-subtitle {
+  font-size: 13px;
+  color: #94a3b8;
+  margin: 0 0 24px;
+}
+
+/* Price rows */
+.summary-rows {
+  display: flex;
+  flex-direction: column;
+  gap: 13px;
+  padding-bottom: 20px;
+  border-bottom: 1px solid #f0f4f8;
+  margin-bottom: 20px;
+}
+
+.summary-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 14px;
+  color: #475569;
+  font-weight: 500;
+}
+
+.summary-row span:last-child {
+  font-weight: 600;
+  color: #0d1117;
+}
+
+.discount-value {
+  color: #22c55e !important;
+  font-weight: 600 !important;
+}
+
+.total-row {
+  font-size: 17px;
+  font-weight: 800 !important;
+  color: #0d1117 !important;
+  padding-top: 4px;
+}
+
+.total-row span:last-child {
+  color: #0089EA !important;
+  font-size: 19px;
+}
+
+/* Coupon / Discount */
+.discount-section {
+  margin-bottom: 22px;
+}
+
+.discount-section label {
+  display: block;
+  font-size: 12.5px;
+  font-weight: 700;
+  letter-spacing: 0.4px;
+  text-transform: uppercase;
+  color: #64748b;
+  margin-bottom: 10px;
+}
+
+/*
+ * KEY FIX: The discount input group was overflowing because
+ * the parent card had no overflow control. We ensure the
+ * group wraps properly and the input never bleeds out.
+ */
+.discount-input-group {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+  width: 100%;
+}
+
+.input-wrapper {
+  position: relative;
+  flex: 1;
+  min-width: 0; /* critical: allows flex child to shrink below content size */
+}
+
+.tag-icon {
+  position: absolute;
+  left: 12px;
+  top: 50%;
+  transform: translateY(-50%);
+  color: #94a3b8;
+  pointer-events: none;
+  width: 16px;
+  height: 16px;
+}
+
+.input-wrapper input {
+  width: 100%;
+  padding: 11px 12px 11px 38px;
+  border: 1.5px solid #dde5ef;
+  border-radius: 10px;
+  font-size: 13.5px;
+  font-family: inherit;
+  color: #0d1117;
+  background: #f8fafc;
+  outline: none;
+  transition: all 0.2s;
+  box-sizing: border-box;
+}
+
+.input-wrapper input::placeholder {
+  color: #b8c4d4;
+}
+
+.input-wrapper input:focus {
+  border-color: #0089EA;
+  background: #fff;
+  box-shadow: 0 0 0 4px rgba(0,137,234,0.1);
+}
+
+.apply-btn {
+  flex-shrink: 0;
+  padding: 11px 18px;
+  background: #e8f4fd;
+  border: 1.5px solid #7ec8f8;
+  border-radius: 10px;
+  font-size: 13.5px;
+  font-weight: 700;
+  font-family: inherit;
+  color: #0089EA;
+  cursor: pointer;
+  white-space: nowrap;
+  transition: all 0.2s;
+}
+
+.apply-btn:hover {
+  background: #0089EA;
+  color: #fff;
+  border-color: #0089EA;
+  box-shadow: 0 4px 12px rgba(0,137,234,0.28);
+}
+
+/* CTA Purchase Button */
+.complete-purchase-btn {
+  width: 100%;
+  padding: 15px 24px;
+  background: linear-gradient(135deg, #0089EA 0%, #38b6ff 50%, #0077cc 100%);
+  background-size: 200% 200%;
+  animation: gradientShift 4s ease infinite;
+  color: #fff;
+  border: none;
+  border-radius: 13px;
+  font-size: 15.5px;
+  font-weight: 700;
+  font-family: inherit;
+  letter-spacing: -0.2px;
+  cursor: pointer;
+  transition: transform 0.2s, box-shadow 0.2s;
+  box-shadow:
+    0 4px 14px rgba(0,137,234,0.35),
+    0 1px 3px rgba(0,137,234,0.2);
+  margin-bottom: 20px;
+  position: relative;
+  overflow: hidden;
+}
+
+.complete-purchase-btn::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(135deg, rgba(255,255,255,0.18) 0%, transparent 60%);
+  border-radius: inherit;
+}
+
+.complete-purchase-btn:hover {
+  transform: translateY(-2px);
+  box-shadow:
+    0 8px 24px rgba(0,137,234,0.45),
+    0 2px 6px rgba(0,137,234,0.2);
+}
+
+.complete-purchase-btn:active {
+  transform: translateY(0);
+  box-shadow: 0 2px 8px rgba(0,137,234,0.3);
+}
+
+@keyframes gradientShift {
+  0%   { background-position: 0% 50%; }
+  50%  { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
+
+/* Guarantee Alert */
+.guarantee-alert {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  padding: 16px;
+  background: linear-gradient(135deg, #f0fdf4 0%, #dcfce7 100%);
+  border: 1px solid #bbf7d0;
+  border-radius: 12px;
+}
+
+.guarantee-icon {
+  color: #16a34a;
+  flex-shrink: 0;
+  margin-top: 1px;
+}
+
+.guarantee-content h4 {
+  font-size: 13.5px;
+  font-weight: 700;
+  color: #15803d;
+  margin: 0 0 3px;
+}
+
+.guarantee-content p {
+  font-size: 12.5px;
+  color: #166534;
+  line-height: 1.5;
+  margin: 0;
+}
+
+/* ── Dark Mode ───────────────────────────────── */
+.dark .payment-page-wrapper {
+  background: #0a0f18;
+}
+
+.dark .payment-container {
+  color: #e2e8f0;
+}
+
+.dark .payment-header h1 {
+  background: linear-gradient(135deg, #e2e8f0 0%, #94a3b8 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.dark .payment-header p { color: #64748b; }
+
+.dark .payment-breadcrumbs a { color: #64748b; }
+.dark .payment-breadcrumbs a:hover,
+.dark .payment-breadcrumbs .current { color: #38b6ff; }
+
+.dark .payment-section,
+.dark .order-summary-card {
+  background: #111827;
+  border-color: #1e2a3a;
+  box-shadow: 0 4px 24px rgba(0,0,0,0.3);
+}
+
+.dark .payment-section:hover {
+  box-shadow: 0 8px 36px rgba(0,137,234,0.12);
+}
+
+.dark .section-header { border-bottom-color: #1e2a3a; }
+.dark .header-text h2 { color: #e2e8f0; }
+.dark .header-text p { color: #475569; }
+.dark .selected-count span { color: #475569; }
+.dark .selected-count strong { color: #38b6ff; }
+
+.dark .course-item,
+.dark .method-item {
+  background: #0a0f18;
+  border-color: #1e2a3a;
+}
+
+.dark .course-item:hover,
+.dark .method-item:hover {
+  border-color: #0089EA;
+  background: #111827;
+  box-shadow: 0 4px 14px rgba(0,137,234,0.12);
+}
+
+.dark .course-item.selected,
+.dark .method-item.selected {
+  background: rgba(0,137,234,0.08);
+  border-color: #0089EA;
+  box-shadow: 0 4px 18px rgba(0,137,234,0.15);
+}
+
+.dark .checkbox-unchecked {
+  border-color: #2d3748;
+  background: #111827;
+}
+
+.dark .course-details h3,
+.dark .method-details h3 { color: #e2e8f0; }
+.dark .course-meta { color: #475569; }
+.dark .course-price { color: #e2e8f0; }
+.dark .course-item.selected .course-price { color: #38b6ff; }
+
+.dark .method-icon {
+  background: #1e2a3a;
+  border-color: #2d3748;
+  color: #64748b;
+}
+
+.dark .method-item.selected .method-icon {
+  background: rgba(0,137,234,0.15);
+  border-color: #0089EA;
+  color: #38b6ff;
+}
+
+.dark .radio-custom {
+  border-color: #2d3748;
+  background: #111827;
+}
+
+.dark .method-radio input:checked + .radio-custom {
+  border-color: #38b6ff;
+  box-shadow: 0 2px 8px rgba(56,182,255,0.3);
+}
+
+.dark .order-summary-card {
+  box-shadow: 0 8px 32px rgba(0,137,234,0.1);
+}
+
+.dark .order-summary-card h2 { color: #e2e8f0; }
+.dark .summary-subtitle { color: #475569; }
+.dark .summary-rows { border-bottom-color: #1e2a3a; }
+.dark .summary-row { color: #64748b; }
+.dark .summary-row span:last-child { color: #e2e8f0; }
+.dark .total-row { color: #e2e8f0 !important; }
+.dark .total-row span:last-child { color: #38b6ff !important; }
+
+.dark .discount-section label { color: #475569; }
+
+.dark .input-wrapper input {
+  background: #0a0f18;
+  border-color: #1e2a3a;
+  color: #e2e8f0;
+}
+
+.dark .input-wrapper input:focus {
+  border-color: #0089EA;
+  background: #111827;
+  box-shadow: 0 0 0 4px rgba(0,137,234,0.12);
+}
+
+.dark .apply-btn {
+  background: rgba(0,137,234,0.12);
+  border-color: rgba(0,137,234,0.35);
+  color: #38b6ff;
+}
+
+.dark .apply-btn:hover {
+  background: #0089EA;
+  color: #fff;
+  border-color: #0089EA;
+}
+
+.dark .guarantee-alert {
+  background: linear-gradient(135deg, rgba(21,128,61,0.12) 0%, rgba(22,163,74,0.08) 100%);
+  border-color: rgba(34,197,94,0.2);
+}
+
+.dark .guarantee-content h4 { color: #4ade80; }
+.dark .guarantee-content p { color: #86efac; }
