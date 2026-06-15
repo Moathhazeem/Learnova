@@ -21,6 +21,7 @@ import Explore from './PageProfile/Explore'
 import Course from './courses/Course'
 import Teacher from './courses/Teacher'
 import Contact_us from './courses/Contact_us'
+import FAQ from './courses/FAQ';
 import AboutUs from './courses/About_us';
 function Layout({ children }) {
   const location = useLocation();
@@ -60,6 +61,7 @@ function App() {
           <Route path="/Teacher/Course" element={<Course />} />
           <Route path="/Contact_us" element={<Contact_us />} />
           <Route path="/About_us" element={<AboutUs />} />
+          <Route path="/FAQ" element={<FAQ />} />
         </Routes>
       </Layout>
     </Router>
