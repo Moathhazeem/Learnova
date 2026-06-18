@@ -23,6 +23,7 @@ const thumbColors = ['#0089EA', '#6366f1', '#0ea5e9'];
 
 function Payment_pay() {
     const [isModalOpen, setIsModalOpen] = useState(false);
+    const [isSuccessModalOpen, setIsSuccessModalOpen] = useState(false);
     const coursesData = [
         {
             id: 1,
@@ -58,7 +59,12 @@ function Payment_pay() {
 
     const subtotal = coursesData.filter(c => selectedCourses.includes(c.id)).reduce((s, c) => s + c.price, 0);
     const estimatedTax = subtotal > 0 ? 15 : 0;
-    const discount = 0;
+    let discount = 0;
+    const code_discount = "Moathhazeem";
+    if (discountCode === code_discount) {
+        discount = subtotal * 0.1;
+    }
+    const discountPercentage = (discount / subtotal) * 100;
     const total = subtotal + estimatedTax - discount;
     const discountLabel = discount > 0 ? '' : ' (NONE)';
 
@@ -284,8 +290,8 @@ function Payment_pay() {
                                     <span>${estimatedTax.toFixed(2)}</span>
                                 </div>
                                 <div className="summary-row">
-                                    <span>Discount{discountLabel}</span>
-                                    <span>${discount.toFixed(2)}</span>
+                                    <span>Discount({discountPercentage > 0 ? `${discountPercentage}%` : 0})</span>
+                                    <span>-${discount.toFixed(2)}</span>
                                 </div>
                                 <div className="summary-divider" />
                                 <div className="summary-row total-row">
@@ -370,13 +376,34 @@ function Payment_pay() {
                         <div className="modal-footer">
                             <button className="cancel-btn" onClick={() => setIsModalOpen(false)}>Cancel</button>
                             <button className="confirm-purchase-btn" onClick={() => {
-                                // ضع هنا دالة إتمام الشراء الخاصة بك
+                                // 1. ضع هنا دالة إتمام الشراء الفعلية (مثل إرسال البيانات للخادم)
+
+                                // 2. إغلاق النافذة الأولى
                                 setIsModalOpen(false);
+
+                                // 3. فتح نافذة النجاح
+                                setIsSuccessModalOpen(true);
                             }}>
                                 Payment confirmation
                             </button>
                         </div>
 
+                    </div>
+                </div>
+            )}
+            {isSuccessModalOpen && (
+                <div className="modal-overlay" onClick={() => setIsSuccessModalOpen(false)}>
+                    <div className="modal-content success-modal" onClick={(e) => e.stopPropagation()}>
+                        <button className="close-modal-btn" onClick={() => setIsSuccessModalOpen(false)}>×</button>
+                        <div className="success-icon">🎉</div>
+                        <h2>Purchase Successful!</h2>
+                        <p>Thank you for your purchase. Your courses are now ready in your dashboard.</p>
+
+                        <div className="modal-footer" style={{ justifyContent: 'center' }}>
+                            <button className="confirm-purchase-btn" onClick={() => setIsSuccessModalOpen(false)}>
+                                Go to Dashboard
+                            </button>
+                        </div>
                     </div>
                 </div>
             )}
