@@ -52,7 +52,7 @@ function Payment_pay() {
         },
     ];
 
-    const [selectedCourses, setSelectedCourses] = useState([1, 2, 3]);
+    const [selectedCourses, setSelectedCourses] = useState([]);
     const [paymentMethod, setPaymentMethod] = useState(null);
     const [discountCode, setDiscountCode] = useState('');
 
@@ -150,7 +150,7 @@ function Payment_pay() {
                                             tabIndex={0}
                                             onKeyDown={e => e.key === ' ' && toggleCourse(course.id)}
                                         >
-                                            <div className="course-card-check">
+                                            <div className="course-card-check" >
                                                 {isSelected
                                                     ? <div className="checkbox-checked"><Check size={12} strokeWidth={3} /></div>
                                                     : <div className="checkbox-unchecked" />}
