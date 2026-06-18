@@ -26,10 +26,6 @@ function Payment_pay() {
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [isSuccessModalOpen, setIsSuccessModalOpen] = useState(false);
     const [currentStep, setCurrentStep] = useState(0);
-    const doneStep1 = currentStep >= 1;
-    const doneStep2 = currentStep !== null;
-    const doneStep3 = isSuccessModalOpen;
-    const stepError = doneStep2 && !doneStep1;
 
     const coursesData = [
         {
@@ -57,7 +53,14 @@ function Payment_pay() {
 
     const [selectedCourses, setSelectedCourses] = useState([]);
     const [paymentMethod, setPaymentMethod] = useState(null);
+    const [Done, setDone] = useState(null); // الـ State الحالي لديك
     const [discountCode, setDiscountCode] = useState('');
+    const [isPurchaseCompleted, setIsPurchaseCompleted] = useState(false);
+
+    const doneStep1 = selectedCourses.length > 0;
+    const doneStep2 = paymentMethod !== null && paymentMethod !== "";
+    const doneStep3 = isPurchaseCompleted;
+    const stepError = doneStep2 && !doneStep1;
 
     const toggleCourse = (id) =>
         setSelectedCourses(prev =>
@@ -285,9 +288,11 @@ function Payment_pay() {
                                     {doneStep1 ? (<Check size={10} strokeWidth={3} />) : (stepError ? (<X size={10} strokeWidth={3} />) : 1)}</span>
                                     <span>Courses</span>
                                 </div>
-                                <div className={`progress-line ${doneStep1 ? 'done' : stepError ? 'error' : ''}`} /><div className={`progress-step ${doneStep2 ? 'done' : ''}`}>
+                                <div className={`progress-line ${doneStep1 ? 'done' : stepError ? 'error' : ''}`} />
+                                <div className={`progress-step ${doneStep2 ? 'done' : ''}`}>
                                     <span className="progress-dot">
-                                        {doneStep2 ? <Check size={10} strokeWidth={3} /> : 2}</span>
+                                        {doneStep2 ? <Check size={10} strokeWidth={3} /> : 2}
+                                    </span>
                                     <span>Payment</span>
                                 </div>
                                 <div className={`progress-line ${doneStep3 ? 'done' : ''}`} />
@@ -406,6 +411,8 @@ function Payment_pay() {
 
                                 // 3. فتح نافذة النجاح
                                 setIsSuccessModalOpen(true);
+                                setIsPurchaseCompleted(true);
+
 
                             }}>
                                 Payment confirmation

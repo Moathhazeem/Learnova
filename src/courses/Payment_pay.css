@@ -1594,6 +1594,7 @@
   /* لون أحمر دافئ */
   color: white !important;
   border-color: #ef4444 !important;
+  animation: popIn 0.25s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
 }
 
 
@@ -1620,12 +1621,18 @@
 .progress-step.error span {
   color: #ef4444 !important;
   font-weight: 600;
+  transition: color 0.25s ease;
 }
 
 /* اختياري: إذا أردت أن يصبح الخط الفاصل أحمر أيضاً ليعطي شعوراً بالتنبيه */
 .progress-line.error {
-  background-color: #fca5a5 !important;
-  /* أحمر خفيف للخط */
+  background-color: #e2e8f0 !important;
+  /* رمادي هادئ كما فضّلت */
+  height: 2px !important;
+  /* 🌟 تصفير الـ margin العلوي والسفلي تماماً لمنع النزول */
+  padding: 0 !important;
+  box-sizing: border-box !important;
+  align-self: center !important;
 }
 
 .progress-step.error::before,
@@ -1666,37 +1673,16 @@
   flex-shrink: 0 !important;
 }
 
-.progress-step {
-  /* 🌟 توحيد الأبعاد هندسياً ليصبح مربعاً كاملاً ومثالياً */
-  width: 52px !important;
-  height: 52px !important;
-
-  /* منع الـ Padding والـ Border من تغيير الأبعاد */
-  box-sizing: border-box !important;
-
-  /* استخدام Flexbox لضمان المحاذاة العمودية والأفقية المطلقة */
-  display: flex !important;
-  flex-direction: column !important;
-  align-items: center !important;
-  justify-content: center !important;
-  position: relative !important;
-}
-
-.progress-step.error,
-.progress-step.done,
-.progress-step {
-  margin: 0 !important;
-  padding: 0 !important;
-}
-
-.progress-dot {
-  display: flex !important;
-  align-items: center !important;
-  justify-content: center !important;
-  flex-shrink: 0 !important;
-}
-
 .progress-line.error {
   margin-bottom: 27px !important;
+}
 
+@keyframes popIn {
+  0% {
+    transform: scale(0);
+  }
+
+  100% {
+    transform: scale(1);
+  }
 }
