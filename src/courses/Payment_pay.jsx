@@ -24,6 +24,10 @@ const thumbColors = ['#0089EA', '#6366f1', '#0ea5e9'];
 function Payment_pay() {
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [isSuccessModalOpen, setIsSuccessModalOpen] = useState(false);
+    const [currentStep, setCurrentStep] = useState(0);
+    const doneStep1 = currentStep >= 1;
+    const doneStep2 = currentStep >= 2;
+    const doneStep3 = currentStep >= 3;
     const coursesData = [
         {
             id: 1,
@@ -49,7 +53,7 @@ function Payment_pay() {
     ];
 
     const [selectedCourses, setSelectedCourses] = useState([1, 2, 3]);
-    const [paymentMethod, setPaymentMethod] = useState('card');
+    const [paymentMethod, setPaymentMethod] = useState(null);
     const [discountCode, setDiscountCode] = useState('');
 
     const toggleCourse = (id) =>
@@ -64,9 +68,11 @@ function Payment_pay() {
     if (discountCode === code_discount) {
         discount = subtotal * 0.1;
     }
-    const discountPercentage = (discount / subtotal) * 100;
+    const discountPercentage = subtotal > 0 ? (discount / subtotal) * 100 : 0;
     const total = subtotal + estimatedTax - discount;
     const discountLabel = discount > 0 ? '' : ' (NONE)';
+    const done = isSuccessModalOpen;
+
 
     return (
         <div className="payment-page-wrapper">
@@ -125,7 +131,20 @@ function Payment_pay() {
                                         <div
                                             key={course.id}
                                             className={`course-card${isSelected ? ' selected' : ''}`}
-                                            onClick={() => toggleCourse(course.id)}
+                                            onClick={() => {
+                                                toggleCourse(course.id);
+                                                if (isSelected) {
+                                                    if (selectedCourses.length <= 1) {
+                                                        setCurrentStep(0);
+                                                    } else {
+                                                        setCurrentStep(1);
+                                                    }
+                                                }
+                                                else {
+                                                    setCurrentStep(1);
+                                                }
+
+                                            }}
                                             role="checkbox"
                                             aria-checked={isSelected}
                                             tabIndex={0}
@@ -191,7 +210,7 @@ function Payment_pay() {
                                             name="payment_method"
                                             value="card"
                                             checked={paymentMethod === 'card'}
-                                            onChange={() => setPaymentMethod('card')}
+                                            onChange={() => { setPaymentMethod('card'); setCurrentStep(2); }}
                                         />
                                         <div className="radio-custom" />
                                     </div>
@@ -215,7 +234,7 @@ function Payment_pay() {
                                             name="payment_method"
                                             value="paypal"
                                             checked={paymentMethod === 'paypal'}
-                                            onChange={() => setPaymentMethod('paypal')}
+                                            onChange={() => { setPaymentMethod('paypal'); setCurrentStep(2); }}
                                         />
                                         <div className="radio-custom" />
                                     </div>
@@ -238,7 +257,7 @@ function Payment_pay() {
                                             name="payment_method"
                                             value="apple"
                                             checked={paymentMethod === 'apple'}
-                                            onChange={() => setPaymentMethod('apple')}
+                                            onChange={() => { setPaymentMethod('apple'); setCurrentStep(2); }}
                                         />
                                         <div className="radio-custom" />
                                     </div>
@@ -259,18 +278,21 @@ function Payment_pay() {
                             <div className="summary-accent" aria-hidden="true" />
 
                             <div className="checkout-progress">
-                                <div className="progress-step done">
-                                    <span className="progress-dot"><Check size={10} strokeWidth={3} /></span>
+                                <div className={`progress-step ${doneStep1 ? 'done' : ''}`}>
+                                    <span className="progress-dot">
+                                        {doneStep1 ? <Check size={10} strokeWidth={3} /> : 1}</span>
                                     <span>Courses</span>
                                 </div>
-                                <div className="progress-line done" />
-                                <div className="progress-step active">
-                                    <span className="progress-dot">2</span>
+                                <div className={`progress-line ${doneStep2 ? 'done' : ''}`} />
+                                <div className={`progress-step ${doneStep2 ? 'done' : ''}`}>
+                                    <span className="progress-dot">
+                                        {doneStep2 ? <Check size={10} strokeWidth={3} /> : 2}</span>
                                     <span>Payment</span>
                                 </div>
-                                <div className="progress-line" />
-                                <div className="progress-step">
-                                    <span className="progress-dot">3</span>
+                                <div className={`progress-line ${doneStep3 ? 'done' : ''}`} />
+                                <div className={`progress-step ${doneStep3 ? 'done' : ''}`}>
+                                    <span className="progress-dot">
+                                        {doneStep3 ? <Check size={10} strokeWidth={3} /> : 3}</span>
                                     <span>Done</span>
                                 </div>
                             </div>
@@ -290,8 +312,8 @@ function Payment_pay() {
                                     <span>${estimatedTax.toFixed(2)}</span>
                                 </div>
                                 <div className="summary-row">
-                                    <span>Discount({discountPercentage > 0 ? `${discountPercentage}%` : 0})</span>
-                                    <span>-${discount.toFixed(2)}</span>
+                                    <span>Discount ({discountPercentage > 0 ? `${discountPercentage}%` : 0})</span>
+                                    <span>${discount.toFixed(2)}</span>
                                 </div>
                                 <div className="summary-divider" />
                                 <div className="summary-row total-row">
@@ -377,7 +399,7 @@ function Payment_pay() {
                             <button className="cancel-btn" onClick={() => setIsModalOpen(false)}>Cancel</button>
                             <button className="confirm-purchase-btn" onClick={() => {
                                 // 1. ضع هنا دالة إتمام الشراء الفعلية (مثل إرسال البيانات للخادم)
-
+                                setCurrentStep(2);
                                 // 2. إغلاق النافذة الأولى
                                 setIsModalOpen(false);
 
