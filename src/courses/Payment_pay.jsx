@@ -350,7 +350,7 @@ function Payment_pay() {
                                 </div>
                             </div>
 
-                            <button className="complete-purchase-btn" type="button" disabled={selectedCourses.length === 0} onClick={() => setIsModalOpen(true)}>
+                            <button className="complete-purchase-btn" type="button" disabled={selectedCourses.length === 0 || !paymentMethod} onClick={() => setIsModalOpen(true)}>
                                 <Lock size={16} />
                                 Complete Purchase
                             </button>
@@ -397,7 +397,7 @@ function Payment_pay() {
                         {/* الأزرار في الأسفل (Footer) */}
                         <div className="modal-footer">
                             <button className="cancel-btn" onClick={() => setIsModalOpen(false)}>Cancel</button>
-                            <button className="confirm-purchase-btn" onClick={() => {
+                            <button className="confirm-purchase-btn" disabled={!paymentMethod} onClick={() => {
                                 // 1. ضع هنا دالة إتمام الشراء الفعلية (مثل إرسال البيانات للخادم)
                                 setCurrentStep(2);
                                 // 2. إغلاق النافذة الأولى
@@ -405,6 +405,7 @@ function Payment_pay() {
 
                                 // 3. فتح نافذة النجاح
                                 setIsSuccessModalOpen(true);
+
                             }}>
                                 Payment confirmation
                             </button>
