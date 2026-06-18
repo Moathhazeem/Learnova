@@ -14,14 +14,15 @@ import {
 import './Payment_pay.css';
 
 const levelColors = {
-    Beginner:     { bg: '#eef9f0', text: '#16a34a', dot: '#22c55e' },
+    Beginner: { bg: '#eef9f0', text: '#16a34a', dot: '#22c55e' },
     Intermediate: { bg: '#fff7ed', text: '#c2410c', dot: '#f97316' },
-    Advanced:     { bg: '#faf5ff', text: '#7c3aed', dot: '#a855f7' },
+    Advanced: { bg: '#faf5ff', text: '#7c3aed', dot: '#a855f7' },
 };
 
 const thumbColors = ['#0089EA', '#6366f1', '#0ea5e9'];
 
 function Payment_pay() {
+    const [isModalOpen, setIsModalOpen] = useState(false);
     const coursesData = [
         {
             id: 1,
@@ -47,18 +48,18 @@ function Payment_pay() {
     ];
 
     const [selectedCourses, setSelectedCourses] = useState([1, 2, 3]);
-    const [paymentMethod, setPaymentMethod]     = useState('card');
-    const [discountCode, setDiscountCode]       = useState('');
+    const [paymentMethod, setPaymentMethod] = useState('card');
+    const [discountCode, setDiscountCode] = useState('');
 
     const toggleCourse = (id) =>
         setSelectedCourses(prev =>
             prev.includes(id) ? prev.filter(cId => cId !== id) : [...prev, id]
         );
 
-    const subtotal     = coursesData.filter(c => selectedCourses.includes(c.id)).reduce((s, c) => s + c.price, 0);
+    const subtotal = coursesData.filter(c => selectedCourses.includes(c.id)).reduce((s, c) => s + c.price, 0);
     const estimatedTax = subtotal > 0 ? 15 : 0;
-    const discount     = 0;
-    const total        = subtotal + estimatedTax - discount;
+    const discount = 0;
+    const total = subtotal + estimatedTax - discount;
     const discountLabel = discount > 0 ? '' : ' (NONE)';
 
     return (
@@ -321,16 +322,64 @@ function Payment_pay() {
                                 </div>
                             </div>
 
-                            <button className="complete-purchase-btn" type="button" disabled={selectedCourses.length === 0}>
+                            <button className="complete-purchase-btn" type="button" disabled={selectedCourses.length === 0} onClick={() => setIsModalOpen(true)}>
                                 <Lock size={16} />
                                 Complete Purchase
                             </button>
-                            <p className="cta-hint">You won&apos;t be charged until you confirm.</p>
                         </div>
                     </div>
 
                 </div>
             </div>
+            {isModalOpen && selectedCourses.length >= 1 && (
+                <div className="modal-overlay" onClick={() => setIsModalOpen(false)}>
+                    <div className="modal-content" onClick={(e) => e.stopPropagation()}>
+
+                        {/* الهيدر أو رأس النافذة */}
+                        <div className="modal-header">
+                            <h3>🛒 Complete Your Purchase</h3>
+                            <button className="close-modal-btn" onClick={() => setIsModalOpen(false)}>×</button>
+                        </div>
+
+                        {/* محتوى النافذة الداخلي */}
+                        <div className="modal-body">
+                            <div className="purchase-info-card">
+                                <p className="purchase-message-title">Selected Courses</p>
+                                <p className="purchase-count">{selectedCourses.length} course(s) ready for checkout</p>
+                            </div>
+                            <div className="purchase-courses-list">
+                                {selectedCourses.map((courseId) => {
+                                    const course = coursesData.find(c => c.id === courseId);
+                                    if (!course) return null;
+                                    return (
+                                        <div key={course.id} className="purchase-course-item">
+                                            <p className="purchase-course-name">{course.title}</p>
+                                            <p className="purchase-course-price">${course.price.toFixed(2)}</p>
+                                        </div>
+                                    );
+                                })}
+                            </div>
+
+                            <div className="price-section">
+                                <span>Total Amount:</span>
+                                <strong className="total-price">${total.toFixed(2)}</strong>
+                            </div>
+                        </div>
+
+                        {/* الأزرار في الأسفل (Footer) */}
+                        <div className="modal-footer">
+                            <button className="cancel-btn" onClick={() => setIsModalOpen(false)}>Cancel</button>
+                            <button className="confirm-purchase-btn" onClick={() => {
+                                // ضع هنا دالة إتمام الشراء الخاصة بك
+                                setIsModalOpen(false);
+                            }}>
+                                Payment confirmation
+                            </button>
+                        </div>
+
+                    </div>
+                </div>
+            )}
         </div>
     );
 }

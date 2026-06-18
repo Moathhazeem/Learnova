@@ -1275,3 +1275,252 @@
 .dark .cta-hint {
   color: #475569;
 }
+
+/* الخلفية المعتمة والضبابية */
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background-color: rgba(15, 23, 42, 0.3);
+  /* خلفية داكنة خفيفة */
+  backdrop-filter: blur(8px);
+  /* تأثير الضباب على الخلفية مثل الصورة */
+  /* الخصائص الثلاثة التالية هي المسؤولة عن التوسيط التام */
+  display: flex !important;
+  justify-content: center !important;
+  /* التوسيط الأفقي */
+  align-items: center !important;
+  /* التوسيط العمودي */
+  z-index: 9999;
+}
+
+/* صندوق النافذة المنبثقة الأبيض */
+.modal-content {
+  background-color: #ffffff;
+  width: 100%;
+  max-width: 480px;
+  border-radius: 16px;
+  padding: 24px;
+  box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  font-family: sans-serif;
+
+  /* تأكيد إضافي لمنع الانحياز لليمين أو اليسار بسبب الـ RTL */
+  margin: auto !important;
+}
+
+/* الهيدر */
+.modal-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-bottom: 1px solid #f1f5f9;
+  padding-bottom: 12px;
+}
+
+.modal-header h3 {
+  margin: 0;
+  font-size: 18px;
+  color: #1e293b;
+  font-weight: 600;
+}
+
+.close-modal-btn {
+  background: none;
+  border: none;
+  font-size: 22px;
+  color: #94a3b8;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.close-modal-btn:hover {
+  transform: rotate(90deg) scale(1.1);
+  background: #ffefef !important;
+  color: red !important;
+}
+
+/* جسم النافذة */
+.modal-body {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.purchase-info-card {
+  background: linear-gradient(135deg, #f8fafc 0%, #f1f5f9 100%);
+  border: 1px dashed #cbd5e1;
+  /* إطار متقطع خفيف يعطي مظهر فاتورة احترافي */
+  border-radius: 12px;
+  padding: 16px;
+  text-align: center;
+}
+
+.purchase-message-title {
+  margin: 0;
+  font-size: 11px;
+  color: #64748b;
+  text-transform: uppercase;
+  font-weight: 700;
+  letter-spacing: 1px;
+}
+
+.purchase-count {
+  margin: 6px 0 0 0;
+  font-size: 15px;
+  color: #1e293b;
+  font-weight: 600;
+}
+
+.price-section {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 16px;
+  color: #475569;
+  padding: 0 4px;
+}
+
+.total-price {
+  font-size: 20px;
+  color: #0f172a;
+  font-weight: 700;
+}
+
+/* الأزرار في الأسفل */
+.modal-footer {
+  display: flex;
+  justify-content: flex-end;
+  gap: 12px;
+  margin-top: 8px;
+}
+
+/* زر إلغاء الأمر الباقي باللون الرمادي */
+.cancel-btn {
+  background-color: #f1f5f9;
+  color: #475569;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 8px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background-color 0.2s;
+}
+
+.cancel-btn:hover {
+  background-color: #e2e8f0;
+}
+
+/* زر التأكيد الأزرق مثل الصورة تماماً */
+.confirm-purchase-btn {
+  background-color: #0070f3;
+  /* اللون الأزرق المماثل للصورة */
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 8px;
+  font-weight: 600;
+  cursor: pointer;
+  box-shadow: 0 2px 4px rgba(0, 112, 243, 0.2);
+  transition: background-color 0.2s;
+}
+
+.confirm-purchase-btn:hover {
+  background-color: #0056b3;
+}
+
+/* الحاوية الرئيسية التي تجمع الكورسات */
+/* إذا لم تكن موجودة في الـ JSX، يفضل إحاطة الـ map بـ <div className="purchase-courses-list"> */
+.purchase-courses-list {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  max-height: 240px;
+  /* زيادة الارتفاع قليلاً لتأخذ مساحتها مريحة */
+  overflow-y: auto;
+  padding-right: 6px;
+}
+
+.purchase-courses-list::-webkit-scrollbar {
+  width: 5px;
+}
+
+.purchase-courses-list::-webkit-scrollbar-thumb {
+  background-color: #cbd5e1;
+  border-radius: 4px;
+}
+
+/* بطاقة الكورس الواحد */
+.purchase-course-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background-color: #ffffff;
+  border: 1px solid #e2e8f0;
+  border-radius: 12px;
+  width: 100%;
+  margin-top: 1%;
+  /* حواف أنعم */
+  padding: 14px 18px;
+  /* مساحات داخلية أكبر وأريح للعين */
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.02);
+  /* ظل خفيف جداً يعطي عمق */
+  transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* حركة خفيفة عند تمرير الماوس فوق الكورس */
+.purchase-course-item:hover {
+  background-color: #f8fafc;
+  border-color: #0070f3;
+  /* يتغير الإطار للأزرق خفيف عند التحويم */
+  transform: translateY(-2px);
+  position: relative;
+  z-index: 10;
+  /* يرتفع للأعلى بمقدار بكسل واحد بشكل أنيق */
+  box-shadow: 0 6px 12px -2px rgba(50, 50, 93, 0.1), 0 3px 7px -3px rgba(0, 0, 0, 0.15);
+}
+
+.purchase-course-item p {
+  margin: 0 !important;
+  /* يمنع المتصفح من إضافة مسافات عشوائية تسبب كراش للتصميم */
+}
+
+/* اسم الكورس */
+.purchase-course-name {
+  margin: 0;
+  font-size: 14px;
+  color: #334155;
+  /* تغميق لون النص ليكون واضحاً للقراءة */
+  font-weight: 600;
+  /* جعل الخط أسمك قليلاً */
+  max-width: 75%;
+}
+
+/* سعر الكورس */
+.purchase-course-price {
+  margin: 0;
+  font-size: 14px;
+  color: #0f172a;
+  /* لون داكن صريح */
+  font-weight: 700;
+  font-variant-numeric: tabular-nums;
+  /* يجعل الأرقام متناسقة الطول تحت بعضها */
+  background-color: #f1f5f9;
+  /* وضع السعر داخل كبسولة صغيرة لحمايته */
+  padding: 4px 10px;
+  border-radius: 6px;
+}
+
+/* قسم المجموع الكلي السفلي */
+.price-section {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding-top: 15px;
+  border-top: 2px dashed #f1f5f9;
+  /* خط فاصل منقط فوق المجموع */
+}
