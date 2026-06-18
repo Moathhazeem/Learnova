@@ -672,6 +672,19 @@
   background: #f1f5f9;
   border: 2px solid #e2e8f0;
   color: #94a3b8;
+  display: inline-flex;
+  /* 🌟 تحويلها لـ flexbox للتحكم بالسنتر */
+  align-items: center;
+  justify-content: center;
+  width: 24px;
+  /* تأكد من مطابقة المقاسات لمشروعك */
+  height: 24px;
+  /* تأكد من مطابقة المقاسات لمشروعك */
+  border-radius: 50%;
+
+  /* ❌ احذف أي line-height أو vertical-align قديم قد يكون مسبباً للمشكلة */
+  line-height: 1 !important;
+  vertical-align: middle;
   transition: all 0.2s;
 }
 
@@ -696,6 +709,8 @@
   background: #e2e8f0;
   margin-bottom: 20px;
   border-radius: 2px;
+  align-self: center;
+  /* 🌟 يجبر الخط الفاصل على البقاء في منتصف الارتفاع */
 }
 
 .progress-line.active {
@@ -1571,4 +1586,117 @@
   100% {
     transform: scale(1);
   }
+}
+
+/* تنسيق الخطوة في حالة الخطأ (الأحمر) */
+.progress-step.error .progress-dot {
+  background-color: #ef4444 !important;
+  /* لون أحمر دافئ */
+  color: white !important;
+  border-color: #ef4444 !important;
+}
+
+
+.progress-step.error,
+.progress-line.error,
+.progress-step.error .progress-dot {
+  list-style: none !important;
+  /* لضمان إخفاء أي نقطة قائمة افتراضية */
+  list-style-type: none !important;
+}
+
+
+
+.progress-step.error::before,
+.progress-step.error::after,
+.progress-line.error::before,
+.progress-line.error::after {
+  display: none !important;
+  /* إخفاء أي عنصر وهمي يسبب ظهور النقطة */
+  content: none !important;
+}
+
+/* تلوين النص التابع للخطوة باللون الأحمر */
+.progress-step.error span {
+  color: #ef4444 !important;
+  font-weight: 600;
+}
+
+/* اختياري: إذا أردت أن يصبح الخط الفاصل أحمر أيضاً ليعطي شعوراً بالتنبيه */
+.progress-line.error {
+  background-color: #fca5a5 !important;
+  /* أحمر خفيف للخط */
+}
+
+.progress-step.error::before,
+.progress-line.error::before {
+  visibility: hidden !important;
+  /* يخفي العنصر تماماً لكن يحافظ على أبعاده ومكانه */
+  opacity: 0 !important;
+  /* يضمن شفافية كاملة */
+}
+
+.progress-step {
+  /* 🌟 توحيد الأبعاد هندسياً ليصبح مربعاً كاملاً ومثالياً */
+  width: 52px !important;
+  height: 52px !important;
+
+  /* منع الـ Padding والـ Border من تغيير الأبعاد */
+  box-sizing: border-box !important;
+
+  /* استخدام Flexbox لضمان المحاذاة العمودية والأفقية المطلقة */
+  display: flex !important;
+  flex-direction: column !important;
+  align-items: center !important;
+  justify-content: center !important;
+  position: relative !important;
+}
+
+.progress-step.error,
+.progress-step.done,
+.progress-step {
+  margin: 0 !important;
+  padding: 0 !important;
+}
+
+.progress-dot {
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  flex-shrink: 0 !important;
+}
+
+.progress-step {
+  /* 🌟 توحيد الأبعاد هندسياً ليصبح مربعاً كاملاً ومثالياً */
+  width: 52px !important;
+  height: 52px !important;
+
+  /* منع الـ Padding والـ Border من تغيير الأبعاد */
+  box-sizing: border-box !important;
+
+  /* استخدام Flexbox لضمان المحاذاة العمودية والأفقية المطلقة */
+  display: flex !important;
+  flex-direction: column !important;
+  align-items: center !important;
+  justify-content: center !important;
+  position: relative !important;
+}
+
+.progress-step.error,
+.progress-step.done,
+.progress-step {
+  margin: 0 !important;
+  padding: 0 !important;
+}
+
+.progress-dot {
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  flex-shrink: 0 !important;
+}
+
+.progress-line.error {
+  margin-bottom: 27px !important;
+
 }

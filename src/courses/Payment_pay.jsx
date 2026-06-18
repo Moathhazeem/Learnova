@@ -9,7 +9,8 @@ import {
     ShieldCheck,
     Clock,
     Lock,
-    Sparkles
+    Sparkles,
+    X
 } from 'lucide-react';
 import './Payment_pay.css';
 
@@ -26,8 +27,10 @@ function Payment_pay() {
     const [isSuccessModalOpen, setIsSuccessModalOpen] = useState(false);
     const [currentStep, setCurrentStep] = useState(0);
     const doneStep1 = currentStep >= 1;
-    const doneStep2 = currentStep >= 2;
-    const doneStep3 = currentStep >= 3;
+    const doneStep2 = currentStep !== null;
+    const doneStep3 = isSuccessModalOpen;
+    const stepError = doneStep2 && !doneStep1;
+
     const coursesData = [
         {
             id: 1,
@@ -278,13 +281,11 @@ function Payment_pay() {
                             <div className="summary-accent" aria-hidden="true" />
 
                             <div className="checkout-progress">
-                                <div className={`progress-step ${doneStep1 ? 'done' : ''}`}>
-                                    <span className="progress-dot">
-                                        {doneStep1 ? <Check size={10} strokeWidth={3} /> : 1}</span>
+                                <div className={`progress-step ${doneStep1 ? 'done' : stepError ? 'error' : ''}`}><span className="progress-dot">
+                                    {doneStep1 ? (<Check size={10} strokeWidth={3} />) : (stepError ? (<X size={10} strokeWidth={3} />) : 1)}</span>
                                     <span>Courses</span>
                                 </div>
-                                <div className={`progress-line ${doneStep2 ? 'done' : ''}`} />
-                                <div className={`progress-step ${doneStep2 ? 'done' : ''}`}>
+                                <div className={`progress-line ${doneStep1 ? 'done' : stepError ? 'error' : ''}`} /><div className={`progress-step ${doneStep2 ? 'done' : ''}`}>
                                     <span className="progress-dot">
                                         {doneStep2 ? <Check size={10} strokeWidth={3} /> : 2}</span>
                                     <span>Payment</span>
