@@ -491,104 +491,104 @@ function Explore() {
                             </p>
                         </div>
                         <div className="courses-container-fillter">
-                        {Fillter.map((item) => (
-                            <div key={item.id} className="filter-item-container">
-                                <div
-                                    className={`courses-container-fillter-item ${(
+                            {Fillter.map((item) => (
+                                <div key={item.id} className="filter-item-container">
+                                    <div
+                                        className={`courses-container-fillter-item ${(
+                                            (item.title === "Price" && FillterPrice) ||
+                                            (item.title === "Time" && FillterTime) ||
+                                            (item.title === "Level" && FillterLevel) ||
+                                            (item.title === "Sort by" && FillterSortBy)
+                                        ) ? 'active' : ''}`}
+                                        onClick={() => {
+                                            if (item.title === "Price") {
+                                                setFillterPrice(!FillterPrice);
+                                                setFillterTime(false);
+                                                setFillterLevel(false);
+                                                setFillterSortBy(false);
+                                            }
+                                            if (item.title === "Time") {
+                                                setFillterTime(!FillterTime);
+                                                setFillterPrice(false);
+                                                setFillterLevel(false);
+                                                setFillterSortBy(false);
+                                            }
+                                            if (item.title === "Level") {
+                                                setFillterLevel(!FillterLevel);
+                                                setFillterPrice(false);
+                                                setFillterTime(false);
+                                                setFillterSortBy(false);
+                                            }
+                                            if (item.title === "Sort by") {
+                                                setFillterSortBy(!FillterSortBy);
+                                                setFillterPrice(false);
+                                                setFillterTime(false);
+                                                setFillterLevel(false);
+                                            }
+                                        }}
+                                    >
+                                        <span className="filter-icon-wrap">
+                                            <img src={item.icon} alt="" aria-hidden="true" />
+                                        </span>
+                                        <p className="courses-container-fillter-item-text">{item.title}</p>
+                                        <img
+                                            src={item.arrow}
+                                            alt="arrow"
+                                            className="filter-arrow"
+                                            style={{
+                                                transform: (
+                                                    (item.title === "Price" && FillterPrice) ||
+                                                    (item.title === "Time" && FillterTime) ||
+                                                    (item.title === "Level" && FillterLevel) ||
+                                                    (item.title === "Sort by" && FillterSortBy)
+                                                ) ? 'rotate(180deg)' : 'rotate(0)'
+                                            }}
+                                        />
+                                    </div>
+
+                                    {(
                                         (item.title === "Price" && FillterPrice) ||
                                         (item.title === "Time" && FillterTime) ||
                                         (item.title === "Level" && FillterLevel) ||
                                         (item.title === "Sort by" && FillterSortBy)
-                                    ) ? 'active' : ''}`}
-                                    onClick={() => {
-                                        if (item.title === "Price") {
-                                            setFillterPrice(!FillterPrice);
-                                            setFillterTime(false);
-                                            setFillterLevel(false);
-                                            setFillterSortBy(false);
-                                        }
-                                        if (item.title === "Time") {
-                                            setFillterTime(!FillterTime);
-                                            setFillterPrice(false);
-                                            setFillterLevel(false);
-                                            setFillterSortBy(false);
-                                        }
-                                        if (item.title === "Level") {
-                                            setFillterLevel(!FillterLevel);
-                                            setFillterPrice(false);
-                                            setFillterTime(false);
-                                            setFillterSortBy(false);
-                                        }
-                                        if (item.title === "Sort by") {
-                                            setFillterSortBy(!FillterSortBy);
-                                            setFillterPrice(false);
-                                            setFillterTime(false);
-                                            setFillterLevel(false);
-                                        }
-                                    }}
-                                >
-                                    <span className="filter-icon-wrap">
-                                        <img src={item.icon} alt="" aria-hidden="true" />
-                                    </span>
-                                    <p className="courses-container-fillter-item-text">{item.title}</p>
-                                    <img
-                                        src={item.arrow}
-                                        alt="arrow"
-                                        className="filter-arrow"
-                                        style={{
-                                            transform: (
-                                                (item.title === "Price" && FillterPrice) ||
-                                                (item.title === "Time" && FillterTime) ||
-                                                (item.title === "Level" && FillterLevel) ||
-                                                (item.title === "Sort by" && FillterSortBy)
-                                            ) ? 'rotate(180deg)' : 'rotate(0)'
-                                        }}
-                                    />
+                                    ) && (
+                                            <div className="filter-dropdown">
+                                                {item.title === "Price" && (
+                                                    <>
+                                                        <div className="filter-option" onClick={() => { setSelectedFilter("All"); setFillterPrice(false); }}>All Prices</div>
+                                                        <div className="filter-option" onClick={() => { setSelectedFilter("Less or equal than $50"); setFillterPrice(false); }}>Less or equal than $50</div>
+                                                        <div className="filter-option" onClick={() => { setSelectedFilter("More than $50"); setFillterPrice(false); }}>More than $50</div>
+                                                        <div className="filter-option" onClick={() => { setSelectedFilter("More than $100"); setFillterPrice(false); }}>More than $100</div>
+                                                    </>
+                                                )}
+                                                {item.title === "Time" && (
+                                                    <>
+                                                        <div className="filter-option" onClick={() => { setSelectedFilter("All"); setFillterTime(false); }}>All Times</div>
+                                                        <div className="filter-option" onClick={() => { setSelectedFilter("Less than 10 hours"); setFillterTime(false); }}>Less than 10 hours</div>
+                                                        <div className="filter-option" onClick={() => { setSelectedFilter("More than 10 hours"); setFillterTime(false); }}>More than 10 hours</div>
+                                                        <div className="filter-option" onClick={() => { setSelectedFilter("10 - 20 hours"); setFillterTime(false); }}>10 - 20 hours</div>
+                                                    </>
+                                                )}
+                                                {item.title === "Level" && (
+                                                    <>
+                                                        <div className="filter-option" onClick={() => { setSelectedFilter("All"); setFillterLevel(false); }}>All Levels</div>
+                                                        <div className="filter-option" onClick={() => { setSelectedFilter("Beginner"); setFillterLevel(false); }}>Beginner</div>
+                                                        <div className="filter-option" onClick={() => { setSelectedFilter("Intermediate"); setFillterLevel(false); }}>Intermediate</div>
+                                                        <div className="filter-option" onClick={() => { setSelectedFilter("Advanced"); setFillterLevel(false); }}>Advanced</div>
+                                                    </>
+                                                )}
+                                                {item.title === "Sort by" && (
+                                                    <>
+                                                        <div className="filter-option" onClick={() => { setSelectedFilter("All"); setFillterSortBy(false); }}>All Sorts</div>
+                                                        <div className="filter-option" onClick={() => { setSelectedFilter("Newest"); setFillterSortBy(false); }}>Newest</div>
+                                                        <div className="filter-option" onClick={() => { setSelectedFilter("Oldest"); setFillterSortBy(false); }}>Oldest</div>
+                                                        <div className="filter-option" onClick={() => { setSelectedFilter("Most Popular"); setFillterSortBy(false); }}>Most Popular</div>
+                                                    </>
+                                                )}
+                                            </div>
+                                        )}
                                 </div>
-
-                                {(
-                                    (item.title === "Price" && FillterPrice) ||
-                                    (item.title === "Time" && FillterTime) ||
-                                    (item.title === "Level" && FillterLevel) ||
-                                    (item.title === "Sort by" && FillterSortBy)
-                                ) && (
-                                    <div className="filter-dropdown">
-                                        {item.title === "Price" && (
-                                            <>
-                                                <div className="filter-option" onClick={() => { setSelectedFilter("All"); setFillterPrice(false); }}>All Prices</div>
-                                                <div className="filter-option" onClick={() => { setSelectedFilter("Less or equal than $50"); setFillterPrice(false); }}>Less or equal than $50</div>
-                                                <div className="filter-option" onClick={() => { setSelectedFilter("More than $50"); setFillterPrice(false); }}>More than $50</div>
-                                                <div className="filter-option" onClick={() => { setSelectedFilter("More than $100"); setFillterPrice(false); }}>More than $100</div>
-                                            </>
-                                        )}
-                                        {item.title === "Time" && (
-                                            <>
-                                                <div className="filter-option" onClick={() => { setSelectedFilter("All"); setFillterTime(false); }}>All Times</div>
-                                                <div className="filter-option" onClick={() => { setSelectedFilter("Less than 10 hours"); setFillterTime(false); }}>Less than 10 hours</div>
-                                                <div className="filter-option" onClick={() => { setSelectedFilter("More than 10 hours"); setFillterTime(false); }}>More than 10 hours</div>
-                                                <div className="filter-option" onClick={() => { setSelectedFilter("10 - 20 hours"); setFillterTime(false); }}>10 - 20 hours</div>
-                                            </>
-                                        )}
-                                        {item.title === "Level" && (
-                                            <>
-                                                <div className="filter-option" onClick={() => { setSelectedFilter("All"); setFillterLevel(false); }}>All Levels</div>
-                                                <div className="filter-option" onClick={() => { setSelectedFilter("Beginner"); setFillterLevel(false); }}>Beginner</div>
-                                                <div className="filter-option" onClick={() => { setSelectedFilter("Intermediate"); setFillterLevel(false); }}>Intermediate</div>
-                                                <div className="filter-option" onClick={() => { setSelectedFilter("Advanced"); setFillterLevel(false); }}>Advanced</div>
-                                            </>
-                                        )}
-                                        {item.title === "Sort by" && (
-                                            <>
-                                                <div className="filter-option" onClick={() => { setSelectedFilter("All"); setFillterSortBy(false); }}>All Sorts</div>
-                                                <div className="filter-option" onClick={() => { setSelectedFilter("Newest"); setFillterSortBy(false); }}>Newest</div>
-                                                <div className="filter-option" onClick={() => { setSelectedFilter("Oldest"); setFillterSortBy(false); }}>Oldest</div>
-                                                <div className="filter-option" onClick={() => { setSelectedFilter("Most Popular"); setFillterSortBy(false); }}>Most Popular</div>
-                                            </>
-                                        )}
-                                    </div>
-                                )}
-                            </div>
-                        ))}
+                            ))}
                         </div>
                     </div>
                     <div className="courses-container">

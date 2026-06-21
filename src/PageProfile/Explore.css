@@ -105,14 +105,7 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    color: #0089EA;
-    background: linear-gradient(145deg, rgba(0, 137, 234, 0.16) 0%, rgba(0, 137, 234, 0.06) 100%);
-    transition: background 0.25s ease, transform 0.25s ease;
-}
-.search-icon-badge:hover {
-    background: linear-gradient(145deg, #0089EA 0%, #006ec0 100%);
-    color: #ffffff;
-    cursor: pointer;
+    color: #8E8E93;
 }
 
 .explore-search-input {
@@ -176,6 +169,7 @@
         opacity: 0;
         transform: scale(0.85);
     }
+
     to {
         opacity: 1;
         transform: scale(1);
@@ -365,8 +359,15 @@
 }
 
 @keyframes slideDown {
-    from { opacity: 0; transform: translateY(-10px); }
-    to { opacity: 1; transform: translateY(0); }
+    from {
+        opacity: 0;
+        transform: translateY(-10px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
 }
 
 .filter-option {
@@ -604,13 +605,13 @@
     .explore {
         padding: 20px 20px;
     }
-    
+
     .explore-header-section {
         flex-direction: column;
         align-items: flex-start;
         gap: 20px;
     }
-    
+
     .search-bar-container {
         max-width: 100%;
         width: 100%;
@@ -624,7 +625,7 @@
         padding-left: 4px;
         font-size: 12px;
     }
-    
+
     .courses-container {
         grid-template-columns: repeat(2, 1fr);
         row-gap: 36px;

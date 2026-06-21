@@ -305,10 +305,11 @@
 
 .course-name {
     font-size: 18px;
-    font-weight: 800;
+    font-weight: 600;
     margin: 0 0 4px 0;
     color: var(--text-primary);
     letter-spacing: -0.3px;
+    line-height: 1.2;
 }
 
 .course-card-main-content {

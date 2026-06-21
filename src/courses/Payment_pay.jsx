@@ -55,6 +55,7 @@ function Payment_pay() {
     const [paymentMethod, setPaymentMethod] = useState(null);
     const [Done, setDone] = useState(null); // الـ State الحالي لديك
     const [discountCode, setDiscountCode] = useState('');
+    const [discount, setDiscount] = useState(0);
     const [isPurchaseCompleted, setIsPurchaseCompleted] = useState(false);
 
     const doneStep1 = selectedCourses.length > 0;
@@ -69,10 +70,15 @@ function Payment_pay() {
 
     const subtotal = coursesData.filter(c => selectedCourses.includes(c.id)).reduce((s, c) => s + c.price, 0);
     const estimatedTax = subtotal > 0 ? 15 : 0;
-    let discount = 0;
-    const code_discount = "Moathhazeem";
-    if (discountCode === code_discount) {
-        discount = subtotal * 0.1;
+
+    const handleApplyDiscount = () => {
+        const code_discount = "Moathhazeem";
+        if (discountCode === code_discount) {
+            setDiscount(subtotal * 0.1);
+        }
+        else {
+            setDiscount(0);
+        }
     }
     const discountPercentage = subtotal > 0 ? (discount / subtotal) * 100 : 0;
     const total = subtotal + estimatedTax - discount;
@@ -342,7 +348,7 @@ function Payment_pay() {
                                             autoComplete="off"
                                         />
                                     </div>
-                                    <button className="apply-btn" type="button">Apply</button>
+                                    <button className="apply-btn" type="button" onClick={handleApplyDiscount}>Apply</button>
                                 </div>
                             </div>
 
