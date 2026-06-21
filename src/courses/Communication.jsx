@@ -131,6 +131,7 @@ function Communication() {
     const [selectedFilter, setSelectedFilter] = useState('All');
     const [filtersOpen, setFiltersOpen] = useState(false);
     const [notifications, setNotifications] = useState(notificationsList);
+    const [messages, setMessages] = useState(messagesList);
 
     // Messages state
     const [selectedConvId, setSelectedConvId] = useState(1);
@@ -140,12 +141,12 @@ function Communication() {
     const [msgFilter, setMsgFilter] = useState('All');
     const [msgFiltersOpen, setMsgFiltersOpen] = useState(false);
 
-    const selectedUser = messagesList.find(m => m.id === selectedConvId);
+    const selectedUser = messages.find(m => m.id === selectedConvId);
     const currentMessages = conversations[selectedConvId] || [];
 
-    const filteredMessages = messagesList.filter(m => {
-        const matchesSearch = m.name.toLowerCase().includes(search.toLowerCase()) || 
-                              m.subject.toLowerCase().includes(search.toLowerCase());
+    const filteredMessages = messages.filter(m => {
+        const matchesSearch = m.name.toLowerCase().includes(search.toLowerCase()) ||
+            m.subject.toLowerCase().includes(search.toLowerCase());
         if (!matchesSearch) return false;
         if (msgFilter === 'Unread') return m.unread;
         if (msgFilter === 'Read') return !m.unread;
@@ -168,12 +169,15 @@ function Communication() {
         return true;
     });
 
+
     const handleMarkAsRead = (id) => {
         setNotifications(notifications.map(item => item.id === id ? { ...item, unread: false } : item));
+        setMessages(messages.map(item => item.id === id ? { ...item, unread: false } : item));
     };
 
     const handleMarkAllAsRead = () => {
         setNotifications(notifications.map(item => ({ ...item, unread: false })));
+        setMessages(messages.map(item => ({ ...item, unread: false })));
     };
 
     const handleSendMessage = () => {
@@ -365,8 +369,11 @@ function Communication() {
                             {filteredMessages.map(m => (
                                 <div
                                     key={m.id}
-                                    className={`conv-item ${selectedConvId === m.id ? 'conv-item--active' : ''}`}
-                                    onClick={() => setSelectedConvId(m.id)}
+                                    className={`conv-item ${selectedConvId === m.id ? 'conv-item--active' : ''} ${m.unread ? 'conv-item--unread' : ''}`}
+                                    onClick={() => {
+                                        setSelectedConvId(m.id);
+                                        handleMarkAsRead(m.id);
+                                    }}
                                 >
                                     <img src={m.avatar} alt={m.name} className="conv-avatar" />
                                     <div className="conv-body">
