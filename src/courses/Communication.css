@@ -313,3 +313,70 @@
     margin-top: 6px;
     box-shadow: 0 0 0 2px rgba(0, 132, 244, 0.2);
 }
+
+/* Filter Dropdown */
+.comm-filter-wrapper {
+    position: relative;
+    display: inline-block;
+}
+
+.filtter-div {
+    position: absolute;
+    right: 0;
+    top: calc(100% + 8px);
+    width: 180px;
+    background: #ffffff;
+    border: 1px solid #e5e7eb;
+    border-radius: 10px;
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.08);
+    padding: 6px;
+    z-index: 100;
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+    animation: slideDown 0.2s ease-out;
+}
+
+.filtter-btn {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 10px 12px;
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 14px;
+    color: #4b5563;
+    font-weight: 500;
+    transition: all 0.15s ease;
+}
+
+.filtter-btn:hover {
+    background-color: #f3f4f6;
+    color: #111827;
+}
+
+.filtter-btn svg {
+    opacity: 0;
+    color: #0084f4;
+    transition: opacity 0.15s ease;
+}
+
+.filtter-btn.active {
+    background-color: #eff6ff;
+    color: #0084f4;
+}
+
+.filtter-btn.active svg {
+    opacity: 1;
+}
+
+@keyframes slideDown {
+    from {
+        opacity: 0;
+        transform: translateY(-8px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
