@@ -63,6 +63,52 @@ function Communication() {
             unread: false,
         },
     ];
+    const messagesList = [
+        {
+            id: 1,
+            icon: <Message size={20} />,
+            iconBg: '#eff6ff',
+            iconColor: '#2563eb',
+            name: 'Dimitri Abdelhak',
+            title: "Assignment review",
+            description: "I've looked at the work. The idea is ....",
+            time: '1 days ago',
+            unread: false,
+        },
+        {
+            id: 2,
+            icon: <Message size={20} />,
+            iconBg: '#eff6ff',
+            iconColor: '#2563eb',
+            name: 'George Smith',
+            title: "Course material update",
+            description: "The fourth assignment has been uploaded ....",
+            time: '2 days ago',
+            unread: false,
+        },
+        {
+            id: 3,
+            icon: <Message size={20} />,
+            iconBg: '#eff6ff',
+            iconColor: '#2563eb',
+            name: 'Alex Johnson',
+            title: "Assignment grade",
+            description: "Congratulations on scoring 98% on the late....",
+            time: '3 days ago',
+            unread: true,
+        },
+        {
+            id: 4,
+            icon: <Message size={20} />,
+            iconBg: '#eff6ff',
+            iconColor: '#2563eb',
+            name: 'Alex Johnson',
+            title: "Course material update",
+            description: "The fifth assignment has been uploaded ....",
+            time: '1 hour ago',
+            unread: true,
+        },
+    ];
     const { t } = useTranslation();
     const location = useLocation();
     const pathname = location.pathname.split('/').filter(x => x);
@@ -76,8 +122,8 @@ function Communication() {
     const filtered = notifications.filter(n => {
         // Search filter
         const matchesSearch = n.title.toLowerCase().includes(search.toLowerCase()) ||
-                            n.description.toLowerCase().includes(search.toLowerCase());
-        
+            n.description.toLowerCase().includes(search.toLowerCase());
+
         // Category filter
         if (!matchesSearch) return false;
         if (selectedFilter === 'Unread') return n.unread;
@@ -196,26 +242,52 @@ function Communication() {
                         )}
                     </div>
                 </div>
-
-                {/* Notification List */}
-                <div className="comm-list" >
-                    {filtered.map(n => (
-                        <div key={n.id} className={`comm-item ${n.unread ? 'comm-item--unread' : ''}`} onClick={() => { handleMarkAsRead(n.id) }}>
-                            <div
-                                className="comm-item-icon"
-                                style={{ backgroundColor: n.iconBg, color: n.iconColor }}
-                            >
-                                {n.icon}
-                            </div>
-                            <div className="comm-item-body" >
-                                <div className="comm-item-title">{n.title}</div>
-                                <div className="comm-item-desc">{n.description}</div>
-                                <div className="comm-item-time">{n.time}</div>
-                            </div>
-                            {n.unread && <span className="comm-unread-dot" />}
+                {activeTab === "notifications" && (
+                    <>
+                        {/* Notification List */}
+                        <div className="comm-list" >
+                            {filtered.map(n => (
+                                <div key={n.id} className={`comm-item ${n.unread ? 'comm-item--unread' : ''}`} onClick={() => { handleMarkAsRead(n.id) }}>
+                                    <div
+                                        className="comm-item-icon"
+                                        style={{ backgroundColor: n.iconBg, color: n.iconColor }}
+                                    >
+                                        {n.icon}
+                                    </div>
+                                    <div className="comm-item-body" >
+                                        <div className="comm-item-title">{n.title}</div>
+                                        <div className="comm-item-desc">{n.description}</div>
+                                        <div className="comm-item-time">{n.time}</div>
+                                    </div>
+                                    {n.unread && <span className="comm-unread-dot" />}
+                                </div>
+                            ))}
                         </div>
-                    ))}
-                </div>
+                    </>
+                )}
+                {activeTab === "messages" && (
+                    <>
+                        {/* Message List */}
+                        <div className="comm-list">
+                            {messagesList.map(m => (
+                                <div key={m.id} className={`comm-item ${m.unread ? 'comm-item--unread' : ''}`}>
+                                    <div
+                                        className="comm-item-icon"
+                                        style={{ backgroundColor: m.iconBg, color: m.iconColor }}
+                                    >
+                                        {m.icon}
+                                    </div>
+                                    <div className="comm-item-body" >
+                                        <div className="comm-item-title">{m.title}</div>
+                                        <div className="comm-item-desc">{m.description}</div>
+                                        <div className="comm-item-time">{m.time}</div>
+                                    </div>
+                                    {m.unread && <span className="comm-unread-dot" />}
+                                </div>
+                            ))}
+                        </div>
+                    </>
+                )}
             </div>
         </div>
     );
