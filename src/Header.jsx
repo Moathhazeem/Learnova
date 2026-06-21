@@ -3,6 +3,7 @@ import "./Header.css"
 import { useNavigate, useLocation } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 import i18n from "i18next";
+import Communication from "./courses/Communication";
 
 function Header() {
   const Navigate = useNavigate()
@@ -148,7 +149,7 @@ function Header() {
                     </div>
                   </div>
                   <div className="notification-footer">
-                    <button className="view-all-btn" onClick={() => Navigate("/Setting/Notification")}>{t("setting.view_all", "View all")}</button>
+                    <button className="view-all-btn" onClick={() => Navigate("/Communication")}>{t("setting.view_all", "View all")}</button>
                     <button className="noti-settings-btn" onClick={() => Navigate("/Setting/Notification")}>
                       <img
                         src="/photo_icons/For_setting/PreferencesBlack.png"
