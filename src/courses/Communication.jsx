@@ -1,14 +1,73 @@
-import React, { useState } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Link, useLocation } from 'react-router-dom';
 import {
     Search, ChevronRight, Bell, MessageSquare as Message,
     SlidersHorizontal, CheckCircle2, Trophy, ClipboardList,
-    ClipboardEdit, Upload, CalendarClock, Check
+    ClipboardEdit, Upload, CalendarClock, Check, Trash2, Send, Paperclip
 } from 'lucide-react';
 import './Communication.css';
 
+const AVATAR_DIMITRI = 'https://i.pravatar.cc/45?img=11';
+const AVATAR_GEORGE = 'https://i.pravatar.cc/45?img=52';
+const AVATAR_ALEX = 'https://i.pravatar.cc/45?img=47';
 
+const messagesList = [
+    {
+        id: 1,
+        name: 'Dimitri Abdelhak',
+        avatar: AVATAR_DIMITRI,
+        subject: 'Assignment review',
+        preview: "I've looked at the work. The idea is ....",
+        time: '10:30 AM',
+        unread: true,
+    },
+    {
+        id: 2,
+        name: 'George Smith',
+        avatar: AVATAR_GEORGE,
+        subject: 'Course material update',
+        preview: 'The fourth assignment has been uploaded ....',
+        time: '2 days ago',
+        unread: true,
+    },
+    {
+        id: 3,
+        name: 'Alex Johnson',
+        avatar: AVATAR_ALEX,
+        subject: 'Assignment grade',
+        preview: 'Congratulations on scoring 98% on the late....',
+        time: '3 days ago',
+        unread: false,
+    },
+    {
+        id: 4,
+        name: 'Alex Johnson',
+        avatar: AVATAR_ALEX,
+        subject: 'Course material update',
+        preview: 'The fifth assignment has been uploaded ....',
+        time: '6 days ago',
+        unread: false,
+    },
+];
+
+const initialConversations = {
+    1: [
+        { id: 1, sender: 'them', text: "I've looked at the work. The idea is clear, but you have problems with contrast and visual hierarchy.", time: '10:30 AM' },
+        { id: 2, sender: 'me', text: 'Could you explain further? Where exactly is the mistake?', time: '10:40 AM' },
+        { id: 3, sender: 'them', text: "The title is visually weak. The color is too close to the background, and there's no clear difference between the title and the subheading. The title should be the first thing people see.", time: '10:45 AM' },
+        { id: 4, sender: 'me', text: 'is there any problem with the color or font size to text ?', time: '10:48 AM' },
+    ],
+    2: [
+        { id: 1, sender: 'them', text: 'The fourth assignment has been uploaded. Please check it out.', time: '2 days ago' },
+    ],
+    3: [
+        { id: 1, sender: 'them', text: 'Congratulations on scoring 98% on the latest assignment!', time: '3 days ago' },
+    ],
+    4: [
+        { id: 1, sender: 'them', text: 'The fifth assignment has been uploaded. Good luck!', time: '6 days ago' },
+    ],
+};
 
 function Communication() {
     const notificationsList = [
@@ -63,52 +122,7 @@ function Communication() {
             unread: false,
         },
     ];
-    const messagesList = [
-        {
-            id: 1,
-            icon: <Message size={20} />,
-            iconBg: '#eff6ff',
-            iconColor: '#2563eb',
-            name: 'Dimitri Abdelhak',
-            title: "Assignment review",
-            description: "I've looked at the work. The idea is ....",
-            time: '1 days ago',
-            unread: false,
-        },
-        {
-            id: 2,
-            icon: <Message size={20} />,
-            iconBg: '#eff6ff',
-            iconColor: '#2563eb',
-            name: 'George Smith',
-            title: "Course material update",
-            description: "The fourth assignment has been uploaded ....",
-            time: '2 days ago',
-            unread: false,
-        },
-        {
-            id: 3,
-            icon: <Message size={20} />,
-            iconBg: '#eff6ff',
-            iconColor: '#2563eb',
-            name: 'Alex Johnson',
-            title: "Assignment grade",
-            description: "Congratulations on scoring 98% on the late....",
-            time: '3 days ago',
-            unread: true,
-        },
-        {
-            id: 4,
-            icon: <Message size={20} />,
-            iconBg: '#eff6ff',
-            iconColor: '#2563eb',
-            name: 'Alex Johnson',
-            title: "Course material update",
-            description: "The fifth assignment has been uploaded ....",
-            time: '1 hour ago',
-            unread: true,
-        },
-    ];
+
     const { t } = useTranslation();
     const location = useLocation();
     const pathname = location.pathname.split('/').filter(x => x);
@@ -116,15 +130,37 @@ function Communication() {
     const [search, setSearch] = useState('');
     const [selectedFilter, setSelectedFilter] = useState('All');
     const [filtersOpen, setFiltersOpen] = useState(false);
-
     const [notifications, setNotifications] = useState(notificationsList);
 
-    const filtered = notifications.filter(n => {
-        // Search filter
+    // Messages state
+    const [selectedConvId, setSelectedConvId] = useState(1);
+    const [conversations, setConversations] = useState(initialConversations);
+    const [inputText, setInputText] = useState('');
+    const messagesEndRef = useRef(null);
+    const [msgFilter, setMsgFilter] = useState('All');
+    const [msgFiltersOpen, setMsgFiltersOpen] = useState(false);
+
+    const selectedUser = messagesList.find(m => m.id === selectedConvId);
+    const currentMessages = conversations[selectedConvId] || [];
+
+    const filteredMessages = messagesList.filter(m => {
+        const matchesSearch = m.name.toLowerCase().includes(search.toLowerCase()) || 
+                              m.subject.toLowerCase().includes(search.toLowerCase());
+        if (!matchesSearch) return false;
+        if (msgFilter === 'Unread') return m.unread;
+        if (msgFilter === 'Read') return !m.unread;
+        if (msgFilter === 'Teacher') return ['Dimitri Abdelhak', 'George Smith'].includes(m.name);
+        if (msgFilter === 'Student') return ['Alex Johnson'].includes(m.name);
+        return true;
+    });
+
+    useEffect(() => {
+        messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
+    }, [currentMessages]);
+
+    const filteredNotifications = notifications.filter(n => {
         const matchesSearch = n.title.toLowerCase().includes(search.toLowerCase()) ||
             n.description.toLowerCase().includes(search.toLowerCase());
-
-        // Category filter
         if (!matchesSearch) return false;
         if (selectedFilter === 'Unread') return n.unread;
         if (selectedFilter === 'Read') return !n.unread;
@@ -133,15 +169,33 @@ function Communication() {
     });
 
     const handleMarkAsRead = (id) => {
-        setNotifications(
-            notifications.map(item => item.id === id ? { ...item, unread: false } : item)
-        );
+        setNotifications(notifications.map(item => item.id === id ? { ...item, unread: false } : item));
     };
 
     const handleMarkAllAsRead = () => {
-        setNotifications(
-            notifications.map(item => ({ ...item, unread: false }))
-        );
+        setNotifications(notifications.map(item => ({ ...item, unread: false })));
+    };
+
+    const handleSendMessage = () => {
+        if (inputText.trim() === '') return;
+        const newMsg = {
+            id: currentMessages.length + 1,
+            sender: 'me',
+            text: inputText.trim(),
+            time: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }),
+        };
+        setConversations(prev => ({
+            ...prev,
+            [selectedConvId]: [...(prev[selectedConvId] || []), newMsg],
+        }));
+        setInputText('');
+    };
+
+    const handleKeyDown = (e) => {
+        if (e.key === 'Enter' && !e.shiftKey) {
+            e.preventDefault();
+            handleSendMessage();
+        }
     };
 
     return (
@@ -204,89 +258,188 @@ function Communication() {
                     </button>
                 </div>
 
-                {/* Search + Filter */}
+                {/* Search + Filter Row */}
                 <div className="comm-search-filter-row">
                     <div className="comm-search-bar">
                         <Search size={18} className="comm-search-icon" />
-                        <input
-                            type="text"
-                            placeholder="Search notifications"
-                            value={search}
-                            onChange={e => setSearch(e.target.value)}
-                        />
+                        {activeTab === 'notifications' ? (
+                            <input
+                                type="text"
+                                placeholder="Search notifications"
+                                value={search}
+                                onChange={e => setSearch(e.target.value)}
+                            />
+                        ) : (
+                            <input
+                                type="text"
+                                placeholder="Search messages"
+                                value={search}
+                                onChange={e => setSearch(e.target.value)}
+                            />
+                        )}
                     </div>
+
+                    {/* Unified Filter Dropdown */}
                     <div className="comm-filter-wrapper">
-                        <button className="comm-filter-btn" onClick={() => { setFiltersOpen(!filtersOpen) }}>
-                            <SlidersHorizontal size={18} />
-                            <span>Filters</span>
-                        </button>
-                        {filtersOpen && (
-                            <div className="filtter-div">
-                                <div className={`filtter-btn ${selectedFilter === 'All' ? 'active' : ''}`} onClick={() => { setSelectedFilter('All'); setFiltersOpen(false); }}>
-                                    <Check size={16} />
-                                    <span>All</span>
-                                </div>
-                                <div className={`filtter-btn ${selectedFilter === 'Unread' ? 'active' : ''}`} onClick={() => { setSelectedFilter('Unread'); setFiltersOpen(false); }}>
-                                    <Check size={16} />
-                                    <span>Unread</span>
-                                </div>
-                                <div className={`filtter-btn ${selectedFilter === 'Read' ? 'active' : ''}`} onClick={() => { setSelectedFilter('Read'); setFiltersOpen(false); }}>
-                                    <Check size={16} />
-                                    <span>Read</span>
-                                </div>
-                                <div className={`filtter-btn ${selectedFilter === 'Assignments' ? 'active' : ''}`} onClick={() => { setSelectedFilter('Assignments'); setFiltersOpen(false); }}>
-                                    <Check size={16} />
-                                    <span>Assignments</span>
-                                </div>
-                            </div>
+                        {activeTab === 'notifications' ? (
+                            <>
+                                <button className="comm-filter-btn" onClick={() => setFiltersOpen(!filtersOpen)}>
+                                    <SlidersHorizontal size={18} />
+                                    <span>Filters</span>
+                                </button>
+                                {filtersOpen && (
+                                    <div className="filtter-div">
+                                        {['All', 'Unread', 'Read', 'Assignments'].map(f => (
+                                            <div
+                                                key={f}
+                                                className={`filtter-btn ${selectedFilter === f ? 'active' : ''}`}
+                                                onClick={() => { setSelectedFilter(f); setFiltersOpen(false); }}
+                                            >
+                                                <Check size={16} />
+                                                <span>{f}</span>
+                                            </div>
+                                        ))}
+                                    </div>
+                                )}
+                            </>
+                        ) : (
+                            <>
+                                <button className="comm-filter-btn" onClick={() => setMsgFiltersOpen(!msgFiltersOpen)}>
+                                    <SlidersHorizontal size={18} />
+                                    <span>Filters</span>
+                                </button>
+                                {msgFiltersOpen && (
+                                    <div className="filtter-div blue-dropdown">
+                                        <div className="filtter-header">
+                                            <SlidersHorizontal size={15} />
+                                            <span>Filters</span>
+                                        </div>
+                                        {['All', 'read', 'Unread', 'Teachar', 'Student'].map(f => {
+                                            const normalizedFilter = f === 'read' ? 'Read' : f === 'Teachar' ? 'Teacher' : f;
+                                            return (
+                                                <div
+                                                    key={f}
+                                                    className={`msg-filtter-btn ${msgFilter === normalizedFilter ? 'active' : ''}`}
+                                                    onClick={() => { setMsgFilter(normalizedFilter); setMsgFiltersOpen(false); }}
+                                                >
+                                                    <span>{f}</span>
+                                                    {msgFilter === normalizedFilter && <Check size={15} />}
+                                                </div>
+                                            );
+                                        })}
+                                    </div>
+                                )}
+                            </>
                         )}
                     </div>
                 </div>
-                {activeTab === "notifications" && (
-                    <>
-                        {/* Notification List */}
-                        <div className="comm-list" >
-                            {filtered.map(n => (
-                                <div key={n.id} className={`comm-item ${n.unread ? 'comm-item--unread' : ''}`} onClick={() => { handleMarkAsRead(n.id) }}>
-                                    <div
-                                        className="comm-item-icon"
-                                        style={{ backgroundColor: n.iconBg, color: n.iconColor }}
-                                    >
-                                        {n.icon}
-                                    </div>
-                                    <div className="comm-item-body" >
-                                        <div className="comm-item-title">{n.title}</div>
-                                        <div className="comm-item-desc">{n.description}</div>
-                                        <div className="comm-item-time">{n.time}</div>
-                                    </div>
-                                    {n.unread && <span className="comm-unread-dot" />}
+
+                {/* ── NOTIFICATIONS TAB ── */}
+                {activeTab === 'notifications' && (
+                    <div className="comm-list">
+                        {filteredNotifications.map(n => (
+                            <div
+                                key={n.id}
+                                className={`comm-item ${n.unread ? 'comm-item--unread' : ''}`}
+                                onClick={() => handleMarkAsRead(n.id)}
+                            >
+                                <div className="comm-item-icon" style={{ backgroundColor: n.iconBg, color: n.iconColor }}>
+                                    {n.icon}
                                 </div>
-                            ))}
-                        </div>
-                    </>
+                                <div className="comm-item-body">
+                                    <div className="comm-item-title">{n.title}</div>
+                                    <div className="comm-item-desc">{n.description}</div>
+                                    <div className="comm-item-time">{n.time}</div>
+                                </div>
+                                {n.unread && <span className="comm-unread-dot" />}
+                            </div>
+                        ))}
+                    </div>
                 )}
-                {activeTab === "messages" && (
-                    <>
-                        {/* Message List */}
-                        <div className="comm-list">
-                            {messagesList.map(m => (
-                                <div key={m.id} className={`comm-item ${m.unread ? 'comm-item--unread' : ''}`}>
-                                    <div
-                                        className="comm-item-icon"
-                                        style={{ backgroundColor: m.iconBg, color: m.iconColor }}
-                                    >
-                                        {m.icon}
-                                    </div>
-                                    <div className="comm-item-body" >
-                                        <div className="comm-item-title">{m.title}</div>
-                                        <div className="comm-item-desc">{m.description}</div>
-                                        <div className="comm-item-time">{m.time}</div>
+
+                {/* ── MESSAGES TAB ── */}
+                {activeTab === 'messages' && (
+                    <div className="messages-layout">
+                        {/* Left: conversation list */}
+                        <div className="conv-list">
+                            {filteredMessages.map(m => (
+                                <div
+                                    key={m.id}
+                                    className={`conv-item ${selectedConvId === m.id ? 'conv-item--active' : ''}`}
+                                    onClick={() => setSelectedConvId(m.id)}
+                                >
+                                    <img src={m.avatar} alt={m.name} className="conv-avatar" />
+                                    <div className="conv-body">
+                                        <div className="conv-top-row">
+                                            <span className="conv-name">{m.name}</span>
+                                            <span className="conv-time">{m.time}</span>
+                                        </div>
+                                        <div className="conv-subject">{m.subject}</div>
+                                        <div className="conv-preview">{m.preview}</div>
                                     </div>
                                     {m.unread && <span className="comm-unread-dot" />}
                                 </div>
                             ))}
                         </div>
-                    </>
+
+                        {/* Right: chat panel */}
+                        {selectedUser && (
+                            <div className="chat-panel">
+                                {/* Chat header */}
+                                <div className="chat-panel-header">
+                                    <div className="chat-panel-user">
+                                        <img src={selectedUser.avatar} alt={selectedUser.name} className="chat-panel-avatar" />
+                                        <div>
+                                            <div className="chat-panel-name">{selectedUser.name}</div>
+                                            <div className="chat-panel-subject">{selectedUser.subject}</div>
+                                        </div>
+                                    </div>
+                                    <button className="chat-delete-btn" title="Delete conversation">
+                                        <Trash2 size={18} />
+                                    </button>
+                                </div>
+
+                                {/* Messages area */}
+                                <div className="chat-messages">
+                                    {currentMessages.map(msg => (
+                                        <div key={msg.id} className={`chat-msg-row ${msg.sender === 'me' ? 'chat-msg-row--me' : 'chat-msg-row--them'}`}>
+                                            {msg.sender === 'them' && (
+                                                <img src={selectedUser.avatar} alt="avatar" className="chat-msg-avatar" />
+                                            )}
+                                            <div className="chat-msg-content">
+                                                <div className={`chat-bubble ${msg.sender === 'me' ? 'chat-bubble--me' : 'chat-bubble--them'}`}>
+                                                    {msg.text}
+                                                </div>
+                                                <div className={`chat-msg-time ${msg.sender === 'me' ? 'chat-msg-time--me' : ''}`}>
+                                                    {msg.time}
+                                                </div>
+                                            </div>
+                                        </div>
+                                    ))}
+                                    <div ref={messagesEndRef} />
+                                </div>
+
+                                {/* Input bar */}
+                                <div className="chat-input-bar">
+                                    <button className="chat-attach-btn" title="Attach file">
+                                        <Paperclip size={18} />
+                                    </button>
+                                    <input
+                                        type="text"
+                                        className="chat-input"
+                                        placeholder="Type your message"
+                                        value={inputText}
+                                        onChange={e => setInputText(e.target.value)}
+                                        onKeyDown={handleKeyDown}
+                                    />
+                                    <button className="chat-send-btn" onClick={handleSendMessage}>
+                                        <Send size={16} />
+                                        <span>Send</span>
+                                    </button>
+                                </div>
+                            </div>
+                        )}
+                    </div>
                 )}
             </div>
         </div>
