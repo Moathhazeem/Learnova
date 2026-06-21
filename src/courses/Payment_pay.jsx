@@ -13,6 +13,7 @@ import {
     X
 } from 'lucide-react';
 import './Payment_pay.css';
+import { useEffect } from 'react';
 
 const levelColors = {
     Beginner: { bg: '#eef9f0', text: '#16a34a', dot: '#22c55e' },
@@ -70,16 +71,29 @@ function Payment_pay() {
 
     const subtotal = coursesData.filter(c => selectedCourses.includes(c.id)).reduce((s, c) => s + c.price, 0);
     const estimatedTax = subtotal > 0 ? 15 : 0;
+    useEffect(() => {
+        // إذا أصبحت السلة فارغة، قم بتصفير قيمة الخصم تلقائياً
+        if (selectedCourses.length === 0) {
+            setDiscount(0);
+        }
+    }, [selectedCourses]); // سيتم تشغيل هذا التأثير في كل مرة يتغير فيها عدد عناصر السلة
 
     const handleApplyDiscount = () => {
         const code_discount = "Moathhazeem";
+
+        // 1. تحقق أولاً إذا كانت السلة فارغة وامنع الاستمرار
+        if (selectedCourses.length === 0) {
+            setDiscount(0);
+            return; // إنهاء التنفيذ هنا
+        }
+        // 2. التحقق من صحة الكود إذا كانت السلة تحتوي على عناصر
         if (discountCode === code_discount) {
             setDiscount(subtotal * 0.1);
-        }
-        else {
+        } else {
             setDiscount(0);
         }
-    }
+    };
+
     const discountPercentage = subtotal > 0 ? (discount / subtotal) * 100 : 0;
     const total = subtotal + estimatedTax - discount;
     const discountLabel = discount > 0 ? '' : ' (NONE)';
@@ -324,7 +338,7 @@ function Payment_pay() {
                                     <span>${estimatedTax.toFixed(2)}</span>
                                 </div>
                                 <div className="summary-row">
-                                    <span>Discount ({discountPercentage > 0 ? `${discountPercentage}%` : 0})</span>
+                                    <span>Discount ({discountPercentage > 0 ? `${discountPercentage.toFixed(0)}%` : 0})</span>
                                     <span>${discount.toFixed(2)}</span>
                                 </div>
                                 <div className="summary-divider" />
