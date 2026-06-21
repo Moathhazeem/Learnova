@@ -1,31 +1,28 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
+
+/* ─── Page Wrapper ─────────────────────────────────────────────── */
 .communication-page {
-    margin-top: 100px;
-    padding-right: 550px;
-    padding-top: 50px;
-    font-family: 'Inter', 'Outfit', sans-serif;
-    color: var(--text-primary, #1a1a1a);
-    background-color: var(--bg-color, #ffffff);
+    margin-top: 80px;
+    padding: 40px 40px 60px 40px;
+    font-family: 'Inter', sans-serif;
+    color: #1a1a1a;
+    background-color: #ffffff;
     min-height: 100vh;
-    display: flex;
-    flex-direction: column;
-    align-items: flex-start;
 }
 
-.container {
-    width: 100%;
+.comm-container {
+    max-width: 860px;
     display: flex;
-    gap: 40px;
-    align-items: flex-start;
     flex-direction: column;
+    gap: 28px;
 }
 
-/* Breadcrumbs */
+/* ─── Breadcrumbs ───────────────────────────────────────────────── */
 .breadcrumbs-nav {
     display: flex;
     align-items: center;
     flex-wrap: wrap;
-    gap: 0px;
-    margin-bottom: 40px;
+    gap: 0;
 }
 
 .Breadcrumbs {
@@ -33,7 +30,6 @@
     font-size: 14px;
     font-weight: 500;
     text-decoration: none;
-    cursor: pointer;
     transition: color 0.2s;
 }
 
@@ -43,8 +39,9 @@
 
 .breadcrumb-separator {
     color: #0089EA;
-    margin: 0 10px;
-    font-size: 14px;
+    margin: 0 8px;
+    display: flex;
+    align-items: center;
 }
 
 .current-page {
@@ -54,187 +51,265 @@
     text-transform: capitalize;
 }
 
-.body-communication {
+/* ─── Header ────────────────────────────────────────────────────── */
+.comm-header h1 {
+    font-size: 26px;
+    font-weight: 700;
+    color: #111827;
+    margin: 0 0 6px 0;
+}
+
+.comm-header p {
+    font-size: 14px;
+    color: #6b7280;
+    margin: 0;
+}
+
+/* ─── Tabs Row ──────────────────────────────────────────────────── */
+.comm-tabs-row {
     display: flex;
+    align-items: center;
     justify-content: space-between;
-    align-items: center;
-    gap: 29px;
+    flex-wrap: wrap;
+    gap: 12px;
 }
 
-.Tabs-communication {
-    display: flex;
-    flex-direction: column;
-    gap: 20px;
-}
-
-.Notification-Tab,
-.Messages-Tab {
+.comm-tabs {
     display: flex;
     align-items: center;
-    gap: 10px;
+    gap: 14px;
 }
 
-.Tab-icon_Notification {
-    width: 40px;
-    height: 40px;
-    border-radius: 50%;
-    display: flex;
-    justify-content: center;
+.comm-tab {
+    display: inline-flex;
     align-items: center;
-    background-color: #0089EA;
-}
-
-.Tab-icon_Message {
-    width: 40px;
-    height: 40px;
-    border-radius: 50%;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    background-color: #FFFFFF;
-}
-
-.Tab-communication {
-    font-size: 16px;
-    font-weight: 500;
-    text-decoration: none;
-    cursor: pointer;
-}
-
-.Number_of_unread_Notifications,
-.Number_of_unread_Messages {
-    width: 24px;
-    height: 24px;
-    border-radius: 50%;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    background-color: #0089EA;
-    color: #fff;
-    font-size: 12px;
-}
-
-
-/* الحاوية الخارجية */
-.body-communication {
-    display: flex;
-    flex-direction: column;
-    justify-content: flex-start;
-    align-items: flex-start;
     gap: 8px;
+    padding: 10px 18px;
+    border-radius: 10px;
+    border: 1.5px solid #e5e7eb;
+    background: #ffffff;
+    color: #374151;
+    font-size: 15px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    font-family: 'Inter', sans-serif;
 }
 
-.Header-communication {
-    display: flex;
-    flex-direction: column;
-    justify-content: flex-start;
-    align-items: flex-start;
-    gap: 15px;
+.comm-tab:hover {
+    border-color: #0084f4;
+    color: #0084f4;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(0, 132, 244, 0.12);
 }
 
-/* حاوية التابات - تجعلهم بجانب بعضهم */
-.Tabs-communication {
-    display: flex;
-    flex-direction: row;
-    /* غيرناها لـ row عشان ييجوا جنب بعض */
-    gap: 29px;
-    /* المسافة بين التابين */
-    align-items: flex-start;
-    justify-content: flex-start;
-    margin-top: 5%;
+.comm-tab--active {
+    background-color: #0084f4;
+    border-color: #0084f4;
+    color: #ffffff;
+    box-shadow: 0 4px 14px rgba(0, 132, 244, 0.3);
 }
 
-/* التنسيق المشترك للتابين (الأزرق والأبيض) */
-.Notification-Tab,
-.Messages-Tab {
+.comm-tab--active:hover {
+    background-color: #0076dc;
+    border-color: #0076dc;
+    color: #ffffff;
+}
+
+/* ─── Badge ─────────────────────────────────────────────────────── */
+.comm-badge {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    background-color: #ea4335;
+    color: #ffffff;
+    font-size: 11px;
+    font-weight: 700;
+    padding: 0 3px;
+}
+
+.comm-tab--active .comm-badge {
+    background-color: rgba(255, 255, 255, 0.25);
+}
+
+.comm-badge--red {
+    background-color: #ea4335;
+}
+
+/* ─── Mark All Read ─────────────────────────────────────────────── */
+.comm-mark-all-read {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 9px 16px;
+    border-radius: 8px;
+    border: 1.5px solid #d1e7fd;
+    background: #ffffff;
+    color: #0084f4;
+    font-size: 14px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    font-family: 'Inter', sans-serif;
+    white-space: nowrap;
+}
+
+.comm-mark-all-read:hover {
+    background-color: #eff6ff;
+    border-color: #0084f4;
+    box-shadow: 0 2px 8px rgba(0, 132, 244, 0.12);
+}
+
+/* ─── Search + Filter Row ───────────────────────────────────────── */
+.comm-search-filter-row {
     display: flex;
     align-items: center;
-    justify-content: space-between;
-    /* يدفع الرقم لأقصى اليمين */
-    width: 240px;
-    /* عرض التاب */
-    padding: 12px 16px;
-    border-radius: 10px;
-    /* زوايا دائرية ناعمة */
-    box-sizing: border-box;
-    transition: all 0.2s ease-in-out;
-    cursor: pointer;
+    gap: 16px;
+    width: 100%;
 }
 
-.Notification-Tab:hover,
-.Messages-Tab:hover {
-    transform: translateY(-5px);
-}
-
-/* حاوية الأيقونة والنص معاً */
-.tab-content-wrapper {
+/* Search Bar */
+.comm-search-bar {
     display: flex;
     align-items: center;
     gap: 10px;
-    /* المسافة بين الأيقونة والنص */
+    flex: 1;
+    background: #ffffff;
+    border: 1.5px solid #e5e7eb;
+    border-radius: 8px;
+    padding: 10px 14px;
+    transition: border-color 0.2s;
 }
 
-/* الأيقونة داخل التاب */
-.Tab-icon_Notification,
-.Tab-icon_Message {
-    display: flex;
-    justify-content: center;
+.comm-search-bar:focus-within {
+    border-color: #0084f4;
+    box-shadow: 0 0 0 3px rgba(0, 132, 244, 0.08);
+}
+
+.comm-search-icon {
+    color: #9ca3af;
+    flex-shrink: 0;
+}
+
+.comm-search-bar input {
+    border: none;
+    outline: none;
+    width: 100%;
+    font-size: 14px;
+    color: #374151;
+    font-family: 'Inter', sans-serif;
+    background: transparent;
+}
+
+.comm-search-bar input::placeholder {
+    color: #9ca3af;
+}
+
+/* Filter Button */
+.comm-filter-btn {
+    display: inline-flex;
     align-items: center;
-    /* شلنا الخلفية والـ border-radius القديمة لأن الأيقونة حرة داخل التصميم */
-}
-
-/* تاب الإشعارات (الأزرق الكامل) */
-.Notification-Tab {
+    gap: 8px;
+    padding: 10px 20px;
+    border-radius: 8px;
+    border: none;
     background-color: #0084f4;
-}
-
-.Notification-Tab .Tab-communication {
     color: #ffffff;
-    /* نص أبيض للتاب الأزرق */
-}
-
-.Notification-Tab .Tab-icon_Notification {
-    color: #ffffff;
-    /* أيقونة بيضاء */
-}
-
-/* تاب الرسائل (الأبيض ذو الحدود) */
-.Messages-Tab {
-    background-color: #ffffff;
-    border: 1px solid #e2e8f0;
-    /* حدود خفيفة رمادية */
-}
-
-.Messages-Tab .Tab-communication {
-    color: #000000;
-    /* نص أسود للتاب الأبيض */
-}
-
-.Messages-Tab .Tab-icon_Message {
-    color: #000000;
-    /* أيقونة سوداء */
-}
-
-/* الخط والروابط */
-.Tab-communication {
-    font-size: 16px;
+    font-size: 14px;
     font-weight: 500;
-    text-decoration: none;
+    cursor: pointer;
+    font-family: 'Inter', sans-serif;
+    transition: background-color 0.2s ease, box-shadow 0.2s ease;
+    white-space: nowrap;
+}
+
+.comm-filter-btn:hover {
+    background-color: #0076dc;
+    box-shadow: 0 4px 12px rgba(0, 132, 244, 0.3);
+}
+
+/* ─── Notification List ─────────────────────────────────────────── */
+.comm-list {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.comm-item {
+    display: flex;
+    align-items: flex-start;
+    gap: 14px;
+    padding: 16px 18px;
+    border-radius: 10px;
+    border: 1.5px solid #f1f5f9;
+    background: #ffffff;
+    position: relative;
+    transition: box-shadow 0.2s ease, border-color 0.2s ease;
     cursor: pointer;
 }
 
-/* الدائرة الحمراء المشتركة للأرقام (Badges) */
-.Number_of_unread_Notifications,
-.Number_of_unread_Messages {
-    width: 22px;
-    height: 22px;
-    border-radius: 50%;
+.comm-item:hover {
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.07);
+    border-color: #e2e8f0;
+}
+
+.comm-item--unread {
+    background-color: #f8faff;
+    border-color: #e8f0fe;
+}
+
+/* Icon */
+.comm-item-icon {
     display: flex;
-    justify-content: center;
     align-items: center;
-    background-color: #ea4335;
-    /* اللون الأحمر للإشعارات */
-    color: #ffffff;
+    justify-content: center;
+    width: 42px;
+    height: 42px;
+    border-radius: 10px;
+    flex-shrink: 0;
+    transition: transform 0.2s;
+}
+
+.comm-item:hover .comm-item-icon {
+    transform: scale(1.08);
+}
+
+/* Body text */
+.comm-item-body {
+    display: flex;
+    flex-direction: column;
+    gap: 3px;
+    flex: 1;
+}
+
+.comm-item-title {
+    font-size: 15px;
+    font-weight: 600;
+    color: #111827;
+}
+
+.comm-item-desc {
     font-size: 13px;
-    font-weight: bold;
+    color: #6b7280;
+    line-height: 1.5;
+}
+
+.comm-item-time {
+    font-size: 12px;
+    color: #9ca3af;
+    margin-top: 2px;
+}
+
+/* Unread dot */
+.comm-unread-dot {
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    background-color: #0084f4;
+    flex-shrink: 0;
+    margin-top: 6px;
+    box-shadow: 0 0 0 2px rgba(0, 132, 244, 0.2);
 }
