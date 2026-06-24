@@ -197,8 +197,11 @@ function Communication() {
     };
 
     const handleMarkAllAsRead = () => {
-        setNotifications(notifications.map(item => ({ ...item, unread: false })));
-        setMessages(messages.map(item => ({ ...item, unread: false })));
+        if (activeTab === 'notifications') {
+            setNotifications(notifications.map(item => ({ ...item, unread: false })));
+        } else if (activeTab === 'messages') {
+            setMessages(messages.map(item => ({ ...item, unread: false })));
+        }
     };
 
     const handleDeleteConversation = (idToDelete) => {
