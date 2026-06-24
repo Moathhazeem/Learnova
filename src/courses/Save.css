@@ -371,7 +371,7 @@
     color: #333333;
 }
 
-.course-rating {
+.course-rating_save {
     display: flex;
     align-items: center;
     gap: 4px;
@@ -380,7 +380,7 @@
     color: #666666;
 }
 
-.star-icon svg {
+.start-icon_save {
     color: #ffcc00;
     /* لون النجمة الذهبي */
     fill: #ffcc00;

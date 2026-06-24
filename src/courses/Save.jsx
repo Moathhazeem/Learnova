@@ -165,8 +165,8 @@ function Save() {
                                             <img src={course.instructorAvatar} alt="Instructor" className="instructor-avatar" />
                                             <span className="instructor-name">{course.instructorName}</span>
                                         </div>
-                                        <div className="course-rating">
-                                            <Star size={14} className="start-icon" />
+                                        <div className="course-rating_save">
+                                            <Star size={14} className="start-icon_save" />
                                             <span>{course.rating}</span>
                                         </div>
                                     </div>
