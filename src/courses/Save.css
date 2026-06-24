@@ -1,0 +1,112 @@
+.Save-page {
+    margin-top: 80px;
+    padding: 40px 40px 60px 40px;
+    font-family: 'Inter', sans-serif;
+    color: #1a1a1a;
+    background-color: #ffffff;
+    min-height: 100vh;
+}
+
+.Save-container {
+    max-width: 860px;
+    display: flex;
+    flex-direction: column;
+    gap: 28px;
+}
+
+/* ─── Breadcrumbs ───────────────────────────────────────────────── */
+.breadcrumbs-nav {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 0;
+}
+
+.Breadcrumbs {
+    color: #0089EA;
+    font-size: 14px;
+    font-weight: 500;
+    text-decoration: none;
+    transition: color 0.2s;
+}
+
+.Breadcrumbs:hover {
+    color: #0076c9;
+}
+
+.breadcrumb-separator {
+    color: #0089EA;
+    margin: 0 8px;
+    display: flex;
+    align-items: center;
+}
+
+.current-page {
+    color: #0089EA;
+    font-weight: 600;
+    font-size: 14px;
+    text-transform: capitalize;
+}
+
+/* الحاوية الرئيسية للهيدر لتجعل الأيقونة والنصوص بجانب بعضهما */
+.save-header-container {
+    display: flex;
+    align-items: flex-start;
+    /* لتبدأ الأيقونة من الأعلى بمحاذاة العنوان */
+    gap: 16px;
+    /* المسافة بين الأيقونة والنصوص */
+    font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    padding: 20px 0;
+}
+
+/* تنسيق حاوية الأيقونة */
+.save-icon-wrapper {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding-top: 2px;
+    /* لضبط موازنة الأيقونة عمودياً مع النص */
+}
+
+/* لون الأيقونة الأزرق المماثل للصورة */
+.bookmark-icon {
+    color: #007aff;
+    /* أو استخدمي درجة الأزرق الخاصة بمشروعك مثل #1890ff */
+    stroke-width: 2.2px;
+    /* لجعل خطوط الأيقونة واضحة وقريبة من الصورة */
+}
+
+/* حاوية النصوص المتراصة عمودياً */
+.save-text-content {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    /* المسافة بين العنوان والوصف */
+}
+
+/* تنسيق العنوان الرئيسي */
+.save-title {
+    font-size: 22px;
+    font-weight: 700;
+    /* عريض (Bold) مثل الصورة */
+    color: #000000;
+    margin: 0;
+    line-height: 1.2;
+}
+
+/* تنسيق النص الفرعي */
+.save-subtitle {
+    font-size: 14px;
+    color: #666666;
+    /* رمادي خفيف */
+    margin: 0;
+    line-height: 1.4;
+}
+
+/* تنسيق الرقم الأزرق (3) */
+.saved-count {
+    color: #007aff;
+    font-weight: 600;
+    margin: 0 2px;
+    /* مسافة بسيطة حول الرقم */
+}

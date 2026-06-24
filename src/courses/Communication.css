@@ -850,7 +850,6 @@
     flex-shrink: 0;
 }
 
-.message-count {}
 
 /* ─── Notification Modal Popup ─────────────────────────────────── */
 .comm-modal-overlay {
@@ -859,7 +858,8 @@
     left: 0;
     right: 0;
     bottom: 0;
-    background-color: rgba(15, 23, 42, 0.45); /* Elegant semi-transparent dark */
+    background-color: rgba(15, 23, 42, 0.45);
+    /* Elegant semi-transparent dark */
     backdrop-filter: blur(8px);
     -webkit-backdrop-filter: blur(8px);
     display: flex;
@@ -970,13 +970,25 @@
 }
 
 @keyframes commFadeIn {
-    from { opacity: 0; }
-    to { opacity: 1; }
+    from {
+        opacity: 0;
+    }
+
+    to {
+        opacity: 1;
+    }
 }
 
 @keyframes commScaleIn {
-    from { opacity: 0; transform: scale(0.92); }
-    to { opacity: 1; transform: scale(1); }
+    from {
+        opacity: 0;
+        transform: scale(0.92);
+    }
+
+    to {
+        opacity: 1;
+        transform: scale(1);
+    }
 }
 
 /* ─── Attached Files Preview ────────────────────────────────────── */
@@ -1091,6 +1103,7 @@
     border: 1px solid rgba(255, 255, 255, 0.25);
     color: #ffffff;
 }
+
 .chat-bubble--me .chat-bubble-file-card:hover {
     background-color: rgba(255, 255, 255, 0.25);
 }
@@ -1100,6 +1113,7 @@
     border: 1px solid #e5e7eb;
     color: #1f2937;
 }
+
 .chat-bubble--them .chat-bubble-file-card:hover {
     background-color: #f8fafc;
 }

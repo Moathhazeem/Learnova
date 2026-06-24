@@ -207,13 +207,13 @@ function Communication() {
     const handleDeleteConversation = (idToDelete) => {
         const updatedMessages = messages.filter(m => m.id !== idToDelete);
         setMessages(updatedMessages);
-        
+
         setConversations(prev => {
             const copy = { ...prev };
             delete copy[idToDelete];
             return copy;
         });
-        
+
         if (updatedMessages.length > 0) {
             setSelectedConvId(updatedMessages[0].id);
         } else {
@@ -525,8 +525,8 @@ function Communication() {
                                             <div className="chat-panel-subject">{selectedUser.subject}</div>
                                         </div>
                                     </div>
-                                    <button 
-                                        className="chat-delete-btn" 
+                                    <button
+                                        className="chat-delete-btn"
                                         title="Delete conversation"
                                         onClick={() => handleDeleteConversation(selectedConvId)}
                                     >
