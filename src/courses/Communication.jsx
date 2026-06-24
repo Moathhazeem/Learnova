@@ -122,7 +122,6 @@ function Communication() {
             unread: false,
         },
     ];
-
     const { t } = useTranslation();
     const location = useLocation();
     const pathname = location.pathname.split('/').filter(x => x);
@@ -137,7 +136,7 @@ function Communication() {
     const [selectedConvId, setSelectedConvId] = useState(1);
     const [conversations, setConversations] = useState(initialConversations);
     const [inputText, setInputText] = useState('');
-    const messagesEndRef = useRef(null);
+    const chatMessagesRef = useRef(null);
     const [msgFilter, setMsgFilter] = useState('All');
     const [msgFiltersOpen, setMsgFiltersOpen] = useState(false);
 
@@ -156,7 +155,12 @@ function Communication() {
     });
 
     useEffect(() => {
-        messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
+        if (chatMessagesRef.current) {
+            chatMessagesRef.current.scrollTo({
+                top: chatMessagesRef.current.scrollHeight,
+                behavior: 'smooth'
+            });
+        }
     }, [currentMessages]);
 
     const filteredNotifications = notifications.filter(n => {
@@ -169,10 +173,22 @@ function Communication() {
         return true;
     });
 
+    const unreadMessageCount = filteredMessages.filter(m => m.unread).length;
+    const unreadNotificationCount = filteredNotifications.filter(n => n.unread).length;
 
-    const handleMarkAsRead = (id) => {
-        setNotifications(notifications.map(item => item.id === id ? { ...item, unread: false } : item));
-        setMessages(messages.map(item => item.id === id ? { ...item, unread: false } : item));
+    const handleMarkAsRead_Messages = (id) => {
+        setMessages(prevMessages =>
+            prevMessages.map(msg =>
+                msg.id === id && msg.unread ? { ...msg, unread: false } : msg
+            )
+        );
+    };
+    const handleMarkAsRead_Notifications = (id) => {
+        setNotifications(prevNotifications =>
+            prevNotifications.map(notification =>
+                notification.id === id && notification.unread ? { ...notification, unread: false } : notification
+            )
+        );
     };
 
     const handleMarkAllAsRead = () => {
@@ -244,7 +260,9 @@ function Communication() {
                         >
                             <Bell size={18} />
                             <span>{t('Notifications', 'Notifications')}</span>
-                            <span className="comm-badge">3</span>
+                            {unreadNotificationCount > 0 && (
+                                <span className="comm-badge">{unreadNotificationCount}</span>
+                            )}
                         </button>
                         <button
                             className={`comm-tab ${activeTab === 'messages' ? 'comm-tab--active' : ''}`}
@@ -252,7 +270,9 @@ function Communication() {
                         >
                             <Message size={18} />
                             <span>{t('Messages', 'Messages')}</span>
-                            <span className="comm-badge comm-badge--red">5</span>
+                            {unreadMessageCount > 0 && (
+                                <span className="comm-badge comm-badge--red">{unreadMessageCount}</span>
+                            )}
                         </button>
                     </div>
 
@@ -345,7 +365,7 @@ function Communication() {
                             <div
                                 key={n.id}
                                 className={`comm-item ${n.unread ? 'comm-item--unread' : ''}`}
-                                onClick={() => handleMarkAsRead(n.id)}
+                                onClick={() => handleMarkAsRead_Notifications(n.id)}
                             >
                                 <div className="comm-item-icon" style={{ backgroundColor: n.iconBg, color: n.iconColor }}>
                                     {n.icon}
@@ -372,7 +392,7 @@ function Communication() {
                                     className={`conv-item ${selectedConvId === m.id ? 'conv-item--active' : ''} ${m.unread ? 'conv-item--unread' : ''}`}
                                     onClick={() => {
                                         setSelectedConvId(m.id);
-                                        handleMarkAsRead(m.id);
+                                        handleMarkAsRead_Messages(m.id);
                                     }}
                                 >
                                     <img src={m.avatar} alt={m.name} className="conv-avatar" />
@@ -407,7 +427,7 @@ function Communication() {
                                 </div>
 
                                 {/* Messages area */}
-                                <div className="chat-messages">
+                                <div ref={chatMessagesRef} className="chat-messages">
                                     {currentMessages.map(msg => (
                                         <div key={msg.id} className={`chat-msg-row ${msg.sender === 'me' ? 'chat-msg-row--me' : 'chat-msg-row--them'}`}>
                                             {msg.sender === 'them' && (
@@ -423,7 +443,6 @@ function Communication() {
                                             </div>
                                         </div>
                                     ))}
-                                    <div ref={messagesEndRef} />
                                 </div>
 
                                 {/* Input bar */}

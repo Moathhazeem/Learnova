@@ -94,6 +94,12 @@
     cursor: pointer;
     transition: all 0.2s ease;
     font-family: 'Inter', sans-serif;
+    width: 180px;
+    height: 42px;
+}
+
+.comm-tab svg {
+    flex-shrink: 0;
 }
 
 .comm-tab:hover {
@@ -125,6 +131,20 @@
     height: 20px;
     border-radius: 50%;
     background-color: #ea4335;
+    color: #ffffff;
+    font-size: 11px;
+    font-weight: 700;
+    padding: 0 3px;
+}
+
+.comm-badge--read {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    background-color: #0084f4;
     color: #ffffff;
     font-size: 11px;
     font-weight: 700;
@@ -421,6 +441,7 @@
         opacity: 0;
         transform: translateY(-8px);
     }
+
     to {
         opacity: 1;
         transform: translateY(0);
@@ -828,3 +849,5 @@
     color: #ffffff;
     flex-shrink: 0;
 }
+
+.message-count {}
