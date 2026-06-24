@@ -123,6 +123,8 @@ function Communication() {
             unread: false,
         },
     ];
+    const fileInputRef = useRef(null);
+    const [attachedFiles, setAttachedFiles] = useState([]);
     const { t } = useTranslation();
     const location = useLocation();
     const pathname = location.pathname.split('/').filter(x => x);
@@ -199,19 +201,38 @@ function Communication() {
         setMessages(messages.map(item => ({ ...item, unread: false })));
     };
 
+    const handleDeleteConversation = (idToDelete) => {
+        const updatedMessages = messages.filter(m => m.id !== idToDelete);
+        setMessages(updatedMessages);
+        
+        setConversations(prev => {
+            const copy = { ...prev };
+            delete copy[idToDelete];
+            return copy;
+        });
+        
+        if (updatedMessages.length > 0) {
+            setSelectedConvId(updatedMessages[0].id);
+        } else {
+            setSelectedConvId(null);
+        }
+    };
+
     const handleSendMessage = () => {
-        if (inputText.trim() === '') return;
+        if (inputText.trim() === '' && attachedFiles.length === 0) return;
         const newMsg = {
             id: currentMessages.length + 1,
             sender: 'me',
             text: inputText.trim(),
             time: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }),
+            files: attachedFiles.length > 0 ? attachedFiles : undefined,
         };
         setConversations(prev => ({
             ...prev,
             [selectedConvId]: [...(prev[selectedConvId] || []), newMsg],
         }));
         setInputText('');
+        setAttachedFiles([]);
     };
 
     const handleKeyDown = (e) => {
@@ -223,6 +244,51 @@ function Communication() {
     const handleopenNotification = () => {
         setOpenNot(true);
     }
+    const triggerFileInput = () => {
+        fileInputRef.current.click();
+    };
+
+    const handleRemoveFile = (id) => {
+        setAttachedFiles(prev => prev.filter(file => file.id !== id));
+    };
+
+    const handleFileChange = (event) => {
+        const files = Array.from(event.target.files);
+        const newFiles = files.map(file => ({
+            id: Math.random().toString(36).substr(2, 9),
+            name: file.name,
+            size: (file.size / 1024).toFixed(1) + ' KB',
+            type: file.type,
+            previewUrl: file.type.startsWith('image/') ? URL.createObjectURL(file) : null,
+            rawFile: file
+        }));
+        setAttachedFiles(prev => [...prev, ...newFiles]);
+        if (files.length > 0) {
+            // Here you can handle the files
+            console.log('Selected files:', files);
+            // For example, you can add them to the message input
+            const fileNames = files.map(f => f.name).join(', ');
+            setInputText(prev => prev ? `${prev} ${fileNames}` : fileNames);
+        }
+    };
+
+    const handleFileClick = (file) => {
+        let url = file.previewUrl;
+        if (!url && file.rawFile) {
+            url = URL.createObjectURL(file.rawFile);
+        }
+        if (url) {
+            const link = document.createElement('a');
+            link.href = url;
+            link.download = file.name;
+            link.target = '_blank';
+            document.body.appendChild(link);
+            link.click();
+            document.body.removeChild(link);
+        } else {
+            alert(`File URL not available for "${file.name}"`);
+        }
+    };
 
     return (
         <div className="communication-page">
@@ -456,7 +522,11 @@ function Communication() {
                                             <div className="chat-panel-subject">{selectedUser.subject}</div>
                                         </div>
                                     </div>
-                                    <button className="chat-delete-btn" title="Delete conversation">
+                                    <button 
+                                        className="chat-delete-btn" 
+                                        title="Delete conversation"
+                                        onClick={() => handleDeleteConversation(selectedConvId)}
+                                    >
                                         <Trash2 size={18} />
                                     </button>
                                 </div>
@@ -470,7 +540,26 @@ function Communication() {
                                             )}
                                             <div className="chat-msg-content">
                                                 <div className={`chat-bubble ${msg.sender === 'me' ? 'chat-bubble--me' : 'chat-bubble--them'}`}>
-                                                    {msg.text}
+                                                    {msg.text && <div className="chat-bubble-text">{msg.text}</div>}
+                                                    {msg.files && msg.files.length > 0 && (
+                                                        <div className="chat-bubble-files">
+                                                            {msg.files.map(file => (
+                                                                <div key={file.id} className="chat-bubble-file-card" onClick={() => handleFileClick(file)}>
+                                                                    {file.previewUrl ? (
+                                                                        <div className="chat-bubble-file-preview-img-wrap">
+                                                                            <img src={file.previewUrl} alt={file.name} className="chat-bubble-file-img" />
+                                                                        </div>
+                                                                    ) : (
+                                                                        <div className="chat-bubble-file-icon">📄</div>
+                                                                    )}
+                                                                    <div className="chat-bubble-file-info">
+                                                                        <span className="chat-bubble-file-name" title={file.name}>{file.name}</span>
+                                                                        <span className="chat-bubble-file-size">{file.size}</span>
+                                                                    </div>
+                                                                </div>
+                                                            ))}
+                                                        </div>
+                                                    )}
                                                 </div>
                                                 <div className={`chat-msg-time ${msg.sender === 'me' ? 'chat-msg-time--me' : ''}`}>
                                                     {msg.time}
@@ -480,9 +569,45 @@ function Communication() {
                                     ))}
                                 </div>
 
+                                {attachedFiles.length > 0 && (
+                                    <div className="attached-files-preview-container" style={{ margin: '0 16px', width: 'auto' }}>
+                                        {attachedFiles.map((file) => (
+                                            <div key={file.id} className="file-preview-card">
+                                                {/* إذا كان الملف صورة: اعرض الصورة مصغرة */}
+                                                {file.previewUrl ? (
+                                                    <div className="preview-image-wrapper">
+                                                        <img src={file.previewUrl} alt={file.name} className="attached-img-thumb" />
+                                                    </div>
+                                                ) : (
+                                                    /* إذا كان ملفاً عادياً (PDF, Doc...): اعرض أيقونة مجلد أو ملف */
+                                                    <div className="preview-file-icon">📄</div>
+                                                )}
+
+                                                {/* تفاصيل الملف (الاسم والحجم) */}
+                                                <div className="file-preview-info">
+                                                    <span className="file-preview-name" title={file.name}>{file.name}</span>
+                                                    <span className="file-preview-size">{file.size}</span>
+                                                </div>
+
+                                                {/* زر (X) لحذف المرفق إذا لم يعد يريده المستخدم */}
+                                                <button className="remove-file-btn" onClick={() => handleRemoveFile(file.id)}>
+                                                    ✕
+                                                </button>
+                                            </div>
+                                        ))}
+                                    </div>
+                                )}
+
                                 {/* Input bar */}
                                 <div className="chat-input-bar">
-                                    <button className="chat-attach-btn" title="Attach file">
+                                    <input
+                                        type="file"
+                                        ref={fileInputRef}
+                                        style={{ display: 'none' }}
+                                        onChange={handleFileChange}
+                                        multiple
+                                    />
+                                    <button className="chat-attach-btn" title="Attach file" onClick={triggerFileInput}>
                                         <Paperclip size={18} />
                                     </button>
                                     <input

@@ -978,3 +978,181 @@
     from { opacity: 0; transform: scale(0.92); }
     to { opacity: 1; transform: scale(1); }
 }
+
+/* ─── Attached Files Preview ────────────────────────────────────── */
+.attached-files-preview-container {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    padding: 10px;
+    background-color: #f3f4f6;
+    border-radius: 8px;
+    width: 100%;
+    margin-bottom: 8px;
+}
+
+.file-preview-card {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    background-color: #ffffff;
+    border: 1px solid #e5e7eb;
+    border-radius: 6px;
+    padding: 6px 10px;
+    max-width: 220px;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+}
+
+.preview-image-wrapper {
+    width: 32px;
+    height: 32px;
+    border-radius: 4px;
+    overflow: hidden;
+    flex-shrink: 0;
+}
+
+.attached-img-thumb {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.preview-file-icon {
+    font-size: 20px;
+    flex-shrink: 0;
+}
+
+.file-preview-info {
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+}
+
+.file-preview-name {
+    font-size: 12px;
+    font-weight: 500;
+    color: #374151;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    overflow: hidden;
+}
+
+.file-preview-size {
+    font-size: 10px;
+    color: #9ca3af;
+}
+
+.remove-file-btn {
+    background: none;
+    border: none;
+    color: #9ca3af;
+    cursor: pointer;
+    font-size: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 4px;
+    border-radius: 50%;
+    transition: all 0.2s ease;
+}
+
+.remove-file-btn:hover {
+    background-color: #fee2e2;
+    color: #ef4444;
+}
+
+/* ─── Chat Bubble Files ─────────────────────────────────────────── */
+.chat-bubble-files {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    margin-top: 6px;
+}
+
+.chat-bubble-file-card {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 6px 10px;
+    border-radius: 6px;
+    max-width: 240px;
+    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
+    cursor: pointer;
+    transition: transform 0.2s ease, opacity 0.2s ease, background-color 0.2s ease;
+}
+
+.chat-bubble-file-card:hover {
+    transform: translateY(-1px);
+    opacity: 0.95;
+}
+
+.chat-bubble--me .chat-bubble-file-card {
+    background-color: rgba(255, 255, 255, 0.15);
+    border: 1px solid rgba(255, 255, 255, 0.25);
+    color: #ffffff;
+}
+.chat-bubble--me .chat-bubble-file-card:hover {
+    background-color: rgba(255, 255, 255, 0.25);
+}
+
+.chat-bubble--them .chat-bubble-file-card {
+    background-color: #ffffff;
+    border: 1px solid #e5e7eb;
+    color: #1f2937;
+}
+.chat-bubble--them .chat-bubble-file-card:hover {
+    background-color: #f8fafc;
+}
+
+.chat-bubble-file-preview-img-wrap {
+    width: 32px;
+    height: 32px;
+    border-radius: 4px;
+    overflow: hidden;
+    flex-shrink: 0;
+}
+
+.chat-bubble-file-img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.chat-bubble-file-icon {
+    font-size: 20px;
+    flex-shrink: 0;
+}
+
+.chat-bubble-file-info {
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+}
+
+.chat-bubble-file-name {
+    font-size: 12px;
+    font-weight: 500;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    overflow: hidden;
+}
+
+.chat-bubble--me .chat-bubble-file-name {
+    color: #ffffff;
+}
+
+.chat-bubble--them .chat-bubble-file-name {
+    color: #374151;
+}
+
+.chat-bubble-file-size {
+    font-size: 10px;
+}
+
+.chat-bubble--me .chat-bubble-file-size {
+    color: rgba(255, 255, 255, 0.75);
+}
+
+.chat-bubble--them .chat-bubble-file-size {
+    color: #9ca3af;
+}
