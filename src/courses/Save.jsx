@@ -4,7 +4,7 @@ import { useTranslation } from 'react-i18next';
 // 2. دمج imports الـ react-router-dom في سطر واحد
 import { useNavigate, Link, useLocation } from "react-router-dom";
 // 3. تغيير ChevronLeft إلى ChevronRight لتطابق الاستخدام في الأسفل
-import { ChevronRight, Bookmark } from "lucide-react";
+import { ChevronRight, ChevronDown, Bookmark, Search, Grid, BarChart, Clock } from "lucide-react";
 import "./Save.css";
 
 function Save() {
@@ -54,6 +54,29 @@ function Save() {
                                 {t('setting.items_saved', ' items saved.')}
                             </p>
                         </div>
+                    </div>
+                </div>
+                <div className="filter-section">
+                    <div className="search-wrapper">
+                        <Search size={18} className="search-input-icon" />
+                        <input type="text" placeholder={t('search', 'Making logos , developer python.....')} className="save-search-input" />
+                    </div>
+                    <div className="filter-buttons">
+                        <button className="filter-btn">
+                            <Grid size={16} />
+                            <span className="text">{t('setting.categories', 'Categories')}</span>
+                            <ChevronDown size={14} />
+                        </button>
+                        <button className="filter-btn">
+                            <BarChart size={16} className="rotate-icon" />
+                            <span className="text">{t('setting.level', 'Level')}</span>
+                            <ChevronDown size={14} />
+                        </button>
+                        <button className="filter-btn">
+                            <Clock size={16} />
+                            <span className="text">{t('setting.duration', 'Duration')}</span>
+                            <ChevronDown size={14} />
+                        </button>
                     </div>
                 </div>
             </div>
