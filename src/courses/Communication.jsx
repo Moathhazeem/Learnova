@@ -4,7 +4,7 @@ import { Link, useLocation } from 'react-router-dom';
 import {
     Search, ChevronRight, Bell, MessageSquare as Message,
     SlidersHorizontal, CheckCircle2, Trophy, ClipboardList,
-    ClipboardEdit, Upload, CalendarClock, Check, Trash2, Send, Paperclip
+    ClipboardEdit, Upload, CalendarClock, Check, Trash2, Send, Paperclip, X
 } from 'lucide-react';
 import './Communication.css';
 
@@ -50,6 +50,7 @@ const messagesList = [
         unread: false,
     },
 ];
+
 
 const initialConversations = {
     1: [
@@ -125,6 +126,8 @@ function Communication() {
     const { t } = useTranslation();
     const location = useLocation();
     const pathname = location.pathname.split('/').filter(x => x);
+    const [OpenNot, setOpenNot] = useState(false);
+    const [selectedNotification, setSelectedNotification] = useState(null);
     const [activeTab, setActiveTab] = useState('notifications');
     const [search, setSearch] = useState('');
     const [selectedFilter, setSelectedFilter] = useState('All');
@@ -217,6 +220,9 @@ function Communication() {
             handleSendMessage();
         }
     };
+    const handleopenNotification = () => {
+        setOpenNot(true);
+    }
 
     return (
         <div className="communication-page">
@@ -365,7 +371,10 @@ function Communication() {
                             <div
                                 key={n.id}
                                 className={`comm-item ${n.unread ? 'comm-item--unread' : ''}`}
-                                onClick={() => handleMarkAsRead_Notifications(n.id)}
+                                onClick={() => {
+                                    setSelectedNotification(n);
+                                    handleMarkAsRead_Notifications(n.id);
+                                }}
                             >
                                 <div className="comm-item-icon" style={{ backgroundColor: n.iconBg, color: n.iconColor }}>
                                     {n.icon}
@@ -378,6 +387,32 @@ function Communication() {
                                 {n.unread && <span className="comm-unread-dot" />}
                             </div>
                         ))}
+                    </div>
+                )}
+
+                {/* ── NOTIFICATION MODAL (POP-UP WINDOW) ── */}
+                {selectedNotification && (
+                    <div className="comm-modal-overlay" onClick={() => setSelectedNotification(null)}>
+                        <div className="comm-modal-content" onClick={e => e.stopPropagation()}>
+                            <button className="comm-modal-close" onClick={() => setSelectedNotification(null)}>
+                                <X size={20} />
+                            </button>
+                            <div className="comm-modal-header">
+                                <div className="comm-modal-icon" style={{ backgroundColor: selectedNotification.iconBg, color: selectedNotification.iconColor }}>
+                                    {selectedNotification.icon}
+                                </div>
+                                <div>
+                                    <h2 className="comm-modal-title">{selectedNotification.title}</h2>
+                                    <span className="comm-modal-time">{selectedNotification.time}</span>
+                                </div>
+                            </div>
+                            <div className="comm-modal-body">
+                                <p>{selectedNotification.description}</p>
+                            </div>
+                            <div className="comm-modal-footer">
+                                <button className="comm-modal-btn" onClick={() => setSelectedNotification(null)}>Close</button>
+                            </div>
+                        </div>
                     </div>
                 )}
 
