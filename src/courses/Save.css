@@ -188,3 +188,200 @@
     transform: scaleY(-1);
     /* لقلب الأعمدة لتبدو كتصاعد للمستوى */
 }
+
+/* حاوية الكروت بالكامل */
+.courses-list-container {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    /* تقسيم الصف إلى 3 أقسام متساوية تعبئ المساحة */
+    gap: 24px;
+    /* المسافة بين الكروت */
+    margin-top: 28px;
+    width: 100%;
+    max-width: 1280px;
+    /* تمنع الكروت من التمدد بشكل مفرط على الشاشات العملاقة */
+    margin-left: auto;
+    /* لتوسيط الحاوية في منتصف الصفحة */
+    margin-right: auto;
+    width: 100%;
+    gap: 100px;
+}
+
+.no-saved-courses {
+    grid-column: 1 / -1;
+    text-align: center;
+    padding: 60px 20px;
+    color: #8c8c8c;
+    font-size: 16px;
+    font-weight: 500;
+    background: #fdfdfd;
+    border-radius: 16px;
+    border: 2px dashed #e0e0e0;
+    transition: background-color 0.3s ease;
+}
+
+.no-saved-courses:hover {
+    background-color: #f7f9fc;
+}
+
+/* تصميم الكرت الرئيسي */
+.course-card-save {
+    background: #ffffff;
+    border-radius: 16px;
+    /* زوايا منحنية وناعمة مثل الصورة */
+    border: 1px solid #efefef;
+    overflow: hidden;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.03);
+    transition: transform 0.25s cubic-bezier(0.4, 0, 0.2, 1), box-shadow 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+    cursor: pointer;
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    min-width: 500px !important;
+    max-height: 440px !important;
+}
+
+.card-meta-info {
+    padding: 12px 14px;
+    display: flex;
+    flex-direction: row;
+    gap: 14px;
+    width: 100%;
+}
+
+.course-card-save:hover {
+    transform: translateY(-6px);
+    box-shadow: 0 12px 24px rgba(0, 0, 0, 0.08);
+}
+
+/* حاوية الصورة لتسمح بالـ Position Absolute لزر الحذف */
+.card-image-wrapper {
+    position: relative;
+    width: 100%;
+    /* بدلاً من الطول الثابت، نستخدم نسبة العرض إلى الارتفاع لضمان التناسق */
+    aspect-ratio: 16 / 10;
+    overflow: hidden;
+}
+
+.course-img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+/* 3. شاشات الموبايل والتابلت (Responsive): */
+/* عندما تصبح الشاشة أصغر من 1024px ينزل الكرت الثالث لأسفل حتى لا تصبح الكروت صغيرة */
+@media (max-width: 1024px) {
+    .courses-list-container {
+        grid-template-columns: repeat(2, 1fr);
+        /* كرتين في الصف */
+    }
+}
+
+@media (max-width: 600px) {
+    .courses-list-container {
+        grid-template-columns: 1fr;
+        /* كرت واحد في الصف على الموبايل */
+    }
+}
+
+/* زر الحذف الدائري العائم فوق الصورة */
+.delete-btn {
+    position: absolute;
+    top: 12px;
+    right: 12px;
+    width: 34px;
+    height: 34px;
+    border-radius: 50%;
+    background: #ffffff;
+    border: none;
+    color: #333333;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+    transition: background-color 0.2s, color 0.2s;
+}
+
+.delete-btn:hover {
+    background-color: #ff3b30;
+    /* يتحول للأحمر عند الهوفر */
+    color: #ffffff;
+}
+
+/* تفاصيل الكرت السفلى */
+.card-details {
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+}
+
+.course-card-title {
+    font-size: 18px;
+    font-weight: 700;
+    color: #111111;
+    margin: 0;
+    line-height: 1.4;
+}
+
+/* صف الميتا (السعر والوقت والمستوى) */
+.course-meta-info {
+    display: flex;
+    align-items: center;
+    gap: 18px;
+    color: #8c8c8c;
+    /* لون رمادي ناعم للمعلومات الجانبية */
+    font-size: 14px;
+}
+
+.meta-item {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+}
+
+/* الفوتر (المدرب والتقييم) */
+.course-footer {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding-top: 14px;
+    border-top: 1px solid #f5f5f5;
+    margin-top: 6px;
+}
+
+.instructor-info {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.instructor-avatar {
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    object-fit: cover;
+}
+
+.instructor-name {
+    font-size: 14px;
+    font-weight: 500;
+    color: #333333;
+}
+
+.course-rating {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    font-size: 14px;
+    font-weight: 600;
+    color: #666666;
+}
+
+.star-icon svg {
+    color: #ffcc00;
+    /* لون النجمة الذهبي */
+    fill: #ffcc00;
+}
