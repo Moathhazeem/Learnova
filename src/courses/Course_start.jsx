@@ -14,6 +14,25 @@ function Course_start() {
     const [duration, setDuration] = useState(150);
     const playerRef = useRef(null);
     const [isFullscreen, setIsFullscreen] = useState(false);
+    const [showSettings, setShowSettings] = useState(false);
+    const [speed, setSpeed] = useState(1);
+    const [isLooping, setIsLooping] = useState(false);
+    const videoRef = useRef(null);
+    const handleSpeedChange = (newSpeed) => {
+        setSpeed(newSpeed);
+        if (videoRef.current) {
+            videoRef.current.playbackRate = newSpeed;
+        }
+        setShowSettings(false);
+    }
+    const toggleLoop = () => {
+        const nextLoop = !isLooping;
+        setIsLooping(nextLoop);
+        if (videoRef.current) {
+            videoRef.current.loop = nextLoop;
+        }
+        setShowSettings(false);
+    }
 
     useEffect(() => {
         const handleFullscreenChange = () => {
@@ -373,7 +392,35 @@ function Course_start() {
                                             </div>
                                         </div>
                                         <div className="controls_right">
-                                            <button className="ctrl_btn"><Settings size={16} /></button>
+                                            <div className="settings_container">
+                                                <button className="ctrl_btn" onClick={() => setShowSettings(!showSettings)}><Settings size={16} /></button>
+                                                {showSettings && (
+                                                    <div className="settings_popup">
+
+                                                        {/* خيار السرعة */}
+                                                        <div className="settings_option">
+                                                            <span>سرعة التشغيل</span>
+                                                            <select value={speed} onChange={(e) => handleSpeedChange(Number(e.target.value))}>
+                                                                <option value="0.5">0.5x</option>
+                                                                <option value="1">العادية</option>
+                                                                <option value="1.5">1.5x</option>
+                                                                <option value="2">2x</option>
+                                                            </select>
+                                                        </div>
+
+                                                        <hr style={{ border: '0.5px solid rgba(255,255,255,0.1)' }} />
+
+                                                        {/* خيار التكرار */}
+                                                        <div className="settings_option" onClick={toggleLoop} style={{ cursor: 'pointer' }}>
+                                                            <span>تكرار الفيديو</span>
+                                                            <span style={{ color: isLooping ? '#0088ff' : '#aaa' }}>
+                                                                {isLooping ? 'مفعّل' : 'ملغى'}
+                                                            </span>
+                                                        </div>
+
+                                                    </div>
+                                                )}
+                                            </div>
                                             <button className="ctrl_btn" onClick={handleFullscreen}>
                                                 {isFullscreen ? <Minimize size={16} /> : <Maximize size={16} />}
                                             </button>
