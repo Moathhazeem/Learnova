@@ -1,5 +1,5 @@
-import { useState } from "react";
-import { Play, Pause, ChevronRight, ChevronDown, Check, Volume2, Settings, Maximize, BookOpen, Download, MessageSquare, FileText } from "lucide-react";
+import { useState, useRef } from "react";
+import { Play, Pause, ChevronRight, ChevronDown, Check, Volume2, Settings, Maximize, BookOpen, Download, MessageSquare, FileText, Upload, Clock } from "lucide-react";
 import { Link, useLocation } from "react-router-dom";
 import { useTranslation } from 'react-i18next';
 import "./Course_start.css";
@@ -23,9 +23,46 @@ function Course_start() {
             {
                 id: "sec2", title: "Understanding the brand before designing", lessonCount: 3,
                 lessons: [
-                    { id: "l4", title: "Brand Identity", duration: "5:00", completed: false },
-                    { id: "l5", title: "Brand Research", duration: "4:30", completed: false },
-                    { id: "l6", title: "Brand Guidelines", duration: "6:00", completed: false }
+                    { id: "l4", title: "Introduction about global brand", duration: "5:00", completed: true, type: 'reading',
+                        content: {
+                            heading: "Introduction About Global Brand",
+                            sections: [
+                                {
+                                    title: "What is a Global Brand ?",
+                                    paragraphs: [
+                                        "A global brand is a brand that is recognized and available in many countries around the world, not just in its home market. It represents a product or service that has widespread acceptance, a consistent identity across cultures, and a uniform message wherever it operates.",
+                                        "A global brand goes beyond local borders and creates a unified experience for customers in different regions. It carries an image that is universally understood, though sometimes it may be adapted slightly to suit local preferences."
+                                    ]
+                                },
+                                {
+                                    title: 'What Makes a Brand "Global"?',
+                                    intro: "A brand becomes global when it meets several key criteria:",
+                                    bullets: [
+                                        { label: "Wide Geographic Presence", text: "The brand is active in multiple continents and countries, not only in its country of origin." },
+                                        { label: "Consistent Brand Identity", text: "The brand uses the same core message, logo, values, and positioning in different markets. This helps customers recognize it anywhere." },
+                                        { label: "Universal Appeal", text: "The brand's promise or value proposition resonates with people from different cultures and demographic groups." },
+                                        { label: "Strong Brand Equity", text: "Global brands are well-known, trusted, and often carry a reputation for quality or uniqueness." }
+                                    ]
+                                }
+                            ]
+                        }
+                    },
+                    { id: "l5", title: "How understanding your brand", duration: "2:30", completed: true },
+                    { id: "l6", title: "Assignment about your brand", duration: "10:00", completed: false, type: 'assignment',
+                        instructions: [
+                            "When selecting and defining the brand to be developed for the project, the following conditions and criteria must be met:",
+                            "Brand Identity Clarity: The brand must have a clear name, logo, official colors, and approved fonts that reflect its personality and facilitate its recognition among competitors.",
+                            "Mission and Vision: The brand must have a mission that explains its purpose and a vision that defines its future aspirations and what it aims to achieve in the long term.",
+                            "Target Audience: It is essential to accurately define the target audience (age, gender, geographic location, interests, income level) so that the identity and marketing are designed to suit them.",
+                            "Unique Value Proposition: The brand must offer a clear competitive advantage that distinguishes it from competitors, whether in terms of price, quality, service, technology, or user experience.",
+                            "Scalability: Ideally, the brand should be capable of future scalability, whether through adding new products, entering new markets, or developing digital services.",
+                            "Digital Presence: The brand must have, or be able to build, a strong digital presence through a website, social media, or apps.",
+                            "Visual Consistency: All design elements must be consistent across all platforms to ensure a strong brand image for customers.",
+                            "Customer Relationship Potential: A successful brand focuses on the customer experience and works to earn their trust and loyalty.",
+                            "Brand Personality: The brand's personality (formal, youthful, luxurious, innovative, social, etc.) must be defined, as this influences communication and design style.",
+                            "Market Relevance: The brand must be relevant to the needs of the Palestinian market (or target market) and address a real problem."
+                        ]
+                    }
                 ]
             },
             {
@@ -77,11 +114,32 @@ function Course_start() {
     const completedCount = 3;
     const percentage = Math.round((completedCount / totalLessons) * 100);
 
-    const [currentLesson, setCurrentLesson] = useState(allLessons[1]);
-    const [openSections, setOpenSections] = useState({ sec1: true });
+    const [currentLesson, setCurrentLesson] = useState(allLessons[3]);
+    const [markedComplete, setMarkedComplete] = useState({});
+    const [openSections, setOpenSections] = useState({ sec1: true, sec2: true });
     const [activeTab, setActiveTab] = useState('overview');
     const [isPlaying, setIsPlaying] = useState(false);
     const [autoplay, setAutoplay] = useState(true);
+    const [noteText, setNoteText] = useState('');
+    const [selectedFile, setSelectedFile] = useState(null);
+    const fileInputRef = useRef(null);
+    const handleFileChange = (e) => { if (e.target.files[0]) setSelectedFile(e.target.files[0]); };
+    const handleDrop = (e) => { e.preventDefault(); if (e.dataTransfer.files[0]) setSelectedFile(e.dataTransfer.files[0]); };
+    const [newQuestion, setNewQuestion] = useState('');
+    const [expandedQA, setExpandedQA] = useState(0);
+    const [questions, setQuestions] = useState([
+        { id: 1, question: 'How do I install Adobe Illustrator on Windows ?', answer: 'You can download the installer from Adobe.org and follow the installation wizard.' },
+        { id: 2, question: 'How do I install Adobe Illustrator on Windows ?', answer: '' },
+    ]);
+    const resources = [
+        { id: 1, name: 'Summary lesson 1', type: 'Link', icon: 'link' },
+        { id: 2, name: 'Summary lesson 1.zip', type: 'Download', icon: 'download' },
+    ];
+    const handleAskQuestion = () => {
+        if (!newQuestion.trim()) return;
+        setQuestions(prev => [...prev, { id: Date.now(), question: newQuestion.trim(), answer: '' }]);
+        setNewQuestion('');
+    };
 
     const currentLessonIndex = allLessons.findIndex(l => l.id === currentLesson.id);
 
@@ -148,14 +206,16 @@ function Course_start() {
                                                 className={`lesson_item ${currentLesson.id === lesson.id ? 'active' : ''}`}
                                                 onClick={() => setCurrentLesson(lesson)}
                                             >
-                                                <div className={`lesson_status_icon ${lesson.completed ? 'done' : ''}`}>
+                                                <div className={`lesson_status_icon ${lesson.completed ? 'done' : ''} ${lesson.type === 'assignment' ? 'assignment' : ''}`}>
                                                     {lesson.completed
                                                         ? <Check size={11} />
-                                                        : <Play size={9} />}
+                                                        : lesson.type === 'assignment'
+                                                            ? <FileText size={9} />
+                                                            : <Play size={9} />}
                                                 </div>
                                                 <div className="lesson_info">
                                                     <h5>{lesson.title}</h5>
-                                                    <p><Play size={9} /> {lesson.duration}</p>
+                                                    <p>{lesson.type === 'assignment' ? <FileText size={9} /> : <Play size={9} />} {lesson.duration}</p>
                                                 </div>
                                             </div>
                                         ))}
@@ -168,37 +228,111 @@ function Course_start() {
                     {/* ── Right Main ── */}
                     <div className="right_side_course">
 
-                        {/* Video Player */}
-                        <div className="video_player_wrapper">
-                            <div className="video_placeholder">
-                                <button className="play_btn_center" onClick={() => setIsPlaying(!isPlaying)}>
-                                    {isPlaying ? <Pause size={30} /> : <Play size={30} />}
-                                </button>
-                            </div>
-                            {/* Controls Bar */}
-                            <div className="video_controls">
-                                <div className="video_seek_bar">
-                                    <div className="seek_fill" style={{ width: '40%' }} />
-                                    <div className="seek_thumb" style={{ left: '40%' }} />
-                                </div>
-                                <div className="video_controls_row">
-                                    <div className="controls_left">
-                                        <button className="ctrl_btn" onClick={() => setIsPlaying(!isPlaying)}>
-                                            {isPlaying ? <Pause size={16} /> : <Play size={16} />}
-                                        </button>
-                                        <button className="ctrl_btn"><Volume2 size={16} /></button>
-                                        <div className="volume_bar_track">
-                                            <div className="volume_bar_fill" style={{ width: '60%' }} />
+                        {/* Video Player OR Reading Material OR Assignment */}
+                        {currentLesson.type === 'reading' ? (
+                            <div className="reading_material_wrapper">
+                                <div className="reading_material_header">
+                                    <div className="reading_material_header_left">
+                                        <div className="reading_material_icon"><BookOpen size={18} /></div>
+                                        <div>
+                                            <h3 className="reading_material_title">Reading Material</h3>
+                                            <span className="reading_material_meta"><Clock size={12} /> {currentLesson.duration}</span>
                                         </div>
-                                        <span className="time_label">1:00 / 2:30</span>
                                     </div>
-                                    <div className="controls_right">
-                                        <button className="ctrl_btn"><Settings size={16} /></button>
-                                        <button className="ctrl_btn"><Maximize size={16} /></button>
+                                    <button
+                                        className={`mark_complete_btn ${markedComplete[currentLesson.id] ? 'completed' : ''}`}
+                                        onClick={() => setMarkedComplete(prev => ({ ...prev, [currentLesson.id]: !prev[currentLesson.id] }))}
+                                    >
+                                        <Check size={14} />
+                                        {markedComplete[currentLesson.id] ? 'Completed' : 'Mark as Complete'}
+                                    </button>
+                                </div>
+                                <div className="reading_material_body">
+                                    <h2 className="reading_main_heading">{currentLesson.content.heading}</h2>
+                                    {currentLesson.content.sections.map((sec, si) => (
+                                        <div key={si} className="reading_section">
+                                            <h3 className="reading_section_title">{sec.title}</h3>
+                                            {sec.paragraphs && sec.paragraphs.map((p, pi) => (
+                                                <p key={pi} className="reading_paragraph">{p}</p>
+                                            ))}
+                                            {sec.intro && <p className="reading_paragraph">{sec.intro}</p>}
+                                            {sec.bullets && (
+                                                <ul className="reading_bullets">
+                                                    {sec.bullets.map((b, bi) => (
+                                                        <li key={bi} className="reading_bullet_item">
+                                                            <span className="reading_bullet_dot" />
+                                                            <span><strong>{b.label}</strong><br />{b.text}</span>
+                                                        </li>
+                                                    ))}
+                                                </ul>
+                                            )}
+                                        </div>
+                                    ))}
+                                </div>
+                            </div>
+                        ) : currentLesson.type === 'assignment' ? (
+                            <div className="assignment_wrapper">
+                                <div className="assignment_header">
+                                    <div className="assignment_header_icon"><Upload size={20} /></div>
+                                    <div>
+                                        <h3 className="assignment_title">Assignment Submission</h3>
+                                        <span className="assignment_due">Due: No deadline</span>
+                                    </div>
+                                </div>
+                                <div className="assignment_instructions">
+                                    <h4>Instructions</h4>
+                                    {currentLesson.instructions.map((line, i) => (
+                                        <p key={i}>{line}</p>
+                                    ))}
+                                </div>
+                                <div
+                                    className="assignment_upload_area"
+                                    onDragOver={e => e.preventDefault()}
+                                    onDrop={handleDrop}
+                                    onClick={() => fileInputRef.current.click()}
+                                >
+                                    <input ref={fileInputRef} type="file" hidden onChange={handleFileChange} />
+                                    <Upload size={32} className="upload_icon" />
+                                    <span className="upload_label">Upload your work</span>
+                                    <span className="upload_sub">Drag and drop or click to browse files</span>
+                                    {selectedFile && <span className="upload_filename">{selectedFile.name}</span>}
+                                    <button className="select_file_btn" onClick={e => { e.stopPropagation(); fileInputRef.current.click(); }}>Select File</button>
+                                </div>
+                                <div className="assignment_submit_row">
+                                    <button className="submit_assignment_btn">Submit Assignment</button>
+                                </div>
+                            </div>
+                        ) : (
+                            <div className="video_player_wrapper">
+                                <div className="video_placeholder">
+                                    <button className="play_btn_center" onClick={() => setIsPlaying(!isPlaying)}>
+                                        {isPlaying ? <Pause size={30} /> : <Play size={30} />}
+                                    </button>
+                                </div>
+                                <div className="video_controls">
+                                    <div className="video_seek_bar">
+                                        <div className="seek_fill" style={{ width: '40%' }} />
+                                        <div className="seek_thumb" style={{ left: '40%' }} />
+                                    </div>
+                                    <div className="video_controls_row">
+                                        <div className="controls_left">
+                                            <button className="ctrl_btn" onClick={() => setIsPlaying(!isPlaying)}>
+                                                {isPlaying ? <Pause size={16} /> : <Play size={16} />}
+                                            </button>
+                                            <button className="ctrl_btn"><Volume2 size={16} /></button>
+                                            <div className="volume_bar_track">
+                                                <div className="volume_bar_fill" style={{ width: '60%' }} />
+                                            </div>
+                                            <span className="time_label">1:00 / 2:30</span>
+                                        </div>
+                                        <div className="controls_right">
+                                            <button className="ctrl_btn"><Settings size={16} /></button>
+                                            <button className="ctrl_btn"><Maximize size={16} /></button>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
-                        </div>
+                        )}
 
                         {/* Lesson Info */}
                         <div className="lesson_info_bar">
@@ -235,24 +369,79 @@ function Course_start() {
                             {/* Tab Content */}
                             {activeTab === 'overview' && (
                                 <div className="tab_content">
-                                    <p>In this lesson, we'll take the component we built with the Render Props pattern and refactor it completely using modern React Hooks. You'll see how Hooks can significantly reduce boilerplate and make logic easier to share across your application.</p>
+                                    <p>A global brand is more than just selling products worldwide. It's about creating a unified identity, trusted reputation, and emotional connection with customers across different cultures and countries. Global brands must balance consistency with cultural sensitivity to truly succeed.</p>
                                     <h4>What you'll learn:</h4>
                                     <ul>
-                                        <li><Check size={14} className="check_icon" /> Identifying the core state logic</li>
-                                        <li><Check size={14} className="check_icon" /> Replacing render props with useToggle</li>
-                                        <li><Check size={14} className="check_icon" /> Cleaning up the component tree</li>
-                                        <li><Check size={14} className="check_icon" /> Performance considerations</li>
+                                        <li><Check size={14} className="check_icon" /> How define your brand</li>
+                                        <li><Check size={14} className="check_icon" /> How define your compltive</li>
+                                        <li><Check size={14} className="check_icon" /> Example about brand</li>
                                     </ul>
                                 </div>
                             )}
                             {activeTab === 'resources' && (
-                                <div className="tab_content"><p>No resources available for this lesson.</p></div>
+                                <div className="tab_content">
+                                    <div className="resources_grid">
+                                        {resources.map(r => (
+                                            <div key={r.id} className="resource_card">
+                                                <div className="resource_icon">
+                                                    {r.icon === 'link'
+                                                        ? <FileText size={20} className="res_icon_blue" />
+                                                        : <Download size={20} className="res_icon_blue" />}
+                                                </div>
+                                                <div className="resource_info">
+                                                    <span className="resource_name">{r.name}</span>
+                                                    <span className="resource_type">{r.type}</span>
+                                                </div>
+                                            </div>
+                                        ))}
+                                    </div>
+                                </div>
                             )}
                             {activeTab === 'qa' && (
-                                <div className="tab_content"><p>No questions yet. Be the first to ask!</p></div>
+                                <div className="tab_content">
+                                    <h4 className="qa_heading">Questions &amp; Answers</h4>
+                                    <div className="qa_list">
+                                        {questions.map((q, i) => (
+                                            <div key={q.id} className="qa_item" onClick={() => setExpandedQA(expandedQA === i ? -1 : i)}>
+                                                <div className="qa_question_row">
+                                                    <MessageSquare size={16} className="qa_icon" />
+                                                    <span className="qa_question_text">{q.question}</span>
+                                                </div>
+                                                {expandedQA === i && q.answer && (
+                                                    <div className="qa_answer">
+                                                        <div className="qa_answer_bar" />
+                                                        <p>{q.answer}</p>
+                                                    </div>
+                                                )}
+                                            </div>
+                                        ))}
+                                    </div>
+                                    <textarea
+                                        className="qa_textarea"
+                                        placeholder="Ask a question about this lesson"
+                                        value={newQuestion}
+                                        onChange={e => setNewQuestion(e.target.value)}
+                                        rows={4}
+                                    />
+                                    <div className="qa_actions">
+                                        <button className="ask_btn" onClick={handleAskQuestion}>Ask Question</button>
+                                    </div>
+                                </div>
                             )}
                             {activeTab === 'notes' && (
-                                <div className="tab_content"><p>Your notes will appear here.</p></div>
+                                <div className="tab_content">
+                                    <h4 className="notes_heading">My Notes</h4>
+                                    <textarea
+                                        className="notes_textarea"
+                                        placeholder="Take notes for this lesson"
+                                        value={noteText}
+                                        onChange={e => setNoteText(e.target.value)}
+                                        rows={6}
+                                    />
+                                    <div className="notes_actions">
+                                        <button className="save_notes_btn">Save Notes</button>
+                                    </div>
+                                </div>
                             )}
                         </div>
                     </div>
