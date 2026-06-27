@@ -8,7 +8,10 @@ function Course_start() {
     const location = useLocation();
     const pathname = location.pathname.split('/').filter(x => x);
     const { t } = useTranslation();
-
+    const [volume, setVolume] = useState(80);
+    const handleVolumeChange = (e) => {
+        setVolume(e.target.value);
+    }
     const courseData = {
         title: "Introduction to Logo Design",
         sections: [
@@ -23,7 +26,8 @@ function Course_start() {
             {
                 id: "sec2", title: "Understanding the brand before designing", lessonCount: 3,
                 lessons: [
-                    { id: "l4", title: "Introduction about global brand", duration: "5:00", completed: true, type: 'reading',
+                    {
+                        id: "l4", title: "Introduction about global brand", duration: "5:00", completed: true, type: 'reading',
                         content: {
                             heading: "Introduction About Global Brand",
                             sections: [
@@ -48,7 +52,8 @@ function Course_start() {
                         }
                     },
                     { id: "l5", title: "How understanding your brand", duration: "2:30", completed: true },
-                    { id: "l6", title: "Assignment about your brand", duration: "10:00", completed: false, type: 'assignment',
+                    {
+                        id: "l6", title: "Assignment about your brand", duration: "10:00", completed: false, type: 'assignment',
                         instructions: [
                             "When selecting and defining the brand to be developed for the project, the following conditions and criteria must be met:",
                             "Brand Identity Clarity: The brand must have a clear name, logo, official colors, and approved fonts that reflect its personality and facilitate its recognition among competitors.",
@@ -320,9 +325,11 @@ function Course_start() {
                                                 {isPlaying ? <Pause size={16} /> : <Play size={16} />}
                                             </button>
                                             <button className="ctrl_btn"><Volume2 size={16} /></button>
-                                            <div className="volume_bar_track">
-                                                <div className="volume_bar_fill" style={{ width: '60%' }} />
+                                            <div className="volume_bar_track" style={{ position: "relative" }}>
+                                                <div className="volume_bar_fill" style={{ width: `${volume}%` }} />
+                                                <input type="range" min="0" max="100" value={volume} onChange={handleVolumeChange} className="volume_bar_input" />
                                             </div>
+
                                             <span className="time_label">1:00 / 2:30</span>
                                         </div>
                                         <div className="controls_right">
