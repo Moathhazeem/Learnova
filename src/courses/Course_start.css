@@ -1,0 +1,582 @@
+/* ══════════════════════════════════════════════════════════════
+   COURSE START PAGE
+══════════════════════════════════════════════════════════════ */
+.course_start-page {
+    margin-top: 80px;
+    padding: 28px 32px 60px;
+    font-family: 'Inter', sans-serif;
+    color: #1a1a1a;
+    background-color: #f9fafb;
+    min-height: 100vh;
+}
+
+.course_start-container {
+    max-width: 1280px;
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+/* ─── Breadcrumbs ─────────────────────────────────────────── */
+.breadcrumbs-nav {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 0;
+}
+
+.Breadcrumbs {
+    color: #0089EA;
+    font-size: 13px;
+    font-weight: 500;
+    text-decoration: none;
+    transition: color 0.2s;
+}
+
+.Breadcrumbs:hover { color: #0063cc; }
+
+.breadcrumb-separator {
+    color: #0089EA;
+    margin: 0 6px;
+    display: flex;
+    align-items: center;
+}
+
+.current-page {
+    color: #1a1a1a;
+    font-weight: 600;
+    font-size: 13px;
+}
+
+/* ─── Main Two-Column Layout ──────────────────────────────── */
+.course_start_main {
+    display: flex;
+    gap: 24px;
+    align-items: flex-start;
+    width: 100%;
+}
+
+/* ══════════════════════════════════════════════════════════
+   LEFT SIDEBAR
+══════════════════════════════════════════════════════════ */
+.left_side_course {
+    width: 260px;
+    min-width: 240px;
+    flex-shrink: 0;
+    background: #ffffff;
+    border: 1px solid #e5e7eb;
+    border-radius: 16px;
+    padding: 20px 16px;
+    height: fit-content;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+    max-height: calc(100vh - 130px);
+    overflow-y: auto;
+}
+
+.left_side_course::-webkit-scrollbar { width: 4px; }
+.left_side_course::-webkit-scrollbar-track { background: transparent; }
+.left_side_course::-webkit-scrollbar-thumb { background: #d1d5db; border-radius: 4px; }
+
+/* Sidebar Title */
+.course_start_title {
+    font-size: 17px;
+    font-weight: 700;
+    color: #111827;
+    margin: 0 0 16px;
+}
+
+/* ─── Progress Bar ────────────────────────────────────────── */
+.progress-container {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    margin-bottom: 20px;
+}
+
+.progress-labels {
+    display: flex;
+    justify-content: space-between;
+    font-size: 12px;
+    color: #6b7280;
+}
+
+.progress-label-percentage {
+    font-weight: 600;
+    color: #374151;
+}
+
+.progress-label-text { color: #6b7280; }
+
+.progress-bar-track {
+    width: 100%;
+    height: 7px;
+    border-radius: 10px;
+    background: #e5e7eb;
+    overflow: hidden;
+}
+
+.progress-bar-fill {
+    height: 100%;
+    background: linear-gradient(90deg, #0089EA, #00b4ff);
+    border-radius: 10px;
+    transition: width 0.4s ease;
+}
+
+/* ─── Course Sections List ────────────────────────────────── */
+.course_list {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+}
+
+.section_block { display: flex; flex-direction: column; }
+
+/* Section Header */
+.section_header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 8px;
+    padding: 10px 6px;
+    cursor: pointer;
+    border-radius: 8px;
+    transition: background 0.15s;
+}
+
+.section_header:hover { background: #f3f4f6; }
+
+.section_title_text {
+    font-size: 14px;
+    font-weight: 600;
+    color: #111827;
+    flex: 1;
+    line-height: 1.3;
+}
+
+.section_chevron {
+    color: #9ca3af;
+    flex-shrink: 0;
+    transition: transform 0.25s ease;
+}
+
+.section_chevron.open { transform: rotate(180deg); }
+
+/* Lesson count sub-label */
+.section_lesson_count {
+    font-size: 11px;
+    color: #9ca3af;
+    padding: 0 6px 6px;
+    display: block;
+}
+
+/* ─── Section Content ─────────────────────────────────────── */
+.section_content.collapsed { display: none; }
+
+.section_content.expanded {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    padding-bottom: 8px;
+    animation: slideDown 0.2s ease-out;
+}
+
+@keyframes slideDown {
+    from { opacity: 0; transform: translateY(-6px); }
+    to   { opacity: 1; transform: translateY(0); }
+}
+
+/* ─── Lesson Items ────────────────────────────────────────── */
+.lesson_item {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 8px 10px;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: background 0.15s;
+}
+
+.lesson_item:hover { background: #f3f4f6; }
+
+.lesson_item.active {
+    background: #dbeafe;
+}
+
+.lesson_item.active .lesson_info h5 { color: #1d4ed8; }
+.lesson_item.active .lesson_info p  { color: #3b82f6; }
+
+/* Status icon (completed circle or play) */
+.lesson_status_icon {
+    width: 22px;
+    height: 22px;
+    border-radius: 50%;
+    border: 1.5px solid #d1d5db;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    color: #9ca3af;
+    transition: all 0.2s;
+}
+
+.lesson_status_icon.done {
+    background: #0089EA;
+    border-color: #0089EA;
+    color: #ffffff;
+}
+
+.lesson_item.active .lesson_status_icon {
+    border-color: #0089EA;
+    color: #0089EA;
+}
+
+.lesson_info {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+    min-width: 0;
+}
+
+.lesson_info h5 {
+    margin: 0;
+    font-size: 13px;
+    font-weight: 500;
+    color: #374151;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.lesson_info p {
+    margin: 0;
+    font-size: 11px;
+    color: #9ca3af;
+    display: flex;
+    align-items: center;
+    gap: 4px;
+}
+
+/* ══════════════════════════════════════════════════════════
+   RIGHT MAIN CONTENT
+══════════════════════════════════════════════════════════ */
+.right_side_course {
+    flex: 1;
+    min-width: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+}
+
+/* ─── Video Player ────────────────────────────────────────── */
+.video_player_wrapper {
+    background: #111827;
+    border-radius: 12px 12px 0 0;
+    overflow: hidden;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+}
+
+.video_placeholder {
+    width: 100%;
+    aspect-ratio: 16 / 9;
+    background: #111827;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.play_btn_center {
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    background: rgba(255,255,255,0.15);
+    border: 2px solid rgba(255,255,255,0.4);
+    color: #ffffff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: background 0.2s, transform 0.2s;
+    backdrop-filter: blur(4px);
+}
+
+.play_btn_center:hover {
+    background: rgba(255,255,255,0.25);
+    transform: scale(1.08);
+}
+
+/* ─── Video Controls Bar ──────────────────────────────────── */
+.video_controls {
+    background: #1f2937;
+    padding: 8px 16px 10px;
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+}
+
+/* Seek Bar */
+.video_seek_bar {
+    position: relative;
+    width: 100%;
+    height: 4px;
+    background: rgba(255,255,255,0.2);
+    border-radius: 4px;
+    cursor: pointer;
+    margin-bottom: 2px;
+}
+
+.seek_fill {
+    position: absolute;
+    left: 0; top: 0; bottom: 0;
+    background: #0089EA;
+    border-radius: 4px;
+    transition: width 0.1s;
+}
+
+.seek_thumb {
+    position: absolute;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    width: 12px;
+    height: 12px;
+    background: #ffffff;
+    border-radius: 50%;
+    box-shadow: 0 0 4px rgba(0,0,0,0.4);
+    pointer-events: none;
+}
+
+/* Controls Row */
+.video_controls_row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.controls_left, .controls_right {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.ctrl_btn {
+    background: none;
+    border: none;
+    color: rgba(255,255,255,0.85);
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    padding: 4px;
+    border-radius: 4px;
+    transition: color 0.15s, background 0.15s;
+}
+
+.ctrl_btn:hover {
+    color: #ffffff;
+    background: rgba(255,255,255,0.1);
+}
+
+.volume_bar_track {
+    width: 70px;
+    height: 4px;
+    background: rgba(255,255,255,0.2);
+    border-radius: 4px;
+    overflow: hidden;
+    cursor: pointer;
+}
+
+.volume_bar_fill {
+    height: 100%;
+    background: #ffffff;
+    border-radius: 4px;
+}
+
+.time_label {
+    font-size: 12px;
+    color: rgba(255,255,255,0.8);
+    white-space: nowrap;
+    font-variant-numeric: tabular-nums;
+}
+
+/* ─── Lesson Info Bar ─────────────────────────────────────── */
+.lesson_info_bar {
+    background: #ffffff;
+    border: 1px solid #e5e7eb;
+    border-top: none;
+    border-radius: 0 0 12px 12px;
+    padding: 20px 24px 24px;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.lesson_info_top {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    flex-wrap: wrap;
+}
+
+.lesson_main_title {
+    font-size: 20px;
+    font-weight: 700;
+    color: #111827;
+    margin: 0;
+}
+
+.lesson_nav_controls {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    flex-shrink: 0;
+}
+
+.autoplay_label {
+    font-size: 13px;
+    font-weight: 500;
+    color: #374151;
+}
+
+/* Toggle Switch */
+.autoplay_toggle {
+    width: 38px;
+    height: 22px;
+    border-radius: 11px;
+    background: #d1d5db;
+    position: relative;
+    cursor: pointer;
+    transition: background 0.25s;
+    flex-shrink: 0;
+}
+
+.autoplay_toggle.on { background: #0089EA; }
+
+.toggle_thumb {
+    position: absolute;
+    top: 3px;
+    left: 3px;
+    width: 16px;
+    height: 16px;
+    background: #ffffff;
+    border-radius: 50%;
+    transition: transform 0.25s;
+    box-shadow: 0 1px 4px rgba(0,0,0,0.2);
+}
+
+.autoplay_toggle.on .toggle_thumb { transform: translateX(16px); }
+
+/* Prev / Next Buttons */
+.nav_btn {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    padding: 7px 14px;
+    font-size: 13px;
+    font-weight: 500;
+    color: #374151;
+    background: #f3f4f6;
+    border: 1px solid #e5e7eb;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: all 0.2s;
+    white-space: nowrap;
+}
+
+.nav_btn:hover:not(:disabled) {
+    background: #e5e7eb;
+    border-color: #d1d5db;
+}
+
+.nav_btn:disabled { opacity: 0.4; cursor: not-allowed; }
+
+.icon_flip { transform: rotate(180deg); }
+
+/* Lesson Meta */
+.lesson_meta {
+    font-size: 13px;
+    color: #6b7280;
+    margin: 0;
+}
+
+/* ─── Tabs ────────────────────────────────────────────────── */
+.lesson_tabs {
+    display: flex;
+    gap: 0;
+    border-bottom: 1px solid #e5e7eb;
+}
+
+.tab_btn {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    padding: 10px 16px;
+    font-size: 13px;
+    font-weight: 500;
+    color: #6b7280;
+    background: none;
+    border: none;
+    border-bottom: 2px solid transparent;
+    margin-bottom: -1px;
+    cursor: pointer;
+    transition: color 0.2s, border-color 0.2s;
+}
+
+.tab_btn:hover { color: #374151; }
+
+.tab_btn.active {
+    color: #0089EA;
+    border-bottom-color: #0089EA;
+}
+
+/* ─── Tab Content ─────────────────────────────────────────── */
+.tab_content {
+    padding-top: 4px;
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+    color: #374151;
+    font-size: 14px;
+    line-height: 1.7;
+}
+
+.tab_content p { margin: 0; }
+
+.tab_content h4 {
+    margin: 4px 0 4px;
+    font-size: 14px;
+    font-weight: 700;
+    color: #111827;
+}
+
+.tab_content ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.tab_content li {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 13px;
+    color: #374151;
+}
+
+.check_icon { color: #0089EA; flex-shrink: 0; }
+
+/* ─── Responsive ──────────────────────────────────────────── */
+@media (max-width: 900px) {
+    .course_start_main { flex-direction: column; }
+    .left_side_course  { width: 100%; max-height: 400px; }
+}
+
+@media (max-width: 600px) {
+    .course_start-page { padding: 16px 16px 48px; }
+    .lesson_info_top   { flex-direction: column; align-items: flex-start; }
+    .lesson_main_title { font-size: 17px; }
+}

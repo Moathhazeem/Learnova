@@ -26,6 +26,7 @@ import AboutUs from './courses/About_us';
 import Payment_pay from './courses/Payment_pay';
 import Communication from './courses/Communication';
 import Save from './courses/Save';
+import Course_start from './courses/Course_start';
 function Layout({ children }) {
   const location = useLocation();
   const noheaderfooter = ["/log_in", "/sign_up", "/Forgot_pas", "/check_email", '/Verification_Code', '/Create_new_pas'];
@@ -68,6 +69,7 @@ function App() {
           <Route path="/Payment_pay" element={<Payment_pay />} />
           <Route path="/Communication" element={<Communication />} />
           <Route path="/Save" element={<Save />} />
+          <Route path="/Course_start" element={<Course_start />} />
         </Routes>
       </Layout>
     </Router>
