@@ -1,5 +1,5 @@
-import { useState, useRef } from "react";
-import { Play, Pause, ChevronRight, ChevronDown, Check, Volume2, Settings, Maximize, BookOpen, Download, MessageSquare, FileText, Upload, Clock } from "lucide-react";
+import { useState, useRef, useEffect } from "react";
+import { Play, Pause, ChevronRight, ChevronDown, Check, Volume2, Settings, Maximize, Minimize, BookOpen, Download, MessageSquare, FileText, Upload, Clock } from "lucide-react";
 import { Link, useLocation } from "react-router-dom";
 import { useTranslation } from 'react-i18next';
 import "./Course_start.css";
@@ -12,6 +12,29 @@ function Course_start() {
     const [video, setVideo] = useState(0);
     const [currentTime, setCurrentTime] = useState(0);
     const [duration, setDuration] = useState(150);
+    const playerRef = useRef(null);
+    const [isFullscreen, setIsFullscreen] = useState(false);
+
+    useEffect(() => {
+        const handleFullscreenChange = () => {
+            setIsFullscreen(!!document.fullscreenElement);
+        };
+        document.addEventListener('fullscreenchange', handleFullscreenChange);
+        return () => {
+            document.removeEventListener('fullscreenchange', handleFullscreenChange);
+        };
+    }, []);
+
+    const handleFullscreen = () => {
+        if (!playerRef.current) return;
+        if (!document.fullscreenElement) {
+            playerRef.current.requestFullscreen().catch((err) => {
+                console.error(`failed to enter fullscreen mode: ${err.message}`)
+            });
+        } else {
+            document.exitFullscreen();
+        }
+    }
     const formatTime = (timeInSeconds) => {
         const minutes = Math.floor(timeInSeconds / 60);
         const seconds = Math.floor(timeInSeconds % 60);
@@ -323,7 +346,7 @@ function Course_start() {
                                 </div>
                             </div>
                         ) : (
-                            <div className="video_player_wrapper">
+                            <div className="video_player_wrapper" ref={playerRef}>
                                 <div className="video_placeholder">
                                     <button className="play_btn_center" onClick={() => setIsPlaying(!isPlaying)}>
                                         {isPlaying ? <Pause size={30} /> : <Play size={30} />}
@@ -346,13 +369,14 @@ function Course_start() {
                                                 <input type="range" min="0" max="100" value={volume} onChange={handleVolumeChange} className="volume_bar_input" />
                                             </div>
                                             <div className="time_container">
-                                                {/* الوقت يوضع بجانب السلايدر وليس داخله ليحافظ على التنسيق */}
                                                 <span className="time_label">{formatTime(currentTime)} / {formatTime(duration)}</span>
                                             </div>
                                         </div>
                                         <div className="controls_right">
                                             <button className="ctrl_btn"><Settings size={16} /></button>
-                                            <button className="ctrl_btn"><Maximize size={16} /></button>
+                                            <button className="ctrl_btn" onClick={handleFullscreen}>
+                                                {isFullscreen ? <Minimize size={16} /> : <Maximize size={16} />}
+                                            </button>
                                         </div>
                                     </div>
                                 </div>
