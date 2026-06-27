@@ -9,6 +9,21 @@ function Course_start() {
     const pathname = location.pathname.split('/').filter(x => x);
     const { t } = useTranslation();
     const [volume, setVolume] = useState(80);
+    const [video, setVideo] = useState(0);
+    const [currentTime, setCurrentTime] = useState(0);
+    const [duration, setDuration] = useState(150);
+    const formatTime = (timeInSeconds) => {
+        const minutes = Math.floor(timeInSeconds / 60);
+        const seconds = Math.floor(timeInSeconds % 60);
+        return `${minutes.toString().padStart(2, '0')}: ${seconds.toString().padStart(2, '0')}`;
+    }
+    const handleTimeChange = (e) => {
+        setCurrentTime(Number(e.target.value));
+    }
+    const progressPercentage = duration > 0 ? (currentTime / duration) * 100 : 0;
+    const handleVideoChange = (e) => {
+        setVideo(e.target.value);
+    }
     const handleVolumeChange = (e) => {
         setVolume(e.target.value);
     }
@@ -315,9 +330,10 @@ function Course_start() {
                                     </button>
                                 </div>
                                 <div className="video_controls">
-                                    <div className="video_seek_bar">
-                                        <div className="seek_fill" style={{ width: '40%' }} />
-                                        <div className="seek_thumb" style={{ left: '40%' }} />
+                                    <div className="video_seek_bar" style={{ position: "relative" }}>
+                                        <input type="range" min="0" max={duration} value={currentTime} onChange={handleTimeChange} className="video_progress_input" />
+                                        <div className="seek_fill" style={{ width: `${progressPercentage}%` }} />
+                                        <div className="seek_thumb" style={{ left: `${progressPercentage}%` }} />
                                     </div>
                                     <div className="video_controls_row">
                                         <div className="controls_left">
@@ -329,8 +345,10 @@ function Course_start() {
                                                 <div className="volume_bar_fill" style={{ width: `${volume}%` }} />
                                                 <input type="range" min="0" max="100" value={volume} onChange={handleVolumeChange} className="volume_bar_input" />
                                             </div>
-
-                                            <span className="time_label">1:00 / 2:30</span>
+                                            <div className="time_container">
+                                                {/* الوقت يوضع بجانب السلايدر وليس داخله ليحافظ على التنسيق */}
+                                                <span className="time_label">{formatTime(currentTime)} / {formatTime(duration)}</span>
+                                            </div>
                                         </div>
                                         <div className="controls_right">
                                             <button className="ctrl_btn"><Settings size={16} /></button>
