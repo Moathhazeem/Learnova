@@ -126,7 +126,7 @@
     position: relative;
     flex: 1;
     /* يأخذ المساحة المتبقية */
-    max-width: 450px;
+    min-width: 500px;
 }
 
 /* أيقونة البحث داخل الحقل */
@@ -159,6 +159,13 @@
 .filter-buttons {
     display: flex;
     gap: 12px;
+    align-items: center;
+    overflow-x: none;
+    white-space: nowrap;
+}
+
+.filter-dropdown-wrapper {
+    position: relative;
 }
 
 /* تصميم الزر الأزرق */
@@ -167,26 +174,83 @@
     align-items: center;
     gap: 8px;
     /* المسافة بين الأيقونة والنص داخل الزر */
-    background-color: #007aff;
-    /* لون أزرق مثل الصورة */
-    color: #ffffff;
-    border: none;
+    background-color: #f5f7fa;
+    color: #333333;
+    border: 1px solid #e2e8f0;
     padding: 10px 16px;
     font-size: 14px;
     font-weight: 500;
     border-radius: 8px;
     cursor: pointer;
-    transition: background-color 0.2s, opacity 0.2s;
+    transition: all 0.2s ease-in-out;
 }
 
-.filter-btn:hover {
-    background-color: #0063cc;
+.filter-btn:hover,
+.filter-btn.active {
+    background-color: #007aff;
+    color: #ffffff;
+    border-color: #007aff;
+}
+
+.filter-btn.active .chevron-icon {
+    transform: rotate(180deg);
+}
+
+.chevron-icon {
+    transition: transform 0.2s ease;
 }
 
 /* تعديل بسيط لأيقونة الـ Level لتظهر كأعمدة متصاعدة بشكل صحيح */
 .rotate-icon {
     transform: scaleY(-1);
     /* لقلب الأعمدة لتبدو كتصاعد للمستوى */
+}
+
+/* قائمة خيارات الفلتر المنسدلة */
+.filter-dropdown-menu {
+    position: absolute;
+    top: calc(100% + 6px);
+    left: 0;
+    z-index: 100;
+    min-width: 200px;
+    background: #ffffff;
+    border: 1px solid #e2e8f0;
+    border-radius: 8px;
+    box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+    overflow: hidden;
+}
+
+.filter-dropdown-menu ul {
+    list-style: none;
+    padding: 6px 0;
+    margin: 0;
+}
+
+.filter-dropdown-menu li {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 10px 16px;
+    font-size: 14px;
+    color: #4a5568;
+    cursor: pointer;
+    transition: background-color 0.2s, color 0.2s;
+}
+
+.filter-dropdown-menu li:hover {
+    background-color: #f7fafc;
+    color: #007aff;
+}
+
+.filter-dropdown-menu li.selected {
+    background-color: #ebf8ff;
+    color: #007aff;
+    font-weight: 600;
+}
+
+.check-mark {
+    font-weight: bold;
+    color: #007aff;
 }
 
 /* حاوية الكروت بالكامل */

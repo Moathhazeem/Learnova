@@ -103,6 +103,7 @@ function Header() {
                     <li style={{ padding: "8px 0", cursor: "pointer" }} onClick={() => Navigate("/Setting/Profile")}>{t("setting.profile", "Profile")}</li>
                     <li style={{ padding: "8px 0", cursor: "pointer" }} onClick={() => Navigate("/My Learning")}>{t("setting.my_learning", "My Learning")}</li>
                     <li style={{ padding: "8px 0", cursor: "pointer" }} onClick={() => Navigate("/Mypurchases")}>{t("setting.my_purchases", "My Purchases")}</li>
+                    <li style={{ padding: "8px 0", cursor: "pointer" }} onClick={() => Navigate("/Save")}>{t("setting.save", "Save")}</li>
                     <li style={{ padding: "8px 0", cursor: "pointer" }} onClick={() => Navigate("/Explore")}>{t("setting.explore", "Explore")}</li>
                     <li style={{ padding: "8px 0", cursor: "pointer" }} onClick={() => Navigate("/Setting/Profile")}>{t("setting.settings", "Settings")}</li>
                     <li style={{ padding: "8px 0", cursor: "pointer" }} onClick={() => Navigate("/Help center")}>{t("setting.help_center", "Help Center")}</li>

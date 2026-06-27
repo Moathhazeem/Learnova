@@ -49,17 +49,108 @@ function Save() {
             rating: "4.9"
         }
     ]);
-
+    const filterData = [
+        {
+            id: 'categories',
+            label: 'Categories',
+            options: ['All categories', 'Computer Science', 'Data Science', 'Web Development', 'UI / UX Design'],
+            multiSelect: false
+        },
+        {
+            id: 'level',
+            label: 'Level',
+            options: ['All levels', 'Beginner', 'Intermediate', 'Advanced'],
+            multiSelect: true
+        },
+        {
+            id: 'duration',
+            label: 'Duration',
+            options: ['All durations', 'Below 1h', '1h - 2h', '2h - 4h'],
+            multiSelect: false
+        }
+    ];
+    const [activeDropdown, setActiveDropdown] = useState(null);
+    const [selectedFilters, setSelectedFilters] = useState({
+        categories: ['All categories'],
+        level: ['All levels'],
+        duration: ['All durations']
+    });
+    const toggleDropdown = (id) => {
+        setActiveDropdown(activeDropdown === id ? null : id)
+    };
+    const handleSelectOption = (filterId, option, multiSelect) => {
+        setSelectedFilters((prev) => {
+            const currentSelected = prev[filterId] || [];
+            
+            if (multiSelect) {
+                // If selecting the default/all option
+                if (option === 'All levels' || option === 'All categories' || option === 'All durations') {
+                    return { ...prev, [filterId]: [option] };
+                }
+                
+                // Remove default option if selected
+                let newSelected = currentSelected.filter(
+                    (item) => item !== 'All levels' && item !== 'All categories' && item !== 'All durations'
+                );
+                
+                if (newSelected.includes(option)) {
+                    newSelected = newSelected.filter((item) => item !== option);
+                    if (newSelected.length === 0) {
+                        const defaultOpt = filterId === 'categories' ? 'All categories' : filterId === 'level' ? 'All levels' : 'All durations';
+                        newSelected = [defaultOpt];
+                    }
+                } else {
+                    newSelected.push(option);
+                }
+                return { ...prev, [filterId]: newSelected };
+            } else {
+                return { ...prev, [filterId]: [option] };
+            }
+        });
+    };
     const [searchQuery, setSearchQuery] = useState("");
 
     const handleDelete = (id) => {
         setSavedCourses(prevCourses => prevCourses.filter(course => course.id !== id));
     };
 
-    // Filter courses based on search query
-    const filteredCourses = savedCourses.filter(course =>
-        course.title.toLowerCase().includes(searchQuery.toLowerCase())
-    );
+    // Filter courses based on search query and selected dropdown filters
+    const filteredCourses = savedCourses.filter(course => {
+        const matchesSearch = course.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
+                              course.instructorName.toLowerCase().includes(searchQuery.toLowerCase());
+                              
+        const selectedCategories = selectedFilters.categories || ['All categories'];
+        let matchesCategory = selectedCategories.includes('All categories') || selectedCategories.length === 0;
+        if (!matchesCategory) {
+            matchesCategory = selectedCategories.some(cat => 
+                (course.category && course.category.toLowerCase() === cat.toLowerCase()) ||
+                course.title.toLowerCase().includes(cat.toLowerCase())
+            );
+        }
+
+        const selectedLevels = selectedFilters.level || ['All levels'];
+        let matchesLevel = selectedLevels.includes('All levels') || selectedLevels.length === 0;
+        if (!matchesLevel) {
+            matchesLevel = selectedLevels.some(lvl => {
+                const normLvl = lvl.toLowerCase() === 'beginner' ? 'beginer' : lvl.toLowerCase();
+                return course.level.toLowerCase() === normLvl;
+            });
+        }
+
+        const selectedDurations = selectedFilters.duration || ['All durations'];
+        let matchesDuration = selectedDurations.includes('All durations') || selectedDurations.length === 0;
+        if (!matchesDuration) {
+            const hours = parseFloat(course.duration);
+            matchesDuration = selectedDurations.some(dur => {
+                if (dur === 'Below 1h') return hours < 1;
+                if (dur === '1h - 2h') return hours >= 1 && hours <= 2;
+                if (dur === '2h - 4h') return hours > 2 && hours <= 4;
+                return false;
+            });
+        }
+
+        return matchesSearch && matchesCategory && matchesLevel && matchesDuration;
+    });
 
     return (
         <div className="Save-page">
@@ -117,21 +208,46 @@ function Save() {
                         />
                     </div>
                     <div className="filter-buttons">
-                        <button className="filter-btn">
-                            <Grid size={16} />
-                            <span className="text">{t('setting.categories', 'Categories')}</span>
-                            <ChevronDown size={14} />
-                        </button>
-                        <button className="filter-btn">
-                            <BarChart size={16} className="rotate-icon" />
-                            <span className="text">{t('setting.level', 'Level')}</span>
-                            <ChevronDown size={14} />
-                        </button>
-                        <button className="filter-btn">
-                            <Clock size={16} />
-                            <span className="text">{t('setting.duration', 'Duration')}</span>
-                            <ChevronDown size={14} />
-                        </button>
+                        {filterData.map((filter) => {
+                            const isDropdownOpen = activeDropdown === filter.id;
+                            const currentSelected = selectedFilters[filter.id] || [];
+                            const IconComponent = filter.id === 'categories' ? Grid : filter.id === 'level' ? BarChart : Clock;
+                            
+                            return (
+                                <div className="filter-dropdown-wrapper" key={filter.id}>
+                                    <button 
+                                        className={`filter-btn ${isDropdownOpen ? 'active' : ''}`} 
+                                        onClick={() => toggleDropdown(filter.id)}
+                                    >
+                                        <IconComponent size={16} className={filter.id === 'level' ? 'rotate-icon' : ''} />
+                                        <span className="text">
+                                            {t(`setting.${filter.id}`, filter.label)}: {currentSelected.join(', ')}
+                                        </span>
+                                        <ChevronDown size={14} className={`chevron-icon ${isDropdownOpen ? 'open' : ''}`} />
+                                    </button>
+                                    
+                                    {isDropdownOpen && (
+                                        <div className="filter-dropdown-menu">
+                                            <ul>
+                                                {filter.options.map((option, index) => {
+                                                    const isSelected = currentSelected.includes(option);
+                                                    return (
+                                                        <li 
+                                                            key={index} 
+                                                            onClick={() => handleSelectOption(filter.id, option, filter.multiSelect)}
+                                                            className={isSelected ? 'selected' : ''}
+                                                        >
+                                                            <span className="option-text">{option}</span>
+                                                            {isSelected && <span className="check-mark">✓</span>}
+                                                        </li>
+                                                    );
+                                                })}
+                                            </ul>
+                                        </div>
+                                    )}
+                                </div>
+                            );
+                        })}
                     </div>
                 </div>
                 <div className="courses-list-container">
