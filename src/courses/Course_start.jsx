@@ -123,9 +123,9 @@ function Course_start() {
             {
                 id: "sec1", title: "Introduction to Logo Design", lessonCount: 3,
                 lessons: [
-                    { id: "l1", title: "Course Introduction", duration: "2:30", completed: true, videoUrl: "https://pixabay.com/videos/cold-winter-snow-nature-ice-cliff-345020/" },
-                    { id: "l2", title: "Tool you will use", duration: "2:30", completed: false, videoUrl: "https://pixabay.com/videos/cold-winter-snow-nature-ice-cliff-345020/" },
-                    { id: "l3", title: "Setting up Illustrator", duration: "3:00", completed: false, videoUrl: "https://pixabay.com/videos/cold-winter-snow-nature-ice-cliff-345020/" }
+                    { id: "l1", title: "Course Introduction", duration: "2:30", completed: true, videoUrl: "public/video/demo.mp4" },
+                    { id: "l2", title: "Tool you will use", duration: "2:30", completed: false, videoUrl: "public/video/demo.mp4" },
+                    { id: "l3", title: "Setting up Illustrator", duration: "3:00", completed: false, videoUrl: "public/video/demo.mp4" }
                 ]
             },
             {
