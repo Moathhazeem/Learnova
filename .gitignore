@@ -26,4 +26,10 @@ dist-ssr
 # Backend - user data (contains sensitive info, auto-generated)
 server/data/
 
-public/video/demo.mp4
+# تجاهل مجلد الفيديوهات بالكامل
+public/video/
+# تجاهل أي فيديو بصيغة mp4 أو mov أو avi
+# *.mp4
+# *.mov
+# *.avi
+# *.mkv
