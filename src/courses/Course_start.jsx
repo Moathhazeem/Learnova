@@ -86,7 +86,7 @@ function Course_start() {
     const formatTime = (timeInSeconds) => {
         const minutes = Math.floor(timeInSeconds / 60);
         const seconds = Math.floor(timeInSeconds % 60);
-        return `${minutes.toString().padStart(2, '0')}: ${seconds.toString().padStart(2, '0')}`;
+        return `${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
     }
     const handleTimeChange = (e) => {
         setCurrentTime(Number(e.target.value));
@@ -123,7 +123,7 @@ function Course_start() {
             {
                 id: "sec1", title: "Introduction to Logo Design", lessonCount: 3,
                 lessons: [
-                    { id: "l1", title: "Course Introduction", duration: "2:30", completed: true, videoUrl: "public/video/demo.mp4" },
+                    { id: "l1", title: "Course Introduction", duration: formatTime(duration), completed: true, videoUrl: "public/video/demo.mp4" },
                     { id: "l2", title: "Tool you will use", duration: "2:30", completed: false, videoUrl: "public/video/demo.mp4" },
                     { id: "l3", title: "Setting up Illustrator", duration: "3:00", completed: false, videoUrl: "public/video/demo.mp4" }
                 ]
@@ -528,7 +528,7 @@ function Course_start() {
                                     </button>
                                 </div>
                             </div>
-                            <p className="lesson_meta">Lesson {currentLessonIndex + 1} of {totalLessons}&nbsp;&nbsp;·&nbsp;&nbsp;{currentLesson.duration}</p>
+                            <p className="lesson_meta">Lesson {currentLessonIndex + 1} of {totalLessons}&nbsp;&nbsp;·&nbsp;&nbsp;{formatTime(duration)}</p>
 
                             {/* Tabs */}
                             <div className="lesson_tabs">
