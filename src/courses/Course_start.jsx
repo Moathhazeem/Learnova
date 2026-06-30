@@ -1,14 +1,18 @@
 import { useState, useRef, useEffect } from "react";
-import { Play, Pause, ChevronRight, ChevronDown, Check, Volume2, Settings, Maximize, Minimize, BookOpen, Download, MessageSquare, FileText, Upload, Clock } from "lucide-react";
+import { Play, Pause, ChevronRight, ChevronDown, Check, Volume2, VolumeX, Settings, Maximize, Minimize, BookOpen, Download, MessageSquare, FileText, Upload, Clock } from "lucide-react";
 import { Link, useLocation } from "react-router-dom";
+import ReactPlayer from 'react-player';
 import { useTranslation } from 'react-i18next';
+
 import "./Course_start.css";
 
 function Course_start() {
     const location = useLocation();
     const pathname = location.pathname.split('/').filter(x => x);
     const { t } = useTranslation();
-    const [volume, setVolume] = useState(80);
+    const [volume, setVolume] = useState(50);
+    const [isMuted, setMuted] = useState(false);
+    const [preVolume, setPreVolume] = useState(50);
     const [video, setVideo] = useState(0);
     const [currentTime, setCurrentTime] = useState(0);
     const [duration, setDuration] = useState(150);
@@ -17,7 +21,12 @@ function Course_start() {
     const [showSettings, setShowSettings] = useState(false);
     const [speed, setSpeed] = useState(1);
     const [isLooping, setIsLooping] = useState(false);
+    const [file, setFile] = useState(null);
+    const [name, setName] = useState('');
+    const [type, setType] = useState('pdf');
     const videoRef = useRef(null);
+    const [isPlaying, setIsPlaying] = useState(false);
+
     const handleSpeedChange = (newSpeed) => {
         setSpeed(newSpeed);
         if (videoRef.current) {
@@ -43,7 +52,27 @@ function Course_start() {
             document.removeEventListener('fullscreenchange', handleFullscreenChange);
         };
     }, []);
-
+    useEffect(() => {
+        if (videoRef.current) {
+            if (isPlaying) {
+                videoRef.current.play();
+            }
+            else {
+                videoRef.current.pause()
+            }
+        }
+    }, [isPlaying]);
+    const handleTimeUpdate = () => {
+        if (videoRef.current) {
+            setCurrentTime(videoRef.current.currentTime);
+        }
+    }
+    const handleLoadedMetadata = () => {
+        if (videoRef.current) {
+            setDuration(videoRef.current.duration);
+        }
+    }
+    const progressPercentage = duration > 0 ? (currentTime / duration) * 100 : 0;
     const handleFullscreen = () => {
         if (!playerRef.current) return;
         if (!document.fullscreenElement) {
@@ -62,22 +91,41 @@ function Course_start() {
     const handleTimeChange = (e) => {
         setCurrentTime(Number(e.target.value));
     }
-    const progressPercentage = duration > 0 ? (currentTime / duration) * 100 : 0;
+
     const handleVideoChange = (e) => {
         setVideo(e.target.value);
     }
-    const handleVolumeChange = (e) => {
-        setVolume(e.target.value);
+    const toggleMute = () => {
+        if (isMuted) {
+            setVolume(preVolume);
+            setIsMuted(false);
+        }
+        else {
+            setPreVolume(volume !== 0 ? volume : 50);
+            setVolume(0);
+            setIsMuted(true);
+        }
     }
+    const handleVolumeChange = (e) => {
+        const newVolume = Number(e.target.value);
+        setVolume(newVolume);
+        if (newVolume > 0) {
+            setIsMuted(false);
+        }
+        else {
+            setIsMuted(true);
+        }
+    }
+
     const courseData = {
         title: "Introduction to Logo Design",
         sections: [
             {
                 id: "sec1", title: "Introduction to Logo Design", lessonCount: 3,
                 lessons: [
-                    { id: "l1", title: "Course Introduction", duration: "2:30", completed: true },
-                    { id: "l2", title: "Tool you will use", duration: "2:30", completed: false },
-                    { id: "l3", title: "Setting up Illustrator", duration: "3:00", completed: false }
+                    { id: "l1", title: "Course Introduction", duration: "2:30", completed: true, videoUrl: "https://youtu.be/LjADbZnQLqw" },
+                    { id: "l2", title: "Tool you will use", duration: "2:30", completed: false, videoUrl: "https://youtu.be/LjADbZnQLqw" },
+                    { id: "l3", title: "Setting up Illustrator", duration: "3:00", completed: false, videoUrl: "https://youtu.be/LjADbZnQLqw" }
                 ]
             },
             {
@@ -176,16 +224,39 @@ function Course_start() {
     const completedCount = 3;
     const percentage = Math.round((completedCount / totalLessons) * 100);
 
-    const [currentLesson, setCurrentLesson] = useState(allLessons[3]);
+    //const [currentLesson, setCurrentLesson] = useState(allLessons[3]);
+    const [currentLesson, setCurrentLesson] = useState(courseData.sections[0].lessons[0]);
     const [markedComplete, setMarkedComplete] = useState({});
     const [openSections, setOpenSections] = useState({ sec1: true, sec2: true });
     const [activeTab, setActiveTab] = useState('overview');
-    const [isPlaying, setIsPlaying] = useState(false);
+
+
+
     const [autoplay, setAutoplay] = useState(true);
     const [noteText, setNoteText] = useState('');
+    const [clickNote, setClickNote] = useState(false);
+    const [saveNotice, setSaveNotice] = useState([
+    ]);
+    const handleSaveNotice = () => {
+        setClickNote(true)
+        if (noteText.trim() !== '') {
+            const newNote = {
+                id: saveNotice.length + 1,
+                content: noteText
+            };
+            setSaveNotice([...saveNotice, newNote]);
+            setNoteText('');
+            setClickNote(false);
+        }
+    }
+    const deleteNote = (id) => {
+        setSaveNotice(saveNotice.filter(note => note.id !== id));
+    };
     const [selectedFile, setSelectedFile] = useState(null);
     const fileInputRef = useRef(null);
-    const handleFileChange = (e) => { if (e.target.files[0]) setSelectedFile(e.target.files[0]); };
+    const handleFileChange = (e) => {
+        if (e.target.files[0]) setSelectedFile(e.target.files[0]);
+    };
     const handleDrop = (e) => { e.preventDefault(); if (e.dataTransfer.files[0]) setSelectedFile(e.dataTransfer.files[0]); };
     const [newQuestion, setNewQuestion] = useState('');
     const [expandedQA, setExpandedQA] = useState(0);
@@ -194,8 +265,8 @@ function Course_start() {
         { id: 2, question: 'How do I install Adobe Illustrator on Windows ?', answer: '' },
     ]);
     const resources = [
-        { id: 1, name: 'Summary lesson 1', type: 'Link', icon: 'link' },
-        { id: 2, name: 'Summary lesson 1.zip', type: 'Download', icon: 'download' },
+        { id: 1, name: 'Summary lesson 1', type: 'Link', icon: 'link', link: 'https://drive.google.com/file/d/1Pd-Mc1Mhc-Sx5gRWNIHm7mNNQ5GIYPMK/view?usp=drive_link' },
+        { id: 2, name: 'Summary lesson 1.zip', type: 'Download', icon: 'download', link: 'https://drive.google.com/file/d/1Pd-Mc1Mhc-Sx5gRWNIHm7mNNQ5GIYPMK/view?usp=drive_link' },
     ];
     const handleAskQuestion = () => {
         if (!newQuestion.trim()) return;
@@ -366,7 +437,14 @@ function Course_start() {
                             </div>
                         ) : (
                             <div className="video_player_wrapper" ref={playerRef}>
-                                <div className="video_placeholder">
+                                <video ref={videoRef}
+                                    className="video_player"
+                                    onClick={() => setIsPlaying(!isPlaying)}
+                                    onTimeUpdate={handleTimeUpdate}
+                                    onLoadedMetadata={handleLoadedMetadata}
+                                    src={currentLesson.videoUrl || "../videos/demo.mp4"} />
+                                <div className={`video_placeholder ${isPlaying ? 'playing' : ''}`}>
+
                                     <button className="play_btn_center" onClick={() => setIsPlaying(!isPlaying)}>
                                         {isPlaying ? <Pause size={30} /> : <Play size={30} />}
                                     </button>
@@ -382,7 +460,9 @@ function Course_start() {
                                             <button className="ctrl_btn" onClick={() => setIsPlaying(!isPlaying)}>
                                                 {isPlaying ? <Pause size={16} /> : <Play size={16} />}
                                             </button>
-                                            <button className="ctrl_btn"><Volume2 size={16} /></button>
+                                            <button className="ctrl_btn" onClick={toggleMute}>
+                                                {isMuted || volume === 0 ? <VolumeX size={16} /> : <Volume2 size={16} />}
+                                            </button>
                                             <div className="volume_bar_track" style={{ position: "relative" }}>
                                                 <div className="volume_bar_fill" style={{ width: `${volume}%` }} />
                                                 <input type="range" min="0" max="100" value={volume} onChange={handleVolumeChange} className="volume_bar_input" />
@@ -399,10 +479,10 @@ function Course_start() {
 
                                                         {/* خيار السرعة */}
                                                         <div className="settings_option">
-                                                            <span>سرعة التشغيل</span>
+                                                            <span>Speed</span>
                                                             <select value={speed} onChange={(e) => handleSpeedChange(Number(e.target.value))}>
                                                                 <option value="0.5">0.5x</option>
-                                                                <option value="1">العادية</option>
+                                                                <option value="1">Normal</option>
                                                                 <option value="1.5">1.5x</option>
                                                                 <option value="2">2x</option>
                                                             </select>
@@ -412,9 +492,9 @@ function Course_start() {
 
                                                         {/* خيار التكرار */}
                                                         <div className="settings_option" onClick={toggleLoop} style={{ cursor: 'pointer' }}>
-                                                            <span>تكرار الفيديو</span>
+                                                            <span>Loop video</span>
                                                             <span style={{ color: isLooping ? '#0088ff' : '#aaa' }}>
-                                                                {isLooping ? 'مفعّل' : 'ملغى'}
+                                                                {isLooping ? 'On' : 'Off'}
                                                             </span>
                                                         </div>
 
@@ -477,19 +557,53 @@ function Course_start() {
                             {activeTab === 'resources' && (
                                 <div className="tab_content">
                                     <div className="resources_grid">
-                                        {resources.map(r => (
-                                            <div key={r.id} className="resource_card">
-                                                <div className="resource_icon">
-                                                    {r.icon === 'link'
-                                                        ? <FileText size={20} className="res_icon_blue" />
-                                                        : <Download size={20} className="res_icon_blue" />}
+                                        {resources.map(r => {
+                                            const driveMatch = r.link.includes('drive.google.com') ? r.link.match(/\/d\/([a-zA-Z0-9-_]+)/) : null;
+                                            const downloadUrl = driveMatch ? `https://docs.google.com/uc?export=download&id=${driveMatch[1]}` : r.link;
+                                            return (
+                                                <div
+                                                    key={r.id}
+                                                    className="resource_card"
+                                                    onClick={() => window.open(r.type === 'Download' ? downloadUrl : r.link, '_blank', 'noopener,noreferrer')}
+                                                    style={{ cursor: 'pointer' }}
+                                                >
+                                                    <div className="resource_layout" style={{ display: 'flex', alignItems: 'center', width: '100%' }}>
+
+                                                        <div className="resource_icon">
+                                                            {r.icon === 'link' ? (
+                                                                <FileText size={20} className="res_icon_blue" />
+                                                            ) : (
+                                                                /* استخدام وسم الرابط الأصلي لمنع حظر النوافذ المنبثقة */
+                                                                <a
+                                                                    href={downloadUrl}
+                                                                    target="_blank"
+                                                                    rel="noopener noreferrer"
+                                                                    download={r.name}
+                                                                    onClick={(e) => e.stopPropagation()} // منع فتح الكرت الخارجي
+                                                                    title="Download file"
+                                                                    style={{
+                                                                        background: 'none',
+                                                                        border: 'none',
+                                                                        padding: 0,
+                                                                        cursor: 'pointer',
+                                                                        display: 'inline-flex',
+                                                                        color: 'inherit'
+                                                                    }}
+                                                                >
+                                                                    <Download size={20} className="res_icon_blue" />
+                                                                </a>
+                                                            )}
+                                                        </div>
+
+                                                        <div className="resource_info">
+                                                            <span className="resource_name">{r.name}</span>
+                                                            <span className="resource_type">{r.type}</span>
+                                                        </div>
+
+                                                    </div>
                                                 </div>
-                                                <div className="resource_info">
-                                                    <span className="resource_name">{r.name}</span>
-                                                    <span className="resource_type">{r.type}</span>
-                                                </div>
-                                            </div>
-                                        ))}
+                                            );
+                                        })}
                                     </div>
                                 </div>
                             )}
@@ -534,16 +648,24 @@ function Course_start() {
                                         onChange={e => setNoteText(e.target.value)}
                                         rows={6}
                                     />
-                                    <div className="notes_actions">
-                                        <button className="save_notes_btn">Save Notes</button>
+                                    <div className="notes_actions" onClick={handleSaveNotice}>
+                                        <button className="save_notes_btn" >Save Notes</button>
+                                    </div>
+                                    <div className="notes_notice">
+                                        {saveNotice && saveNotice.map((note, index) => (
+                                            <div key={note.id} className="note_item">
+                                                <p className="note_content">{note.content}</p>
+                                                <button className="delete_note_btn" onClick={() => deleteNote(note.id)}>Delete</button>
+                                            </div>
+                                        ))}
                                     </div>
                                 </div>
                             )}
                         </div>
                     </div>
                 </div>
-            </div>
-        </div>
+            </div >
+        </div >
     );
 }
 

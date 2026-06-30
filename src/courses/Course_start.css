@@ -306,29 +306,52 @@
 
 /* ─── Video Player ────────────────────────────────────────── */
 .video_player_wrapper {
-    background: #111827;
-    border-radius: 12px 12px 0 0;
-    overflow: hidden;
+    position: relative;
     width: 100%;
-    display: flex;
-    flex-direction: column;
+    height: 450px;
+    background-color: #0b132b;
+    overflow: hidden;
+    border-radius: 12px 12px 0 0;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
+}
+
+.video_player_wrapper video.video_player {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    background: #000;
+    display: block;
 }
 
 .video_placeholder {
+    position: absolute;
+    top: 0;
+    left: 0;
     width: 100%;
-    aspect-ratio: 16 / 9;
-    background: #111827;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.3);
     display: flex;
     align-items: center;
     justify-content: center;
+    z-index: 5;
+    transition: opacity 0.3s ease, visibility 0.3s ease;
+}
+
+.video_placeholder.playing {
+    opacity: 0;
+    visibility: hidden;
+    pointer-events: none;
 }
 
 .play_btn_center {
     width: 60px;
     height: 60px;
     border-radius: 50%;
-    background: rgba(255, 255, 255, 0.15);
-    border: 2px solid rgba(255, 255, 255, 0.4);
+    background: rgba(255, 255, 255, 0.2);
+    border: 2px solid rgba(255, 255, 255, 0.5);
     color: #ffffff;
     display: flex;
     align-items: center;
@@ -339,17 +362,30 @@
 }
 
 .play_btn_center:hover {
-    background: rgba(255, 255, 255, 0.25);
-    transform: scale(1.08);
+    background: rgba(255, 255, 255, 0.35);
+    transform: scale(1.1);
 }
 
 /* ─── Video Controls Bar ──────────────────────────────────── */
 .video_controls {
-    background: #1f2937;
-    padding: 8px 16px 10px;
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background: linear-gradient(to top, rgba(0, 0, 0, 0.85) 0%, rgba(0, 0, 0, 0.4) 60%, transparent 100%);
+    padding: 24px 16px 12px;
     display: flex;
     flex-direction: column;
-    gap: 6px;
+    gap: 8px;
+    z-index: 10;
+    transition: opacity 0.3s ease, transform 0.3s ease;
+    opacity: 0;
+    transform: translateY(8px);
+}
+
+.video_player_wrapper:hover .video_controls {
+    opacity: 1;
+    transform: translateY(0);
 }
 
 /* Seek Bar */
@@ -357,10 +393,15 @@
     position: relative;
     width: 100%;
     height: 4px;
-    background: rgba(255, 255, 255, 0.2);
+    background: rgba(255, 255, 255, 0.3);
     border-radius: 4px;
     cursor: pointer;
     margin-bottom: 2px;
+    transition: height 0.1s ease;
+}
+
+.video_seek_bar:hover {
+    height: 6px;
 }
 
 .seek_fill {
@@ -381,8 +422,14 @@
     height: 12px;
     background: #ffffff;
     border-radius: 50%;
-    box-shadow: 0 0 4px rgba(0, 0, 0, 0.4);
+    box-shadow: 0 0 6px rgba(0, 0, 0, 0.5);
     pointer-events: none;
+    opacity: 0;
+    transition: opacity 0.2s ease;
+}
+
+.video_player_wrapper:hover .seek_thumb {
+    opacity: 1;
 }
 
 /* Controls Row */
@@ -1312,4 +1359,87 @@
 .settings_option select option {
     background: #1c1c1e;
     color: #fff;
+}
+
+/* الحاوية الرئيسية للملاحظات */
+.notes_notice {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    /* مسافة بين كل ملاحظة وأخرى */
+    width: 100%;
+    /* تحديد أقصى عرض للحاوية لتبدو مرتبة */
+    /* margin: 20px auto; */
+    align-items: start;
+    justify-content: left;
+    /* توسيط الحاوية في منتصف الصفحة */
+    padding: 10px;
+
+}
+
+/* تنسيق الملاحظة الفردية */
+.note_item {
+    display: flex;
+    justify-content: space-between;
+    /* جعل النص في اليسار وزر الحذف في اليمين */
+    align-items: center;
+    /* توسيط العناصر عمودياً */
+    background-color: #f9f9f9;
+    /* لون خلفية هادئ ومريح */
+    border: 1px solid #e0e0e0;
+    /* إطار خفيف */
+    border-radius: 8px;
+    /* زوايا منحنية مريحة للعين */
+    padding: 15px 20px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+    /* ظل خفيف يعطي عمق للملاحظة */
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+    width: 100%;
+}
+
+/* تأثير عند تمرير الفأرة فوق الملاحظة */
+.note_item:hover {
+    transform: translateY(-2px);
+    /* حركة بسيطة للأعلى عند التمرير */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+/* تنسيق نص الملاحظة */
+.note_content {
+    margin: 0;
+    font-size: 16px;
+    color: #333333;
+    /* لون نص داكن وواضح */
+    line-height: 1.5;
+    word-break: break-word;
+    /* لمنع النص الطويل جداً من الخروج عن حدود الملاحظة */
+    flex: 1;
+    /* جعل النص يأخذ المساحة المتاحة ويترك مساحة للزر */
+    padding-right: 15px;
+    /* مسافة بين النص والزر */
+}
+
+/* تنسيق زر الحذف */
+.delete_note_btn {
+    background-color: #ff4d4f;
+    /* لون أحمر هادئ للحذف */
+    color: white;
+    border: none;
+    border-radius: 6px;
+    padding: 8px 16px;
+    font-size: 14px;
+    cursor: pointer;
+    transition: background-color 0.2s ease;
+}
+
+/* تأثير عند تمرير الفأرة فوق زر الحذف */
+.delete_note_btn:hover {
+    background-color: #ff7875;
+    /* يصبح اللون الأحمر أفتح قليلاً */
+}
+
+/* تأثير عند الضغط على زر الحذف */
+.delete_note_btn:active {
+    background-color: #d9363e;
+    /* يصبح اللون أغمق عند الضغط */
 }

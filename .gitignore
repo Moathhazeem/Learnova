@@ -25,3 +25,5 @@ dist-ssr
 
 # Backend - user data (contains sensitive info, auto-generated)
 server/data/
+
+public/video/demo.mp4
