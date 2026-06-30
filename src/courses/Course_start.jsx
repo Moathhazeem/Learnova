@@ -6,6 +6,108 @@ import { useTranslation } from 'react-i18next';
 
 import "./Course_start.css";
 
+const courseData = {
+    title: "Introduction to Logo Design",
+    sections: [
+        {
+            id: "sec1", title: "Introduction to Logo Design", lessonCount: 3,
+            lessons: [
+                { id: "l1", title: "Course Introduction", duration: "2:30", completed: false, videoUrl: "public/video/demo.mp4" },
+                { id: "l2", title: "Tool you will use", duration: "2:30", completed: false, videoUrl: "public/video/demo.mp4" },
+                { id: "l3", title: "Setting up Illustrator", duration: "3:00", completed: false, videoUrl: "public/video/demo.mp4" }
+            ]
+        },
+        {
+            id: "sec2", title: "Understanding the brand before designing", lessonCount: 3,
+            lessons: [
+                {
+                    id: "l4", title: "Introduction about global brand", duration: "5:00", completed: true, type: 'reading',
+                    content: {
+                        heading: "Introduction About Global Brand",
+                        sections: [
+                            {
+                                title: "What is a Global Brand ?",
+                                paragraphs: [
+                                    "A global brand is a brand that is recognized and available in many countries around the world, not just in its home market. It represents a product or service that has widespread acceptance, a consistent identity across cultures, and a uniform message wherever it operates.",
+                                    "A global brand goes beyond local borders and creates a unified experience for customers in different regions. It carries an image that is universally understood, though sometimes it may be adapted slightly to suit local preferences."
+                                ]
+                            },
+                            {
+                                title: 'What Makes a Brand "Global"?',
+                                intro: "A brand becomes global when it meets several key criteria:",
+                                bullets: [
+                                    { label: "Wide Geographic Presence", text: "The brand is active in multiple continents and countries, not only in its country of origin." },
+                                    { label: "Consistent Brand Identity", text: "The brand uses the same core message, logo, values, and positioning in different markets. This helps customers recognize it anywhere." },
+                                    { label: "Universal Appeal", text: "The brand's promise or value proposition resonates with people from different cultures and demographic groups." },
+                                    { label: "Strong Brand Equity", text: "Global brands are well-known, trusted, and often carry a reputation for quality or uniqueness." }
+                                ]
+                            }
+                        ]
+                    }
+                },
+                { id: "l5", title: "How understanding your brand", duration: "2:30", completed: true },
+                {
+                    id: "l6", title: "Assignment about your brand", duration: "10:00", completed: false, type: 'assignment',
+                    instructions: [
+                        "When selecting and defining the brand to be developed for the project, the following conditions and criteria must be met:",
+                        "Brand Identity Clarity: The brand must have a clear name, logo, official colors, and approved fonts that reflect its personality and facilitate its recognition among competitors.",
+                        "Mission and Vision: The brand must have a mission that explains its purpose and a vision that defines its future aspirations and what it aims to achieve in the long term.",
+                        "Target Audience: It is essential to accurately define the target audience (age, gender, geographic location, interests, income level) so that the identity and marketing are designed to suit them.",
+                        "Unique Value Proposition: The brand must offer a clear competitive advantage that distinguishes it from competitors, whether in terms of price, quality, service, technology, or user experience.",
+                        "Scalability: Ideally, the brand should be capable of future scalability, whether through adding new products, entering new markets, or developing digital services.",
+                        "Digital Presence: The brand must have, or be able to build, a strong digital presence through a website, social media, or apps.",
+                        "Visual Consistency: All design elements must be consistent across all platforms to ensure a strong brand image for customers.",
+                        "Customer Relationship Potential: A successful brand focuses on the customer experience and works to earn their trust and loyalty.",
+                        "Brand Personality: The brand's personality (formal, youthful, luxurious, innovative, social, etc.) must be defined, as this influences communication and design style.",
+                        "Market Relevance: The brand must be relevant to the needs of the Palestinian market (or target market) and address a real problem."
+                    ]
+                }
+            ]
+        },
+        {
+            id: "sec3", title: "Concept Development & Sketching", lessonCount: 4,
+            lessons: [
+                { id: "l7", title: "Sketching Basics", duration: "3:30", completed: false },
+                { id: "l8", title: "Concept Ideation", duration: "4:00", completed: false },
+                { id: "l9", title: "Refining Concepts", duration: "5:00", completed: false },
+                { id: "l10", title: "Digital Sketching", duration: "3:00", completed: false }
+            ]
+        },
+        {
+            id: "sec4", title: "Logo Design Principles", lessonCount: 2,
+            lessons: [
+                { id: "l11", title: "Design Principles", duration: "6:00", completed: false },
+                { id: "l12", title: "Visual Hierarchy", duration: "4:00", completed: false }
+            ]
+        },
+        {
+            id: "sec5", title: "Designing the Logo Digitally", lessonCount: 5,
+            lessons: [
+                { id: "l13", title: "Illustrator Basics", duration: "5:00", completed: false },
+                { id: "l14", title: "Vector Drawing", duration: "4:30", completed: false },
+                { id: "l15", title: "Typography", duration: "3:00", completed: false },
+                { id: "l16", title: "Color Application", duration: "4:00", completed: false },
+                { id: "l17", title: "Final Touches", duration: "5:30", completed: false }
+            ]
+        },
+        {
+            id: "sec6", title: "Color & Typography in Logo Design", lessonCount: 2,
+            lessons: [
+                { id: "l18", title: "Color Theory", duration: "6:00", completed: false },
+                { id: "l19", title: "Typography Basics", duration: "4:00", completed: false }
+            ]
+        },
+        {
+            id: "sec7", title: "Exporting & Presenting the Logo", lessonCount: 3,
+            lessons: [
+                { id: "l20", title: "Export Formats", duration: "3:00", completed: false },
+                { id: "l21", title: "Presentation Tips", duration: "4:00", completed: false },
+                { id: "l22", title: "Client Delivery", duration: "5:00", completed: false }
+            ]
+        }
+    ]
+};
+
 function Course_start() {
     const location = useLocation();
     const pathname = location.pathname.split('/').filter(x => x);
@@ -27,10 +129,25 @@ function Course_start() {
     const videoRef = useRef(null);
     const [isPlaying, setIsPlaying] = useState(false);
     const [completedLessons, setCompletedLessons] = useState([]);
+    const [course, setCourse] = useState(courseData); // تمرير البيانات الافتراضية الثابتة هنا
     const handleVideoEnd = (lessonId) => {
-        if (!completedLessons.includes(lessonId)) {
-            setCompletedLessons(prev => [...prev, lessonId]);
-        }
+        //if (!completedLessons.includes(lessonId)) {
+        //  setCompletedLessons(prev => [...prev, lessonId]);
+        //}
+        setCourse(prevCourse => {
+            return {
+                ...prevCourse,
+                sections: prevCourse.sections.map(section => ({
+                    ...section,
+                    lessons: section.lessons.map(lesson => {
+                        if (lesson.id === lessonId) {
+                            return { ...lesson, completed: true }; // تحديث حالة الدرس المكتمل
+                        }
+                        return lesson;
+                    })
+                }))
+            };
+        });
     }
 
 
@@ -123,108 +240,7 @@ function Course_start() {
             setIsMuted(true);
         }
     }
-    const courseData = {
-        title: "Introduction to Logo Design",
-        sections: [
-            {
-                id: "sec1", title: "Introduction to Logo Design", lessonCount: 3,
-                lessons: [
-                    { id: "l1", title: "Course Introduction", duration: formatTime(duration), completed: true, videoUrl: "public/video/demo.mp4" },
-                    { id: "l2", title: "Tool you will use", duration: "2:30", completed: false, videoUrl: "public/video/demo.mp4" },
-                    { id: "l3", title: "Setting up Illustrator", duration: "3:00", completed: false, videoUrl: "public/video/demo.mp4" }
-                ]
-            },
-            {
-                id: "sec2", title: "Understanding the brand before designing", lessonCount: 3,
-                lessons: [
-                    {
-                        id: "l4", title: "Introduction about global brand", duration: "5:00", completed: true, type: 'reading',
-                        content: {
-                            heading: "Introduction About Global Brand",
-                            sections: [
-                                {
-                                    title: "What is a Global Brand ?",
-                                    paragraphs: [
-                                        "A global brand is a brand that is recognized and available in many countries around the world, not just in its home market. It represents a product or service that has widespread acceptance, a consistent identity across cultures, and a uniform message wherever it operates.",
-                                        "A global brand goes beyond local borders and creates a unified experience for customers in different regions. It carries an image that is universally understood, though sometimes it may be adapted slightly to suit local preferences."
-                                    ]
-                                },
-                                {
-                                    title: 'What Makes a Brand "Global"?',
-                                    intro: "A brand becomes global when it meets several key criteria:",
-                                    bullets: [
-                                        { label: "Wide Geographic Presence", text: "The brand is active in multiple continents and countries, not only in its country of origin." },
-                                        { label: "Consistent Brand Identity", text: "The brand uses the same core message, logo, values, and positioning in different markets. This helps customers recognize it anywhere." },
-                                        { label: "Universal Appeal", text: "The brand's promise or value proposition resonates with people from different cultures and demographic groups." },
-                                        { label: "Strong Brand Equity", text: "Global brands are well-known, trusted, and often carry a reputation for quality or uniqueness." }
-                                    ]
-                                }
-                            ]
-                        }
-                    },
-                    { id: "l5", title: "How understanding your brand", duration: "2:30", completed: true },
-                    {
-                        id: "l6", title: "Assignment about your brand", duration: "10:00", completed: false, type: 'assignment',
-                        instructions: [
-                            "When selecting and defining the brand to be developed for the project, the following conditions and criteria must be met:",
-                            "Brand Identity Clarity: The brand must have a clear name, logo, official colors, and approved fonts that reflect its personality and facilitate its recognition among competitors.",
-                            "Mission and Vision: The brand must have a mission that explains its purpose and a vision that defines its future aspirations and what it aims to achieve in the long term.",
-                            "Target Audience: It is essential to accurately define the target audience (age, gender, geographic location, interests, income level) so that the identity and marketing are designed to suit them.",
-                            "Unique Value Proposition: The brand must offer a clear competitive advantage that distinguishes it from competitors, whether in terms of price, quality, service, technology, or user experience.",
-                            "Scalability: Ideally, the brand should be capable of future scalability, whether through adding new products, entering new markets, or developing digital services.",
-                            "Digital Presence: The brand must have, or be able to build, a strong digital presence through a website, social media, or apps.",
-                            "Visual Consistency: All design elements must be consistent across all platforms to ensure a strong brand image for customers.",
-                            "Customer Relationship Potential: A successful brand focuses on the customer experience and works to earn their trust and loyalty.",
-                            "Brand Personality: The brand's personality (formal, youthful, luxurious, innovative, social, etc.) must be defined, as this influences communication and design style.",
-                            "Market Relevance: The brand must be relevant to the needs of the Palestinian market (or target market) and address a real problem."
-                        ]
-                    }
-                ]
-            },
-            {
-                id: "sec3", title: "Concept Development & Sketching", lessonCount: 4,
-                lessons: [
-                    { id: "l7", title: "Sketching Basics", duration: "3:30", completed: false },
-                    { id: "l8", title: "Concept Ideation", duration: "4:00", completed: false },
-                    { id: "l9", title: "Refining Concepts", duration: "5:00", completed: false },
-                    { id: "l10", title: "Digital Sketching", duration: "3:00", completed: false }
-                ]
-            },
-            {
-                id: "sec4", title: "Logo Design Principles", lessonCount: 2,
-                lessons: [
-                    { id: "l11", title: "Design Principles", duration: "6:00", completed: false },
-                    { id: "l12", title: "Visual Hierarchy", duration: "4:00", completed: false }
-                ]
-            },
-            {
-                id: "sec5", title: "Designing the Logo Digitally", lessonCount: 5,
-                lessons: [
-                    { id: "l13", title: "Illustrator Basics", duration: "5:00", completed: false },
-                    { id: "l14", title: "Vector Drawing", duration: "4:30", completed: false },
-                    { id: "l15", title: "Typography", duration: "3:00", completed: false },
-                    { id: "l16", title: "Color Application", duration: "4:00", completed: false },
-                    { id: "l17", title: "Final Touches", duration: "5:30", completed: false }
-                ]
-            },
-            {
-                id: "sec6", title: "Color & Typography in Logo Design", lessonCount: 2,
-                lessons: [
-                    { id: "l18", title: "Color Theory", duration: "6:00", completed: false },
-                    { id: "l19", title: "Typography Basics", duration: "4:00", completed: false }
-                ]
-            },
-            {
-                id: "sec7", title: "Exporting & Presenting the Logo", lessonCount: 3,
-                lessons: [
-                    { id: "l20", title: "Export Formats", duration: "3:00", completed: false },
-                    { id: "l21", title: "Presentation Tips", duration: "4:00", completed: false },
-                    { id: "l22", title: "Client Delivery", duration: "5:00", completed: false }
-                ]
-            }
-        ]
-    };
-    const allLessons = courseData.sections.flatMap(s => s.lessons);
+    const allLessons = course.sections.flatMap(s => s.lessons);
     const totalLessons = allLessons.length;
     const completedCount = completedLessons.length;
     const percentage = Math.round((completedCount / totalLessons) * 100)
@@ -234,8 +250,7 @@ function Course_start() {
     //const completedCount = 10;
     //const percentage = Math.round((completedCount / totalLessons) * 100);
 
-    //const [currentLesson, setCurrentLesson] = useState(allLessons[3]);
-    const [currentLesson, setCurrentLesson] = useState(courseData.sections[0].lessons[0]);
+    const [currentLesson, setCurrentLesson] = useState(course.sections[0].lessons[0]);
     const [markedComplete, setMarkedComplete] = useState({});
     const [openSections, setOpenSections] = useState({ sec1: true, sec2: true });
     const [activeTab, setActiveTab] = useState('overview');
@@ -331,7 +346,7 @@ function Course_start() {
 
                         {/* Sections */}
                         <div className="course_list">
-                            {courseData.sections.map((section) => (
+                            {course.sections.map((section) => (
                                 <div key={section.id} className="section_block">
                                     <div
                                         className={`section_header ${openSections[section.id] ? 'open' : ''}`}
@@ -454,7 +469,6 @@ function Course_start() {
                                     onTimeUpdate={handleTimeUpdate}
                                     onLoadedMetadata={handleLoadedMetadata}
                                     src={currentLesson.videoUrl}
-
                                     onEnded={() => handleVideoEnd(currentLesson.id)}
                                 />
                                 <div className={`video_placeholder ${isPlaying ? 'playing' : ''}`}>
