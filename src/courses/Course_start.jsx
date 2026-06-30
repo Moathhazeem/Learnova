@@ -26,6 +26,13 @@ function Course_start() {
     const [type, setType] = useState('pdf');
     const videoRef = useRef(null);
     const [isPlaying, setIsPlaying] = useState(false);
+    const [completedLessons, setCompletedLessons] = useState([]);
+    const handleVideoEnd = (lessonId) => {
+        if (!completedLessons.includes(lessonId)) {
+            setCompletedLessons(prev => [...prev, lessonId]);
+        }
+    }
+
 
     const handleSpeedChange = (newSpeed) => {
         setSpeed(newSpeed);
@@ -116,7 +123,6 @@ function Course_start() {
             setIsMuted(true);
         }
     }
-
     const courseData = {
         title: "Introduction to Logo Design",
         sections: [
@@ -218,11 +224,15 @@ function Course_start() {
             }
         ]
     };
-
     const allLessons = courseData.sections.flatMap(s => s.lessons);
     const totalLessons = allLessons.length;
-    const completedCount = 3;
-    const percentage = Math.round((completedCount / totalLessons) * 100);
+    const completedCount = completedLessons.length;
+    const percentage = Math.round((completedCount / totalLessons) * 100)
+
+    //const allLessons = courseData.sections.flatMap(s => s.lessons);
+    //const totalLessons = allLessons.length;
+    //const completedCount = 10;
+    //const percentage = Math.round((completedCount / totalLessons) * 100);
 
     //const [currentLesson, setCurrentLesson] = useState(allLessons[3]);
     const [currentLesson, setCurrentLesson] = useState(courseData.sections[0].lessons[0]);
@@ -443,7 +453,10 @@ function Course_start() {
                                     onClick={() => setIsPlaying(!isPlaying)}
                                     onTimeUpdate={handleTimeUpdate}
                                     onLoadedMetadata={handleLoadedMetadata}
-                                    src={currentLesson.videoUrl || "../videos/demo.mp4"} />
+                                    src={currentLesson.videoUrl}
+
+                                    onEnded={() => handleVideoEnd(currentLesson.id)}
+                                />
                                 <div className={`video_placeholder ${isPlaying ? 'playing' : ''}`}>
 
                                     <button className="play_btn_center" onClick={() => setIsPlaying(!isPlaying)}>
