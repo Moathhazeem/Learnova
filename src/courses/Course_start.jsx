@@ -364,12 +364,28 @@ function Course_start() {
                                                 className={`lesson_item ${currentLesson.id === lesson.id ? 'active' : ''}`}
                                                 onClick={() => setCurrentLesson(lesson)}
                                             >
-                                                <div className={`lesson_status_icon ${lesson.completed ? 'done' : ''} ${lesson.type === 'assignment' ? 'assignment' : ''}`}>
-                                                    {lesson.completed
-                                                        ? <Check size={11} />
-                                                        : lesson.type === 'assignment'
-                                                            ? <FileText size={9} />
-                                                            : <Play size={9} />}
+                                                <div 
+                                                    className={`lesson_status_icon ${lesson.completed ? 'done bg-blue-500 border-blue-500 text-white' : 'border-gray-300 text-gray-500'} ${lesson.type === 'assignment' ? 'assignment' : ''}`}
+                                                    style={{
+                                                        display: 'flex',
+                                                        alignItems: 'center',
+                                                        justifyContent: 'center',
+                                                        width: '24px',   // تحكم بالحجم المناسب لتصميمك
+                                                        height: '24px',
+                                                        borderRadius: '50%',
+                                                        border: lesson.completed ? 'none' : '2px solid',
+                                                        backgroundColor: lesson.completed ? '#1072BA' : 'transparent', // غير اللون الأزرق حسب الهوية المطلوبة
+                                                        color: lesson.completed ? '#ffffff' : 'inherit'
+                                                    }}
+                                                >
+                                                    {lesson.completed ? (
+                                                        // أيقونة الصح البيضاء داخل الدائرة الزرقاء الممتلئة
+                                                        <Check size={12} strokeWidth={3} className="text-white" />
+                                                    ) : lesson.type === 'assignment' ? (
+                                                        <FileText size={9} />
+                                                    ) : (
+                                                        <Play size={9} />
+                                                    )}
                                                 </div>
                                                 <div className="lesson_info">
                                                     <h5>{lesson.title}</h5>
