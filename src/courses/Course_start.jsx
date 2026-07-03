@@ -304,11 +304,58 @@ function Course_start() {
         setSaveNotice(saveNotice.filter(note => note.id !== id));
     };
     const [selectedFile, setSelectedFile] = useState(null);
+    const [fileDownloadUrl, settFileDownloadUrl] = useState('');
+    const [isSubmitted, setIsSubmitted] = useState(false);
+    const [assignmentFiles, setAssignmentFiles] = useState([]);
     const fileInputRef = useRef(null);
     const handleFileChange = (e) => {
-        if (e.target.files[0]) setSelectedFile(e.target.files[0]);
+        const file = e.target.files[0];
+        if (file) {
+            setSelectedFile(file);
+
+
+            const objectUrl = URL.createObjectURL(file);
+            setFileDownloadUrl(objectUrl);
+            setIsSubmitted(false);
+        }
+
     };
-    const handleDrop = (e) => { e.preventDefault(); if (e.dataTransfer.files[0]) setSelectedFile(e.dataTransfer.files[0]); };
+    const handleDrop = (e) => {
+        e.preventDefault();
+        const file = e.dataTransfer.files[0];
+        if (file) {
+            setSelectedFile(file);
+            const objectUrl = URL.createObjectURL(file);
+            setFileDownloadUrl(objectUrl);
+            setIsSubmitted(false)
+        }
+
+    };
+    const handleSubmit = () => {
+        // التأكد من أن المستخدم اختار ملفاً بالفعل
+        if (!selectedFile) {
+            alert("الرجاء اختيار ملف أولاً");
+            return;
+        }
+
+        // تجهيز كائن الملف المرفوع الجديد
+        const fileData = {
+            name: selectedFile.name,
+            url: fileDownloadUrl, // الرابط الوهمي للتنزيل
+            date: new Date().toLocaleDateString() // تاريخ الرفع الحالي
+        };
+
+        // تعديل السطر السحري: إضافة الملف الجديد للمصفوفة القديمة بشكل صحيح
+        setAssignmentFiles(prevFiles => [...prevFiles, fileData]);
+        setIsSubmitted(true);
+
+        // إظهار رسالة نجاح للمستخدم (اختياري)
+        alert("تم إرسال الملف بنجاح!");
+
+        // تفريغ الاختيار حتى يتمكن من رفع ملف آخر إن أراد
+        setSelectedFile(null);
+    };
+
     const [newQuestion, setNewQuestion] = useState('');
     const [expandedQA, setExpandedQA] = useState(0);
     const [questions, setQuestions] = useState([
@@ -499,8 +546,32 @@ function Course_start() {
                                     <button className="select_file_btn" onClick={e => { e.stopPropagation(); fileInputRef.current.click(); }}>Select File</button>
                                 </div>
                                 <div className="assignment_submit_row">
-                                    <button className="submit_assignment_btn">Submit Assignment</button>
+                                    <button className="submit_assignment_btn" onClick={handleSubmit}>Submit Assignment</button>
                                 </div>
+                                {isSubmitted && (
+                                    <div style={{ marginTop: '30px', padding: '15px', border: '1px solid #28a745', borderRadius: '5px', backgroundColor: '#f4fbf6' }}>
+                                        <p style={{ color: '#28a745', fontWeight: 'bold', margin: '0 0 10px 0' }}> تم إرسال الملف بنجاح (فرونت اند)!</p>
+                                        <p style={{ fontSize: '14px', marginBottom: '15px' }}>يمكنك الآن تحميل الملف المرسل للتأكد منه:</p>
+
+                                        {/* هذا هو زر التنزيل الحقيقي للملف */}
+                                        <a
+                                            href={fileDownloadUrl}
+                                            download={assignmentFiles[assignmentFiles.length - 1]?.name || 'download'}
+                                            style={{
+                                                display: 'inline-block',
+                                                backgroundColor: '#28a745',
+                                                color: 'white',
+                                                textDecoration: 'none',
+                                                padding: '8px 15px',
+                                                borderRadius: '4px',
+                                                fontSize: '14px',
+                                                fontWeight: 'bold'
+                                            }}
+                                        >
+                                            تنزيل الملف المرفوع ({assignmentFiles[assignmentFiles.length - 1]?.name || ''})
+                                        </a>
+                                    </div>
+                                )}
                             </div>
                         ) : (
                             <div className="video_player_wrapper" ref={playerRef}>
