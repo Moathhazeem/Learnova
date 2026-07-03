@@ -258,17 +258,17 @@
 
 .lesson_status_icon.done {
 
-    border-color: #0089EA !important;
+    border-color: rgb(16, 114, 186) !important;
     color: #ffffff;
 }
 
 .lesson_item.active .lesson_status_icon {
-    border-color: #0089EA !important;
-    color: #0089EA !important;
+    border-color: rgb(16, 114, 186) !important;
+    color: rgb(16, 114, 186) !important;
 }
 
 .lesson_item.active .lesson_status_icon.done {
-    border-color: #0089EA !important;
+    border-color: rgb(16, 114, 186) !important;
     color: #ffffff !important;
 }
 

@@ -131,9 +131,9 @@ function Course_start() {
     const [completedLessons, setCompletedLessons] = useState([]);
     const [course, setCourse] = useState(courseData); // تمرير البيانات الافتراضية الثابتة هنا
     const handleVideoEnd = (lessonId) => {
-        //if (!completedLessons.includes(lessonId)) {
-        //  setCompletedLessons(prev => [...prev, lessonId]);
-        //}
+        if (!completedLessons.includes(lessonId)) {
+            setCompletedLessons(prev => [...prev, lessonId]);
+        }
         setCourse(prevCourse => {
             return {
                 ...prevCourse,
