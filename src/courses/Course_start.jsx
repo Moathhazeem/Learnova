@@ -518,7 +518,7 @@ function Course_start() {
                                 <div className={`video_placeholder ${isPlaying ? 'playing' : ''}`}>
 
                                     <button className="play_btn_center" onClick={() => setIsPlaying(!isPlaying)}>
-                                        {isPlaying || (autoplay && videoRef.current.currentTime == 0) ? <Pause size={30} /> : <Play size={30} />}
+                                        {isPlaying || (autoplay && videoRef.current?.currentTime == 0) ? <Pause size={30} /> : <Play size={30} />}
                                     </button>
                                 </div>
                                 <div className="video_controls">
