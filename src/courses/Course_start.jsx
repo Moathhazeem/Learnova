@@ -253,7 +253,6 @@ function Course_start() {
 
 
     const [autoplay, setAutoplay] = useState(true);
-    const videoAutoplay = useRef(null);
     const [showControls, setShowControls] = useState(true);
     const handlePlayPause = () => {
         setIsPlaying(!isPlaying)
@@ -416,7 +415,7 @@ function Course_start() {
                                                 </div>
                                                 <div className="lesson_info">
                                                     <h5>{lesson.title}</h5>
-                                                    <p>{lesson.type === 'assignment' ? <FileText size={9} /> : <Play size={9} />} {lesson.duration}</p>
+                                                    <p>{lesson.type === 'assignment' ? <FileText size={9} /> : <Play size={9} />} {formatTime(duration)}</p>
                                                 </div>
                                             </div>
                                         ))}
@@ -510,6 +509,7 @@ function Course_start() {
                                     className="video_player"
                                     onClick={() => setIsPlaying(!isPlaying)}
                                     autoPlay={autoplay}
+                                    muted={autoplay}
                                     onTimeUpdate={handleTimeUpdate}
                                     onLoadedMetadata={handleLoadedMetadata}
                                     src={currentLesson.videoUrl}
