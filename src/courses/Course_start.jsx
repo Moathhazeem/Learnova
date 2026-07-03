@@ -248,7 +248,7 @@ function Course_start() {
 
 
 
-    const [autoplay, setAutoplay] = useState(false);
+    const [autoplay, setAutoplay] = useState(true);
     const videoAutoplay = useRef(null);
     const [showControls, setShowControls] = useState(true);
     const handlePlayPause = () => {
@@ -274,8 +274,11 @@ function Course_start() {
     }, [isPlaying]);
     useEffect(() => {
         if (videoRef.current && autoplay) {
-            setIsPlaying(true);
-            videoRef.current.play();
+
+            if (videoRef.current.currentTime == 0) {
+                setIsPlaying(true);
+                videoRef.current.play();
+            }
         }
     }, [currentLesson.videoUrl, autoplay])
     const [noteText, setNoteText] = useState('');
@@ -511,7 +514,7 @@ function Course_start() {
                                 <div className={`video_placeholder ${isPlaying ? 'playing' : ''}`}>
 
                                     <button className="play_btn_center" onClick={() => setIsPlaying(!isPlaying)}>
-                                        {isPlaying || autoplay ? <Pause size={30} /> : <Play size={30} />}
+                                        {isPlaying || (autoplay && videoRef.current.currentTime == 0) ? <Pause size={30} /> : <Play size={30} />}
                                     </button>
                                 </div>
                                 <div className="video_controls">
