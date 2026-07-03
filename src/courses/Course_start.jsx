@@ -354,6 +354,9 @@ function Course_start() {
 
         // تفريغ الاختيار حتى يتمكن من رفع ملف آخر إن أراد
         setSelectedFile(null);
+        if (fileInputRef.current) {
+            fileInputRef.current.value = "";
+        }
     };
 
     const [newQuestion, setNewQuestion] = useState('');
@@ -548,28 +551,44 @@ function Course_start() {
                                 <div className="assignment_submit_row">
                                     <button className="submit_assignment_btn" onClick={handleSubmit}>Submit Assignment</button>
                                 </div>
-                                {isSubmitted && (
-                                    <div style={{ marginTop: '30px', padding: '15px', border: '1px solid #28a745', borderRadius: '5px', backgroundColor: '#f4fbf6' }}>
-                                        <p style={{ color: '#28a745', fontWeight: 'bold', margin: '0 0 10px 0' }}> تم إرسال الملف بنجاح (فرونت اند)!</p>
-                                        <p style={{ fontSize: '14px', marginBottom: '15px' }}>يمكنك الآن تحميل الملف المرسل للتأكد منه:</p>
 
-                                        {/* هذا هو زر التنزيل الحقيقي للملف */}
-                                        <a
-                                            href={fileDownloadUrl}
-                                            download={assignmentFiles[assignmentFiles.length - 1]?.name || 'download'}
-                                            style={{
-                                                display: 'inline-block',
-                                                backgroundColor: '#28a745',
-                                                color: 'white',
-                                                textDecoration: 'none',
-                                                padding: '8px 15px',
-                                                borderRadius: '4px',
-                                                fontSize: '14px',
-                                                fontWeight: 'bold'
-                                            }}
-                                        >
-                                            تنزيل الملف المرفوع ({assignmentFiles[assignmentFiles.length - 1]?.name || ''})
-                                        </a>
+
+                                {assignmentFiles.length > 0 && (
+                                    <div className="uploaded_files_container" style={{ marginTop: '20px' }}>
+                                        <h3 style={{ fontSize: '16px', marginBottom: '10px' }}>Current uploaded files:</h3>
+                                        {assignmentFiles.map((file, index) => (
+                                            <div
+                                                key={index}
+                                                className="file_download_item"
+                                                style={{
+                                                    display: 'flex',
+                                                    alignItems: 'center',
+                                                    justifyContent: 'space-between',
+                                                    padding: '12px 15px',
+                                                    border: '1px solid #e0e0e0',
+                                                    borderRadius: '6px',
+                                                    backgroundColor: '#f9f9f9',
+                                                    marginBottom: '10px'
+                                                }}>
+                                                {/* معلومات الملف الشخصية */}
+                                                <div style={{ display: 'flex', flexDirection: 'column', gap: '4px' }}>
+                                                    <span style={{ fontWeight: '500', color: '#333' }}>{file.name}</span>
+                                                    <span style={{ fontSize: '12px', color: '#888' }}>Upload date: {file.date}</span>
+                                                </div>
+                                                <a href={file.url} download={file.name} style={{
+                                                    backgroundColor: '#0088ff',
+                                                    color: 'white',
+                                                    textDecoration: 'none',
+                                                    padding: '8px 16px',
+                                                    borderRadius: '4px',
+                                                    fontSize: '14px',
+                                                    fontWeight: 'bold',
+                                                    transition: 'background 0.2s'
+                                                }}
+                                                    onMouseOver={(e) => e.target.style.backgroundColor = '#0077ff'}
+                                                    onMouseOut={(e) => e.target.style.backgroundColor = '#0088ff'}>Download</a>
+                                            </div>
+                                        ))}
                                     </div>
                                 )}
                             </div>
