@@ -21,7 +21,7 @@ const courseData = {
             id: "sec2", title: "Understanding the brand before designing", lessonCount: 3,
             lessons: [
                 {
-                    id: "l4", title: "Introduction about global brand", duration: "5:00", completed: true, type: 'reading',
+                    id: "l4", title: "Introduction about global brand", duration: "5:00", completed: false, type: 'reading',
                     content: {
                         heading: "Introduction About Global Brand",
                         sections: [
@@ -45,7 +45,7 @@ const courseData = {
                         ]
                     }
                 },
-                { id: "l5", title: "How understanding your brand", duration: "2:30", completed: true },
+                { id: "l5", title: "How understanding your brand", duration: "2:30", completed: false },
                 {
                     id: "l6", title: "Assignment about your brand", duration: "10:00", completed: false, type: 'assignment',
                     instructions: [
@@ -247,7 +247,7 @@ function Course_start() {
 
     const [currentLesson, setCurrentLesson] = useState(course.sections[0].lessons[0]);
     const [markedComplete, setMarkedComplete] = useState({});
-    const [openSections, setOpenSections] = useState({ sec1: true, sec2: true });
+    const [openSections, setOpenSections] = useState({ sec1: false, sec2: false });
     const [activeTab, setActiveTab] = useState('overview');
 
 
