@@ -176,16 +176,7 @@ function Course_start() {
             document.removeEventListener('fullscreenchange', handleFullscreenChange);
         };
     }, []);
-    useEffect(() => {
-        if (videoRef.current) {
-            if (isPlaying) {
-                videoRef.current.play();
-            }
-            else {
-                videoRef.current.pause()
-            }
-        }
-    }, [isPlaying]);
+
     const handleTimeUpdate = () => {
         if (videoRef.current) {
             setCurrentTime(videoRef.current.currentTime);
@@ -257,7 +248,30 @@ function Course_start() {
 
 
 
-    const [autoplay, setAutoplay] = useState(true);
+    const [autoplay, setAutoplay] = useState(false);
+    const videoAutoplay = useRef(null);
+    const [showControls, setShowControls] = useState(true);
+    const handlePlayPause = () => {
+        setIsPlaying(!isPlaying)
+        setShowControls(true)
+    }
+    useEffect(() => {
+        if (showControls) {
+            const timer = setTimeout(() => { setShowControls(false); }, 2000);
+            return () => clearTimeout(timer);
+        }
+    }, [showControls, isPlaying])
+
+    useEffect(() => {
+        if (videoRef.current) {
+            if (isPlaying || autoplay) {
+                videoRef.current.play();
+            }
+            else {
+                videoRef.current.pause()
+            }
+        }
+    }, [isPlaying, autoplay]);
     const [noteText, setNoteText] = useState('');
     const [clickNote, setClickNote] = useState(false);
     const [saveNotice, setSaveNotice] = useState([
@@ -364,8 +378,8 @@ function Course_start() {
                                                 className={`lesson_item ${currentLesson.id === lesson.id ? 'active' : ''}`}
                                                 onClick={() => setCurrentLesson(lesson)}
                                             >
-                                                <div 
-                                                    className={`lesson_status_icon ${lesson.completed ? 'done bg-blue-500 border-blue-500 text-white' : 'border-gray-300 text-gray-500'} ${lesson.type === 'assignment' ? 'assignment' : ''}`}
+                                                <div
+                                                    className={`lesson_status_icon flex items-center justify-center size-6 rounded-full transition-all duration-300 ease-in-out ${lesson.completed ? 'done bg-sky-600 border-2 border-sky-600 text-white shadow-sm' : 'border-2 border-slate-300 bg-white text-slate-500 hover:border-slate-400'} ${lesson.type === 'assignment' ? 'assignment' : ''}`}
                                                     style={{
                                                         display: 'flex',
                                                         alignItems: 'center',
@@ -482,6 +496,7 @@ function Course_start() {
                                     key={currentLesson.videoUrl}
                                     className="video_player"
                                     onClick={() => setIsPlaying(!isPlaying)}
+                                    autoPlay={autoplay}
                                     onTimeUpdate={handleTimeUpdate}
                                     onLoadedMetadata={handleLoadedMetadata}
                                     src={currentLesson.videoUrl}
@@ -490,7 +505,7 @@ function Course_start() {
                                 <div className={`video_placeholder ${isPlaying ? 'playing' : ''}`}>
 
                                     <button className="play_btn_center" onClick={() => setIsPlaying(!isPlaying)}>
-                                        {isPlaying ? <Pause size={30} /> : <Play size={30} />}
+                                        {isPlaying || autoplay ? <Pause size={30} /> : <Play size={30} />}
                                     </button>
                                 </div>
                                 <div className="video_controls">
