@@ -204,7 +204,11 @@ function Course_start() {
         return `${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
     }
     const handleTimeChange = (e) => {
-        setCurrentTime(Number(e.target.value));
+        const NewTime = Number(e.target.value);
+        setCurrentTime(NewTime);
+        if (videoRef.current) {
+            videoRef.current.currentTime = NewTime;
+        }
     }
 
     const handleVideoChange = (e) => {
