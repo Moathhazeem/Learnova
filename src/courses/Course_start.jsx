@@ -264,14 +264,20 @@ function Course_start() {
 
     useEffect(() => {
         if (videoRef.current) {
-            if (isPlaying || autoplay) {
+            if (isPlaying) {
                 videoRef.current.play();
             }
             else {
                 videoRef.current.pause()
             }
         }
-    }, [isPlaying, autoplay]);
+    }, [isPlaying]);
+    useEffect(() => {
+        if (videoRef.current && autoplay) {
+            setIsPlaying(true);
+            videoRef.current.play();
+        }
+    }, [currentLesson.videoUrl, autoplay])
     const [noteText, setNoteText] = useState('');
     const [clickNote, setClickNote] = useState(false);
     const [saveNotice, setSaveNotice] = useState([
