@@ -247,7 +247,7 @@
     width: 22px;
     height: 22px;
     border-radius: 50%;
-    border: 1.5px solid #d1d5db;
+    border: 1.5px solid #555555 !important;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -258,13 +258,18 @@
 
 .lesson_status_icon.done {
 
-    border-color: #0089EA;
+    border-color: #0089EA !important;
     color: #ffffff;
 }
 
 .lesson_item.active .lesson_status_icon {
-    border-color: #0089EA;
-    color: #0089EA;
+    border-color: #0089EA !important;
+    color: #0089EA !important;
+}
+
+.lesson_item.active .lesson_status_icon.done {
+    border-color: #0089EA !important;
+    color: #ffffff !important;
 }
 
 .lesson_info {
