@@ -277,7 +277,22 @@
 }
 
 .lesson_item.not-completed:hover {
-    background: #f3f4f6 !important;
+    background: #e0f2fe !important;
+    border: 1px solid #bae6fd !important;
+    color: #0089EA !important;
+}
+
+.lesson_item.not-completed:hover .lesson_info p {
+    color: #0089EA !important;
+}
+
+.lesson_item.not-completed:hover .lesson_info h5 {
+    color: #0089EA !important;
+}
+
+.lesson_item.not-completed:hover .lesson_status_icon {
+    border-color: #0089EA !important;
+    color: #0089EA !important;
 }
 
 .lesson_item.not-completed .lesson_info h5 {
@@ -685,9 +700,9 @@
     padding: 7px 14px;
     font-size: 13px;
     font-weight: 500;
-    color: #374151;
-    background: #f3f4f6;
-    border: 1px solid #e5e7eb;
+    color: #0089EA;
+    background: #ffffff;
+    border: 1.5px solid #0089EA;
     border-radius: 8px;
     cursor: pointer;
     transition: all 0.2s;
@@ -695,8 +710,9 @@
 }
 
 .nav_btn:hover:not(:disabled) {
-    background: #e5e7eb;
-    border-color: #d1d5db;
+    background: #0089EA;
+    border-color: #0089EA;
+    color: #ffffff;
 }
 
 .nav_btn:disabled {
