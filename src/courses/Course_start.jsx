@@ -772,7 +772,7 @@ function Course_start() {
                                                 <div className="clock_add_resource">
                                                     <Clock size={16} />
                                                     {/* قراءة الوقت الصحيح "5:00" */}
-                                                    <p>{sectionData.duration}</p>
+                                                    <p>{currentLesson.duration}</p>
                                                 </div>
                                             </div>
                                         </div>
