@@ -5,16 +5,20 @@ import ReactPlayer from 'react-player';
 import { useTranslation } from 'react-i18next';
 
 import "./Course_start.css";
-
+const formatTime = (timeInSeconds) => {
+    const minutes = Math.floor(timeInSeconds / 60);
+    const seconds = Math.floor(timeInSeconds % 60);
+    return `${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
+}
 const courseData = {
     title: "Introduction to Logo Design",
     sections: [
         {
             id: "sec1", title: "Introduction to Logo Design", lessonCount: 3,
             lessons: [
-                { id: "l1", title: "Course Introduction", duration: "2:30", completed: false, videoUrl: "public/video/demo.mp4", type: 'video' },
-                { id: "l2", title: "Tool you will use", duration: "2:30", completed: false, videoUrl: "public/video/demo.mp4", type: 'video' },
-                { id: "l3", title: "Setting up Illustrator", duration: "3:00", completed: false, videoUrl: "public/video/demo.mp4", type: 'video' }
+                { id: "l1", title: "Course Introduction", duration: formatTime(0), completed: false, videoUrl: "public/video/demo.mp4", type: 'video' },
+                { id: "l2", title: "Tool you will use", duration: formatTime(0), completed: false, videoUrl: "public/video/demo_6.mp4", type: 'video' },
+                { id: "l3", title: "Setting up Illustrator", duration: formatTime(0), completed: false, videoUrl: "public/video/demo_3.mp4", type: 'video' }
             ]
         },
         {
@@ -88,10 +92,10 @@ const courseData = {
         {
             id: "sec3", title: "Concept Development & Sketching", lessonCount: 4,
             lessons: [
-                { id: "l7", title: "Sketching Basics", duration: "3:30", completed: false, videoUrl: "public/video/demo.mp4", type: 'video' },
-                { id: "l8", title: "Concept Ideation", duration: "4:00", completed: false, videoUrl: "public/video/demo.mp4", type: 'video' },
-                { id: "l9", title: "Refining Concepts", duration: "5:00", completed: false, videoUrl: "public/video/demo.mp4", type: 'video' },
-                { id: "l10", title: "Digital Sketching", duration: "3:00", completed: false, videoUrl: "public/video/demo.mp4", type: 'video' }
+                { id: "l7", title: "Sketching Basics", duration: "3:30", completed: false, videoUrl: "public/video/demo_5.mp4", type: 'video' },
+                { id: "l8", title: "Concept Ideation", duration: "4:00", completed: false, videoUrl: "public/video/demo_4.mp4", type: 'video' },
+                { id: "l9", title: "Refining Concepts", duration: "5:00", completed: false, videoUrl: "public/video/demo_3.mp4", type: 'video' },
+                { id: "l10", title: "Digital Sketching", duration: "3:00", completed: false, videoUrl: "public/video/demo_6.mp4", type: 'video' }
             ]
         },
         {
@@ -252,7 +256,7 @@ function Course_start() {
     const [preVolume, setPreVolume] = useState(50);
     const [video, setVideo] = useState(0);
     const [currentTime, setCurrentTime] = useState(0);
-    const [duration, setDuration] = useState(150);
+    const [duration, setDuration] = useState(0);
     const playerRef = useRef(null);
     const [isFullscreen, setIsFullscreen] = useState(false);
     const [showSettings, setShowSettings] = useState(false);
@@ -347,11 +351,11 @@ function Course_start() {
             document.exitFullscreen();
         }
     }
-    const formatTime = (timeInSeconds) => {
+    /*const formatTime = (timeInSeconds) => {
         const minutes = Math.floor(timeInSeconds / 60);
         const seconds = Math.floor(timeInSeconds % 60);
         return `${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
-    }
+    }*/
     const handleTimeChange = (e) => {
         const NewTime = Number(e.target.value);
         setCurrentTime(NewTime);
@@ -433,6 +437,10 @@ function Course_start() {
             }
         }
     }, [currentLesson.videoUrl, autoplay])
+    useEffect(() => {
+        setCurrentTime(0);
+        setDuration(0);
+    }, [currentLesson.id]);
     const [noteText, setNoteText] = useState('');
     const [clickNote, setClickNote] = useState(false);
     const [saveNotice, setSaveNotice] = useState([
@@ -618,7 +626,7 @@ function Course_start() {
                                                         {/* إذا كان النوع موجوداً في الكائن سيضع أيقونته، وإلا سيعتبره فيديو ويضع أيقونة التشغيل الافتراضية */}
                                                         {lessonIcons[lesson.type] || <Play size={9} />}
 
-                                                        <span> {lesson.type === 'video' ? formatTime(duration) : lesson.duration}</span>
+                                                        <span> {lesson.type === 'video' && currentLesson.id === lesson.id ? formatTime(duration) : lesson.duration}</span>
                                                     </p>
                                                 </div>
                                             </div>
