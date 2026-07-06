@@ -265,10 +265,17 @@ function Course_start() {
     const [isPlaying, setIsPlaying] = useState(false);
     const [completedLessons, setCompletedLessons] = useState([]);
     const [course, setCourse] = useState(courseData); // تمرير البيانات الافتراضية الثابتة هنا
-    const handleVideoEnd = (lessonId) => {
-        if (!completedLessons.includes(lessonId)) {
-            setCompletedLessons(prev => [...prev, lessonId]);
-        }
+    const setLessonCompletionStatus = (lessonId, isCompleted) => {
+        setCompletedLessons(prev => {
+            if (isCompleted) {
+                if (!prev.includes(lessonId)) {
+                    return [...prev, lessonId];
+                }
+                return prev;
+            } else {
+                return prev.filter(id => id !== lessonId);
+            }
+        });
         setCourse(prevCourse => {
             return {
                 ...prevCourse,
@@ -276,13 +283,20 @@ function Course_start() {
                     ...section,
                     lessons: section.lessons.map(lesson => {
                         if (lesson.id === lessonId) {
-                            return { ...lesson, completed: true }; // تحديث حالة الدرس المكتمل
+                            return { ...lesson, completed: isCompleted };
                         }
                         return lesson;
                     })
                 }))
             };
         });
+    };
+
+    const handleVideoEnd = (lessonId) => {
+        setLessonCompletionStatus(lessonId, true);
+        if (currentLesson.id === lessonId) {
+            setCurrentLesson(prev => ({ ...prev, completed: true }));
+        }
     }
 
 
@@ -484,6 +498,10 @@ function Course_start() {
         setAssignmentFiles(prevFiles => [...prevFiles, fileData]);
         setIsSubmitted(true);
 
+        // Mark the assignment lesson as complete
+        setLessonCompletionStatus(currentLesson.id, true);
+        setCurrentLesson(prev => ({ ...prev, completed: true }));
+
         // إظهار رسالة نجاح للمستخدم (اختياري)
         alert("تم إرسال الملف بنجاح!");
 
@@ -649,11 +667,15 @@ function Course_start() {
                                         </div>
                                     ))}
                                     <button
-                                        className={`mark_complete_btn ${markedComplete[currentLesson.id] ? 'completed' : ''}`}
-                                        onClick={() => setMarkedComplete(prev => ({ ...prev, [currentLesson.id]: !prev[currentLesson.id] }))}
+                                        className={`mark_complete_btn ${currentLesson.completed ? 'completed' : ''}`}
+                                        onClick={() => {
+                                            const nextStatus = !currentLesson.completed;
+                                            setLessonCompletionStatus(currentLesson.id, nextStatus);
+                                            setCurrentLesson(prev => ({ ...prev, completed: nextStatus }));
+                                        }}
                                     >
                                         <Check size={14} />
-                                        {markedComplete[currentLesson.id] ? 'Completed' : 'Mark as Complete'}
+                                        {currentLesson.completed ? 'Completed' : 'Mark as Complete'}
                                     </button>
                                 </div>
                             </div>
@@ -774,11 +796,15 @@ function Course_start() {
                                         <div className="mark_complate_add_resource">
 
                                             <button
-                                                className={`mark_complete_btn ${markedComplete[currentLesson.id] ? 'completed' : ''}`}
-                                                onClick={() => setMarkedComplete(prev => ({ ...prev, [currentLesson.id]: !prev[currentLesson.id] }))}
+                                                className={`mark_complete_btn ${currentLesson.completed ? 'completed' : ''}`}
+                                                onClick={() => {
+                                                    const nextStatus = !currentLesson.completed;
+                                                    setLessonCompletionStatus(currentLesson.id, nextStatus);
+                                                    setCurrentLesson(prev => ({ ...prev, completed: nextStatus }));
+                                                }}
                                             >
                                                 <Check size={14} />
-                                                {markedComplete[currentLesson.id] ? 'Completed' : 'Mark as Complete'}
+                                                {currentLesson.completed ? 'Completed' : 'Mark as Complete'}
                                             </button>
                                         </div>
                                     </div>
