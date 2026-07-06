@@ -618,7 +618,7 @@ function Course_start() {
                                                         {/* إذا كان النوع موجوداً في الكائن سيضع أيقونته، وإلا سيعتبره فيديو ويضع أيقونة التشغيل الافتراضية */}
                                                         {lessonIcons[lesson.type] || <Play size={9} />}
 
-                                                        <span> {lesson.type === 'video' ? formatTime(duration) : lesson.duration}</span>
+                                                        <span> {currentLesson.type === 'video' ? formatTime(duration) : currentLesson.duration}</span>
                                                     </p>
                                                 </div>
                                             </div>
@@ -895,10 +895,13 @@ function Course_start() {
                             <div className="lesson_info_top">
                                 <h2 className="lesson_main_title">{currentLesson.title}</h2>
                                 <div className="lesson_nav_controls">
-                                    <span className="autoplay_label">Autoplay</span>
-                                    <div className={`autoplay_toggle ${autoplay ? 'on' : ''}`} onClick={() => setAutoplay(!autoplay)}>
-                                        <div className="toggle_thumb" />
-                                    </div>
+                                    {currentLesson.type === 'video' &&
+                                        <><span className="autoplay_label">Autoplay</span>
+                                            <div className={`autoplay_toggle ${autoplay ? 'on' : ''}`} onClick={() => setAutoplay(!autoplay)}>
+                                                <div className="toggle_thumb" />
+                                            </div>
+                                        </>
+                                    }
                                     <button className="nav_btn" onClick={goPrev} disabled={currentLessonIndex === 0}>
                                         <ChevronRight size={14} className="icon_flip" /> Prev
                                     </button>
