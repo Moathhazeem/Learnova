@@ -618,7 +618,7 @@ function Course_start() {
                                                         {/* إذا كان النوع موجوداً في الكائن سيضع أيقونته، وإلا سيعتبره فيديو ويضع أيقونة التشغيل الافتراضية */}
                                                         {lessonIcons[lesson.type] || <Play size={9} />}
 
-                                                        <span> {currentLesson.type === 'video' ? formatTime(duration) : currentLesson.duration}</span>
+                                                        <span> {lesson.type === 'video' ? formatTime(duration) : lesson.duration}</span>
                                                     </p>
                                                 </div>
                                             </div>
