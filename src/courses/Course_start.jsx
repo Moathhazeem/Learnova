@@ -590,7 +590,7 @@ function Course_start() {
                                         {section.lessons.map((lesson) => (
                                             <div
                                                 key={lesson.id}
-                                                className={`lesson_item ${currentLesson.id === lesson.id ? 'active' : ''}`}
+                                                className={`lesson_item ${currentLesson.id === lesson.id ? 'active' : ''} ${lesson.completed ? 'completed' : 'not-completed'}`}
                                                 onClick={() => setCurrentLesson(lesson)}
                                             >
                                                 <div
