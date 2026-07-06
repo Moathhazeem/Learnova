@@ -12,9 +12,9 @@ const courseData = {
         {
             id: "sec1", title: "Introduction to Logo Design", lessonCount: 3,
             lessons: [
-                { id: "l1", title: "Course Introduction", duration: "2:30", completed: false, videoUrl: "public/video/demo.mp4" },
-                { id: "l2", title: "Tool you will use", duration: "2:30", completed: false, videoUrl: "public/video/demo.mp4" },
-                { id: "l3", title: "Setting up Illustrator", duration: "3:00", completed: false, videoUrl: "public/video/demo.mp4" }
+                { id: "l1", title: "Course Introduction", duration: "2:30", completed: false, videoUrl: "public/video/demo.mp4", type: 'video' },
+                { id: "l2", title: "Tool you will use", duration: "2:30", completed: false, videoUrl: "public/video/demo.mp4", type: 'video' },
+                { id: "l3", title: "Setting up Illustrator", duration: "3:00", completed: false, videoUrl: "public/video/demo.mp4", type: 'video' }
             ]
         },
         {
@@ -88,47 +88,161 @@ const courseData = {
         {
             id: "sec3", title: "Concept Development & Sketching", lessonCount: 4,
             lessons: [
-                { id: "l7", title: "Sketching Basics", duration: "3:30", completed: false },
-                { id: "l8", title: "Concept Ideation", duration: "4:00", completed: false },
-                { id: "l9", title: "Refining Concepts", duration: "5:00", completed: false },
-                { id: "l10", title: "Digital Sketching", duration: "3:00", completed: false }
+                { id: "l7", title: "Sketching Basics", duration: "3:30", completed: false, videoUrl: "public/video/demo.mp4", type: 'video' },
+                { id: "l8", title: "Concept Ideation", duration: "4:00", completed: false, videoUrl: "public/video/demo.mp4", type: 'video' },
+                { id: "l9", title: "Refining Concepts", duration: "5:00", completed: false, videoUrl: "public/video/demo.mp4", type: 'video' },
+                { id: "l10", title: "Digital Sketching", duration: "3:00", completed: false, videoUrl: "public/video/demo.mp4", type: 'video' }
             ]
         },
         {
             id: "sec4", title: "Logo Design Principles", lessonCount: 2,
             lessons: [
-                { id: "l11", title: "Design Principles", duration: "6:00", completed: false },
-                { id: "l12", title: "Visual Hierarchy", duration: "4:00", completed: false }
+                { id: "l11", title: "Design Principles", duration: "6:00", completed: false, videoUrl: "public/video/demo.mp4", type: 'video' },
+                { id: "l12", title: "Visual Hierarchy", duration: "4:00", completed: false, videoUrl: "public/video/demo.mp4", type: 'video' }
             ]
         },
         {
             id: "sec5", title: "Designing the Logo Digitally", lessonCount: 5,
             lessons: [
-                { id: "l13", title: "Illustrator Basics", duration: "5:00", completed: false },
-                { id: "l14", title: "Vector Drawing", duration: "4:30", completed: false },
-                { id: "l15", title: "Typography", duration: "3:00", completed: false },
-                { id: "l16", title: "Color Application", duration: "4:00", completed: false },
-                { id: "l17", title: "Final Touches", duration: "5:30", completed: false }
+                { id: "l13", title: "Illustrator Basics", duration: "5:00", completed: false, videoUrl: "public/video/demo.mp4", type: 'video' },
+                { id: "l14", title: "Vector Drawing", duration: "4:30", completed: false, videoUrl: "public/video/demo.mp4", type: 'video' },
+                {
+                    id: "l15", title: "Typography", duration: "3:00", completed: false, type: 'reading',
+                    content: {
+                        heading: "Typography in Logo Design",
+                        sections: [
+                            {
+                                title: "The Power of Fonts",
+                                paragraphs: [
+                                    "Typography is the art and technique of arranging type to make written language legible, readable, and visually appealing when displayed. In logo design, your font choice communicates your brand’s character just as much as your icon.",
+                                    "Selecting the right typeface helps reinforce the brand's voice, whether it is modern, classic, playful, or elegant. Mixing too many typefaces, however, can make a logo look messy and unprofessional."
+                                ]
+                            },
+                            {
+                                title: "Typeface Categories",
+                                intro: "Understanding the main font categories helps in making the right choice:",
+                                bullets: [
+                                    { label: "Serif Fonts", text: "Traditional, reliable, and respectable. Perfect for established brands (e.g., Times New Roman, Garamond)." },
+                                    { label: "Sans-Serif Fonts", text: "Clean, modern, and objective. Widely used by tech startups and modern retailers (e.g., Helvetica, Inter)." },
+                                    { label: "Slab Serif Fonts", text: "Bold, quirky, and confident. Strong presence and highly readable at different sizes." },
+                                    { label: "Script Fonts", text: "Elegant, creative, and personal. Ideal for creative or luxury brands, but must be used carefully to maintain readability." }
+                                ]
+                            }
+                        ]
+                    }
+                },
+                {
+                    id: "l16", title: "Color Application", duration: "4:00", completed: false, type: 'Add_resource',
+                    content: {
+                        sections: [
+                            {
+                                icon: "public/photo_icons/book.png",
+                                title: "Additional Resources: Color Application",
+                                icon_clock: "public/photo_icons/clock.png",
+                                duration: "4:00",
+                                items: [
+                                    { label: "Color Palette Generators (Coolors, Adobe Color)" },
+                                    { label: "Controlling Contrast & Accessibility (WCAG standards)" },
+                                    { label: "Understanding CMYK vs RGB vs Pantone for Print and Digital" },
+                                    { label: "Creating Dark Mode Variants of Your Brand Logo" }
+                                ],
+                                marks: "Mark as Completed",
+                                not_completed: "Completed",
+                                icons_marks: "./public/icons/checkbox.png"
+                            }
+                        ]
+                    }
+                },
+                {
+                    id: "l17", title: "Final Touches", duration: "5:30", completed: false, type: 'assignment',
+                    instructions: [
+                        "Complete the digital refinement phase of your logo design using standard vector formatting rules:",
+                        "1. Ensure all paths are closed and anchor points are kept to a minimum to maintain clean vector paths.",
+                        "2. Convert all text/fonts to outlines (Expand) so the design renders correctly on any system.",
+                        "3. Check alignment, spacing (kerning), and symmetry across all layout variations.",
+                        "4. Test your logo in high contrast black-and-white mode to ensure it remains legible without color.",
+                        "5. Submit your finalized Adobe Illustrator (.ai) file along with a preview SVG image."
+                    ]
+                }
             ]
         },
         {
             id: "sec6", title: "Color & Typography in Logo Design", lessonCount: 2,
             lessons: [
-                { id: "l18", title: "Color Theory", duration: "6:00", completed: false },
-                { id: "l19", title: "Typography Basics", duration: "4:00", completed: false }
+                {
+                    id: "l18", title: "Color Theory", duration: "6:00", completed: false, type: 'Add_resource',
+                    content: {
+                        sections: [
+                            {
+                                icon: "public/photo_icons/book.png",
+                                title: "Additional Resources: Color Theory",
+                                icon_clock: "public/photo_icons/clock.png",
+                                duration: "6:00",
+                                items: [
+                                    { label: "The Psychology of Color in Branding" },
+                                    { label: "Understanding Analogous, Complementary, and Triadic Schemes" },
+                                    { label: "Color Interaction and Cultural Associations" },
+                                    { label: "Case Study: Red and Yellow in Fast Food Branding" }
+                                ],
+                                marks: "Mark as Completed",
+                                not_completed: "Completed",
+                                icons_marks: "./public/icons/checkbox.png"
+                            }
+                        ]
+                    }
+                },
+                { id: "l19", title: "Typography Basics", duration: "4:00", completed: false, videoUrl: "public/video/demo.mp4", type: 'video' }
             ]
         },
         {
             id: "sec7", title: "Exporting & Presenting the Logo", lessonCount: 3,
             lessons: [
-                { id: "l20", title: "Export Formats", duration: "3:00", completed: false },
-                { id: "l21", title: "Presentation Tips", duration: "4:00", completed: false },
-                { id: "l22", title: "Client Delivery", duration: "5:00", completed: false }
+                {
+                    id: "l20", title: "Export Formats", duration: "3:00", completed: false, type: 'reading',
+                    content: {
+                        heading: "Standard Vector and Raster Export Formats",
+                        sections: [
+                            {
+                                title: "Vector vs Raster",
+                                paragraphs: [
+                                    "Vector files (AI, EPS, SVG, PDF) are mathematically constructed and can be scaled infinitely without losing quality. These are essential for production, signage, and design templates.",
+                                    "Raster files (PNG, JPEG, WEBP) consist of grids of pixels and have fixed resolutions. They are best suited for web applications, social media profiles, and email signatures."
+                                ]
+                            },
+                            {
+                                title: "Key Formats Explained",
+                                intro: "Always provide clients with a complete logo package containing these formats:",
+                                bullets: [
+                                    { label: "SVG (Scalable Vector Graphics)", text: "The industry standard for web interfaces. Interactive, clean, lightweight, and responsive." },
+                                    { label: "PNG (Portable Network Graphics)", text: "Supports transparent backgrounds, making it perfect for placing logos over colored sections on sites." },
+                                    { label: "PDF (Portable Document Format)", text: "Highly versatile format widely accepted by print shops, preserving vector details and fonts." },
+                                    { label: "AI (Adobe Illustrator)", text: "The primary source file format. Always keep an archive file safe." }
+                                ]
+                            }
+                        ]
+                    }
+                },
+                { id: "l21", title: "Presentation Tips", duration: "4:00", completed: false, videoUrl: "public/video/demo.mp4", type: 'video' },
+                {
+                    id: "l22", title: "Client Delivery", duration: "5:00", completed: false, type: 'assignment',
+                    instructions: [
+                        "Deliver your completed brand guidelines document and asset folder package containing:",
+                        "1. Main Full-Color Logo, Monochromatic Logo, and Light/Dark background variants.",
+                        "2. Standard folder structure: Vector (AI, SVG, PDF) and Raster (PNG, JPG).",
+                        "3. A concise PDF Style Guide specifying the selected typefaces, primary/secondary colors (HEX, RGB, CMYK codes), and minimum size guidelines.",
+                        "4. Include mockups demonstrating real-world applications (e.g. stationery, digital products, apparel).",
+                        "5. Compress the entire package into a single .zip archive for submission."
+                    ]
+                }
             ]
         }
     ]
 };
-
+const lessonIcons = {
+    assignment: <FileText size={9} />,
+    Add_resource: <BookOpen size={9} />,
+    reading: <BookOpen size={9} />,
+};
 function Course_start() {
     const location = useLocation();
     const pathname = location.pathname.split('/').filter(x => x);
@@ -478,15 +592,16 @@ function Course_start() {
                                                     {lesson.completed ? (
                                                         // أيقونة الصح البيضاء داخل الدائرة الزرقاء الممتلئة
                                                         <Check size={12} strokeWidth={3} className="text-white" />
-                                                    ) : lesson.type === 'assignment' ? (
-                                                        <FileText size={9} />
-                                                    ) : (
-                                                        <Play size={9} />
-                                                    )}
+                                                    ) : lessonIcons[lesson.type] || <Play size={9} />}
                                                 </div>
                                                 <div className="lesson_info">
                                                     <h5>{lesson.title}</h5>
-                                                    <p>{lesson.type === 'assignment' ? <FileText size={9} /> : <Play size={9} />} {formatTime(duration)}</p>
+                                                    <p>
+                                                        {/* إذا كان النوع موجوداً في الكائن سيضع أيقونته، وإلا سيعتبره فيديو ويضع أيقونة التشغيل الافتراضية */}
+                                                        {lessonIcons[lesson.type] || <Play size={9} />}
+
+                                                        <span> {formatTime(duration)}</span>
+                                                    </p>
                                                 </div>
                                             </div>
                                         ))}
