@@ -618,7 +618,7 @@ function Course_start() {
                                                         {/* إذا كان النوع موجوداً في الكائن سيضع أيقونته، وإلا سيعتبره فيديو ويضع أيقونة التشغيل الافتراضية */}
                                                         {lessonIcons[lesson.type] || <Play size={9} />}
 
-                                                        <span> {formatTime(duration)}</span>
+                                                        <span> {lesson.type === 'video' ? formatTime(duration) : lesson.duration}</span>
                                                     </p>
                                                 </div>
                                             </div>
@@ -907,7 +907,7 @@ function Course_start() {
                                     </button>
                                 </div>
                             </div>
-                            <p className="lesson_meta">Lesson {currentLessonIndex + 1} of {totalLessons}&nbsp;&nbsp;·&nbsp;&nbsp;{formatTime(duration)}</p>
+                            <p className="lesson_meta">Lesson {currentLessonIndex + 1} of {totalLessons}&nbsp;&nbsp;·&nbsp;&nbsp;{currentLesson.type === 'video' ? formatTime(duration) : currentLesson.duration}</p>
 
                             {/* Tabs */}
                             <div className="lesson_tabs">
