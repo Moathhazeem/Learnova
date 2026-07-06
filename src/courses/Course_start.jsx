@@ -61,6 +61,7 @@ const courseData = {
                                     { label: "Examples of Global Brands ?" }
                                 ],
                                 marks: "Mark as Completed",
+                                not_completed: "Completed",
                                 icons_marks: "./public/icons/checkbox.png"
                             }
                         ]
@@ -509,13 +510,7 @@ function Course_start() {
                                             <span className="reading_material_meta"><Clock size={12} /> {currentLesson.duration}</span>
                                         </div>
                                     </div>
-                                    <button
-                                        className={`mark_complete_btn ${markedComplete[currentLesson.id] ? 'completed' : ''}`}
-                                        onClick={() => setMarkedComplete(prev => ({ ...prev, [currentLesson.id]: !prev[currentLesson.id] }))}
-                                    >
-                                        <Check size={14} />
-                                        {markedComplete[currentLesson.id] ? 'Completed' : 'Mark as Complete'}
-                                    </button>
+
                                 </div>
                                 <div className="reading_material_body">
                                     <h2 className="reading_main_heading">{currentLesson.content.heading}</h2>
@@ -538,6 +533,13 @@ function Course_start() {
                                             )}
                                         </div>
                                     ))}
+                                    <button
+                                        className={`mark_complete_btn ${markedComplete[currentLesson.id] ? 'completed' : ''}`}
+                                        onClick={() => setMarkedComplete(prev => ({ ...prev, [currentLesson.id]: !prev[currentLesson.id] }))}
+                                    >
+                                        <Check size={14} />
+                                        {markedComplete[currentLesson.id] ? 'Completed' : 'Mark as Complete'}
+                                    </button>
                                 </div>
                             </div>
                         ) : currentLesson.type === 'assignment' ? (
@@ -655,19 +657,14 @@ function Course_start() {
 
                                         {/* Action Button Section */}
                                         <div className="mark_complate_add_resource">
-                                            <label htmlFor="complate" className="check_box_label">
-                                                <input
-                                                    type="checkbox"
-                                                    id="complate"
-                                                    onChange={(e) => handleComplate(e)}
-                                                    className="hidden_checkbox"
-                                                />
-                                                <div className="check_box_custom">
-                                                    <Check size={18} className="check_icon" />
-                                                    {/* جلب النص "Mark as Completed" ديناميكياً من الكائن */}
-                                                    <p>{sectionData.marks || "Mark as complete"}</p>
-                                                </div>
-                                            </label>
+
+                                            <button
+                                                className={`mark_complete_btn ${markedComplete[currentLesson.id] ? 'completed' : ''}`}
+                                                onClick={() => setMarkedComplete(prev => ({ ...prev, [currentLesson.id]: !prev[currentLesson.id] }))}
+                                            >
+                                                <Check size={14} />
+                                                {markedComplete[currentLesson.id] ? 'Completed' : 'Mark as Complete'}
+                                            </button>
                                         </div>
                                     </div>
                                 );
