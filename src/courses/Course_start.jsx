@@ -45,7 +45,27 @@ const courseData = {
                         ]
                     }
                 },
-                { id: "l5", title: "How understanding your brand", duration: "2:30", completed: false },
+                {
+                    id: "l5", title: "How understanding your brand", duration: "2:30", completed: false, type: "Add_resource",
+                    content: {
+                        sections: [
+                            {
+                                icon: "public/photo_icons/book.png",
+                                title: "Addition Resourse",
+                                icon_clock: "public/photo_icons/clock.png",
+                                duration: "5:00",
+                                items: [
+                                    { label: "What is a Global Brand ?" },
+                                    { label: "What Makes a Brand “Global” ?" },
+                                    { label: "Why Do Companies Build Global Brands ?" },
+                                    { label: "Examples of Global Brands ?" }
+                                ],
+                                marks: "Mark as Completed",
+                                icons_marks: "./public/icons/checkbox.png"
+                            }
+                        ]
+                    }
+                },
                 {
                     id: "l6", title: "Assignment about your brand", duration: "10:00", completed: false, type: 'assignment',
                     instructions: [
@@ -592,6 +612,66 @@ function Course_start() {
                                     </div>
                                 )}
                             </div>
+                        ) : currentLesson.type === 'Add_resource' && currentLesson.content?.sections?.[0] ? (
+                            (() => {
+                                // تعريف متغير يسهل الوصول لبيانات القسم الأول المتاح في الصورة
+                                const sectionData = currentLesson.content.sections[0];
+
+                                return (
+                                    <div className="add_resource_wrapper">
+                                        {/* Header Section */}
+                                        <div className="header">
+                                            <div className="icon_add_resoure">
+                                                {/* استخدام مسار الأيقونة القادم من الكائن أو ترك الكومبوننت الافتراضي */}
+                                                <img src={sectionData.icon} alt="icon" width="20" height="20" />
+
+
+                                            </div>
+                                            <div className="header_title">
+                                                {/* هنا نقرأ العنوان الصحيح "Addition Resourse" من الـ section */}
+                                                <h2 className="title_add_resoure">{sectionData.title}</h2>
+                                                <div className="clock_add_resource">
+                                                    <Clock size={16} />
+                                                    {/* قراءة الوقت الصحيح "5:00" */}
+                                                    <p>{sectionData.duration}</p>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        {/* Content Card */}
+                                        <div className="add_resource_content">
+                                            {/* قراءة العنوان الرئيسي "How understanding your brand" من المستوى الأول للكائن */}
+                                            <h5 className="header_content">{currentLesson.title}</h5>
+
+                                            {/* عمل الخريطة (map) بناءً على مسار الـ items الصحيح */}
+                                            {sectionData.items?.map((iteam, index) => (
+                                                <div key={index} className="resource_iteam">
+                                                    <span className="resource_bullet">•</span>
+                                                    {/* بناءً على الصورة الأولى، النص مخزن داخل حقل label وليس title */}
+                                                    <h4 className="resource_title">{iteam.label}</h4>
+                                                </div>
+                                            ))}
+                                        </div>
+
+                                        {/* Action Button Section */}
+                                        <div className="mark_complate_add_resource">
+                                            <label htmlFor="complate" className="check_box_label">
+                                                <input
+                                                    type="checkbox"
+                                                    id="complate"
+                                                    onChange={(e) => handleComplate(e)}
+                                                    className="hidden_checkbox"
+                                                />
+                                                <div className="check_box_custom">
+                                                    <Check size={18} className="check_icon" />
+                                                    {/* جلب النص "Mark as Completed" ديناميكياً من الكائن */}
+                                                    <p>{sectionData.marks || "Mark as complete"}</p>
+                                                </div>
+                                            </label>
+                                        </div>
+                                    </div>
+                                );
+                            })()
                         ) : (
                             <div className="video_player_wrapper" ref={playerRef}>
                                 <video ref={videoRef}
