@@ -147,7 +147,7 @@ const CalendarUI = ({ t, i18n }) => {
                             >
                                 <div className="task-info">
                                     <span className="task-name">{taskItem.task}</span>
-                                    <span className="task-duration">⏱️ {taskItem.duration}</span>
+                                    <span className="task-duration" ><img style={{ width: "18px", height: "18px" }} src="https://img.icons8.com/?size=100&id=63250&format=png&color=000000"></img> {taskItem.duration}</span>
                                 </div>
                                 <button
                                     className={`task-checkbox-btn ${taskItem.completed ? "checked" : ""}`}

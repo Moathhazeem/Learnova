@@ -1041,9 +1041,14 @@
 }
 
 .task-duration {
+    display: flex;
     font-size: 11px;
     color: var(--text-muted);
     font-weight: 600;
+    font-size: 12px;
+    flex-direction: row;
+    align-items: center;
+    gap: 5px;
 }
 
 .task-checkbox-btn {
