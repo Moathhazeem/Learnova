@@ -544,7 +544,6 @@ function MyLearning() {
                                                             style={{ transform: expandedCourse === index ? "rotate(180deg)" : "none", transition: "transform 0.2s" }}
                                                         />
                                                     </div>
-                                                    {/* 3. هنا المكان الصحيح للـ Syllabus View (خارج الـ main-content وتحته مباشرة) */}
                                                     {expandedCourse === index && (
                                                         <div className="course-syllabus-drawer">
                                                             <h4>📋 Course Modules</h4>
