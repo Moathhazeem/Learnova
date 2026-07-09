@@ -352,7 +352,8 @@ function MyLearning() {
         0: ["Introduction to Node.js & Express", "Building REST APIs", "Database Integration with MongoDB", "Deployment and DevOps Basics"],
         1: ["HTML5 Semantic Elements", "CSS3 Flexbox and Grid Layouts", "Responsive Web Design Concepts", "JavaScript ES6+ Syntax & DOM Manipulation"],
         2: ["Data Analyst Role & Ecosystem", "Data Collection Techniques", "Data Wrangling & Cleaning", "Introduction to Data Visualization"],
-        3: ["Excel Interface & Basic Formulae", "VLOOKUP, INDEX & MATCH functions", "Creating Interactive Pivot Tables", "Excel Charts & Dashboard Design"]
+        3: ["Excel Interface & Basic Formulae", "VLOOKUP, INDEX & MATCH functions", "Creating Interactive Pivot Tables", "Excel Charts & Dashboard Design"],
+        4: ["Illustrator Interface & Basic Shapes", "Working with Pen Tool & Paths", "Typography & Color Management", "Advanced Vector Effects & Exporting"]
     };
 
     useEffect(() => {

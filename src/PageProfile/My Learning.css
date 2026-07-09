@@ -308,15 +308,30 @@
     gap: 8px;
     margin-bottom: 12px;
     margin-top: 0;
+    font-size: 11px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.8px;
+    color: #0089EA;
+    /* اللون الأزرق الحالي الخاص بك */
+    /* 🟢 حركة سحرية: تباعد الحروف يعطي طابعاً فخماً واحترافياً للتصنيفات */
+    /* حروف كبيرة (إذا كان إنجليزي) */
+    /* الحفاظ عليه عريض لكن بحجم صغير */
+    /* تصغير حجم الخط ليعطي شعوراً بأنه تصنيف علوي */
 }
 
 .course-name {
     font-size: 18px;
-    font-weight: 600;
+    /* تكبير الحجم ليكون هو العنصر المسيطر */
+    font-weight: 700;
+    /* 🟢 جعله عريض وصريح (Bold) */
     margin: 0 0 4px 0;
-    color: var(--text-primary);
+    color: #1A1A1A;
+    /* 🟢 تغميق اللون لدرجة قريبة من الأسود النظيف بدلاً من الرمادي الباهت */
     letter-spacing: -0.3px;
-    line-height: 1.2;
+    line-height: 1.4;
+    /* لضمان تناسق الأسطر إذا كان الاسم طويلاً ونزل لسطر جديد */
+    font-family: 'inter'
 }
 
 .course-card-main-content {
