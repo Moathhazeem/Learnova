@@ -265,22 +265,30 @@ const CalendarUI = ({ t, i18n, taskDurationInput, setTaskDurationInput, tasksByD
     );
 };
 
-const Streak = ({ t, i18n, minTarget, tasksByDay, selectedPlanDay }) => {
-    const [progress, setProgress] = useState(30);
+const Streak = ({ t, i18n, tasksByDay, selectedPlanDay }) => {
     const [vist, setVist] = useState(1);
 
     const visitsTarget = 1;
 
-    // Calculate percentages
-    const dayTasks = tasksByDay[selectedPlanDay] ?? [];
-    const allTasksCompleted = dayTasks.length > 0 && dayTasks.every(taskItem => taskItem.completed);
-    const displayProgress = allTasksCompleted ? minTarget : progress;
-    const progressPercent = allTasksCompleted ? 100 : Math.min((progress / minTarget) * 100, 100);
-    const vistPercent = Math.min((vist / visitsTarget) * 100, 100);
+    // 1. Extract the current day's tasks array
+    const currentTasks = tasksByDay[selectedPlanDay] || [];
 
-    const increase = () => {
-        setProgress(prev => Math.min(prev + 5, minTarget));
-    };
+    // 2. Calculate minTarget dynamically
+    const minTarget = currentTasks.length > 0
+        ? currentTasks.reduce((sum, task) => sum + (parseInt(task.duration) || 0), 0)
+        : 30;
+
+    // 3. Calculate progress dynamically
+    const progress = currentTasks.reduce((sum, task) => {
+        if (task.completed === true) {
+            return sum + (parseInt(task.duration) || 0);
+        }
+        return sum;
+    }, 0);
+
+    // 4. Update progressPercent
+    const progressPercent = minTarget > 0 ? (progress / minTarget) * 100 : 0;
+    const vistPercent = Math.min((vist / visitsTarget) * 100, 100);
 
     return (
         <div className="streak-container">
@@ -299,7 +307,7 @@ const Streak = ({ t, i18n, minTarget, tasksByDay, selectedPlanDay }) => {
             </div>
             <div className="streak-days">
                 <div className="day">
-                    <img src={displayProgress < minTarget ? "https://img.icons8.com/?size=100&id=houGsYyNpCbu&format=png&color=A0A0A0" : "https://img.icons8.com/?size=100&id=houGsYyNpCbu&format=gif"} alt="Streak" />
+                    <img src={progress < minTarget ? "https://img.icons8.com/?size=100&id=houGsYyNpCbu&format=png&color=A0A0A0" : "https://img.icons8.com/?size=100&id=houGsYyNpCbu&format=gif"} alt="Streak" />
                     <div className="day-description">
                         <div className="day-number-container">
                             <div className="day-number">1</div>
@@ -307,9 +315,6 @@ const Streak = ({ t, i18n, minTarget, tasksByDay, selectedPlanDay }) => {
                         </div>
                         <p className="day-description-text">{t("profile.day_description", "Current streak")}</p>
                     </div>
-                    {/*<button className="streak-boost-btn" onClick={increase} disabled={progress >= minTarget}>
-                        ⚡ {progress >= minTarget ? "Done!" : "Study +5m"}
-                    </button>*/}
                 </div>
                 <div className="streak">
                     <div className="courese-streak">
@@ -318,7 +323,7 @@ const Streak = ({ t, i18n, minTarget, tasksByDay, selectedPlanDay }) => {
                             <div className="progress-bar-container">
                                 <div className="progress-bar-fill" style={{ width: `${progressPercent}%` }}></div>
                             </div>
-                            <p>{displayProgress}/{minTarget}</p>
+                            <p>{progress}/{minTarget}</p>
                         </div>
                     </div>
                     <div className="courese-vist">
@@ -339,19 +344,12 @@ const Streak = ({ t, i18n, minTarget, tasksByDay, selectedPlanDay }) => {
 // ─── Main MyLearning Component ───
 function MyLearning() {
     const [taskDurationInput, setTaskDurationInput] = useState("");
-    const [minTarget, setMinTarget] = useState(30);
     const [selectedPlanDay, setSelectedPlanDay] = useState("SU");
     const [tasksByDay, setTasksByDay] = useState(loadTasksFromStorage);
 
     useEffect(() => {
         localStorage.setItem(PLAN_STORAGE_KEY, JSON.stringify(tasksByDay));
     }, [tasksByDay]);
-
-    useEffect(() => {
-        if (taskDurationInput !== "") {
-            setMinTarget(Number(taskDurationInput));
-        }
-    }, [taskDurationInput]);
 
     const durationVal = taskDurationInput && taskDurationInput.trim() ? `${taskDurationInput.trim()} mins` : "30 mins";
     const location = useLocation();
@@ -623,7 +621,6 @@ function MyLearning() {
                         <Streak 
                             t={t} 
                             i18n={i18n} 
-                            minTarget={minTarget} 
                             tasksByDay={tasksByDay}
                             selectedPlanDay={selectedPlanDay}
                         />
