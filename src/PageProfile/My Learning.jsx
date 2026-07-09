@@ -39,19 +39,12 @@ const loadTasksFromStorage = () => {
 };
 
 // ─── CalendarUI Component (outside MyLearning to avoid re-creation on each render) ───
-const CalendarUI = ({ t, i18n, taskDurationInput, setTaskDurationInput }) => {
+const CalendarUI = ({ t, i18n, taskDurationInput, setTaskDurationInput, tasksByDay, setTasksByDay, selectedPlanDay, setSelectedPlanDay }) => {
     const today = new Date();
     const [currentDate, setCurrentDate] = useState(new Date());
-    const [selectedPlanDay, setSelectedPlanDay] = useState("SU");
-
-    const [tasksByDay, setTasksByDay] = useState(loadTasksFromStorage);
 
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [taskNameInput, setTaskNameInput] = useState("");
-
-    useEffect(() => {
-        localStorage.setItem(PLAN_STORAGE_KEY, JSON.stringify(tasksByDay));
-    }, [tasksByDay]);
 
     const dayTasks = tasksByDay[selectedPlanDay] ?? [];
 
@@ -217,7 +210,7 @@ const CalendarUI = ({ t, i18n, taskDurationInput, setTaskDurationInput }) => {
                                 <button type="button" className="modal-cancel-btn" onClick={() => setIsModalOpen(false)}>
                                     {t("learning.cancel", "Cancel")}
                                 </button>
-                                <button type="submit" className="modal-save-btn modal-add-btn">
+                               <button type="submit" className="modal-save-btn modal-add-btn">
                                     <Plus size={16} />
                                     {t("learning.add_task_btn", "Add task")}
                                 </button>
@@ -271,15 +264,17 @@ const CalendarUI = ({ t, i18n, taskDurationInput, setTaskDurationInput }) => {
         </div>
     );
 };
-const Streak = ({ t, i18n, minTarget }) => {
+
+const Streak = ({ t, i18n, minTarget, tasksByDay, selectedPlanDay }) => {
     const [progress, setProgress] = useState(30);
     const [vist, setVist] = useState(1);
 
-    // Define target values
     const visitsTarget = 1;
 
     // Calculate percentages
-    const progressPercent = Math.min((progress / minTarget) * 100, 100);
+    const dayTasks = tasksByDay[selectedPlanDay] ?? [];
+    const allCompleted = dayTasks.length > 0 && dayTasks.every(taskItem => taskItem.completed);
+    const progressPercent = allCompleted ? 100 : Math.min((progress / minTarget) * 100, 100);
     const vistPercent = Math.min((vist / visitsTarget) * 100, 100);
 
     const increase = () => {
@@ -337,15 +332,19 @@ const Streak = ({ t, i18n, minTarget }) => {
                 </div>
             </div>
         </div>
-    )
-}
+    );
+};
 
 // ─── Main MyLearning Component ───
 function MyLearning() {
     const [taskDurationInput, setTaskDurationInput] = useState("");
     const [minTarget, setMinTarget] = useState(30);
+    const [selectedPlanDay, setSelectedPlanDay] = useState("SU");
+    const [tasksByDay, setTasksByDay] = useState(loadTasksFromStorage);
 
-    const durationVal = taskDurationInput && taskDurationInput.trim() ? `${taskDurationInput.trim()} mins` : "30 mins";
+    useEffect(() => {
+        localStorage.setItem(PLAN_STORAGE_KEY, JSON.stringify(tasksByDay));
+    }, [tasksByDay]);
 
     useEffect(() => {
         if (taskDurationInput !== "") {
@@ -353,6 +352,7 @@ function MyLearning() {
         }
     }, [taskDurationInput]);
 
+    const durationVal = taskDurationInput && taskDurationInput.trim() ? `${taskDurationInput.trim()} mins` : "30 mins";
     const location = useLocation();
     const pathname = location.pathname.split("/").filter((x) => x);
     const { t, i18n } = useTranslation();
@@ -614,11 +614,17 @@ function MyLearning() {
                             i18n={i18n} 
                             taskDurationInput={taskDurationInput} 
                             setTaskDurationInput={setTaskDurationInput} 
+                            tasksByDay={tasksByDay}
+                            setTasksByDay={setTasksByDay}
+                            selectedPlanDay={selectedPlanDay}
+                            setSelectedPlanDay={setSelectedPlanDay}
                         />
                         <Streak 
                             t={t} 
                             i18n={i18n} 
                             minTarget={minTarget} 
+                            tasksByDay={tasksByDay}
+                            selectedPlanDay={selectedPlanDay}
                         />
                     </div>
                 </div>
