@@ -210,7 +210,7 @@ const CalendarUI = ({ t, i18n, taskDurationInput, setTaskDurationInput, tasksByD
                                 <button type="button" className="modal-cancel-btn" onClick={() => setIsModalOpen(false)}>
                                     {t("learning.cancel", "Cancel")}
                                 </button>
-                               <button type="submit" className="modal-save-btn modal-add-btn">
+                                <button type="submit" className="modal-save-btn modal-add-btn">
                                     <Plus size={16} />
                                     {t("learning.add_task_btn", "Add task")}
                                 </button>
@@ -251,12 +251,25 @@ const CalendarUI = ({ t, i18n, taskDurationInput, setTaskDurationInput, tasksByD
                         day === today.getDate() &&
                         currentMonth === today.getMonth() &&
                         currentYear === today.getFullYear();
+                    const dayOfWeek = DAYS_OF_WEEK_SHORT[i % 7];
+                    const cellTasks = day ? (tasksByDay[dayOfWeek] || []) : [];
                     return (
                         <div
                             key={i}
-                            className={`calendar-day-num ${isToday ? "highlight" : ""} ${!day ? "empty" : ""}`}
+                            className={`calendar-day-wrapper calendar-day-num ${isToday ? "highlight" : ""} ${!day ? "empty" : ""}`}
                         >
                             {day}
+                            {day && cellTasks.length > 0 && (
+                                <div className="task-hover-tooltip">
+                                    <ul style={{ listStyleType: "none", margin: 0, padding: 0, textAlign: "left", width: "100%" }}>
+                                        {cellTasks.map((task) => (
+                                            <li key={task.id} style={{ fontSize: "11px", whiteSpace: "nowrap" }}>
+                                                • {task.task} ({task.duration})
+                                            </li>
+                                        ))}
+                                    </ul>
+                                </div>
+                            )}
                         </div>
                     );
                 })}
@@ -608,19 +621,19 @@ function MyLearning() {
 
                     {/* Sticky Calendar Sidebar */}
                     <div className="calendar-sidebar">
-                        <CalendarUI 
-                            t={t} 
-                            i18n={i18n} 
-                            taskDurationInput={taskDurationInput} 
-                            setTaskDurationInput={setTaskDurationInput} 
+                        <CalendarUI
+                            t={t}
+                            i18n={i18n}
+                            taskDurationInput={taskDurationInput}
+                            setTaskDurationInput={setTaskDurationInput}
                             tasksByDay={tasksByDay}
                             setTasksByDay={setTasksByDay}
                             selectedPlanDay={selectedPlanDay}
                             setSelectedPlanDay={setSelectedPlanDay}
                         />
-                        <Streak 
-                            t={t} 
-                            i18n={i18n} 
+                        <Streak
+                            t={t}
+                            i18n={i18n}
                             tasksByDay={tasksByDay}
                             selectedPlanDay={selectedPlanDay}
                         />

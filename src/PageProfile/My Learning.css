@@ -1387,3 +1387,30 @@
         transform: scale(1);
     }
 }
+
+.calendar-day-wrapper {
+    position: relative;
+}
+
+.task-hover-tooltip {
+    visibility: hidden;
+    position: absolute;
+    bottom: 125%;
+    left: 100px;
+    transform: translateX(-50%);
+    background-color: #1e293b;
+    color: #fff;
+    padding: 8px 12px;
+    border-radius: 6px;
+    width: max-content;
+    min-width: 100%;
+    z-index: 50;
+    opacity: 0;
+    transition: opacity 0.2s ease;
+    box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1);
+}
+
+.calendar-day-wrapper:hover .task-hover-tooltip {
+    visibility: visible;
+    opacity: 1;
+}
