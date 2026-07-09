@@ -16,9 +16,9 @@ const courseData = {
         {
             id: "sec1", title: "Introduction to Logo Design", lessonCount: 3,
             lessons: [
-                { id: "l1", title: "Course Introduction", duration: formatTime(0), completed: false, videoUrl: "public/video/demo.mp4", type: 'video' },
-                { id: "l2", title: "Tool you will use", duration: formatTime(0), completed: false, videoUrl: "public/video/demo_6.mp4", type: 'video' },
-                { id: "l3", title: "Setting up Illustrator", duration: formatTime(0), completed: false, videoUrl: "public/video/demo_3.mp4", type: 'video' }
+                { id: "l1", title: "Course Introduction", duration: "00:24", completed: false, videoUrl: "public/video/demo.mp4", type: 'video' },
+                { id: "l2", title: "Tool you will use", duration: "00:09", completed: false, videoUrl: "public/video/demo_6.mp4", type: 'video' },
+                { id: "l3", title: "Setting up Illustrator", duration: "00:38", completed: false, videoUrl: "public/video/demo_3.mp4", type: 'video' }
             ]
         },
         {
@@ -626,7 +626,7 @@ function Course_start() {
                                                         {/* إذا كان النوع موجوداً في الكائن سيضع أيقونته، وإلا سيعتبره فيديو ويضع أيقونة التشغيل الافتراضية */}
                                                         {lessonIcons[lesson.type] || <Play size={9} />}
 
-                                                        <span> {lesson.type === 'video' && currentLesson.id === lesson.id ? formatTime(duration) : lesson.duration}</span>
+                                                        <span> {lesson.type === 'video' && currentLesson.id === lesson.id ? lesson.duration : lesson.duration}</span>
                                                     </p>
                                                 </div>
                                             </div>

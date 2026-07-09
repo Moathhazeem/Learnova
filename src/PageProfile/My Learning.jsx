@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import { Link, useLocation } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 import { ChevronLeft, ChevronRight, Pencil, Trash2, Plus } from "lucide-react";
+import { useNavigate } from 'react-router-dom';
 import "../config/i18n";
 import "./My Learning.css";
 
@@ -371,8 +372,8 @@ function MyLearning() {
         {
             specialization: "IBM Full-Stack JavaScript Developer",
             title: "Introduction to Software Engineering",
-            progress: 100,
-            lastLesson: "Nov 14, 7:20 AM",
+            progress: 80,
+            lastLesson: "02 Dec 2026, 07:20 AM",
             providerLogo: "/photo_icons/IBM.png",
         },
         {
@@ -396,7 +397,16 @@ function MyLearning() {
             lastLesson: "Complete Course",
             providerLogo: "/photo_icons/microsoft.png",
         },
+        {
+            specialization: "Adobe",
+            title: "Adobe Illustrator logos design",
+            progress: 30,
+            lastLesson: "20 Nov 2026, 07:20 AM",
+            providerLogo: "/photo_icons/Adobe_icon.jfif",
+            path: "/course_start"
+        }
     ];
+    const navigate = useNavigate();
 
     const [filter, setFilter] = useState("all");
 
@@ -409,7 +419,7 @@ function MyLearning() {
     return (
         <div className="my-learning-container">
             {/* Breadcrumbs */}
-            <nav className="breadcrumbs-nav">
+            <nav className="breadcrumbs-nav_my_learning">
                 <Link to="/Home" className="Breadcrumbs">
                     {t("setting.home", "Home")}
                 </Link>
@@ -508,21 +518,28 @@ function MyLearning() {
                                             </div>
                                             <div className="course-card-main-content">
                                                 <div className="course-card-left">
-                                                    <button className="continue-btn">
+                                                    <button className="continue-btn" onClick={() => {
+                                                        if (course.progress === 100) {
+                                                            window.open('https://linkedin.com', '_blank');
+                                                        }
+                                                        else {
+                                                            navigate(course.path)
+                                                        }
+                                                    }}>
                                                         {course.progress === 100
                                                             ? "Add Linkedin"
                                                             : course.progress > 0
                                                                 ? "Continue"
                                                                 : "Start"}
                                                     </button>
-                                                    <div 
+                                                    <div
                                                         className="see-more-link"
                                                         onClick={() => setExpandedCourse(expandedCourse === index ? null : index)}
                                                     >
                                                         <span>{expandedCourse === index ? "see less" : "see more"}</span>
-                                                        <img 
-                                                            src="/photo_icons/arrow-down.png" 
-                                                            alt="" 
+                                                        <img
+                                                            src="/photo_icons/arrow-down.png"
+                                                            alt=""
                                                             style={{ transform: expandedCourse === index ? "rotate(180deg)" : "none", transition: "transform 0.2s" }}
                                                         />
                                                     </div>

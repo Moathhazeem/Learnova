@@ -124,11 +124,18 @@
 }
 
 /* Breadcrumbs */
-.breadcrumbs-nav {
+.breadcrumbs-nav_my_learning {
     display: flex;
     align-items: center;
+    flex-wrap: nowrap;
+    /* يمنع نزول العناصر لسطر جديد نهائياً */
     gap: 0px;
     margin-bottom: 20px;
+}
+
+.breadcrumbs-nav_my_learning>span {
+    display: inline-flex;
+    align-items: center;
 }
 
 .Breadcrumbs {

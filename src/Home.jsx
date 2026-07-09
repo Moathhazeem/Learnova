@@ -1,11 +1,17 @@
 import { useState } from "react";
 import { Link } from "react-router-dom";
 import { BookOpen, Play, ChevronRight } from "lucide-react";
+import { useNavigate } from 'react-router-dom';
 import "./Home.css";
 
 function Home() {
     const [progress] = useState(30);
     const [image, setImage] = useState(null)
+    const navigate = useNavigate();
+
+    const handleClick = () => {
+        navigate('/course_start');
+    };
     const categories = [
         { name: "Healthcare", white: "/photo_icons/heart-health-white.png", blue: "/photo_icons/heart-health-blue.png" },
         { name: "Computer Science", white: "/photo_icons/Computer-science-white.png", blue: "/photo_icons/Computer-science-blue.png" },
@@ -82,7 +88,7 @@ function Home() {
                     <h2>In progress</h2>
                 </div>
 
-                <article className="progress-card">
+                <article className="progress-card" onClick={handleClick}>
                     <div className="progress-card-image">
                         <img src="/Photo/Adobe Illustrator logo design.png" alt="Adobe Illustrator" />
                         <span className="progress-card-badge">Graphic Design</span>
@@ -90,7 +96,7 @@ function Home() {
                     <div className="progress-card-info">
                         <div className="info-top">
                             <span className="learning-label">Continue learning</span>
-                            <button type="button" className="play-button" aria-label="Resume course">
+                            <button type="button" className="play-button" aria-label="Resume course" >
                                 <Play size={16} fill="currentColor" strokeWidth={0} />
                             </button>
                         </div>
