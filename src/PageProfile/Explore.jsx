@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useRef } from "react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import { useTranslation } from "react-i18next";
-import { ChevronLeft, ChevronRight, Pencil, Search, X } from "lucide-react";
+import { ChevronLeft, ChevronRight, Pencil, Search, X, CircleDollarSign, Clock, SlidersHorizontal, User, Star } from "lucide-react";
 import "../config/i18n";
 import "./Explore.css";
 
@@ -94,10 +94,11 @@ function Explore() {
             duration: "1h",
             level: "Beginner",
             instructorImage: "/Photo/Dimitri Abdelhak.png",
-            ratingImage: "/photo_icons/Rating.png",
-            priceImage: "/photo_icons/price.png",
-            durationImage: "/photo_icons/Timing.png",
-            levelImage: "/photo_icons/Level.png",
+            ratingIcon: <Star size={16} className="text-yellow-500 fill-yellow-500" />,
+            priceIcon: <CircleDollarSign size={18} className="text-gray-500" />,
+            durationIcon: <Clock size={18} className="text-gray-500" />,
+            levelIcon: <SlidersHorizontal size={18} className="text-gray-500" />,
+            path: "/Explore/Course"
         },
         {
             id: 2,
@@ -110,10 +111,11 @@ function Explore() {
             duration: "1h",
             level: "Intermediate",
             instructorImage: "/Photo/Dimitri Abdelhak.png",
-            ratingImage: "/photo_icons/Rating.png",
-            priceImage: "/photo_icons/price.png",
-            durationImage: "/photo_icons/Timing.png",
-            levelImage: "/photo_icons/Level.png",
+            ratingIcon: <Star size={16} className="text-yellow-500 fill-yellow-500" />,
+            priceIcon: <CircleDollarSign size={18} className="text-gray-500" />,
+            durationIcon: <Clock size={18} className="text-gray-500" />,
+            levelIcon: <SlidersHorizontal size={18} className="text-gray-500" />,
+            path: "/Explore/Course"
         },
         {
             id: 3,
@@ -126,10 +128,11 @@ function Explore() {
             duration: "1h",
             level: "Advanced",
             instructorImage: "/Photo/Dimitri Abdelhak.png",
-            ratingImage: "/photo_icons/Rating.png",
-            priceImage: "/photo_icons/price.png",
-            durationImage: "/photo_icons/Timing.png",
-            levelImage: "/photo_icons/Level.png",
+            ratingIcon: <Star size={16} className="text-yellow-500 fill-yellow-500" />,
+            priceIcon: <CircleDollarSign size={18} className="text-gray-500" />,
+            durationIcon: <Clock size={18} className="text-gray-500" />,
+            levelIcon: <SlidersHorizontal size={18} className="text-gray-500" />,
+            path: "/Explore/Course"
         },
         {
             id: 4,
@@ -142,10 +145,11 @@ function Explore() {
             duration: "1h 30m",
             level: "Beginner",
             instructorImage: "/Photo/Alex Johnson.png",
-            ratingImage: "/photo_icons/Rating.png",
-            priceImage: "/photo_icons/price.png",
-            durationImage: "/photo_icons/Timing.png",
-            levelImage: "/photo_icons/Level.png",
+            ratingIcon: <Star size={16} className="text-yellow-500 fill-yellow-500" />,
+            priceIcon: <CircleDollarSign size={18} className="text-gray-500" />,
+            durationIcon: <Clock size={18} className="text-gray-500" />,
+            levelIcon: <SlidersHorizontal size={18} className="text-gray-500" />,
+            path: "/Explore/Course"
         },
         {
             id: 5,
@@ -158,10 +162,11 @@ function Explore() {
             duration: "1h 30m",
             level: "Advanced",
             instructorImage: "/Photo/George Smith.png",
-            ratingImage: "/photo_icons/Rating.png",
-            priceImage: "/photo_icons/price.png",
-            durationImage: "/photo_icons/Timing.png",
-            levelImage: "/photo_icons/Level.png",
+            ratingIcon: <Star size={16} className="text-yellow-500 fill-yellow-500" />,
+            priceIcon: <CircleDollarSign size={18} className="text-gray-500" />,
+            durationIcon: <Clock size={18} className="text-gray-500" />,
+            levelIcon: <SlidersHorizontal size={18} className="text-gray-500" />,
+            path: "/Explore/Course"
         },
         {
             id: 6,
@@ -174,10 +179,11 @@ function Explore() {
             duration: "1h 30m",
             level: "Advanced",
             instructorImage: "/Photo/Adam Smith.png",
-            ratingImage: "/photo_icons/Rating.png",
-            priceImage: "/photo_icons/price.png",
-            durationImage: "/photo_icons/Timing.png",
-            levelImage: "/photo_icons/Level.png",
+            ratingIcon: <Star size={16} className="text-yellow-500 fill-yellow-500" />,
+            priceIcon: <CircleDollarSign size={18} className="text-gray-500" />,
+            durationIcon: <Clock size={18} className="text-gray-500" />,
+            levelIcon: <SlidersHorizontal size={18} className="text-gray-500" />,
+            path: "/Explore/Course"
         },
         {
             id: 7,
@@ -190,10 +196,11 @@ function Explore() {
             duration: "2h",
             level: "Advanced",
             instructorImage: "/Photo/Dimitri Abdelhak.png",
-            ratingImage: "/photo_icons/Rating.png",
-            priceImage: "/photo_icons/price.png",
-            durationImage: "/photo_icons/Timing.png",
-            levelImage: "/photo_icons/Level.png",
+            ratingIcon: <Star size={16} className="text-yellow-500 fill-yellow-500" />,
+            priceIcon: <CircleDollarSign size={18} className="text-gray-500" />,
+            durationIcon: <Clock size={18} className="text-gray-500" />,
+            levelIcon: <SlidersHorizontal size={18} className="text-gray-500" />,
+            path: "/Explore/Course"
         },
         {
             id: 8,
@@ -206,10 +213,11 @@ function Explore() {
             duration: "3h",
             level: "Intermediate",
             instructorImage: "/Photo/Alex Johnson.png",
-            ratingImage: "/photo_icons/Rating.png",
-            priceImage: "/photo_icons/price.png",
-            durationImage: "/photo_icons/Timing.png",
-            levelImage: "/photo_icons/Level.png",
+            ratingIcon: <Star size={16} className="text-yellow-500 fill-yellow-500" />,
+            priceIcon: <CircleDollarSign size={18} className="text-gray-500" />,
+            durationIcon: <Clock size={18} className="text-gray-500" />,
+            levelIcon: <SlidersHorizontal size={18} className="text-gray-500" />,
+            path: "/Explore/Course"
         },
         {
             id: 9,
@@ -222,10 +230,11 @@ function Explore() {
             duration: "2h 30m",
             level: "Beginner",
             instructorImage: "/Photo/George Smith.png",
-            ratingImage: "/photo_icons/Rating.png",
-            priceImage: "/photo_icons/price.png",
-            durationImage: "/photo_icons/Timing.png",
-            levelImage: "/photo_icons/Level.png",
+            ratingIcon: <Star size={16} className="text-yellow-500 fill-yellow-500" />,
+            priceIcon: <CircleDollarSign size={18} className="text-gray-500" />,
+            durationIcon: <Clock size={18} className="text-gray-500" />,
+            levelIcon: <SlidersHorizontal size={18} className="text-gray-500" />,
+            path: "/Explore/Course"
         },
         {
             id: 10,
@@ -238,10 +247,11 @@ function Explore() {
             duration: "4h",
             level: "Intermediate",
             instructorImage: "/Photo/Adam Smith.png",
-            ratingImage: "/photo_icons/Rating.png",
-            priceImage: "/photo_icons/price.png",
-            durationImage: "/photo_icons/Timing.png",
-            levelImage: "/photo_icons/Level.png",
+            ratingIcon: <Star size={16} className="text-yellow-500 fill-yellow-500" />,
+            priceIcon: <CircleDollarSign size={18} className="text-gray-500" />,
+            durationIcon: <Clock size={18} className="text-gray-500" />,
+            levelIcon: <SlidersHorizontal size={18} className="text-gray-500" />,
+            path: "/Explore/Course"
         },
     ]
     const PageNumbers = [
@@ -608,15 +618,15 @@ function Explore() {
                                             <h3 className="course-title">{course.title}</h3>
                                             <div className="course-info-PRL">
                                                 <div className="course-info-PRL-item">
-                                                    <img src={course.priceImage} alt="price" />
+                                                    <div className="course-price-icon">{course.priceIcon}</div>
                                                     <p className="course-price">{course.price}</p>
                                                 </div>
                                                 <div className="course-info-PRL-item">
-                                                    <img src={course.durationImage} alt="duration" />
+                                                    <div className="course-duration-icon">{course.durationIcon}</div>
                                                     <p className="course-duration">{course.duration}</p>
                                                 </div>
                                                 <div className="course-info-PRL-item">
-                                                    <img src={course.levelImage} alt="level" />
+                                                    <div className="course-level-icon">{course.levelIcon}</div>
                                                     <p className="course-level">{course.level}</p>
                                                 </div>
                                             </div>
@@ -626,7 +636,7 @@ function Explore() {
                                                     <p className="course-instructor">{course.instructor}</p>
                                                 </div>
                                                 <div className="course-info-IR-item">
-                                                    <img src={course.ratingImage} alt="rating" />
+                                                    <div className="course-rating-icon">{course.ratingIcon}</div>
                                                     <p className="course-rating">{course.rating}</p>
                                                 </div>
                                             </div>
