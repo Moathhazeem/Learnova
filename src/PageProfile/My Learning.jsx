@@ -273,8 +273,9 @@ const Streak = ({ t, i18n, minTarget, tasksByDay, selectedPlanDay }) => {
 
     // Calculate percentages
     const dayTasks = tasksByDay[selectedPlanDay] ?? [];
-    const allCompleted = dayTasks.length > 0 && dayTasks.every(taskItem => taskItem.completed);
-    const progressPercent = allCompleted ? 100 : Math.min((progress / minTarget) * 100, 100);
+    const allTasksCompleted = dayTasks.length > 0 && dayTasks.every(taskItem => taskItem.completed);
+    const displayProgress = allTasksCompleted ? minTarget : progress;
+    const progressPercent = allTasksCompleted ? 100 : Math.min((progress / minTarget) * 100, 100);
     const vistPercent = Math.min((vist / visitsTarget) * 100, 100);
 
     const increase = () => {
@@ -298,7 +299,7 @@ const Streak = ({ t, i18n, minTarget, tasksByDay, selectedPlanDay }) => {
             </div>
             <div className="streak-days">
                 <div className="day">
-                    <img src={progress < minTarget ? "https://img.icons8.com/?size=100&id=houGsYyNpCbu&format=png&color=A0A0A0" : "https://img.icons8.com/?size=100&id=houGsYyNpCbu&format=gif"} alt="Streak" />
+                    <img src={displayProgress < minTarget ? "https://img.icons8.com/?size=100&id=houGsYyNpCbu&format=png&color=A0A0A0" : "https://img.icons8.com/?size=100&id=houGsYyNpCbu&format=gif"} alt="Streak" />
                     <div className="day-description">
                         <div className="day-number-container">
                             <div className="day-number">1</div>
@@ -317,7 +318,7 @@ const Streak = ({ t, i18n, minTarget, tasksByDay, selectedPlanDay }) => {
                             <div className="progress-bar-container">
                                 <div className="progress-bar-fill" style={{ width: `${progressPercent}%` }}></div>
                             </div>
-                            <p>{progress}/{minTarget}</p>
+                            <p>{displayProgress}/{minTarget}</p>
                         </div>
                     </div>
                     <div className="courese-vist">
