@@ -7,6 +7,7 @@ import "../config/i18n";
 import "./My Learning.css";
 
 const PLAN_STORAGE_KEY = "learnova-learning-plan";
+const VISITS_STORAGE_KEY = "learnova-course-visits";
 const DAYS_OF_WEEK_SHORT = ["SA", "SU", "MO", "TU", "WE", "TH", "FR"];
 
 const createTaskId = () => `task-${Date.now()}-${Math.random().toString(36).slice(2, 9)}`;
@@ -35,6 +36,15 @@ const loadTasksFromStorage = () => {
         return merged;
     } catch {
         return DEFAULT_TASKS_BY_DAY;
+    }
+};
+
+const loadVisitsFromStorage = () => {
+    try {
+        const raw = localStorage.getItem(VISITS_STORAGE_KEY);
+        return raw ? JSON.parse(raw) : { SA: 0, SU: 0, MO: 0, TU: 0, WE: 0, TH: 0, FR: 0 };
+    } catch {
+        return { SA: 0, SU: 0, MO: 0, TU: 0, WE: 0, TH: 0, FR: 0 };
     }
 };
 
@@ -264,7 +274,7 @@ const CalendarUI = ({ t, i18n, taskDurationInput, setTaskDurationInput, tasksByD
                                     <ul style={{ listStyleType: "none", margin: 0, padding: 0, textAlign: "left", width: "100%" }}>
                                         {cellTasks.map((task) => (
                                             <li key={task.id} style={{ fontSize: "11px", whiteSpace: "nowrap" }}>
-                                                • {task.task} ({task.duration})
+                                                • &nbsp;{task.task} ({task.duration})
                                             </li>
                                         ))}
                                     </ul>
@@ -278,9 +288,7 @@ const CalendarUI = ({ t, i18n, taskDurationInput, setTaskDurationInput, tasksByD
     );
 };
 
-const Streak = ({ t, i18n, tasksByDay, selectedPlanDay }) => {
-    const [vist, setVist] = useState(1);
-
+const Streak = ({ t, i18n, tasksByDay, selectedPlanDay, vist }) => {
     const visitsTarget = 1;
 
     // 1. Extract the current day's tasks array
@@ -320,7 +328,7 @@ const Streak = ({ t, i18n, tasksByDay, selectedPlanDay }) => {
             </div>
             <div className="streak-days">
                 <div className="day">
-                    <img src={progress < minTarget ? "https://img.icons8.com/?size=100&id=houGsYyNpCbu&format=png&color=A0A0A0" : "https://img.icons8.com/?size=100&id=houGsYyNpCbu&format=gif"} alt="Streak" />
+                    <img src={progress < minTarget ? "photo_icons/fire.png" : "https://img.icons8.com/?size=100&id=houGsYyNpCbu&format=gif"} alt="Streak" />
                     <div className="day-description">
                         <div className="day-number-container">
                             <div className="day-number">1</div>
@@ -359,6 +367,24 @@ function MyLearning() {
     const [taskDurationInput, setTaskDurationInput] = useState("");
     const [selectedPlanDay, setSelectedPlanDay] = useState("SU");
     const [tasksByDay, setTasksByDay] = useState(loadTasksFromStorage);
+    const [visitsByDay, setVisitsByDay] = useState(loadVisitsFromStorage);
+
+    const currentTasks = tasksByDay[selectedPlanDay] || [];
+    const totalTasksCount = currentTasks.length;
+    const completedTasksCount = currentTasks.filter(task => task.completed).length;
+    const taskProgressPercent = totalTasksCount > 0 ? (completedTasksCount / totalTasksCount) * 100 : 0;
+
+    useEffect(() => {
+        const todayDayKey = DAYS_OF_WEEK_SHORT[(new Date().getDay() + 1) % 7];
+        setVisitsByDay((prev) => {
+            const updated = {
+                ...prev,
+                [todayDayKey]: (prev[todayDayKey] || 0) + 1,
+            };
+            localStorage.setItem(VISITS_STORAGE_KEY, JSON.stringify(updated));
+            return updated;
+        });
+    }, []);
 
     useEffect(() => {
         localStorage.setItem(PLAN_STORAGE_KEY, JSON.stringify(tasksByDay));
@@ -481,12 +507,15 @@ function MyLearning() {
                 </div>
                 <div className="banner-stats">
                     <div className="stat-pill">
-                        <span className="stat-num">3 / 4</span>
+                        <span className="stat-num">{completedTasksCount} / {totalTasksCount}</span>
                         <span className="stat-label">Completed</span>
                     </div>
                     <div className="stat-pill">
-                        <span className="stat-num">75%</span>
+                        <span className="stat-num">{Math.round(taskProgressPercent)}%</span>
                         <span className="stat-label">Progress</span>
+                        <div className="progress-bar-container" style={{ width: "100%", height: "6px", marginTop: "8px", backgroundColor: "rgba(255, 255, 255, 0.2)" }}>
+                            <div className="progress-bar-fill" style={{ width: `${taskProgressPercent}%` }} />
+                        </div>
                     </div>
                 </div>
             </div>
@@ -636,6 +665,7 @@ function MyLearning() {
                             i18n={i18n}
                             tasksByDay={tasksByDay}
                             selectedPlanDay={selectedPlanDay}
+                            vist={visitsByDay[selectedPlanDay] || 0}
                         />
                     </div>
                 </div>
