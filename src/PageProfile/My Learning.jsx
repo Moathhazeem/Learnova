@@ -39,7 +39,7 @@ const loadTasksFromStorage = () => {
 };
 
 // ─── CalendarUI Component (outside MyLearning to avoid re-creation on each render) ───
-const CalendarUI = ({ t, i18n }) => {
+const CalendarUI = ({ t, i18n, taskDurationInput, setTaskDurationInput }) => {
     const today = new Date();
     const [currentDate, setCurrentDate] = useState(new Date());
     const [selectedPlanDay, setSelectedPlanDay] = useState("SU");
@@ -48,7 +48,6 @@ const CalendarUI = ({ t, i18n }) => {
 
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [taskNameInput, setTaskNameInput] = useState("");
-    const [taskDurationInput, setTaskDurationInput] = useState("");
 
     useEffect(() => {
         localStorage.setItem(PLAN_STORAGE_KEY, JSON.stringify(tasksByDay));
@@ -154,7 +153,7 @@ const CalendarUI = ({ t, i18n }) => {
                                     onClick={() => toggleTask(selectedPlanDay, taskItem.id)}
                                     aria-label={t("learning.toggle_task", "Toggle task completion")}
                                 >
-                                    {taskItem.completed ? "✓" : ""}
+                                    {taskItem.completed ? <img style={{ width: "15px", height: "15px" }} src="https://img.icons8.com/?size=100&id=83145&format=png&color=FFFFFF"></img> : ""}
                                 </button>
                             </div>
                         ))
@@ -166,7 +165,7 @@ const CalendarUI = ({ t, i18n }) => {
             {isModalOpen && (
                 <div className="planner-modal-overlay" onClick={() => setIsModalOpen(false)}>
                     <div className="planner-modal-card" onClick={(e) => e.stopPropagation()}>
-                        <h3>📝 {t("learning.manage_plan_day", "Manage plan")} ({selectedPlanDay})</h3>
+                        <h3 style={{ display: "flex", gap: 10 }}><img src="https://img.icons8.com/?size=100&id=yYUxqLu0ysrc&format=gif" style={{ width: '20px' }}></img> {t("learning.manage_plan_day", "Manage plan")} ({selectedPlanDay})</h3>
 
                         {dayTasks.length > 0 && (
                             <div className="modal-existing-tasks">
@@ -272,12 +271,11 @@ const CalendarUI = ({ t, i18n }) => {
         </div>
     );
 };
-const Streak = ({ t, i18n }) => {
+const Streak = ({ t, i18n, minTarget }) => {
     const [progress, setProgress] = useState(30);
     const [vist, setVist] = useState(1);
 
     // Define target values
-    const minTarget = 30;
     const visitsTarget = 1;
 
     // Calculate percentages
@@ -296,14 +294,16 @@ const Streak = ({ t, i18n }) => {
                     <p>{t("profile.streak_description", "Watch your course to active Daily streak")}</p>
                 </div>
                 <div className="header-right">
-                    <img src="/photo_icons/info.png" alt="" />
+                    <img src="/photo_icons/info.png" alt="Info about study" />
+                    {/* 🟢 صندوق المعلومات الخفيف */}
+                    <div className="tooltip-box">
+                        Keep the fire burning! Your daily streak activates and updates when you visit your course and watch for at least 30 minutes every day.
+                    </div>
                 </div>
             </div>
             <div className="streak-days">
                 <div className="day">
-                    <img src={progress < 30 ?
-                        "/photo_icons/fire.png" :
-                        "https://img.icons8.com/?size=100&id=houGsYyNpCbu&format=gif"} alt="Streak" />
+                    <img src={progress < minTarget ? "https://img.icons8.com/?size=100&id=houGsYyNpCbu&format=png&color=A0A0A0" : "https://img.icons8.com/?size=100&id=houGsYyNpCbu&format=gif"} alt="Streak" />
                     <div className="day-description">
                         <div className="day-number-container">
                             <div className="day-number">1</div>
@@ -342,6 +342,17 @@ const Streak = ({ t, i18n }) => {
 
 // ─── Main MyLearning Component ───
 function MyLearning() {
+    const [taskDurationInput, setTaskDurationInput] = useState("");
+    const [minTarget, setMinTarget] = useState(30);
+
+    const durationVal = taskDurationInput && taskDurationInput.trim() ? `${taskDurationInput.trim()} mins` : "30 mins";
+
+    useEffect(() => {
+        if (taskDurationInput !== "") {
+            setMinTarget(Number(taskDurationInput));
+        }
+    }, [taskDurationInput]);
+
     const location = useLocation();
     const pathname = location.pathname.split("/").filter((x) => x);
     const { t, i18n } = useTranslation();
@@ -549,7 +560,7 @@ function MyLearning() {
                                                     </div>
                                                     {expandedCourse === index && (
                                                         <div className="course-syllabus-drawer">
-                                                            <h4 className="Course_Modules"><img className="Course_Modules_icon" src="https://img.icons8.com/?size=100&id=3XjaeVXjjTDQ&format=png&color=000000"></img> Course Modules</h4>
+                                                            <h4 className="Course_Modules"><img className="Course_Modules_icon" src="https://img.icons8.com/?size=100&id=yYUxqLu0ysrc&format=png&color=000000"></img> Course Modules</h4>
                                                             <ul className="syllabus-list">
                                                                 {syllabus[index]?.map((module, i) => (
                                                                     <li key={i} className="syllabus-item">
@@ -598,8 +609,17 @@ function MyLearning() {
 
                     {/* Sticky Calendar Sidebar */}
                     <div className="calendar-sidebar">
-                        <CalendarUI t={t} i18n={i18n} />
-                        <Streak t={t} i18n={i18n} />
+                        <CalendarUI 
+                            t={t} 
+                            i18n={i18n} 
+                            taskDurationInput={taskDurationInput} 
+                            setTaskDurationInput={setTaskDurationInput} 
+                        />
+                        <Streak 
+                            t={t} 
+                            i18n={i18n} 
+                            minTarget={minTarget} 
+                        />
                     </div>
                 </div>
             </div>

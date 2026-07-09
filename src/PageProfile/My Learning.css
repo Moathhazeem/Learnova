@@ -729,6 +729,58 @@
     opacity: 0.5;
 }
 
+/* جعل حاوية الأيقونة نقطة المرجع الأساسية للنافذة */
+.header-right {
+    position: relative;
+    display: inline-block;
+    cursor: pointer;
+}
+
+/* تصميم صندوق المعلومات المخفي افتراضياً */
+.tooltip-box {
+    position: absolute;
+    top: 130%;
+    right: 0;
+    width: 240px;
+    /* زدنا العرض قليلاً حتى لا تزدحم الأسطر */
+    background-color: rgba(255, 255, 255, 0.98);
+    /* خلفية بيضاء صافية */
+    color: #4A4A4A;
+    /* لون نص مريح للعين (رمادي داكن بدلاً من الأسود الحاد) */
+    padding: 12px 14px;
+    /* تحسين المساحة الداخلية */
+    border-radius: 10px;
+    /* تدوير الحواف ليتناسق مع حواف الكرت الرئيسي */
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.08);
+    /* ظل أنعم وأخف */
+    border: 1px solid #ECECEC;
+
+    /* 🟢 تحسينات الخط هنا */
+    font-family: 'Inter', 'Segoe UI', system-ui, sans-serif;
+    /* نوع خط حديث ونظيف للنصوص المساعدة */
+    font-size: 13px;
+    /* حجم خط متناسق وسهل القراءة */
+    font-weight: 400;
+    /* وزن الخط عادي (Regular) */
+    line-height: 1.5;
+    /* زيادة المسافة بين الأسطر لإعطاء النص مساحة للتنفس */
+    text-align: left;
+    /* إذا كان النص إنجليزي، أو خليه right إذا قلبت للعربي */
+
+    /* الأنيميشن */
+    opacity: 0;
+    pointer-events: none;
+    transform: translateY(-4px);
+    transition: opacity 0.2s ease, transform 0.2s ease;
+    z-index: 10;
+}
+
+/* 🟢 إظهار الصندوق بسلاسة عند عمل Hover على الحاوية */
+.header-right:hover .tooltip-box {
+    opacity: 1;
+    transform: translateY(0);
+}
+
 .streak-days {
     display: flex;
     flex-direction: column;
