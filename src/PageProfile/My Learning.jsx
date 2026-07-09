@@ -498,9 +498,9 @@ function MyLearning() {
                                 const isProgram = !!course.specialization;
                                 return (
                                     <div key={index} className="course-specialization-group">
-                                        <div
-                                            className={`course-card ${expandedCourse === index ? "is-expanded" : ""}`}
-                                        >
+                                        <div className={`course-card ${expandedCourse === index ? "is-expanded" : ""}`}>
+
+                                            {/* 1. الجزء العلوي من الكرت */}
                                             <div className="course-card-top-row">
                                                 <div className="course-card-provider">
                                                     <span className="specialization-title">
@@ -516,14 +516,15 @@ function MyLearning() {
                                                     {isProgram ? course.title : course.courseName}
                                                 </h3>
                                             </div>
+
+                                            {/* 2. المحتوى الرئيسي الأوسط (Flexbox الأفقي الحالي) */}
                                             <div className="course-card-main-content">
                                                 <div className="course-card-left">
                                                     <button className="continue-btn" onClick={() => {
                                                         if (course.progress === 100) {
                                                             window.open('https://linkedin.com', '_blank');
-                                                        }
-                                                        else {
-                                                            navigate(course.path)
+                                                        } else {
+                                                            navigate(course.path);
                                                         }
                                                     }}>
                                                         {course.progress === 100
@@ -543,7 +544,22 @@ function MyLearning() {
                                                             style={{ transform: expandedCourse === index ? "rotate(180deg)" : "none", transition: "transform 0.2s" }}
                                                         />
                                                     </div>
+                                                    {/* 3. هنا المكان الصحيح للـ Syllabus View (خارج الـ main-content وتحته مباشرة) */}
+                                                    {expandedCourse === index && (
+                                                        <div className="course-syllabus-drawer">
+                                                            <h4>📋 Course Modules</h4>
+                                                            <ul className="syllabus-list">
+                                                                {syllabus[index]?.map((module, i) => (
+                                                                    <li key={i} className="syllabus-item">
+                                                                        <span className={`status-dot ${course.progress === 100 ? "completed" : i === 0 && course.progress > 0 ? "active" : "upcoming"}`}></span>
+                                                                        <span className="module-name">{module}</span>
+                                                                    </li>
+                                                                ))}
+                                                            </ul>
+                                                        </div>
+                                                    )}
                                                 </div>
+
                                                 <div className="course-card-right">
                                                     <div className="progress-section">
                                                         <span className="progress-percentage">
@@ -563,22 +579,11 @@ function MyLearning() {
                                                         </span>
                                                     </div>
                                                 </div>
-                                            </div>
-                                            {/* Expanded Syllabus View */}
-                                            {expandedCourse === index && (
-                                                <div className="course-syllabus-drawer">
-                                                    <h4>📋 Course Modules</h4>
-                                                    <ul className="syllabus-list">
-                                                        {syllabus[index]?.map((module, i) => (
-                                                            <li key={i} className="syllabus-item">
-                                                                <span className={`status-dot ${course.progress === 100 ? "completed" : i === 0 && course.progress > 0 ? "active" : "upcoming"}`}></span>
-                                                                <span className="module-name">{module}</span>
-                                                            </li>
-                                                        ))}
-                                                    </ul>
-                                                </div>
-                                            )}
-                                        </div>
+                                            </div> {/* نهاية الـ course-card-main-content */}
+
+
+
+                                        </div> {/* نهاية الـ course-card */}
                                     </div>
                                 );
                             })

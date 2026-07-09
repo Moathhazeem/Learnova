@@ -323,6 +323,8 @@
     display: flex;
     justify-content: space-between;
     align-items: center;
+
+    align-items: flex-start;
     width: 100%;
     gap: 20px;
 }
@@ -359,6 +361,8 @@
     cursor: pointer;
     transition: color 0.2s ease;
     padding-left: 0;
+
+
 }
 
 .see-more-link:hover {
@@ -871,6 +875,7 @@
 /* ─── Premium Syllabus Collapsible Drawer ─── */
 .course-syllabus-drawer {
     width: 100%;
+    display: block;
     margin-top: 15px;
     padding-top: 15px;
     border-top: 1px dashed var(--border-color);
