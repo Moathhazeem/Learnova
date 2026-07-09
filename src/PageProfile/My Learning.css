@@ -320,6 +320,18 @@
     /* تصغير حجم الخط ليعطي شعوراً بأنه تصنيف علوي */
 }
 
+.Course_Modules_icon {
+    display: flex;
+    width: 15px;
+    height: 15px;
+}
+
+.Course_Modules {
+    display: flex;
+    flex-direction: row;
+    gap: 10px;
+}
+
 .course-name {
     font-size: 18px;
     /* تكبير الحجم ليكون هو العنصر المسيطر */

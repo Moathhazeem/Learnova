@@ -547,7 +547,7 @@ function MyLearning() {
                                                     </div>
                                                     {expandedCourse === index && (
                                                         <div className="course-syllabus-drawer">
-                                                            <h4>📋 Course Modules</h4>
+                                                            <h4 className="Course_Modules"><img className="Course_Modules_icon" src="https://img.icons8.com/?size=100&id=3XjaeVXjjTDQ&format=png&color=000000"></img> Course Modules</h4>
                                                             <ul className="syllabus-list">
                                                                 {syllabus[index]?.map((module, i) => (
                                                                     <li key={i} className="syllabus-item">
