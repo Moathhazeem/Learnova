@@ -273,7 +273,7 @@ const CalendarUI = ({ t, i18n }) => {
     );
 };
 const Streak = ({ t, i18n }) => {
-    const [progress, setProgress] = useState(10);
+    const [progress, setProgress] = useState(30);
     const [vist, setVist] = useState(1);
 
     // Define target values
@@ -301,7 +301,9 @@ const Streak = ({ t, i18n }) => {
             </div>
             <div className="streak-days">
                 <div className="day">
-                    <img src="/photo_icons/fire.png" alt="Streak" />
+                    <img src={progress < 30 ?
+                        "/photo_icons/fire.png" :
+                        "https://img.icons8.com/?size=100&id=houGsYyNpCbu&format=gif"} alt="Streak" />
                     <div className="day-description">
                         <div className="day-number-container">
                             <div className="day-number">1</div>
@@ -309,9 +311,9 @@ const Streak = ({ t, i18n }) => {
                         </div>
                         <p className="day-description-text">{t("profile.day_description", "Current streak")}</p>
                     </div>
-                    <button className="streak-boost-btn" onClick={increase} disabled={progress >= minTarget}>
+                    {/*<button className="streak-boost-btn" onClick={increase} disabled={progress >= minTarget}>
                         ⚡ {progress >= minTarget ? "Done!" : "Study +5m"}
-                    </button>
+                    </button>*/}
                 </div>
                 <div className="streak">
                     <div className="courese-streak">
