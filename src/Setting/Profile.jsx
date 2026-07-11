@@ -7,6 +7,7 @@ import "../config/i18n";
 import { FaPlusSquare } from 'react-icons/fa';
 import { useTranslation } from "react-i18next";
 import { AiOutlineClose } from 'react-icons/ai';
+import { IoMdClose } from 'react-icons/io';
 function Profile() {
     const { t } = useTranslation();
     const location = useLocation();
@@ -179,11 +180,13 @@ function Profile() {
 
 
                             {showModalProfile && (
-                                <div className="modal-overlay" onClick={() => setShowModalProfile(false)}>
+                                <div className="modal-overlay animate-fade-in" onClick={() => setShowModalProfile(false)}>
                                     <div className="modal-content profile-upload-modal" onClick={(e) => e.stopPropagation()}>
                                         <div className="modal-header">
-                                            <p>Update Profile Picture</p>
-                                            <img src="/photo_icons/For_setting/false.png" alt="close" onClick={() => setShowModalProfile(false)} style={{ cursor: 'pointer' }} />
+                                            <p className="modal-title">Update Profile Picture</p>
+                                            <button className="modal-close-btn" onClick={() => setShowModalProfile(false)} aria-label="Close">
+                                                <IoMdClose size={18} />
+                                            </button>
                                         </div>
                                         <div className="modal-body">
                                             <div className="profile-preview-container">
@@ -212,17 +215,19 @@ function Profile() {
 
 
                             {showModalBackground && (
-                                <div className="modal-overlay" onClick={() => setShowModalBackground(false)}>
+                                <div className="modal-overlay animate-fade-in" onClick={() => setShowModalBackground(false)}>
                                     <div className="modal-content background-upload-modal" onClick={(e) => e.stopPropagation()}>
                                         <div className="modal-header">
-                                            <p>Update Background Picture</p>
-                                            <img src="/photo_icons/For_setting/false.png" alt="close" onClick={() => setShowModalBackground(false)} style={{ cursor: 'pointer' }} />
+                                            <p className="modal-title">Update Background Picture</p>
+                                            <button className="modal-close-btn" onClick={() => setShowModalBackground(false)} aria-label="Close">
+                                                <IoMdClose size={18} />
+                                            </button>
                                         </div>
                                         <div className="modal-body">
                                             <div className="background-preview-container clickable" onClick={() => document.getElementById('background-upload-input').click()}>
                                                 <img src={backgroundImage} alt="Background Preview" className="background-preview-large" />
                                                 <div className="upload-overlay">
-                                                    <img src="/photo_icons/For_setting/Edit.png" alt="upload" />
+                                                    <img src="/photo_icons/For_setting/Edit.png" alt="upload" className="upload-icon-blue" />
                                                     <p>Change Image</p>
                                                 </div>
                                             </div>
