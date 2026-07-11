@@ -197,15 +197,26 @@ body {
 .Profile-setting {
     display: flex;
     flex-direction: column;
-    gap: 32px;
+    gap: 24px;
+}
+
+.Profile-setting-layout {
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
 }
 
 .Header-profile {
     display: flex;
     flex-direction: row;
-    gap: 16px;
     align-items: center;
     justify-content: space-between;
+}
+
+.title-preview-container {
+    display: flex;
+    align-items: center;
+    gap: 12px;
 }
 
 .Header-profile p {
@@ -217,33 +228,39 @@ body {
 }
 
 .Preview {
-    display: flex;
+    display: inline-flex;
     flex-direction: row;
-    gap: 6px;
+    gap: 4px;
     align-items: center;
     cursor: pointer;
-    padding: 8px 16px;
-    border-radius: var(--radius-input);
-    border: 1px solid var(--border-color-soft);
-    background-color: var(--bg-card);
-    transition: all 0.3s ease;
+    background: transparent;
+    border: none;
+    padding: 0;
+    transition: opacity 0.2s ease;
 }
 
 .Preview:hover {
-    border-color: var(--primary-blue);
-    background-color: var(--bg-main);
+    opacity: 0.85;
+    background: transparent;
 }
 
-.Preview p {
-    font-size: 14px !important;
-    font-weight: 700;
-    color: var(--primary-blue);
-    margin: 0;
+.preview-text {
+    font-size: 14px;
+    font-weight: 500;
+    color: #0089EA;
+    transition: text-decoration 0.2s ease;
 }
 
-.Preview img {
-    width: 16px;
-    height: 16px;
+.Preview:hover .preview-text {
+    text-decoration: underline;
+}
+
+.preview-arrow-icon {
+    width: 14px;
+    height: 14px;
+    object-fit: contain;
+    filter: invert(36%) sepia(93%) saturate(1900%) hue-rotate(187deg) brightness(98%) contrast(101%);
+    transition: transform 0.2s ease;
 }
 
 /* Grid layout preserving exact user structure */
@@ -252,12 +269,13 @@ body {
     flex-direction: row;
     gap: 32px;
     align-items: stretch;
+    margin-bottom: 24px;
 }
 
 .Profile-setting-content {
     display: flex;
     flex-direction: column;
-    padding: 32px 24px;
+    padding: 24px;
     background-color: var(--bg-card);
     border-radius: var(--radius-standard);
     position: relative;
@@ -298,7 +316,7 @@ body {
     width: 32px;
     height: 32px;
     cursor: pointer;
-    background: rgba(255, 255, 255, 0.9);
+    background: rgba(255, 255, 255, 0.7);
     border-radius: 50%;
     display: flex;
     justify-content: center;
@@ -1207,4 +1225,150 @@ body {
     /* slightly deeper background */
     box-shadow: 0 4px 12px rgba(0, 137, 234, 0.25);
     /* soft shadow */
+}
+
+/* ==========================================
+   Preview Modal & Public Mode Custom Styles
+   ========================================== */
+
+/* Dark overlay backdrop with high-end blur */
+.preview-modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(15, 23, 42, 0.6);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1100;
+    padding: 20px;
+    box-sizing: border-box;
+}
+
+/* Inner centered responsive container */
+.preview-modal-content {
+    background: var(--bg-card);
+    width: 100%;
+    max-width: 960px; /* Responsive max-w-4xl style */
+    max-height: 90vh;
+    border-radius: var(--radius-standard);
+    box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+    border: 1px solid var(--border-color-soft);
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+    animation: modalFadeIn 0.3s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+/* Header style for Preview Mode */
+.preview-modal-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 20px 32px;
+    border-bottom: 1px solid var(--border-color-soft);
+}
+
+.preview-modal-title {
+    font-size: 20px !important;
+    font-weight: 700 !important;
+    color: var(--text-primary) !important;
+    margin: 0;
+}
+
+.preview-modal-close-btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    padding: 8px 16px;
+    border-radius: var(--radius-pill);
+    border: 1px solid var(--border-color-soft);
+    background-color: var(--bg-card);
+    color: var(--text-secondary);
+    font-size: 14px;
+    font-weight: 700;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.preview-modal-close-btn:hover {
+    background-color: #f1f5f9;
+    border-color: var(--border-color);
+    color: var(--text-primary);
+}
+
+/* Scrollable container for the preview content */
+.preview-modal-body {
+    flex: 1;
+    overflow-y: auto;
+    padding: 32px;
+}
+
+/* ==========================================
+   Public view styling overrides (.preview-mode)
+   ========================================== */
+
+/* Keep avatar spacer looking nice when details are hidden */
+.Profile-content-preview-spacer {
+    height: 35px;
+}
+
+/* Form input simplification in preview mode */
+.preview-mode .input-wrapper {
+    background-color: transparent;
+    border-color: transparent;
+    padding: 0;
+    box-shadow: none !important;
+}
+
+.preview-mode .input-wrapper input {
+    padding: 10px 0;
+    cursor: default;
+    background-color: transparent !important;
+}
+
+.preview-mode .input-wrapper input:focus {
+    box-shadow: none !important;
+}
+
+.preview-mode .custom-phone-container {
+    border-color: transparent !important;
+    background-color: transparent !important;
+    box-shadow: none !important;
+}
+
+.preview-mode .custom-phone-input {
+    cursor: default;
+    background-color: transparent !important;
+}
+
+.preview-mode .custom-phone-button {
+    border-right: none !important;
+}
+
+.preview-mode .Description-content textarea {
+    background-color: transparent;
+    border-color: transparent;
+    padding: 0;
+    resize: none;
+    cursor: default;
+    box-shadow: none !important;
+}
+
+/* Eliminate editing-related hover behaviors on elements */
+.preview-mode .Profile-setting-content:hover,
+.preview-mode .Interset-setting:hover,
+.preview-mode .Training-courses-setting:hover,
+.preview-mode .Description-setting:hover {
+    transform: none !important;
+    box-shadow: var(--shadow-soft) !important;
+}
+
+.preview-mode .Background-container img {
+    cursor: default;
 }

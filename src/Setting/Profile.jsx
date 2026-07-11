@@ -12,6 +12,7 @@ function Profile() {
     const { t } = useTranslation();
     const location = useLocation();
     const pathname = location.pathname.split("/").filter(x => x);
+    const [isPreviewOpen, setIsPreviewOpen] = useState(false);
     const [hovered, setHovered] = useState(null);
     const [phone, setPhone] = useState("");
     const [showModalInterset, setShowModalInterset] = useState(false);
@@ -94,6 +95,255 @@ function Profile() {
         { name: "Notification", path: "/Setting/Notification", black: "/photo_icons/For_setting/NotificationBlack.png", blue: "/photo_icons/For_setting/NotificationBlue.png" },
         { name: "Payment", path: "/Setting/Payment", black: "/photo_icons/For_setting/PaymentBlack.png", blue: "/photo_icons/For_setting/PaymentBlue.png" },
     ];
+
+    const renderProfileContent = (isPreview = false) => {
+        return (
+            <div className={`Profile-setting-layout ${isPreview ? 'preview-mode' : ''}`}>
+                <div className="row-setting">
+                    <div className="Profile-setting-content">
+                        <div className="Background-container">
+                            <img src={backgroundImage} alt="Background_profile" className="Background_profile_image" />
+                            {!isPreview && (
+                                <img src="/photo_icons/For_setting/Edit.png" alt="edit" className="edit-bg-icon" onClick={() => setShowModalBackground(true)} />
+                            )}
+                        </div>
+                        <img src={profileImage} alt="Profile" className="Profile" />
+                        
+                        {!isPreview ? (
+                            <div className="Profile-content">
+                                <p className="Your-photo">Your Photo</p>
+                                <p className="This-will-display">this will displayed on your profile</p>
+                                <div className="Profile-content-buttons">
+                                    <button className="Upload-new-button" onClick={() => setShowModalProfile(true)}>Upload New</button>
+                                    <button className="Save-photo-button">Save</button>
+                                </div>
+                            </div>
+                        ) : (
+                            <div className="Profile-content-preview-spacer"></div>
+                        )}
+
+                        {showModalProfile && (
+                            <div className="modal-overlay animate-fade-in" onClick={() => setShowModalProfile(false)}>
+                                <div className="modal-content profile-upload-modal" onClick={(e) => e.stopPropagation()}>
+                                    <div className="modal-header">
+                                        <p className="modal-title">Update Profile Picture</p>
+                                        <button className="modal-close-btn" onClick={() => setShowModalProfile(false)} aria-label="Close">
+                                            <IoMdClose size={18} />
+                                        </button>
+                                    </div>
+                                    <div className="modal-body">
+                                        <div className="profile-preview-container">
+                                            <img src={profileImage} alt="Profile Preview" className="profile-preview-large" />
+                                        </div>
+                                        <p className="upload-instruction">Choose a new photo to personalize your profile</p>
+                                    </div>
+                                    <div className="modal-footer">
+                                        <input
+                                            type="file"
+                                            id="profile-upload-input"
+                                            hidden
+                                            onChange={(e) => {
+                                                handleImageProfile(e);
+                                            }}
+                                            accept="image/*"
+                                        />
+                                        <button className="modal-cancel-btn" onClick={() => setShowModalProfile(false)}>Cancel</button>
+                                        <button className="modal-save-btn" onClick={() => document.getElementById('profile-upload-input').click()}>
+                                            Choose Photo
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        )}
+
+                        {showModalBackground && (
+                            <div className="modal-overlay animate-fade-in" onClick={() => setShowModalBackground(false)}>
+                                <div className="modal-content background-upload-modal" onClick={(e) => e.stopPropagation()}>
+                                    <div className="modal-header">
+                                        <p className="modal-title">Update Background Picture</p>
+                                        <button className="modal-close-btn" onClick={() => setShowModalBackground(false)} aria-label="Close">
+                                            <IoMdClose size={18} />
+                                        </button>
+                                    </div>
+                                    <div className="modal-body">
+                                        <div className="background-preview-container clickable" onClick={() => document.getElementById('background-upload-input').click()}>
+                                            <img src={backgroundImage} alt="Background Preview" className="background-preview-large" />
+                                            <div className="upload-overlay">
+                                                <img src="/photo_icons/For_setting/Edit.png" alt="upload" className="upload-icon-blue" />
+                                                <p>Change Image</p>
+                                            </div>
+                                        </div>
+                                        <div className="quick-selection-gallery">
+                                            <p className="gallery-title">Quick Selection</p>
+                                            <div className="gallery-items">
+                                                {["/Photo/Background_profile.jfif", "/Photo/Free Online Courses to Future-Proof Your Career _.jfif", "/Photo/istockphoto-1956169795-1024x1024.jpg"].map((src, i) => (
+                                                    <img
+                                                        key={i}
+                                                        src={src}
+                                                        alt={`default-${i}`}
+                                                        className={`gallery-item ${backgroundImage === src ? 'active' : ''}`}
+                                                        onClick={() => setBackgroundImage(src)}
+                                                    />
+                                                ))}
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div className="modal-footer">
+                                        <input type="file" id="background-upload-input" hidden onChange={(e) => {
+                                            handleImageBackground(e);
+                                        }} accept="image/*" />
+                                        <button className="modal-cancel-btn" onClick={() => setShowModalBackground(false)}>Cancel</button>
+                                        <button className="modal-save-btn" onClick={() => document.getElementById('background-upload-input').click()}>
+                                            Upload New
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        )}
+
+                    </div>
+                    <div className="Interset-setting">
+                        <p className="interests-title">Industry / Interest</p>
+                        {interests.map((interest, index) => (
+                            <div className="Interset-setting-content" key={index}>
+                                <p>{interest}</p>
+                                {!isPreview && (
+                                    <button className="close-btn" onClick={() => setInterests(interests.filter((_, i) => i !== index))}>
+                                        <AiOutlineClose className="x-icon" />
+                                    </button>
+                                )}
+                            </div>
+                        ))}
+                        {!isPreview && (
+                            <div className="Add-more" onClick={() => setShowModalInterset(true)}>
+                                <FaPlusSquare className="btn-icon" size={24} />
+                                <span>Add more</span>
+                                {showModalInterset && (
+                                    <div className="modal-overlay" onClick={() => setShowModalInterset(false)}>
+                                        <div className="modal-content" onClick={(e) => e.stopPropagation()}>
+                                            <h2>Add New Interest</h2>
+                                            <p style={{ color: '#6B7280', fontSize: '14px' }}>Enter a new interest or industry to add to your profile.</p>
+                                            <input
+                                                type="text"
+                                                placeholder="e.g. Project Management"
+                                                autoFocus
+                                                value={newInterest}
+                                                onChange={(e) => setNewInterest(e.target.value)}
+                                            />
+                                            <div className="modal-buttons">
+                                                <button className="modal-cancel-btn" onClick={() => setShowModalInterset(false)}>Cancel</button>
+                                                <button className="modal-save-btn" onClick={() => {
+                                                    if (newInterest.trim()) {
+                                                        setInterests([...interests, newInterest]);
+                                                        setNewInterest("");
+                                                        setShowModalInterset(false);
+                                                    }
+                                                }}>Save</button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                )}
+                            </div>
+                        )}
+                    </div>
+
+                </div>
+                <div className="row-setting">
+                    <div className="Profile-setting-content">
+                        <div className="Personal-information">
+                            <p>Personal Information</p>
+                            <div className="Personal-information-content">
+                                <div className="Full_Name">
+                                    <p>Full Name</p>
+                                    <div className="input-wrapper">
+                                        <input type="text" placeholder="Moath Hazeem" readOnly={isPreview} />
+                                        {!isPreview && <img src="/photo_icons/For_setting/account.png" alt="Account photo" className="edit-icon" />}
+                                    </div>
+                                </div>
+                                <div className="Email">
+                                    <p>Email address</p>
+                                    <div className="input-wrapper">
+                                        <input type="email" placeholder="Moathhazeem@gmail.com" readOnly={isPreview} />
+                                        {!isPreview && <img src="/photo_icons/For_setting/email.png" alt="email photo" className="edit-icon" />}
+                                    </div>
+                                </div>
+                                <div className="Phone_Number">
+                                    <p>Mobile Number</p>
+                                    <div className="phone-input-container-wrapper">
+                                        <PhoneInput
+                                            country={'ps'}
+                                            value={phone}
+                                            onChange={setPhone}
+                                            disabled={isPreview}
+                                            inputClass="custom-phone-input"
+                                            containerClass="custom-phone-container"
+                                            buttonClass="custom-phone-button"
+                                            dropdownClass="custom-phone-dropdown"
+                                            placeholder="Enter phone number"
+                                        />
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+                        {!isPreview && (
+                            <div className="Personal-information-buttons">
+                                <button className="cancel-button">Cancel</button>
+                                <button className="save-button">Save</button>
+                            </div>
+                        )}
+                    </div>
+                    <div className="Training-courses-setting">
+                        <p className="Training-courses-title">Training courses</p>
+                        {courses.map((course) => (
+                            <div className="Training-courses-content" key={course.id}>
+                                <div className="Course-header" style={{ display: 'flex', alignItems: 'center', gap: '20px', width: '100%', marginBottom: '15px' }}>
+                                    <img src={course.logo} alt={course.title} style={{ width: '60px', height: '60px', objectFit: 'contain' }} />
+                                    <div className="Name-course">
+                                        <h3 style={{ margin: 0, fontSize: '20px' }}>{course.title}</h3>
+                                        <p style={{ margin: 0, fontSize: '22px', color: '#000000' }}>{course.subtitle}</p>
+                                    </div>
+                                </div>
+                                <div className="Skills" style={{ width: '100%' }}>
+                                    {course.skills.map((skill, idx) => (
+                                        <p key={idx}>{skill}</p>
+                                    ))}
+                                    {expandedCourseIds.includes(course.id) && course.extraSkills.map((skill, idx) => (
+                                        <p key={idx}>{skill}</p>
+                                    ))}
+                                    <p
+                                        className="see more"
+                                        onClick={() => {
+                                            if (expandedCourseIds.includes(course.id)) {
+                                                setExpandedCourseIds(expandedCourseIds.filter(id => id !== course.id));
+                                            } else {
+                                                setExpandedCourseIds([...expandedCourseIds, course.id]);
+                                            }
+                                        }}
+                                    >
+                                        {expandedCourseIds.includes(course.id) ? "see less" : "see more"}
+                                    </p>
+                                </div>
+                            </div>
+                        ))}
+                    </div>
+                </div>
+                <div className="Description-setting">
+                    <p className="Description-title">Description</p>
+                    <div className="Description-content">
+                        <textarea placeholder="I am interested in studying UX/UI design, data analysis, and web development. I have completed the first ten hours of the UI/UX course." readOnly={isPreview}></textarea>
+                    </div>
+                    {!isPreview && (
+                        <div className="Description-buttons">
+                            <button className="cancel-button">Cancel</button>
+                            <button className="save-button">Save</button>
+                        </div>
+                    )}
+                </div>
+            </div>
+        );
+    };
+
     return (
         <div className="edit-profile-container">
             <nav className="breadcrumbs-nav">
@@ -156,242 +406,35 @@ function Profile() {
                 <div className="Profile-setting">
 
                     <div className="Header-profile">
-                        <p style={{ fontSize: "32px" }}>Edit User Profile</p>
-                        <div className="Preview">
-                            <p>Preview</p>
-                            <img src="/photo_icons/For_setting/arrow-up-right.png"></img>
+                        <div className="title-preview-container">
+                            <p style={{ fontSize: "32px", margin: 0 }}>Edit User Profile</p>
+                            <div className="Preview" onClick={() => setIsPreviewOpen(true)}>
+                                <span className="preview-text">Preview</span>
+                                <img src="/photo_icons/For_setting/arrow-up-right.png" alt="preview-arrow" className="preview-arrow-icon" />
+                            </div>
                         </div>
                     </div>
-                    <div className="row-setting">
-                        <div className="Profile-setting-content">
-                            <div className="Background-container">
-                                <img src={backgroundImage} alt="Background_profile" className="Background_profile_image" />
-                                <img src="/photo_icons/For_setting/Edit.png" alt="edit" className="edit-bg-icon" onClick={() => setShowModalBackground(true)} />
-                            </div>
-                            <img src={profileImage} alt="Profile" className="Profile" />
-                            <div className="Profile-content">
-                                <p className="Your-photo">Your Photo</p>
-                                <p className="This-will-display">this will displayed on your profile</p>
-                                <div className="Profile-content-buttons">
-                                    <button className="Upload-new-button" onClick={() => setShowModalProfile(true)}>Upload New</button>
-                                    <button className="Save-photo-button">Save</button>
-                                </div>
-                            </div>
 
-
-                            {showModalProfile && (
-                                <div className="modal-overlay animate-fade-in" onClick={() => setShowModalProfile(false)}>
-                                    <div className="modal-content profile-upload-modal" onClick={(e) => e.stopPropagation()}>
-                                        <div className="modal-header">
-                                            <p className="modal-title">Update Profile Picture</p>
-                                            <button className="modal-close-btn" onClick={() => setShowModalProfile(false)} aria-label="Close">
-                                                <IoMdClose size={18} />
-                                            </button>
-                                        </div>
-                                        <div className="modal-body">
-                                            <div className="profile-preview-container">
-                                                <img src={profileImage} alt="Profile Preview" className="profile-preview-large" />
-                                            </div>
-                                            <p className="upload-instruction">Choose a new photo to personalize your profile</p>
-                                        </div>
-                                        <div className="modal-footer">
-                                            <input
-                                                type="file"
-                                                id="profile-upload-input"
-                                                hidden
-                                                onChange={(e) => {
-                                                    handleImageProfile(e);
-                                                }}
-                                                accept="image/*"
-                                            />
-                                            <button className="modal-cancel-btn" onClick={() => setShowModalProfile(false)}>Cancel</button>
-                                            <button className="modal-save-btn" onClick={() => document.getElementById('profile-upload-input').click()}>
-                                                Choose Photo
-                                            </button>
-                                        </div>
-                                    </div>
-                                </div>
-                            )}
-
-
-                            {showModalBackground && (
-                                <div className="modal-overlay animate-fade-in" onClick={() => setShowModalBackground(false)}>
-                                    <div className="modal-content background-upload-modal" onClick={(e) => e.stopPropagation()}>
-                                        <div className="modal-header">
-                                            <p className="modal-title">Update Background Picture</p>
-                                            <button className="modal-close-btn" onClick={() => setShowModalBackground(false)} aria-label="Close">
-                                                <IoMdClose size={18} />
-                                            </button>
-                                        </div>
-                                        <div className="modal-body">
-                                            <div className="background-preview-container clickable" onClick={() => document.getElementById('background-upload-input').click()}>
-                                                <img src={backgroundImage} alt="Background Preview" className="background-preview-large" />
-                                                <div className="upload-overlay">
-                                                    <img src="/photo_icons/For_setting/Edit.png" alt="upload" className="upload-icon-blue" />
-                                                    <p>Change Image</p>
-                                                </div>
-                                            </div>
-                                            <div className="quick-selection-gallery">
-                                                <p className="gallery-title">Quick Selection</p>
-                                                <div className="gallery-items">
-                                                    {["/Photo/Background_profile.jfif", "/Photo/Free Online Courses to Future-Proof Your Career _.jfif", "/Photo/istockphoto-1956169795-1024x1024.jpg"].map((src, i) => (
-                                                        <img
-                                                            key={i}
-                                                            src={src}
-                                                            alt={`default-${i}`}
-                                                            className={`gallery-item ${backgroundImage === src ? 'active' : ''}`}
-                                                            onClick={() => setBackgroundImage(src)}
-                                                        />
-                                                    ))}
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div className="modal-footer">
-                                            <input type="file" id="background-upload-input" hidden onChange={(e) => {
-                                                handleImageBackground(e);
-                                            }} accept="image/*" />
-                                            <button className="modal-cancel-btn" onClick={() => setShowModalBackground(false)}>Cancel</button>
-                                            <button className="modal-save-btn" onClick={() => document.getElementById('background-upload-input').click()}>
-                                                Upload New
-                                            </button>
-                                        </div>
-                                    </div>
-                                </div>
-                            )}
-
-                        </div>
-                        <div className="Interset-setting">
-                            <p className="interests-title">Industry / Interest</p>
-                            {interests.map((interest, index) => (
-                                <div className="Interset-setting-content" key={index}>
-                                    <p>{interest}</p>
-                                    <button className="close-btn" onClick={() => setInterests(interests.filter((_, i) => i !== index))}>
-                                        <AiOutlineClose className="x-icon" />
-                                    </button>
-                                </div>
-                            ))}
-                            <div className="Add-more" onClick={() => setShowModalInterset(true)}>
-                                <FaPlusSquare className="btn-icon" size={24} />
-                                <span>Add more</span>
-                                {showModalInterset && (
-                                    <div className="modal-overlay" onClick={() => setShowModalInterset(false)}>
-                                        <div className="modal-content" onClick={(e) => e.stopPropagation()}>
-                                            <h2>Add New Interest</h2>
-                                            <p style={{ color: '#6B7280', fontSize: '14px' }}>Enter a new interest or industry to add to your profile.</p>
-                                            <input
-                                                type="text"
-                                                placeholder="e.g. Project Management"
-                                                autoFocus
-                                                value={newInterest}
-                                                onChange={(e) => setNewInterest(e.target.value)}
-                                            />
-                                            <div className="modal-buttons">
-                                                <button className="modal-cancel-btn" onClick={() => setShowModalInterset(false)}>Cancel</button>
-                                                <button className="modal-save-btn" onClick={() => {
-                                                    if (newInterest.trim()) {
-                                                        setInterests([...interests, newInterest]);
-                                                        setNewInterest("");
-                                                        setShowModalInterset(false);
-                                                    }
-                                                }}>Save</button>
-                                            </div>
-                                        </div>
-                                    </div>
-                                )}
-                            </div>
-                        </div>
-
-                    </div>
-                    <div className="row-setting">
-                        <div className="Profile-setting-content">
-                            <div className="Personal-information">
-                                <p style={{ marginLeft: "5%", marginTop: "8%", fontSize: "26px" }}>Personal Information</p>
-                                <div className="Personal-information-content">
-                                    <div className="Full_Name">
-                                        <p>Full Name</p>
-                                        <div className="input-wrapper">
-                                            <input type="text" placeholder="Moath Hazeem" />
-                                            <img src="/photo_icons/For_setting/account.png" alt="Account photo" className="edit-icon" />
-                                        </div>
-                                    </div>
-                                    <div className="Email">
-                                        <p>Email address</p>
-                                        <div className="input-wrapper">
-                                            <input type="email" placeholder="Moathhazeem@gmail.com" />
-                                            <img src="/photo_icons/For_setting/email.png" alt="email photo" className="edit-icon" />
-                                        </div>
-                                    </div>
-                                    <div className="Phone_Number">
-                                        <p>Mobile Number</p>
-                                        <div className="phone-input-container-wrapper">
-                                            <PhoneInput
-                                                country={'ps'}
-                                                value={phone}
-                                                onChange={setPhone}
-                                                inputClass="custom-phone-input"
-                                                containerClass="custom-phone-container"
-                                                buttonClass="custom-phone-button"
-                                                dropdownClass="custom-phone-dropdown"
-                                                placeholder="Enter phone number"
-                                            />
-                                        </div>
-                                    </div>
-                                </div>
-
-                            </div>
-                            <div className="Personal-information-buttons">
-                                <button className="cancel-button">Cancel</button>
-                                <button className="save-button">Save</button>
-                            </div>
-                        </div>
-                        <div className="Training-courses-setting">
-                            <p className="Training-courses-title">Training courses</p>
-                            {courses.map((course) => (
-                                <div className="Training-courses-content" key={course.id}>
-                                    <div className="Course-header" style={{ display: 'flex', alignItems: 'center', gap: '20px', width: '100%', marginBottom: '15px' }}>
-                                        <img src={course.logo} alt={course.title} style={{ width: '60px', height: '60px', objectFit: 'contain' }} />
-                                        <div className="Name-course">
-                                            <h3 style={{ margin: 0, fontSize: '20px' }}>{course.title}</h3>
-                                            <p style={{ margin: 0, fontSize: '22px', color: '#000000' }}>{course.subtitle}</p>
-                                        </div>
-                                    </div>
-                                    <div className="Skills" style={{ width: '100%' }}>
-                                        {course.skills.map((skill, idx) => (
-                                            <p key={idx}>{skill}</p>
-                                        ))}
-                                        {expandedCourseIds.includes(course.id) && course.extraSkills.map((skill, idx) => (
-                                            <p key={idx}>{skill}</p>
-                                        ))}
-                                        <p
-                                            className="see more"
-                                            onClick={() => {
-                                                if (expandedCourseIds.includes(course.id)) {
-                                                    setExpandedCourseIds(expandedCourseIds.filter(id => id !== course.id));
-                                                } else {
-                                                    setExpandedCourseIds([...expandedCourseIds, course.id]);
-                                                }
-                                            }}
-                                        >
-                                            {expandedCourseIds.includes(course.id) ? "see less" : "see more"}
-                                        </p>
-                                    </div>
-                                </div>
-                            ))}
-                        </div>
-                    </div>
-                    <div className="Description-setting">
-                        <p className="Description-title">Description</p>
-                        <div className="Description-content">
-                            <textarea placeholder="I am interested in studying UX/UI design, data analysis, and web development. I have completed the first ten hours of the UI/UX course."></textarea>
-                        </div>
-                        <div className="Description-buttons">
-                            <button className="cancel-button">Cancel</button>
-                            <button className="save-button">Save</button>
-                        </div>
-                    </div>
+                    {renderProfileContent(false)}
 
                 </div>
             </div>
+
+            {isPreviewOpen && (
+                <div className="preview-modal-overlay" onClick={() => setIsPreviewOpen(false)}>
+                    <div className="preview-modal-content animate-fade-in" onClick={(e) => e.stopPropagation()}>
+                        <div className="preview-modal-header">
+                            <p className="preview-modal-title">Public Profile Preview</p>
+                            <button className="preview-modal-close-btn" onClick={() => setIsPreviewOpen(false)} aria-label="Close">
+                                <IoMdClose size={20} />
+                            </button>
+                        </div>
+                        <div className="preview-modal-body">
+                            {renderProfileContent(true)}
+                        </div>
+                    </div>
+                </div>
+            )}
         </div>
     );
 }
