@@ -4,8 +4,9 @@ import "./Profile.css";
 import PhoneInput from 'react-phone-input-2';
 import 'react-phone-input-2/lib/style.css';
 import "../config/i18n";
+import { FaPlusSquare } from 'react-icons/fa';
 import { useTranslation } from "react-i18next";
-
+import { AiOutlineClose } from 'react-icons/ai';
 function Profile() {
     const { t } = useTranslation();
     const location = useLocation();
@@ -125,6 +126,7 @@ function Profile() {
 
                     </div>
                 </div>
+
                 <div className="Setting_option">
                     {categories.map((category, index) => {
                         const isActive = location.pathname === category.path || location.pathname === `/${category.name}`;
@@ -136,13 +138,14 @@ function Profile() {
                                 className="category-tag"
                                 onMouseEnter={() => setHovered(index)}
                                 onMouseLeave={() => setHovered(null)}
-                                style={isActive || isHovered ? { backgroundColor: "rgba(0, 137, 234, 0.20)" } : { backgroundColor: "#FFFFFF" }}
+                                style={isActive || isHovered ? { backgroundColor: "#0089EA" } : { backgroundColor: "#FFFFFF" }}
                             >
                                 <img
                                     src={isActive || isHovered ? category.blue : category.black}
                                     alt={category.name}
+                                    style={isActive || isHovered ? { filter: "brightness(0) invert(1)" } : { filter: "none" }}
                                 />
-                                <p style={isActive || isHovered ? { color: "#0089EA" } : { color: "#000000" }}>
+                                <p style={isActive || isHovered ? { color: "#FFFFFF" } : { color: "#000000" }}>
                                     {t(`setting.${category.name.toLowerCase()}`, category.name)}
                                 </p>
                             </Link>
@@ -253,21 +256,18 @@ function Profile() {
 
                         </div>
                         <div className="Interset-setting">
-                            <p style={{ width: "100%", fontSize: "26px", fontWeight: "700", color: "#000" }}>Industry / Interset</p>
+                            <p className="interests-title">Industry / Interest</p>
                             {interests.map((interest, index) => (
                                 <div className="Interset-setting-content" key={index}>
                                     <p>{interest}</p>
-                                    <img
-                                        src="/photo_icons/For_setting/false_blue.png"
-                                        alt="remove"
-                                        style={{ cursor: 'pointer' }}
-                                        onClick={() => setInterests(interests.filter((_, i) => i !== index))}
-                                    />
+                                    <button className="close-btn" onClick={() => setInterests(interests.filter((_, i) => i !== index))}>
+                                        <AiOutlineClose className="x-icon" />
+                                    </button>
                                 </div>
                             ))}
-                            <div className="Add-more" onClick={() => setShowModalInterset(true)} style={{ cursor: "pointer" }} onMouseEnter={() => setHovered(true)} onMouseLeave={() => setHovered(false)}>
-                                <img src={hovered ? add_more_color.white : add_more_color.black} />
-                                <p>Add more</p>
+                            <div className="Add-more" onClick={() => setShowModalInterset(true)}>
+                                <FaPlusSquare className="btn-icon" size={24} />
+                                <span>Add more</span>
                                 {showModalInterset && (
                                     <div className="modal-overlay" onClick={() => setShowModalInterset(false)}>
                                         <div className="modal-content" onClick={(e) => e.stopPropagation()}>
@@ -305,14 +305,14 @@ function Profile() {
                                     <div className="Full_Name">
                                         <p>Full Name</p>
                                         <div className="input-wrapper">
-                                            <input type="text" placeholder="Full Name" />
+                                            <input type="text" placeholder="Moath Hazeem" />
                                             <img src="/photo_icons/For_setting/account.png" alt="Account photo" className="edit-icon" />
                                         </div>
                                     </div>
                                     <div className="Email">
                                         <p>Email address</p>
                                         <div className="input-wrapper">
-                                            <input type="email" placeholder="[EMAIL_ADDRESS]" />
+                                            <input type="email" placeholder="Moathhazeem@gmail.com" />
                                             <img src="/photo_icons/For_setting/email.png" alt="email photo" className="edit-icon" />
                                         </div>
                                     </div>

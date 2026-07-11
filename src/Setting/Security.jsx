@@ -390,13 +390,14 @@ function Security() {
                                 className="category-tag"
                                 onMouseEnter={() => setHovered(index)}
                                 onMouseLeave={() => setHovered(null)}
-                                style={isActive || isHovered ? { backgroundColor: "rgba(0, 137, 234, 0.20)" } : { backgroundColor: "#FFFFFF" }}
+                                style={isActive || isHovered ? { backgroundColor: "#0089EA" } : { backgroundColor: "#FFFFFF" }}
                             >
                                 <img
                                     src={isActive || isHovered ? category.blue : category.black}
                                     alt={category.name}
+                                    style={isActive || isHovered ? { filter: "brightness(0) invert(1)" } : { filter: "none" }}
                                 />
-                                <p style={isActive || isHovered ? { color: "#0089EA" } : { color: "#000000" }}>
+                                <p style={isActive || isHovered ? { color: "#FFFFFF" } : { color: "#000000" }}>
                                     {t(`setting.${category.name.toLowerCase()}`, category.name)}
                                 </p>
                             </Link>

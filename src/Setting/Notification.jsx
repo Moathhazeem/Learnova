@@ -89,24 +89,19 @@ function Notification() {
                             <Link
                                 to={category.path}
                                 key={index}
-                                className={`category-tag ${isActive ? 'active' : ''}`}
+                                className="category-tag"
                                 onMouseEnter={() => setHovered(index)}
                                 onMouseLeave={() => setHovered(null)}
-                                style={isActive || isHovered ? { backgroundColor: isDarkMode ? "rgba(0, 137, 234, 0.35)" : "rgba(0, 137, 234, 0.20)" } : { backgroundColor: isDarkMode ? "#141414" : "#FFFFFF" }}
+                                style={isActive || isHovered ? { backgroundColor: "#0089EA" } : { backgroundColor: "#FFFFFF" }}
                             >
                                 <img
-                                    src={isActive || isHovered ? category.blue : (isDarkMode ? (category.white || category.black) : category.black)}
+                                    src={isActive || isHovered ? category.blue : category.black}
                                     alt={category.name}
-                                    style={(!isActive && !isHovered && isDarkMode && !category.white) ? { filter: "brightness(0) invert(1)" } : {}}
+                                    style={isActive || isHovered ? { filter: "brightness(0) invert(1)" } : { filter: "none" }}
                                 />
-                                <span
-                                    className="category-name"
-                                    style={{
-                                        color: isActive || isHovered ? "#0089EA" : (isDarkMode ? "#FFFFFF" : "#000000")
-                                    }}
-                                >
+                                <p style={isActive || isHovered ? { color: "#FFFFFF" } : { color: "#000000" }}>
                                     {t(`setting.${category.name.toLowerCase()}`, category.name)}
-                                </span>
+                                </p>
                             </Link>
                         );
                     })}
