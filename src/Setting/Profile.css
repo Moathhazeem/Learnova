@@ -489,12 +489,22 @@ body {
     font-size: 14px;
     font-weight: 600;
     color: var(--text-primary);
-    border: none;
-    outline: none;
-    background: transparent;
+    border: none !important;
+    outline: none !important;
+    background: transparent !important;
+    box-shadow: none !important;
     padding: 12px 12px 12px 28px;
     width: 100%;
     box-sizing: border-box;
+    appearance: none;
+    -webkit-appearance: none;
+}
+
+/* Prevent browser autofill from injecting its own background */
+.Full_Name input:-webkit-autofill,
+.Email input:-webkit-autofill {
+    -webkit-box-shadow: 0 0 0 100px transparent inset !important;
+    background-color: transparent !important;
 }
 
 .input-wrapper img.edit-icon {
@@ -506,7 +516,93 @@ body {
     pointer-events: none;
 }
 
-/* Phone input modern adjustments */
+/* ==========================================
+   Phone Field — Unified Premium Wrapper
+   ========================================== */
+.phone-field-wrapper {
+    width: 100%;
+    box-sizing: border-box;
+    border: 1px solid var(--border-color-soft);
+    border-radius: var(--radius-input);
+    background-color: var(--bg-input);
+    overflow: hidden;
+    transition: border-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+.phone-field-wrapper:hover {
+    border-color: var(--border-color);
+}
+
+.phone-field-wrapper:focus-within {
+    border-color: #0089EA;
+    background-color: #ffffff;
+    box-shadow: 0 0 0 4px rgba(0, 137, 234, 0.15);
+}
+
+/* Strip default borders from PhoneInput internals inside our wrapper */
+.phone-field-wrapper .custom-phone-container {
+    width: 100% !important;
+    border: none !important;
+    border-radius: 0 !important;
+    background-color: transparent !important;
+    box-shadow: none !important;
+    transition: none;
+}
+
+.phone-field-wrapper .custom-phone-container:hover,
+.phone-field-wrapper .custom-phone-container:focus-within {
+    border: none !important;
+    box-shadow: none !important;
+}
+
+.phone-field-wrapper .custom-phone-input {
+    width: 100% !important;
+    height: 44px !important;
+    font-size: 14px !important;
+    font-weight: 600 !important;
+    color: var(--text-primary) !important;
+    border: none !important;
+    background: transparent !important;
+    padding-left: 58px !important;
+    outline: none !important;
+}
+
+.phone-field-wrapper .custom-phone-button {
+    background: transparent !important;
+    border: none !important;
+    border-right: 1px solid var(--border-color-soft) !important;
+    padding: 0 10px !important;
+    width: 48px !important;
+    height: 100% !important;
+}
+
+.phone-field-wrapper .custom-phone-dropdown {
+    border-radius: var(--radius-input) !important;
+    box-shadow: var(--shadow-hover) !important;
+    border-color: var(--border-color-soft) !important;
+    top: calc(100% + 4px) !important;
+}
+
+/* Preview mode — borderless phone display */
+.phone-field-wrapper--preview {
+    border-color: transparent;
+    background-color: var(--bg-main);
+    box-shadow: none;
+}
+
+.phone-field-wrapper--preview:hover {
+    border-color: transparent;
+}
+
+.phone-field-wrapper--preview .custom-phone-button {
+    border-right: none !important;
+}
+
+.phone-field-wrapper--preview .custom-phone-input {
+    cursor: default !important;
+}
+
+/* Keep old classes for any other usage */
 .phone-input-container-wrapper {
     width: 100%;
     min-width: unset;
@@ -514,32 +610,33 @@ body {
     box-sizing: border-box;
 }
 
+/* Standalone fallback (used only outside phone-field-wrapper) */
 .custom-phone-container {
     width: 100% !important;
-    border: 1px solid var(--border-color-soft) !important;
-    border-radius: var(--radius-input) !important;
-    background-color: var(--bg-input) !important;
-    transition: all 0.3s ease;
+    border: none !important;
+    border-radius: 0 !important;
+    background-color: transparent !important;
+    box-shadow: none !important;
+    transition: none;
 }
 
-.custom-phone-container:hover {
-    border-color: var(--border-color) !important;
-}
-
+.custom-phone-container:hover,
 .custom-phone-container:focus-within {
-    border-color: var(--primary-blue) !important;
-    background-color: #ffffff !important;
-    box-shadow: 0 0 0 4px var(--primary-blue-glow) !important;
+    border: none !important;
+    background-color: transparent !important;
+    box-shadow: none !important;
 }
 
 .custom-phone-input {
     width: 100% !important;
-    height: 42px !important;
+    height: 44px !important;
     font-size: 14px !important;
     font-weight: 600 !important;
     color: var(--text-primary) !important;
     border: none !important;
+    outline: none !important;
     background: transparent !important;
+    box-shadow: none !important;
     padding-left: 54px !important;
 }
 
@@ -1253,7 +1350,8 @@ body {
 .preview-modal-content {
     background: var(--bg-card);
     width: 100%;
-    max-width: 960px; /* Responsive max-w-4xl style */
+    max-width: 960px;
+    /* Responsive max-w-4xl style */
     max-height: 90vh;
     border-radius: var(--radius-standard);
     box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
@@ -1371,4 +1469,115 @@ body {
 
 .preview-mode .Background-container img {
     cursor: default;
+}
+
+/* ==========================================
+   Preview-mode: Personal Info Field Breathing Room
+   ========================================== */
+
+/* In preview mode, swap the input-wrapper styling for a clean text-value card */
+.preview-mode .input-wrapper.preview-field {
+    background-color: var(--bg-main);
+    border: 1px solid var(--border-color-soft);
+    border-radius: var(--radius-input);
+    padding: 0 16px;
+    min-height: 48px;
+    display: flex;
+    align-items: center;
+    box-shadow: none !important;
+    transition: none;
+}
+
+.preview-mode .input-wrapper.preview-field:hover {
+    border-color: var(--border-color-soft);
+    box-shadow: none !important;
+}
+
+.preview-mode .input-wrapper.preview-field input {
+    padding: 14px 0;
+    font-size: 15px;
+    font-weight: 600;
+    color: var(--text-primary);
+    cursor: default;
+    background-color: transparent !important;
+    letter-spacing: 0.01em;
+}
+
+.preview-mode .input-wrapper.preview-field input:focus {
+    box-shadow: none !important;
+    outline: none;
+}
+
+/* Better label spacing in preview mode for Personal Info */
+.preview-mode .Full_Name,
+.preview-mode .Email,
+.preview-mode .Phone_Number {
+    gap: 10px;
+}
+
+.preview-mode .Full_Name p,
+.preview-mode .Email p,
+.preview-mode .Phone_Number p {
+    font-size: 11px !important;
+    font-weight: 700 !important;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: var(--text-muted) !important;
+}
+
+/* Phone field in preview — same card look */
+.preview-mode .phone-field-wrapper--preview {
+    background-color: var(--bg-main);
+    border: 1px solid var(--border-color-soft);
+    border-radius: var(--radius-input);
+    min-height: 48px;
+    display: flex;
+    align-items: center;
+    box-shadow: none;
+}
+
+.preview-mode .phone-field-wrapper--preview:hover {
+    border-color: var(--border-color-soft);
+    box-shadow: none;
+}
+
+/* ==========================================
+   Search Filter Utilities
+   ========================================== */
+
+/* Smooth hide when filtered out — keeps layout reflow minimal */
+.section-hidden {
+    display: none;
+}
+
+/* No results empty state */
+.no-results-message {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+    padding: 64px 24px;
+    text-align: center;
+    animation: modalFadeIn 0.3s ease forwards;
+}
+
+.no-results-icon {
+    font-size: 36px;
+    display: block;
+    margin-bottom: 4px;
+    filter: grayscale(0.3);
+}
+
+.no-results-message>p {
+    font-size: 16px !important;
+    font-weight: 600 !important;
+    color: var(--text-primary) !important;
+    margin: 0 !important;
+}
+
+.no-results-message .no-results-sub {
+    font-size: 13px !important;
+    font-weight: 500 !important;
+    color: var(--text-muted) !important;
+    margin: 0 !important;
 }

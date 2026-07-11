@@ -15,6 +15,7 @@ function Profile() {
     const [isPreviewOpen, setIsPreviewOpen] = useState(false);
     const [hovered, setHovered] = useState(null);
     const [phone, setPhone] = useState("");
+    const [searchQuery, setSearchQuery] = useState("");
     const [showModalInterset, setShowModalInterset] = useState(false);
     const [showModalProfile, setShowModalProfile] = useState(false);
     const [showModalBackground, setShowModalBackground] = useState(false);
@@ -96,11 +97,23 @@ function Profile() {
         { name: "Payment", path: "/Setting/Payment", black: "/photo_icons/For_setting/PaymentBlack.png", blue: "/photo_icons/For_setting/PaymentBlue.png" },
     ];
 
+    // --- Search visibility helpers ---
+    const q = searchQuery.trim().toLowerCase();
+    const sectionVisible = (keywords) =>
+        q === '' || keywords.some((kw) => kw.toLowerCase().includes(q));
+
+    const showPhotoCard   = sectionVisible(['photo', 'profile', 'background', 'picture', 'image', 'upload']);
+    const showInterests   = sectionVisible(['interest', 'industry', 'skill', 'ux', 'ui', 'design', 'web', 'data']);
+    const showPersonalInfo = sectionVisible(['personal', 'name', 'email', 'phone', 'mobile', 'number', 'address', 'information']);
+    const showCourses     = sectionVisible(['course', 'training', 'ibm', 'microsoft', 'excel', 'git']);
+    const showDescription = sectionVisible(['description', 'about', 'bio', 'text']);
+    const noResults       = !showPhotoCard && !showInterests && !showPersonalInfo && !showCourses && !showDescription;
+
     const renderProfileContent = (isPreview = false) => {
         return (
             <div className={`Profile-setting-layout ${isPreview ? 'preview-mode' : ''}`}>
-                <div className="row-setting">
-                    <div className="Profile-setting-content">
+                <div className={`row-setting${!isPreview && !showPhotoCard ? ' section-hidden' : ''}`}>
+                    <div className="Profile-setting-content">                    
                         <div className="Background-container">
                             <img src={backgroundImage} alt="Background_profile" className="Background_profile_image" />
                             {!isPreview && (
@@ -202,7 +215,7 @@ function Profile() {
                         )}
 
                     </div>
-                    <div className="Interset-setting">
+                    <div className={`Interset-setting${!isPreview && !showInterests ? ' section-hidden' : ''}`}>
                         <p className="interests-title">Industry / Interest</p>
                         {interests.map((interest, index) => (
                             <div className="Interset-setting-content" key={index}>
@@ -248,28 +261,28 @@ function Profile() {
                     </div>
 
                 </div>
-                <div className="row-setting">
+                <div className={`row-setting${!isPreview && !showPersonalInfo && !showCourses ? ' section-hidden' : ''}`}>
                     <div className="Profile-setting-content">
                         <div className="Personal-information">
                             <p>Personal Information</p>
                             <div className="Personal-information-content">
-                                <div className="Full_Name">
+                                <div className={`Full_Name${!isPreview && !showPersonalInfo ? ' section-hidden' : ''}`}>
                                     <p>Full Name</p>
-                                    <div className="input-wrapper">
+                                    <div className={`input-wrapper${isPreview ? ' preview-field' : ''}`}>
                                         <input type="text" placeholder="Moath Hazeem" readOnly={isPreview} />
                                         {!isPreview && <img src="/photo_icons/For_setting/account.png" alt="Account photo" className="edit-icon" />}
                                     </div>
                                 </div>
-                                <div className="Email">
+                                <div className={`Email${!isPreview && !showPersonalInfo ? ' section-hidden' : ''}`}>
                                     <p>Email address</p>
-                                    <div className="input-wrapper">
+                                    <div className={`input-wrapper${isPreview ? ' preview-field' : ''}`}>
                                         <input type="email" placeholder="Moathhazeem@gmail.com" readOnly={isPreview} />
                                         {!isPreview && <img src="/photo_icons/For_setting/email.png" alt="email photo" className="edit-icon" />}
                                     </div>
                                 </div>
-                                <div className="Phone_Number">
+                                <div className={`Phone_Number${!isPreview && !showPersonalInfo ? ' section-hidden' : ''}`}>
                                     <p>Mobile Number</p>
-                                    <div className="phone-input-container-wrapper">
+                                    <div className={`phone-field-wrapper${isPreview ? ' phone-field-wrapper--preview' : ''}`}>
                                         <PhoneInput
                                             country={'ps'}
                                             value={phone}
@@ -293,7 +306,7 @@ function Profile() {
                             </div>
                         )}
                     </div>
-                    <div className="Training-courses-setting">
+                    <div className={`Training-courses-setting${!isPreview && !showCourses ? ' section-hidden' : ''}`}>
                         <p className="Training-courses-title">Training courses</p>
                         {courses.map((course) => (
                             <div className="Training-courses-content" key={course.id}>
@@ -328,7 +341,7 @@ function Profile() {
                         ))}
                     </div>
                 </div>
-                <div className="Description-setting">
+                <div className={`Description-setting${!isPreview && !showDescription ? ' section-hidden' : ''}`}>
                     <p className="Description-title">Description</p>
                     <div className="Description-content">
                         <textarea placeholder="I am interested in studying UX/UI design, data analysis, and web development. I have completed the first ten hours of the UI/UX course." readOnly={isPreview}></textarea>
@@ -340,6 +353,13 @@ function Profile() {
                         </div>
                     )}
                 </div>
+                {noResults && !isPreview && (
+                    <div className="no-results-message">
+                        <span className="no-results-icon">🔍</span>
+                        <p>No settings found for &ldquo;<strong>{searchQuery}</strong>&rdquo;</p>
+                        <p className="no-results-sub">Try a different keyword like "Email", "Photo", or "Interest"</p>
+                    </div>
+                )}
             </div>
         );
     };
@@ -373,8 +393,12 @@ function Profile() {
                     <div className="search_page_setting">
                         <img src={search.black}
                             alt="search" className="setting-search-icon" />
-                        <input type="search" placeholder={t('setting.search', 'Search settings')} />
-
+                        <input
+                            type="search"
+                            placeholder={t('setting.search', 'Search settings')}
+                            value={searchQuery}
+                            onChange={(e) => setSearchQuery(e.target.value)}
+                        />
                     </div>
                 </div>
 
