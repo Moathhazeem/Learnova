@@ -6,7 +6,7 @@ import { useTranslation } from "react-i18next";
 import {
     Globe, CalendarDays, Palette, Sun, Moon, MonitorSmartphone,
     GraduationCap, Gauge, Film, BarChart2,
-    Cpu, TrendingUp, Languages, Heart, Music, Camera, BookOpen, FlaskConical, Brush, Tag, Check
+    Cpu, TrendingUp, Languages, Heart, Music, Camera, BookOpen, FlaskConical, Brush, Tag, Check, Boxes
 } from 'lucide-react';
 /* ── Reusable iOS-style toggle (matches Security page) ─────────────── */
 function IOSToggle({ checked, onChange, id }) {
@@ -128,8 +128,8 @@ function Preferences() {
 
     const [themeChange, setThemeChange] = useState("light");
     const themeOptions = [
-        { value: "light",  label: t('setting.light',  'Light'),  icon: <Sun  className="theme-card__icon-svg" /> },
-        { value: "dark",   label: t('setting.dark',   'Dark'),   icon: <Moon className="theme-card__icon-svg" /> },
+        { value: "light", label: t('setting.light', 'Light'), icon: <Sun className="theme-card__icon-svg" /> },
+        { value: "dark", label: t('setting.dark', 'Dark'), icon: <Moon className="theme-card__icon-svg" /> },
         { value: "system", label: t('setting.system', 'System'), icon: <MonitorSmartphone className="theme-card__icon-svg" /> },
     ];
 
@@ -421,7 +421,7 @@ function Preferences() {
                     {/* CARD 4 — Interested Categories */}
                     <div className="pref-card">
                         <div className="pref-card-header">
-                            <span className="pref-card-icon">🏷️</span>
+                            <span className="pref-card-icon"><Boxes className="pref-header-icon" /></span>
                             <div>
                                 <h3 className="pref-card-title">{t('setting.interested_categories', 'Interested Categories')}</h3>
                                 <p className="pref-card-desc">{t('setting.interested_categories_description', 'Select topics you want to explore and learn.')}</p>
@@ -433,16 +433,16 @@ function Preferences() {
                                 const translationKey = cat === "Language" ? "language_skill" : cat.toLowerCase();
                                 const isActive = selectedCategories.includes(cat);
                                 const catIconMap = {
-                                    Technology:   <Cpu        size={14} className="chip-cat-icon" />,
-                                    Business:     <TrendingUp size={14} className="chip-cat-icon" />,
-                                    Design:       <Brush      size={14} className="chip-cat-icon" />,
-                                    Marketing:    <BarChart2  size={14} className="chip-cat-icon" />,
-                                    Photography:  <Camera     size={14} className="chip-cat-icon" />,
-                                    Music:        <Music      size={14} className="chip-cat-icon" />,
-                                    Health:       <Heart      size={14} className="chip-cat-icon" />,
-                                    Language:     <Languages  size={14} className="chip-cat-icon" />,
-                                    Science:      <FlaskConical size={14} className="chip-cat-icon" />,
-                                    Art:          <Palette    size={14} className="chip-cat-icon" />,
+                                    Technology: <Cpu size={14} className="chip-cat-icon" />,
+                                    Business: <TrendingUp size={14} className="chip-cat-icon" />,
+                                    Design: <Brush size={14} className="chip-cat-icon" />,
+                                    Marketing: <BarChart2 size={14} className="chip-cat-icon" />,
+                                    Photography: <Camera size={14} className="chip-cat-icon" />,
+                                    Music: <Music size={14} className="chip-cat-icon" />,
+                                    Health: <Heart size={14} className="chip-cat-icon" />,
+                                    Language: <Languages size={14} className="chip-cat-icon" />,
+                                    Science: <FlaskConical size={14} className="chip-cat-icon" />,
+                                    Art: <Palette size={14} className="chip-cat-icon" />,
                                 };
                                 return (
                                     <button
