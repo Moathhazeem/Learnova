@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import './Privacy.css';
-import { Link, useLocation } from 'react-router-dom';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
 import "../config/i18n";
 import { useTranslation } from "react-i18next";
 
@@ -13,7 +13,9 @@ function Privacy() {
     }
     const [searchQuery, setSearchQuery] = useState("");
     const [isSearchFocused, setIsSearchFocused] = useState(false);
+    const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
 
+    const navigate = useNavigate();
     const location = useLocation();
     const pathname = location.pathname.split("/").filter(x => x);
 
@@ -27,14 +29,49 @@ function Privacy() {
         { name: "Notification", path: "/Setting/Notification", black: "/photo_icons/For_setting/NotificationBlack.png", white: "/photo_icons/For_setting/NotificationWhite.png", blue: "/photo_icons/For_setting/NotificationBlue.png" },
         { name: "Payment", path: "/Setting/Payment", black: "/photo_icons/For_setting/PaymentBlack.png", white: "/photo_icons/For_setting/PaymentWhite.png", blue: "/photo_icons/For_setting/PaymentBlue.png" },
     ];
-    const [isOn, setIsOn] = useState(false);
-    const [isOff, setIsOff] = useState(false);
-    const [switchs, setSwitchs] = useState([false, false, false, false, false, false, false]);
-    const danger_zone = "/photo_icons/For_setting/danger_zone.png"; // Assuming this path exists or matches the pattern
 
-    const toggleSwitch = (index) => {
-        setSwitchs(prev => prev.map((item, i) => i === index ? !item : item));
-    }
+    const [visibility, setVisibility] = useState('public');
+    const [settings, setSettings] = useState({
+        allowIndexing: false,
+        shareUsageData: true,
+        shareProgress: false,
+        showOnline: true,
+        linkedinCertificates: false,
+        learnovaSharing: true
+    });
+
+    const toggleSetting = (key) => {
+        setSettings(prev => ({ ...prev, [key]: !prev[key] }));
+    };
+
+    const handleDownloadData = () => {
+        const dummyData = {
+            message: "Your profile data backup",
+            timestamp: new Date().getFullYear().toString(),
+            profile: {
+                visibility: visibility,
+                settings: settings
+            }
+        };
+        const blob = new Blob([JSON.stringify(dummyData, null, 2)], { type: 'application/json' });
+        const url = URL.createObjectURL(blob);
+        const a = document.createElement('a');
+        a.style.display = 'none';
+        a.href = url;
+        a.download = 'user-data-backup.json';
+        document.body.appendChild(a);
+        a.click();
+        document.body.removeChild(a);
+        URL.revokeObjectURL(url);
+    };
+
+    const handleDeleteAccount = () => {
+        localStorage.clear();
+        sessionStorage.clear();
+        setIsDeleteModalOpen(false);
+        navigate('/log_in');
+    };
+
     useEffect(() => {
         const updateThemeState = () => {
             setIsDarkMode(document.documentElement.classList.contains("dark"));
@@ -110,151 +147,223 @@ function Privacy() {
             </div>
 
             <div className="Privacy_content">
-                <div className="Privacy_visiblity">
-                    <div className="Privacy_visiblity_header">
+                {/* 1. Profile Visibility Section */}
+                <div className="privacy-section-card">
+                    <div className="privacy-section-header">
                         <h3>{t('setting.privacy_visiblity', 'Profile Visibility')}</h3>
-                        <p>{t('setting.privacy_visiblity_content', 'Control who can see your profile and activity')}</p>
+                        <p className="privacy-section-desc">{t('setting.privacy_visiblity_content', 'Control who can see your profile and activity')}</p>
                     </div>
-                    <div className="Privacy_visiblity_body">
-                        <div className="Privacy_visiblity_option">
-                            <input type="radio" name="privacy" id="public" defaultChecked />
-                            <div className="Privacy_visiblity_option_left">
-                                <img src="/photo_icons/For_setting/Globe_black.png" alt="Public"
-                                    style={isDarkMode ? { filter: "brightness(0) invert(1)" } : {}} />
-                                <label htmlFor="public">{t('setting.public', 'Public')}</label>
+
+                    <div className="visibility-grid">
+                        <div
+                            className={`visibility-card ${visibility === 'public' ? 'active' : ''}`}
+                            onClick={() => setVisibility('public')}
+                        >
+                            <div className="visibility-card-header">
+                                <div className="visibility-icon-wrapper">
+                                    <img src="/photo_icons/For_setting/Globe_black.png" alt="Public"
+                                        style={isDarkMode ? { filter: "brightness(0) invert(1)" } : {}} />
+                                </div>
+                                <div className="visibility-radio-circle">
+                                    <div className="visibility-radio-inner"></div>
+                                </div>
+                            </div>
+                            <div className="visibility-card-content">
+                                <h4>{t('setting.public', 'Public')}</h4>
+                                <p>{t('setting.public_desc', 'Anyone can view your profile and course history. Visible to search engines.')}</p>
                             </div>
                         </div>
-                        <div className="Privacy_visiblity_option">
-                            <input type="radio" name="privacy" id="private" />
-                            <div className="Privacy_visiblity_option_left">
-                                <img src="/photo_icons/For_setting/private_black.png" alt="Private"
-                                    style={isDarkMode ? { filter: "brightness(0) invert(1)" } : {}} />
-                                <label htmlFor="private">{t('setting.private', 'Private')}</label>
+
+                        <div
+                            className={`visibility-card ${visibility === 'private' ? 'active' : ''}`}
+                            onClick={() => setVisibility('private')}
+                        >
+                            <div className="visibility-card-header">
+                                <div className="visibility-icon-wrapper">
+                                    <img src="/photo_icons/For_setting/private_black.png" alt="Private"
+                                        style={isDarkMode ? { filter: "brightness(0) invert(1)" } : {}} />
+                                </div>
+                                <div className="visibility-radio-circle">
+                                    <div className="visibility-radio-inner"></div>
+                                </div>
+                            </div>
+                            <div className="visibility-card-content">
+                                <h4>{t('setting.private', 'Private')}</h4>
+                                <p>{t('setting.private_desc', 'Only you can view your progress and details. Hidden from search engines.')}</p>
                             </div>
                         </div>
-                        <div className="Privacy_visiblity_option">
-                            <input type="radio" name="privacy" id="only_me" />
-                            <div className="Privacy_visiblity_option_left">
-                                <img src="/photo_icons/For_setting/only_me_black.png" alt="only_me"
-                                    style={isDarkMode ? { filter: "brightness(0) invert(1)" } : {}} />
-                                <label htmlFor="only_me">{t('setting.only_me', 'Only me')}</label>
+
+                        <div
+                            className={`visibility-card ${visibility === 'connections' ? 'active' : ''}`}
+                            onClick={() => setVisibility('connections')}
+                        >
+                            <div className="visibility-card-header">
+                                <div className="visibility-icon-wrapper">
+                                    <img src="/photo_icons/For_setting/only_me_black.png" alt="Connections"
+                                        style={isDarkMode ? { filter: "brightness(0) invert(1)" } : {}} />
+                                </div>
+                                <div className="visibility-radio-circle">
+                                    <div className="visibility-radio-inner"></div>
+                                </div>
                             </div>
+                            <div className="visibility-card-content">
+                                <h4>{t('setting.connections', 'Connections Only')}</h4>
+                                <p>{t('setting.connections_desc', 'Only verified connections and instructors can view your profile details.')}</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div className="privacy-option-item mt-6">
+                        <div className="privacy-option-left">
+                            <div className="privacy-option-info">
+                                <h5>{t('setting.search_engine_indexing', 'Allow Search Engine Indexing')}</h5>
+                                <p>{t('setting.search_engine_indexing_description', 'Allow search engines like Google to show your profile in search results.')}</p>
+                            </div>
+                        </div>
+                        <div
+                            className={`switch-ios ${settings.allowIndexing ? 'on' : ''}`}
+                            onClick={() => toggleSetting('allowIndexing')}
+                        >
+                            <div className="switch-ios-circle"></div>
                         </div>
                     </div>
                 </div>
 
-                <div className="Activity_status">
-                    <div className="Activity_status_header">
-                        <h3>{t('setting.activity_status', 'Activity Status')}</h3>
-                        <p>{t('setting.activity_status_content', 'Manage what information is shared with the Learnova community.')}</p>
+                {/* 2. Data Sharing & Analytics Section */}
+                <div className="privacy-section-card">
+                    <div className="privacy-section-header">
+                        <h3>{t('setting.data_sharing_analytics', 'Data Sharing & Analytics')}</h3>
+                        <p className="privacy-section-desc">{t('setting.data_sharing_analytics_desc', 'Manage how your learning statistics are shared and utilized.')}</p>
                     </div>
-                    <div className="Activity_status_body">
-                        <div className="Activity_status_option">
-                            <div className="Activity_status_option_left">
-                                <img src="/photo_icons/For_setting/progress_black.png" alt="Share courses"
-                                    style={isDarkMode ? { filter: "brightness(0) invert(1)" } : {}} />
-                                <div className="Activity_status_option_text">
+
+                    <div className="privacy-options-list">
+                        <div className="privacy-option-item">
+                            <div className="privacy-option-left">
+                                <div className="privacy-option-info">
                                     <h5>{t('setting.share_courses', 'Share Courses Progress')}</h5>
-                                    <p>{t('setting.share_courses_description', 'Show your completion percentage on course leaderboards.')}</p>
+                                    <p>{t('setting.share_courses_description', 'Show your completion percentage and achievements on public leaderboards.')}</p>
                                 </div>
                             </div>
-                            <div className={`switch ${switchs[0] ? "on" : ""}`} onClick={() => toggleSwitch(0)}>
-                                <div className="circle"></div>
+                            <div
+                                className={`switch-ios ${settings.shareProgress ? 'on' : ''}`}
+                                onClick={() => toggleSetting('shareProgress')}
+                            >
+                                <div className="switch-ios-circle"></div>
                             </div>
                         </div>
-                        <div className="Activity_status_option">
-                            <div className="Activity_status_option_left">
-                                <img src="/photo_icons/For_setting/online_black.png" alt="Show Online"
-                                    style={isDarkMode ? { filter: "brightness(0) invert(1)" } : {}} />
-                                <div className="Activity_status_option_text">
+
+                        <div className="privacy-option-item">
+                            <div className="privacy-option-left">
+                                <div className="privacy-option-info">
                                     <h5>{t('setting.show_online', 'Show Online Status')}</h5>
-                                    <p>{t('setting.show_online_description', 'Allow others to see when you are currently active.')}</p>
+                                    <p>{t('setting.show_online_description', 'Allow your peer students to see when you are currently active.')}</p>
                                 </div>
                             </div>
-                            <div className={`switch ${switchs[1] ? "on" : ""}`} onClick={() => toggleSwitch(1)}>
-                                <div className="circle"></div>
+                            <div
+                                className={`switch-ios ${settings.showOnline ? 'on' : ''}`}
+                                onClick={() => toggleSetting('showOnline')}
+                            >
+                                <div className="switch-ios-circle"></div>
                             </div>
                         </div>
-                        <div className="Activity_status_option">
-                            <div className="Activity_status_option_left">
-                                <img src={isDarkMode ? search.white : search.black} alt="Search Engine Indexing" />
-                                <div className="Activity_status_option_text">
-                                    <h5>{t('setting.search_engine_indexing', 'Search Engine Indexing')}</h5>
-                                    <p>{t('setting.search_engine_indexing_description', 'Allow search engines like Google to show your profile.')}</p>
+
+                        <div className="privacy-option-item">
+                            <div className="privacy-option-left">
+                                <div className="privacy-option-info">
+                                    <h5>{t('setting.share_usage_data', 'Share Usage Data')}</h5>
+                                    <p>{t('setting.share_usage_data_desc', 'Help us improve Learnova by sending anonymous diagnostic and usage telemetry.')}</p>
                                 </div>
                             </div>
-                            <div className={`switch ${switchs[2] ? "on" : ""}`} onClick={() => toggleSwitch(2)}>
-                                <div className="circle"></div>
+                            <div
+                                className={`switch-ios ${settings.shareUsageData ? 'on' : ''}`}
+                                onClick={() => toggleSetting('shareUsageData')}
+                            >
+                                <div className="switch-ios-circle"></div>
                             </div>
                         </div>
                     </div>
                 </div>
 
-                <div className="Data_sharing">
-                    <div className="Data_sharing_header">
-                        <h3>{t('setting.data_sharing', 'Data Sharing')}</h3>
-                        <p>{t('setting.data_sharing_description', 'Manage permissions for third-party integrations.')}</p>
+                {/* 3. Account Permissions Section */}
+                <div className="privacy-section-card">
+                    <div className="privacy-section-header">
+                        <h3>{t('setting.account_permissions', 'Account Permissions')}</h3>
+                        <p className="privacy-section-desc">{t('setting.account_permissions_desc', 'Control permissions for third-party platforms and integrations.')}</p>
                     </div>
-                    <div className="Data_sharing_body">
-                        <div className="Data_sharing_option">
-                            <div className="Data_sharing_option_left">
-                                <div className="Data_sharing_option_text">
-                                    <h5>{t('setting.Learnova', 'Learnova')}</h5>
-                                    <p>{t('setting.Learnova_description', 'Allow Learnova to show your profile.')}</p>
+
+                    <div className="privacy-options-list">
+                        <div className="privacy-option-item">
+                            <div className="privacy-option-left">
+                                <div className="privacy-option-info">
+                                    <h5>{t('setting.Learnova', 'Learnova Core Services')}</h5>
+                                    <p>{t('setting.Learnova_description', 'Allow essential background services to customize and recommend courses.')}</p>
                                 </div>
                             </div>
-                            <div className={`switch ${switchs[3] ? "on" : ""}`} onClick={() => toggleSwitch(3)}>
-                                <div className="circle"></div>
+                            <div
+                                className={`switch-ios ${settings.learnovaSharing ? 'on' : ''}`}
+                                onClick={() => toggleSetting('learnovaSharing')}
+                            >
+                                <div className="switch-ios-circle"></div>
                             </div>
                         </div>
-                        <div className="Data_sharing_option">
-                            <div className="Data_sharing_option_left">
-                                <div className="Data_sharing_option_text">
-                                    <h5>{t('setting.LinkedIn', 'LinkedIn')}</h5>
-                                    <p>{t('setting.LinkedIn_description', 'Share certificates automatically.')}</p>
+
+                        <div className="privacy-option-item">
+                            <div className="privacy-option-left">
+                                <div className="privacy-option-info">
+                                    <h5>{t('setting.LinkedIn', 'LinkedIn Integration')}</h5>
+                                    <p>{t('setting.LinkedIn_description', 'Share credentials and certificates automatically to your LinkedIn feed.')}</p>
                                 </div>
                             </div>
-                            <div className={`switch ${switchs[4] ? "on" : ""}`} onClick={() => toggleSwitch(4)}>
-                                <div className="circle"></div>
+                            <div
+                                className={`switch-ios ${settings.linkedinCertificates ? 'on' : ''}`}
+                                onClick={() => toggleSetting('linkedinCertificates')}
+                            >
+                                <div className="switch-ios-circle"></div>
                             </div>
                         </div>
                     </div>
                 </div>
 
-                <div className="Danger_zone">
-                    <div className="Danger_zone_header">
-                        <img src="/photo_icons/For_setting/danger.png" alt="Danger Zone"
-                            className="danger-icon" />
-                        <div className="danger-icon-container">
+                {/* Danger Zone Section */}
+                <div className="privacy-section-card danger-card">
+                    <div className="privacy-section-header danger-header">
+                        <div className="danger-title-wrapper">
+                            <img src="/photo_icons/For_setting/danger.png" alt="Danger Zone" className="danger-icon" />
                             <h3>{t('setting.danger_zone', 'Danger Zone')}</h3>
-                            <p>{t('setting.danger_zone_description', 'Irreversible actions related to your account and data.')}</p>
                         </div>
+                        <p className="privacy-section-desc">{t('setting.danger_zone_description', 'Irreversible actions related to your account security and data privacy.')}</p>
                     </div>
-                    <div className="Danger_zone_body">
-                        <div className="Danger_zone_option">
-                            <div className="Danger_zone_option_left">
+
+                    <div className="privacy-options-list">
+                        <div className="privacy-option-item no-border">
+                            <div className="privacy-option-left">
                                 <img src="/photo_icons/For_setting/download_black.png" alt="Download Data"
-                                    style={isDarkMode ? { filter: "brightness(0) invert(1)" } : {}} />
-                                <div className="Danger_zone_option_text">
+                                    style={isDarkMode ? { filter: "brightness(0) invert(1)" } : {}} className="danger-option-icon" />
+                                <div className="privacy-option-info">
                                     <h5>{t('setting.Download_Data', 'Download Data')}</h5>
-                                    <p>{t('setting.Download_Data_description', 'Request a copy of your personal data, including course history.')}</p>
+                                    <p>{t('setting.Download_Data_description', 'Request a copy of your personal data, including course history and transcripts.')}</p>
                                 </div>
                             </div>
-                            <button className="Danger_zone_button_white">
+                            <button className="Danger_zone_button_white" onClick={handleDownloadData}>
                                 <img src="/photo_icons/For_setting/download_black2.png" alt="" />
                                 {t('setting.Download_Data', 'Download Data')}
                             </button>
                         </div>
-                        <div className="Danger_zone_option">
-                            <div className="Danger_zone_option_left">
-                                <img src="/photo_icons/For_setting/delete.png" alt="Delete Account" />
-                                <div className="Danger_zone_option_text">
+
+                        <div className="privacy-option-item no-border">
+                            <div className="privacy-option-left">
+                                <img src="/photo_icons/For_setting/delete.png" alt="Delete Account" className="danger-option-icon" />
+                                <div className="privacy-option-info">
                                     <h5 style={{ color: "#FF4D4D" }}>{t('setting.Delete_Account', 'Delete Account')}</h5>
-                                    <p>{t('setting.Delete_Account_description', 'Permanently remove your account and all data.')}</p>
+                                    <p>{t('setting.Delete_Account_description', 'Permanently remove your account and all associated data. This action cannot be undone.')}</p>
                                 </div>
                             </div>
-                            <button className="Danger_zone_button_red">
-                                <img src="/photo_icons/For_setting/delete2.png" alt="" />
+                            <button className="Danger_zone_button_red" onClick={() => setIsDeleteModalOpen(true)}>
+                                <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" className="btn-trash-icon">
+                                    <path d="M3 6h18"></path>
+                                    <path d="M19 6v14c0 1-1 2-2 2H7c-1 0-2-1-2-2V6"></path>
+                                    <path d="M8 6V4c0-1 1-2 2-2h4c1 0 2 1 2 2v2"></path>
+                                </svg>
                                 {t('setting.Delete_Account', 'Delete Account')}
                             </button>
                         </div>
@@ -263,10 +372,32 @@ function Privacy() {
             </div>
 
             <div className="page_actions_footer">
-                <button className="btn_save">{t('setting.save', 'Save')}</button>
-                <button className="btn_reset">{t('setting.reset', 'Reset')}</button>
+                <button className="btn_save">{t('setting.save', 'Save Changes')}</button>
+                <button className="btn_reset">{t('setting.reset', 'Reset Defaults')}</button>
                 <button className="btn_cancel">{t('setting.cancel', 'Cancel')}</button>
             </div>
+
+            {isDeleteModalOpen && (
+                <div className="privacy-modal-overlay" onClick={() => setIsDeleteModalOpen(false)}>
+                    <div className="privacy-modal-card" onClick={e => e.stopPropagation()}>
+                        <div className="privacy-modal-header">
+                            <img src="/photo_icons/For_setting/danger.png" alt="Warning" className="privacy-modal-warning-icon" />
+                            <h4>{t('setting.delete_modal_title', 'Delete Account')}</h4>
+                        </div>
+                        <div className="privacy-modal-body">
+                            <p>{t('setting.delete_modal_warning', 'Are you sure you want to delete your account? This action cannot be undone.')}</p>
+                        </div>
+                        <div className="privacy-modal-footer">
+                            <button className="privacy-modal-btn-cancel" onClick={() => setIsDeleteModalOpen(false)}>
+                                {t('setting.cancel', 'Cancel')}
+                            </button>
+                            <button className="privacy-modal-btn-delete" onClick={handleDeleteAccount}>
+                                {t('setting.confirm_delete', 'Yes, Delete')}
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            )}
         </div>
     );
 }
