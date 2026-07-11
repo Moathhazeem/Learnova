@@ -1,153 +1,125 @@
-import { useState } from 'react';
+import { useState, useCallback } from 'react';
 import { Link, useLocation } from "react-router-dom";
+import { QRCodeSVG } from 'qrcode.react';
 import './Security.css';
 import "../config/i18n";
 import { useTranslation } from "react-i18next";
 
+/* ── Tiny TOTP-secret generator (client-side mock) ──────────────────── */
+function generateTOTPSecret(length = 16) {
+    const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ234567';
+    let result = '';
+    const array = new Uint8Array(length);
+    window.crypto.getRandomValues(array);
+    array.forEach(byte => (result += chars[byte % chars.length]));
+    return result;
+}
+
+/* ── iOS-style toggle component ─────────────────────────────────────── */
+function IOSToggle({ checked, onChange, id }) {
+    return (
+        <label htmlFor={id} className="ios-toggle-label" aria-label="toggle">
+            <input
+                id={id}
+                type="checkbox"
+                className="ios-toggle-input"
+                checked={checked}
+                onChange={onChange}
+            />
+            <span className={`ios-toggle-track ${checked ? 'ios-on' : 'ios-off'}`}>
+                <span className="ios-toggle-thumb" />
+            </span>
+        </label>
+    );
+}
+
 function Security() {
     const { t } = useTranslation();
-    const [password, setPassword] = useState("");
-    const [newPassword, setNewPassword] = useState("");
-    const [confirmPassword, setConfirmPassword] = useState("");
-    const [passwordError, setPasswordError] = useState("");
-    const [passwordSuccess, setPasswordSuccess] = useState("");
-    const [confirmPasswordError, setConfirmPasswordError] = useState("");
-    const [confirmPasswordSuccess, setConfirmPasswordSuccess] = useState("");
-    const [newPasswordError, setNewPasswordError] = useState([]);
-    const [newPasswordSuccess, setNewPasswordSuccess] = useState([]);
-    const [passwordMatchError, setPasswordMatchError] = useState("");
-    const [passwordMatchSuccess, setPasswordMatchSuccess] = useState("");
-    const [showPassword, setShowPassword] = useState(false);
-    const [showNewPassword, setShowNewPassword] = useState(false);
-    const [showConfirmPassword, setShowConfirmPassword] = useState(false);
-    const [authenticator, setAuthenticator] = useState(false);
-    const [IsOpenAuthenticator, setIsOpenAuthenticator] = useState(false);
-    const [smsRecovery, setSmsRecovery] = useState(false);
-    const [IsOpenSmsRecovery, setIsOpenSmsRecovery] = useState(false);
-    const [smsPhoneInput, setSmsPhoneInput] = useState("");
-    const [smsPhoneError, setSmsPhoneError] = useState("");
-    const [isSwitchOn, setIsSwitchOn] = useState(false);
-    const [showPopup, setShowPopup] = useState(false);
-    const [isFirstOpen, setIsFirstOpen] = useState(false);
-    const [isSecondOpen, setIsSecondOpen] = useState(false);
-    const location = useLocation();
-    const [activeCategory, setActiveCategory] = useState("Security");
+
+    /* ── Password state ───────────────────────────────────────────── */
+    const [password,              setPassword]              = useState("");
+    const [newPassword,           setNewPassword]           = useState("");
+    const [confirmPassword,       setConfirmPassword]       = useState("");
+    const [passwordError,         setPasswordError]         = useState("");
+    const [passwordSuccess,       setPasswordSuccess]       = useState("");
+    const [confirmPasswordError,  setConfirmPasswordError]  = useState("");
+    const [confirmPasswordSuccess,setConfirmPasswordSuccess]= useState("");
+    const [newPasswordError,      setNewPasswordError]      = useState([]);
+    const [newPasswordSuccess,    setNewPasswordSuccess]    = useState([]);
+    const [passwordMatchError,    setPasswordMatchError]    = useState(""); // eslint-disable-line
+    const [passwordMatchSuccess,  setPasswordMatchSuccess]  = useState(""); // eslint-disable-line
+    const [showPassword,          setShowPassword]          = useState(false);
+    const [showNewPassword,       setShowNewPassword]       = useState(false);
+    const [showConfirmPassword,   setShowConfirmPassword]   = useState(false);
+
+    /* ── 2FA toggle state — both start OFF ───────────────────────── */
+    const [isAuthenticatorOn,    setIsAuthenticatorOn]    = useState(false);
+    const [isSmsRecoveryOn,      setIsSmsRecoveryOn]      = useState(false);
+
+    /* ── Authenticator modal ─────────────────────────────────────── */
+    const [isAuthModalOpen,      setIsAuthModalOpen]      = useState(false);
+    const [totpSecret]                                     = useState(() => generateTOTPSecret());
+    const totpUri = `otpauth://totp/Learnova:user@learnova.app?secret=${totpSecret}&issuer=Learnova`;
+    const [authCode,             setAuthCode]             = useState(['', '', '', '', '', '']);
+    const [authCodeError,        setAuthCodeError]        = useState('');
+    const [authCodeSuccess,      setAuthCodeSuccess]      = useState('');
+
+    /* ── SMS Recovery modals ─────────────────────────────────────── */
+    const [isSmsStep1Open,       setIsSmsStep1Open]       = useState(false);
+    const [isSmsStep2Open,       setIsSmsStep2Open]       = useState(false);
+    const [smsPhoneInput,        setSmsPhoneInput]        = useState('');
+    const [smsPhoneError,        setSmsPhoneError]        = useState('');
+    const [code,                 setCode]                 = useState(['', '', '', '', '', '']);
+    const [codeError,            setCodeError]            = useState('');
+    const [codeSuccess,          setCodeSuccess]          = useState('');
+
+    /* ── Account Recovery state ───────────────────────────────────── */
+    const [email,         setEmail]        = useState("user@gmail.com");
+    const [tempEmail,     setTempEmail]    = useState("");
+    const [phone,         setPhone]        = useState("+20 100 000 0000");
+    const [tempPhone,     setTempPhone]    = useState("");
+    const [emailError,    setEmailError]   = useState("");
+    const [phoneError,    setPhoneError]   = useState("");
+    const [isEmailOpen,   setIsEmailOpen]  = useState(false);
+    const [isPhoneOpen,   setIsPhoneOpen]  = useState(false);
+
+    /* ── Nav / misc ───────────────────────────────────────────────── */
+    const location    = useLocation();
     const [hovered, setHovered] = useState(null);
-    const [isEmailOpen, setIsEmailOpen] = useState(false);
-    const [isPhoneOpen, setIsPhoneOpen] = useState(false);
-    const [isCodePopupOpen, setIsCodePopupOpen] = useState(false);
-    const [code, setCode] = useState(["", "", "", "", "", ""]);
 
-    const openCodePopup = () => {
-        if (!smsPhoneInput || smsPhoneInput.trim() === "") {
-            setSmsPhoneError("Please enter your phone number");
-            return;
-        }
-        setSmsPhoneError("");
-        setIsCodePopupOpen(true);
-    };
-    const closeCodePopup = () => setIsCodePopupOpen(false);
+    /* ── Devices ─────────────────────────────────────────────────── */
+    const devicesData = [
+        { id: 1, name: "MacBook Pro 16",  version: "Mac OS X",   location: "San Francisco, US", lastActive: "2026-03-26 17:06:49", status: "Active", isCurrent: true,  photo: "/photo_icons/For_setting/macbook_black.png" },
+        { id: 2, name: "Windows Laptop",  version: "Windows 10", location: "London, UK",        lastActive: "2026-03-26 17:06:49", status: "Active", isCurrent: false, photo: "/photo_icons/For_setting/laptop_black.png" },
+        { id: 3, name: "iPhone 14 Pro",   version: "IOS 15",     location: "New York, US",      lastActive: "2026-03-26 17:06:49", status: "Active", isCurrent: false, photo: "/photo_icons/For_setting/iphone.png" },
+    ];
+    const [devices, setDevices] = useState(devicesData);
+    const handleLogout = (id) => setDevices(devices.filter(d => d.id !== id));
 
-    const [codeError, setCodeError] = useState("");
-    const [codeSuccess, setCodesuccess] = useState("");
-    const handleSubmit = (e) => {
-        setCodeError("");
-        setCodesuccess("");
-        e.preventDefault();
-        const fullcode = code.join("");
-        if (code.some(digit => digit === "")) {
-            setCodeError("Please fill in all fields");
-        } else if (fullcode !== "123456") {
-            setCodeError("Code is incorrect");
-        } else if (fullcode === "123456") {
-            setCodesuccess("Code is correct");
-            setTimeout(() => {
-                closeCodePopup();
-                closePop('smsRecovery');
-                setSmsRecovery(true);
-            }, 1000);
-        }
-    };
-
-    const handleChange = (e, index) => {
-        const value = e.target.value;
-        if (isNaN(value)) return;
-        const char = value.slice(-1);
-        const newCode = [...code];
-        newCode[index] = char;
-        setCode(newCode);
-        if (char !== "" && e.target.nextSibling) {
-            e.target.nextSibling.focus();
-        }
-        if (value && index < code.length - 1) {
-            e.target.nextSibling.focus();
-        }
-    };
-
-    const handleKeyDown = (e, index) => {
-        if (e.key === "Backspace" && !code[index] && e.target.previousSibling) {
-            e.target.previousSibling.focus();
-        }
-    };
-
-    const openPop = (type) => {
-        if (type === 'email') {
-            setTempEmail(email);
-            setIsEmailOpen(true);
-            setEmailError("");
-        } else if (type === 'phone') {
-            setTempPhone(phone);
-            setIsPhoneOpen(true);
-            setPhoneError("");
-        } else if (type === 'authenticator') {
-            setIsOpenAuthenticator(true);
-        } else if (type === 'smsRecovery') {
-            setIsOpenSmsRecovery(true);
-        }
-    };
-    const closePop = () => {
-        setIsEmailOpen(false);
-        setIsPhoneOpen(false);
-        setEmailError("");
-        setPhoneError("");
-        setIsOpenAuthenticator(false);
-        setIsOpenSmsRecovery(false);
-    };
     const search = {
         white: "/photo_icons/For_setting/White_Search.png",
         black: "/photo_icons/For_setting/Gray_Search.png"
     };
-    const [email, setEmail] = useState("user@gmail.com");
-    const [tempEmail, setTempEmail] = useState("");
-    const [phone, setPhone] = useState("+20 100 000 0000");
-    const [tempPhone, setTempPhone] = useState("");
-    const [emailError, setEmailError] = useState("");
-    const [phoneError, setPhoneError] = useState("");
+    const categories = [
+        { name: "Profile",      path: "/Setting/Profile",      black: "/photo_icons/For_setting/UserMaleBlack.png",      blue: "/photo_icons/For_setting/UserMaleBlue.png" },
+        { name: "Security",     path: "/Setting/Security",     black: "/photo_icons/For_setting/SecrityBlack.png",       blue: "/photo_icons/For_setting/SecrityBlue.png" },
+        { name: "Preferences",  path: "/Setting/Preferences",  black: "/photo_icons/For_setting/PreferencesBlack.png",   blue: "/photo_icons/For_setting/PreferencesBlue.png" },
+        { name: "Privacy",      path: "/Setting/Privacy",      black: "/photo_icons/For_setting/PrivacyBlack.png",       blue: "/photo_icons/For_setting/PrivacyBlue.png" },
+        { name: "Notification", path: "/Setting/Notification", black: "/photo_icons/For_setting/NotificationBlack.png",  blue: "/photo_icons/For_setting/NotificationBlue.png" },
+        { name: "Payment",      path: "/Setting/Payment",      black: "/photo_icons/For_setting/PaymentBlack.png",       blue: "/photo_icons/For_setting/PaymentBlue.png" },
+    ];
+    const pathname = location.pathname.split("/").filter(x => x);
 
-    const handleEmailSave = () => {
-        if (tempEmail.trim() === "") { setEmailError("Please enter your email"); return; }
-        if (!tempEmail.includes("@gmail.com")) { setEmailError("Please enter a valid email"); return; }
-        setEmail(tempEmail);
-        setEmailError("");
-        closePop();
-    };
-    const handlePhoneSave = () => {
-        if (tempPhone.trim() === "") { setPhoneError("Please enter your phone"); return; }
-        if (!/^[\d\s+]+$/.test(tempPhone)) { setPhoneError("Please enter a valid phone number"); return; }
-        if (tempPhone.replace(/\D/g, '').length < 8) { setPhoneError("Phone number is too short"); return; }
-        setPhone(tempPhone);
-        setPhoneError("");
-        closePop();
-    };
-    const handleAuthenticatorSave = () => setIsOpenAuthenticator(false);
-    const handleSmsRecoverySave  = () => setIsOpenSmsRecovery(false);
-    const toggleShowPassword        = () => setShowPassword(!showPassword);
-    const toggleShowNewPassword     = () => setShowNewPassword(!showNewPassword);
-    const toggleShowConfirmPassword = () => setShowConfirmPassword(!showConfirmPassword);
+    /* ════════════════════════════════════════════════════════════════
+       PASSWORD HANDLERS
+       ════════════════════════════════════════════════════════════════ */
+    const toggleShowPassword        = () => setShowPassword(p => !p);
+    const toggleShowNewPassword     = () => setShowNewPassword(p => !p);
+    const toggleShowConfirmPassword = () => setShowConfirmPassword(p => !p);
 
     const handleUpdatePassword = () => {
         setPasswordError(""); setPasswordSuccess("");
-        setNewPasswordError(""); setNewPasswordSuccess("");
+        setNewPasswordError([]); setNewPasswordSuccess([]);
         setConfirmPasswordError(""); setConfirmPasswordSuccess("");
         let isValid = true;
 
@@ -156,23 +128,24 @@ function Security() {
         else { setPasswordSuccess("Password is correct"); }
         if (!isValid) return;
 
-        const newPasswordError = [];
-        const newPasswordSuccess = [];
+        const npErrors = [], npSuccess = [];
         if (newPassword.trim() === "") { setNewPasswordError("Please fill the field"); isValid = false; }
         else {
             if (newPassword === password) { setNewPasswordError("New password cannot be the same as the old password"); isValid = false; }
-            else if (newPassword !== password) {
-                if (newPassword.length < 8) { newPasswordError.push("New password must be at least 8 characters long"); setNewPasswordError(newPasswordError); isValid = false; }
-                else if (newPassword.length >= 8) { newPasswordSuccess.push("New password is more than 8 characters long"); setNewPasswordSuccess(newPasswordSuccess); }
-                if (!/[a-z]/.test(newPassword)) { newPasswordError.push("New password must contain at least one lowercase letter"); setNewPasswordError(newPasswordError); isValid = false; }
-                else if (/[a-z]/.test(newPassword)) { newPasswordSuccess.push("New password contain at least one lowercase letter"); setNewPasswordSuccess(newPasswordSuccess); }
-                if (!/[A-Z]/.test(newPassword)) { newPasswordError.push("New password must contain at least one uppercase letter"); setNewPasswordError(newPasswordError); isValid = false; }
-                else if (/[A-Z]/.test(newPassword)) { newPasswordSuccess.push("New password contain at least one uppercase letter"); setNewPasswordSuccess(newPasswordSuccess); }
-                if (!/[0-9]/.test(newPassword)) { newPasswordError.push("New password must contain at least one number"); setNewPasswordError(newPasswordError); isValid = false; }
-                else if (/[0-9]/.test(newPassword)) { newPasswordSuccess.push("New password contain at least one number"); setNewPasswordSuccess(newPasswordSuccess); }
-                if (!/[!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?]/.test(newPassword)) { newPasswordError.push("New password must contain at least one special character"); setNewPasswordError(newPasswordError); isValid = false; }
-                else if (/[!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?]/.test(newPassword)) { newPasswordSuccess.push("New password contain at least one special character"); setNewPasswordSuccess(newPasswordSuccess); }
-            } else { setNewPasswordSuccess("New password is correct"); }
+            else {
+                if (newPassword.length < 8)  { npErrors.push("New password must be at least 8 characters long"); isValid = false; }
+                else                          { npSuccess.push("New password is more than 8 characters long"); }
+                if (!/[a-z]/.test(newPassword)) { npErrors.push("New password must contain at least one lowercase letter"); isValid = false; }
+                else                             { npSuccess.push("New password contains at least one lowercase letter"); }
+                if (!/[A-Z]/.test(newPassword)) { npErrors.push("New password must contain at least one uppercase letter"); isValid = false; }
+                else                             { npSuccess.push("New password contains at least one uppercase letter"); }
+                if (!/[0-9]/.test(newPassword)) { npErrors.push("New password must contain at least one number"); isValid = false; }
+                else                             { npSuccess.push("New password contains at least one number"); }
+                if (!/[!@#$%^&*()_+\-=\[\]{};':"\\|,.<>/?]/.test(newPassword)) { npErrors.push("New password must contain at least one special character"); isValid = false; }
+                else { npSuccess.push("New password contains at least one special character"); }
+                setNewPasswordError(npErrors);
+                setNewPasswordSuccess(npSuccess);
+            }
         }
         if (!isValid) return;
 
@@ -183,33 +156,144 @@ function Security() {
         if (isValid) { alert("Password updated successfully!"); }
     };
 
-    const handleFirstOpen  = () => setIsFirstOpen(true);
-    const handleSecondOpen = () => {
-        if (!smsPhoneInput || smsPhoneInput.trim() === "") { setSmsPhoneError("Please enter your phone number"); return; }
-        setSmsPhoneError("");
-        setIsSecondOpen(true);
+    /* ════════════════════════════════════════════════════════════════
+       AUTHENTICATOR TOGGLE & MODAL HANDLERS
+       ════════════════════════════════════════════════════════════════ */
+    const handleAuthenticatorToggle = useCallback(() => {
+        if (!isAuthenticatorOn) {
+            // Turning ON — open modal first; toggle stays OFF until confirmed
+            setAuthCode(['', '', '', '', '', '']);
+            setAuthCodeError('');
+            setAuthCodeSuccess('');
+            setIsAuthModalOpen(true);
+        } else {
+            // Turning OFF immediately
+            setIsAuthenticatorOn(false);
+        }
+    }, [isAuthenticatorOn]);
+
+    const closeAuthModal = () => {
+        setIsAuthModalOpen(false);
+        setAuthCode(['', '', '', '', '', '']);
+        setAuthCodeError('');
+        setAuthCodeSuccess('');
     };
-    const handleClosePopup = () => { setIsFirstOpen(false); setIsSecondOpen(false); };
 
-    const pathname = location.pathname.split("/").filter(x => x);
-    const categories = [
-        { name: "Profile",      path: "/Setting/Profile",      black: "/photo_icons/For_setting/UserMaleBlack.png",      blue: "/photo_icons/For_setting/UserMaleBlue.png" },
-        { name: "Security",     path: "/Setting/Security",     black: "/photo_icons/For_setting/SecrityBlack.png",       blue: "/photo_icons/For_setting/SecrityBlue.png" },
-        { name: "Preferences",  path: "/Setting/Preferences",  black: "/photo_icons/For_setting/PreferencesBlack.png",   blue: "/photo_icons/For_setting/PreferencesBlue.png" },
-        { name: "Privacy",      path: "/Setting/Privacy",      black: "/photo_icons/For_setting/PrivacyBlack.png",       blue: "/photo_icons/For_setting/PrivacyBlue.png" },
-        { name: "Notification", path: "/Setting/Notification", black: "/photo_icons/For_setting/NotificationBlack.png",  blue: "/photo_icons/For_setting/NotificationBlue.png" },
-        { name: "Payment",      path: "/Setting/Payment",      black: "/photo_icons/For_setting/PaymentBlack.png",       blue: "/photo_icons/For_setting/PaymentBlue.png" },
-    ];
-    const devicesData = [
-        { id: 1, name: "MacBook Pro 16",  version: "Mac OS X",   location: "San Francisco, US", lastActive: "2026-03-26 17:06:49", ipAddress: "[IP_ADDRESS]", status: "Active", isCurrent: true,  photo: "/photo_icons/For_setting/macbook_black.png" },
-        { id: 2, name: "Windows Laptop",  version: "Windows 10", location: "London, UK",        lastActive: "2026-03-26 17:06:49", ipAddress: "[IP_ADDRESS]", status: "Active", isCurrent: false, photo: "/photo_icons/For_setting/laptop_black.png" },
-        { id: 3, name: "iPhone 14 Pro",   version: "IOS 15",     location: "New York, US",      lastActive: "2026-03-26 17:06:49", ipAddress: "[IP_ADDRESS]", status: "Active", isCurrent: false, photo: "/photo_icons/For_setting/iphone.png" },
-    ];
-    const [devices, setDevices] = useState(devicesData);
-    const handleLogout = (id) => setDevices(devices.filter(d => d.id !== id));
+    const handleAuthCodeChange = (e, index) => {
+        const value = e.target.value;
+        if (isNaN(value)) return;
+        const char = value.slice(-1);
+        const newArr = [...authCode];
+        newArr[index] = char;
+        setAuthCode(newArr);
+        if (char !== "" && e.target.nextSibling) e.target.nextSibling.focus();
+    };
 
+    const handleAuthCodeKeyDown = (e, index) => {
+        if (e.key === "Backspace" && !authCode[index] && e.target.previousSibling)
+            e.target.previousSibling.focus();
+    };
+
+    const handleAuthConfirm = (e) => {
+        e.preventDefault();
+        setAuthCodeError('');
+        setAuthCodeSuccess('');
+        const full = authCode.join('');
+        if (authCode.some(d => d === '')) { setAuthCodeError("Please fill in all 6 digits"); return; }
+        // Mock: accept "123456" as valid test code
+        if (full !== "123456") { setAuthCodeError("Incorrect code — try 123456 for demo"); return; }
+        setAuthCodeSuccess("Verified! Authenticator App is now enabled.");
+        setTimeout(() => {
+            closeAuthModal();
+            setIsAuthenticatorOn(true); // ← toggle flips ON only after confirmation
+        }, 900);
+    };
+
+    /* ════════════════════════════════════════════════════════════════
+       SMS RECOVERY TOGGLE & MODAL HANDLERS
+       ════════════════════════════════════════════════════════════════ */
+    const handleSmsToggle = useCallback(() => {
+        if (!isSmsRecoveryOn) {
+            setSmsPhoneInput('');
+            setSmsPhoneError('');
+            setCode(['', '', '', '', '', '']);
+            setCodeError('');
+            setCodeSuccess('');
+            setIsSmsStep1Open(true);
+        } else {
+            setIsSmsRecoveryOn(false);
+        }
+    }, [isSmsRecoveryOn]);
+
+    const closeSmsModals = () => {
+        setIsSmsStep1Open(false);
+        setIsSmsStep2Open(false);
+        setSmsPhoneError('');
+        setCode(['', '', '', '', '', '']);
+        setCodeError('');
+        setCodeSuccess('');
+    };
+
+    const handleSmsStep1Next = () => {
+        if (!smsPhoneInput || smsPhoneInput.trim() === '') { setSmsPhoneError("Please enter your phone number"); return; }
+        setSmsPhoneError('');
+        setIsSmsStep2Open(true);
+    };
+
+    const handleSmsCodeChange = (e, index) => {
+        const value = e.target.value;
+        if (isNaN(value)) return;
+        const char = value.slice(-1);
+        const newCode = [...code];
+        newCode[index] = char;
+        setCode(newCode);
+        if (char !== "" && e.target.nextSibling) e.target.nextSibling.focus();
+    };
+
+    const handleSmsCodeKeyDown = (e, index) => {
+        if (e.key === "Backspace" && !code[index] && e.target.previousSibling)
+            e.target.previousSibling.focus();
+    };
+
+    const handleSmsVerify = (e) => {
+        e.preventDefault();
+        setCodeError('');
+        setCodeSuccess('');
+        const full = code.join('');
+        if (code.some(d => d === '')) { setCodeError("Please fill in all fields"); return; }
+        if (full !== "123456") { setCodeError("Code is incorrect — use 123456 for demo"); return; }
+        setCodeSuccess("Phone verified!");
+        setTimeout(() => {
+            closeSmsModals();
+            setIsSmsRecoveryOn(true); // ← toggle flips ON only after confirmation
+        }, 900);
+    };
+
+    /* ════════════════════════════════════════════════════════════════
+       ACCOUNT RECOVERY HANDLERS
+       ════════════════════════════════════════════════════════════════ */
+    const openEmailPop = () => { setTempEmail(email); setEmailError(""); setIsEmailOpen(true); };
+    const openPhonePop = () => { setTempPhone(phone); setPhoneError(""); setIsPhoneOpen(true); };
+    const closeAllPops = () => { setIsEmailOpen(false); setIsPhoneOpen(false); setEmailError(""); setPhoneError(""); };
+
+    const handleEmailSave = () => {
+        if (tempEmail.trim() === "") { setEmailError("Please enter your email"); return; }
+        if (!tempEmail.includes("@gmail.com")) { setEmailError("Please enter a valid email"); return; }
+        setEmail(tempEmail); setEmailError(""); closeAllPops();
+    };
+    const handlePhoneSave = () => {
+        if (tempPhone.trim() === "") { setPhoneError("Please enter your phone"); return; }
+        if (!/^[\d\s+]+$/.test(tempPhone)) { setPhoneError("Please enter a valid phone number"); return; }
+        if (tempPhone.replace(/\D/g, '').length < 8) { setPhoneError("Phone number is too short"); return; }
+        setPhone(tempPhone); setPhoneError(""); closeAllPops();
+    };
+
+    /* ════════════════════════════════════════════════════════════════
+       RENDER
+       ════════════════════════════════════════════════════════════════ */
     return (
         <div className="edit-profile-container">
+            {/* ── Breadcrumbs ───────────────────────────────────────── */}
             <nav className="breadcrumbs-nav">
                 <Link to="/Home" className="Breadcrumbs">{t("setting.home", "Home")}</Link>
                 {pathname.map((value, index) => {
@@ -230,7 +314,7 @@ function Security() {
             </nav>
 
             <div className="Setting">
-                {/* ── Header ────────────────────────────────────────────── */}
+                {/* ── Header ────────────────────────────────────────── */}
                 <div className="header_setting">
                     <p>{t('setting.header', 'Settings')}</p>
                     <div className="search_page_setting">
@@ -239,7 +323,7 @@ function Security() {
                     </div>
                 </div>
 
-                {/* ── Nav tabs ──────────────────────────────────────────── */}
+                {/* ── Nav tabs ──────────────────────────────────────── */}
                 <div className="Setting_option">
                     {categories.map((category, index) => {
                         const isActive  = location.pathname === category.path;
@@ -266,10 +350,10 @@ function Security() {
                     })}
                 </div>
 
-                {/* ── Content ───────────────────────────────────────────── */}
+                {/* ── Content ───────────────────────────────────────── */}
                 <div className="Secrity_content">
 
-                    {/* ══ Password Card ══════════════════════════════════ */}
+                    {/* ══ Password Card ══════════════════════════════ */}
                     <div className="sec-card Security_password">
                         <div className="sec-card-header">
                             <h3>Password</h3>
@@ -284,7 +368,6 @@ function Security() {
                                     placeholder="Enter your current password"
                                     value={password}
                                     onChange={(e) => setPassword(e.target.value)}
-                                    required
                                 />
                                 <span onClick={toggleShowPassword}>
                                     <img src={showPassword ? "/photo_icons/For_setting/not_see_pas_black.png" : "/photo_icons/For_setting/see_pas_black.png"} alt="toggle" />
@@ -304,24 +387,20 @@ function Security() {
                                     placeholder="Enter your new password"
                                     value={newPassword}
                                     onChange={(e) => setNewPassword(e.target.value)}
-                                    required
                                 />
                                 <span onClick={toggleShowNewPassword}>
                                     <img src={showNewPassword ? "/photo_icons/For_setting/not_see_pas_black.png" : "/photo_icons/For_setting/see_pas_black.png"} alt="toggle" />
                                 </span>
                             </div>
-                            {((Array.isArray(newPasswordError) && newPasswordError.length > 0) || (typeof newPasswordError === 'string' && newPasswordError) || (Array.isArray(newPasswordSuccess) && newPasswordSuccess.length > 0) || (typeof newPasswordSuccess === 'string' && newPasswordSuccess)) && (
+                            {((Array.isArray(newPasswordError) && newPasswordError.length > 0) || (typeof newPasswordError === 'string' && newPasswordError) ||
+                              (Array.isArray(newPasswordSuccess) && newPasswordSuccess.length > 0) || (typeof newPasswordSuccess === 'string' && newPasswordSuccess)) && (
                                 <div className="password_messages">
-                                    {Array.isArray(newPasswordError) ? newPasswordError.map((err, i) => (
-                                        <p key={i} className="error_password"><img src="/photo_icons/Incorrect.png" alt="error" />{err}</p>
-                                    )) : newPasswordError && (
-                                        <p className="error_password"><img src="/photo_icons/Incorrect.png" alt="error" />{newPasswordError}</p>
-                                    )}
-                                    {Array.isArray(newPasswordSuccess) ? newPasswordSuccess.map((succ, i) => (
-                                        <p key={i} className="success_password"><img src="/photo_icons/Correct.png" alt="success" />{succ}</p>
-                                    )) : newPasswordSuccess && (
-                                        <p className="success_password"><img src="/photo_icons/Correct.png" alt="success" />{newPasswordSuccess}</p>
-                                    )}
+                                    {Array.isArray(newPasswordError)
+                                        ? newPasswordError.map((err, i) => <p key={i} className="error_password"><img src="/photo_icons/Incorrect.png" alt="error" />{err}</p>)
+                                        : newPasswordError && <p className="error_password"><img src="/photo_icons/Incorrect.png" alt="error" />{newPasswordError}</p>}
+                                    {Array.isArray(newPasswordSuccess)
+                                        ? newPasswordSuccess.map((s, i) => <p key={i} className="success_password"><img src="/photo_icons/Correct.png" alt="success" />{s}</p>)
+                                        : newPasswordSuccess && <p className="success_password"><img src="/photo_icons/Correct.png" alt="success" />{newPasswordSuccess}</p>}
                                 </div>
                             )}
 
@@ -332,7 +411,6 @@ function Security() {
                                     placeholder="Confirm your new password"
                                     value={confirmPassword}
                                     onChange={(e) => setConfirmPassword(e.target.value)}
-                                    required
                                 />
                                 <span onClick={toggleShowConfirmPassword}>
                                     <img src={showConfirmPassword ? "/photo_icons/For_setting/not_see_pas_black.png" : "/photo_icons/For_setting/see_pas_black.png"} alt="toggle" />
@@ -348,125 +426,41 @@ function Security() {
                         <button className="btn-primary" onClick={handleUpdatePassword}>Update Password</button>
                     </div>
 
-                    {/* ══ 2FA Card ════════════════════════════════════════ */}
+                    {/* ══ 2FA Card ════════════════════════════════════ */}
                     <div className="sec-card Secrity_2FA">
                         <div className="sec-card-header">
                             <h3>Two-Factor Authentication</h3>
                             <p>Enhance your account security by enabling 2FA.</p>
                         </div>
 
-                        {/* Authenticator App */}
+                        {/* ── Authenticator App row ───────────────── */}
                         <div className="Secrity_2FA_content">
                             <div className="Secrity_2FA_content_header">
                                 <h4>Authenticator App</h4>
                                 <p>Use an app like Google Authenticator or Authy to generate verification codes.</p>
                             </div>
-                            <label className="switch">
-                                <input type="checkbox" checked={authenticator} onChange={(e) => {
-                                    setAuthenticator(e.target.checked);
-                                    if (e.target.checked) openPop('authenticator');
-                                }} />
-                                <span className="slider"></span>
-                            </label>
-                            {IsOpenAuthenticator && (
-                                <div className="popup-overlay_authenticator">
-                                    <div className="popup_authenticator">
-                                        <div className="popup-header_authenticator">
-                                            <h3>Setup Authenticator App</h3>
-                                            <button onClick={() => closePop('authenticator')}><img src="/photo_icons/For_setting/false.png" alt="close" /></button>
-                                        </div>
-                                        <div className="popup-content-header_authenticator">
-                                            <h4>Scan this QR code</h4>
-                                            <p>Use an app like Google Authenticator or Authy to generate verification codes.</p>
-                                        </div>
-                                        <div className="popup-content_authenticator">
-                                            <img src="/photo_icons/For_setting/QR_code.png" alt="QR code" />
-                                        </div>
-                                        <div className="popup-content-footer_authenticator">
-                                            <p>Can't scan? Use this code: 123 456 789</p>
-                                        </div>
-                                    </div>
-                                </div>
-                            )}
+                            <IOSToggle
+                                id="authenticator-toggle"
+                                checked={isAuthenticatorOn}
+                                onChange={handleAuthenticatorToggle}
+                            />
                         </div>
 
-                        {/* SMS Recovery */}
+                        {/* ── SMS Recovery row ────────────────────── */}
                         <div className="Secrity_2FA_content">
                             <div className="Secrity_2FA_content_header">
                                 <h4>SMS Recovery</h4>
                                 <p>Allow receiving recovery codes via SMS if you lose access to your authenticator app.</p>
                             </div>
-                            <label className="switch">
-                                <input type="checkbox" checked={smsRecovery} onChange={(e) => {
-                                    setSmsRecovery(e.target.checked);
-                                    if (e.target.checked) handleFirstOpen();
-                                }} />
-                                <span className="slider"></span>
-                            </label>
-                            {isFirstOpen && (
-                                <div className="popup-overlay_smsRecovery">
-                                    <div className="popup_smsRecovery">
-                                        <div className="popup-header_smsRecovery">
-                                            <h3>Enter your phone number</h3>
-                                            <button onClick={() => handleClosePopup()}><img src="/photo_icons/For_setting/false.png" alt="close" /></button>
-                                        </div>
-                                        <div className="popup-content-header_smsRecovery">
-                                            <h4>Enter your phone number to receive recovery codes</h4>
-                                            <p>We'll send a 6-digit code to this number to verify your account.</p>
-                                        </div>
-                                        <div className="popup-content_smsRecovery">
-                                            <h4>Phone Number</h4>
-                                            <input type="tel" onChange={(e) => setSmsPhoneInput(e.target.value)} placeholder="Enter your phone number" />
-                                            {smsPhoneError && <p className="error_password" style={{ color: "#dc2626", marginTop: "4px" }}>{smsPhoneError}</p>}
-                                            <p style={{ fontSize: "12px", color: "#9ca3af" }}>We'll never share your phone number.</p>
-                                        </div>
-                                        <div className='popup-content-footer_smsRecovery'>
-                                            <button className='send-code-btn' onClick={handleSecondOpen}>Send Code</button>
-                                            {isSecondOpen && (
-                                                <div className="popup-overlay_code">
-                                                    <div className="popup_code">
-                                                        <div className="popup-header_code">
-                                                            <h3>Verify your phone</h3>
-                                                            <button onClick={handleClosePopup}><img src="/photo_icons/For_setting/false.png" alt="close" /></button>
-                                                        </div>
-                                                        <div className="popup-content-header_code">
-                                                            <h4>6-digit code sent to +970 59 123 4567</h4>
-                                                            <p>Check your phone for the code we just sent.</p>
-                                                        </div>
-                                                        <div className="popup-content_code">
-                                                            <h4>Verification Code</h4>
-                                                            <div style={{ display: "flex", gap: "10px" }}>
-                                                                {code.map((data, index) => (
-                                                                    <input
-                                                                        key={index}
-                                                                        type="text"
-                                                                        maxLength="1"
-                                                                        placeholder={index + 1}
-                                                                        required
-                                                                        onChange={(e) => handleChange(e, index)}
-                                                                        onKeyDown={(e) => handleKeyDown(e, index)}
-                                                                        onFocus={(e) => e.target.select()}
-                                                                    />
-                                                                ))}
-                                                            </div>
-                                                            {codeError   && <p className="error_password"   style={{ color: "#dc2626" }}>{codeError}</p>}
-                                                            {codeSuccess && <p className="success_password" style={{ color: "#16a34a" }}>{codeSuccess}</p>}
-                                                        </div>
-                                                        <div className='popup-content-footer_code'>
-                                                            <button className='send-code-btn' onClick={handleSubmit}>Verify Code</button>
-                                                            <button className='send-code-btn' onClick={() => setCode(["", "", "", "", "", ""])}>Resend Code</button>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            )}
-                                        </div>
-                                    </div>
-                                </div>
-                            )}
+                            <IOSToggle
+                                id="sms-toggle"
+                                checked={isSmsRecoveryOn}
+                                onChange={handleSmsToggle}
+                            />
                         </div>
                     </div>
 
-                    {/* ══ Active Sessions Card ════════════════════════════ */}
+                    {/* ══ Active Sessions Card ════════════════════════ */}
                     <div className="sec-card Active_session">
                         <div className="sec-card-header">
                             <h3>Active Sessions</h3>
@@ -499,7 +493,7 @@ function Security() {
                         </div>
                     </div>
 
-                    {/* ══ Account Recovery Card ═══════════════════════════ */}
+                    {/* ══ Account Recovery Card ═══════════════════════ */}
                     <div className="sec-card Acount-recovery">
                         <div className="sec-card-header">
                             <h3>Account Recovery</h3>
@@ -517,29 +511,10 @@ function Security() {
                                         <h4>Email Address</h4>
                                         <p>{email}</p>
                                     </div>
-                                    <button className="edit" onClick={() => openPop('email')}>
+                                    <button className="edit" onClick={openEmailPop}>
                                         <img src="/photo_icons/For_setting/Edit_white.png" alt="edit" />
                                         Edit
                                     </button>
-                                    {isEmailOpen && (
-                                        <div className="popup">
-                                            <div className="popup-content">
-                                                <div className="popup-header">
-                                                    <h3>Edit Email</h3>
-                                                    <button className="close" onClick={() => closePop()}><img src="/photo_icons/For_setting/false.png" alt="close" /></button>
-                                                </div>
-                                                <div className="popup-body">
-                                                    <h4>New Email Address</h4>
-                                                    <input type="email" onChange={(e) => setTempEmail(e.target.value)} placeholder="Enter your new email" required />
-                                                    {emailError && <div className="error"><p>{emailError}</p></div>}
-                                                </div>
-                                                <div className="popup-footer">
-                                                    <button onClick={() => closePop()}>Cancel</button>
-                                                    <button onClick={() => handleEmailSave()}>Save Changes</button>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    )}
                                 </div>
                             </div>
                         </div>
@@ -555,29 +530,10 @@ function Security() {
                                         <h4>Phone Number</h4>
                                         <p>{phone}</p>
                                     </div>
-                                    <button className="edit" onClick={() => openPop('phone')}>
+                                    <button className="edit" onClick={openPhonePop}>
                                         <img src="/photo_icons/For_setting/Edit_white.png" alt="edit" />
                                         Edit
                                     </button>
-                                    {isPhoneOpen && (
-                                        <div className="popup">
-                                            <div className="popup-content">
-                                                <div className="popup-header">
-                                                    <h3>Edit Phone</h3>
-                                                    <button className="close" onClick={() => closePop()}><img src="/photo_icons/For_setting/false.png" alt="close" /></button>
-                                                </div>
-                                                <div className="popup-body">
-                                                    <h4>New Phone Number</h4>
-                                                    <input type="tel" onChange={(e) => setTempPhone(e.target.value)} placeholder="Enter your phone number" required />
-                                                    {phoneError && <div className="error"><p>{phoneError}</p></div>}
-                                                </div>
-                                                <div className="popup-footer">
-                                                    <button onClick={() => closePop()}>Cancel</button>
-                                                    <button onClick={() => handlePhoneSave()}>Save Changes</button>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    )}
                                 </div>
                             </div>
                         </div>
@@ -590,9 +546,206 @@ function Security() {
                         </div>
                     </div>
 
+                </div>{/* /Secrity_content */}
+            </div>{/* /Setting */}
+
+            {/* ════════════════════════════════════════════════════════
+                MODAL — Authenticator App Setup (QR Code)
+                ════════════════════════════════════════════════════════ */}
+            {isAuthModalOpen && (
+                <div className="popup-overlay_authenticator" onClick={(e) => { if (e.target === e.currentTarget) closeAuthModal(); }}>
+                    <div className="popup_authenticator">
+
+                        {/* Header */}
+                        <div className="popup-header_authenticator">
+                            <h3>Setup Authenticator App</h3>
+                            <button onClick={closeAuthModal}>
+                                <img src="/photo_icons/For_setting/false.png" alt="close" />
+                            </button>
+                        </div>
+
+                        {/* Instructions */}
+                        <div className="popup-content-header_authenticator">
+                            <h4>Scan this QR code</h4>
+                            <p>Open <strong>Google Authenticator</strong> or <strong>Authy</strong>, tap the&nbsp;+ button, then scan the code below.</p>
+                        </div>
+
+                        {/* Real QR Code */}
+                        <div className="popup-content_authenticator">
+                            <div className="qr-wrapper">
+                                <QRCodeSVG
+                                    value={totpUri}
+                                    size={180}
+                                    bgColor="#ffffff"
+                                    fgColor="#111827"
+                                    level="M"
+                                    includeMargin={true}
+                                />
+                            </div>
+                            <p className="qr-secret-label">
+                                Can't scan? Enter this key manually:
+                            </p>
+                            <code className="totp-secret-code">{totpSecret}</code>
+                        </div>
+
+                        {/* Verify code */}
+                        <div className="popup-content_code">
+                            <h4>Enter the 6-digit code from your app</h4>
+                            <div className="otp-inputs">
+                                {authCode.map((digit, index) => (
+                                    <input
+                                        key={index}
+                                        type="text"
+                                        inputMode="numeric"
+                                        maxLength="1"
+                                        placeholder={index + 1}
+                                        value={digit}
+                                        onChange={(e) => handleAuthCodeChange(e, index)}
+                                        onKeyDown={(e) => handleAuthCodeKeyDown(e, index)}
+                                        onFocus={(e) => e.target.select()}
+                                    />
+                                ))}
+                            </div>
+                            {authCodeError   && <p className="error_password"  style={{ color: "#dc2626", marginTop: "6px" }}>{authCodeError}</p>}
+                            {authCodeSuccess && <p className="success_password" style={{ color: "#16a34a", marginTop: "6px" }}>{authCodeSuccess}</p>}
+                        </div>
+
+                        {/* Confirm button */}
+                        <div className="popup-content-footer_authenticator">
+                            <button className="send-code-btn" onClick={handleAuthConfirm}>
+                                Confirm &amp; Enable
+                            </button>
+                            <button className="send-code-btn send-code-btn--ghost" onClick={closeAuthModal}>
+                                Cancel
+                            </button>
+                        </div>
+
+                    </div>
                 </div>
-            </div>
+            )}
+
+            {/* ════════════════════════════════════════════════════════
+                MODAL — SMS Recovery Step 1 (Enter Phone)
+                ════════════════════════════════════════════════════════ */}
+            {isSmsStep1Open && (
+                <div className="popup-overlay_smsRecovery" onClick={(e) => { if (e.target === e.currentTarget) closeSmsModals(); }}>
+                    <div className="popup_smsRecovery">
+                        <div className="popup-header_smsRecovery">
+                            <h3>Enter your phone number</h3>
+                            <button onClick={closeSmsModals}><img src="/photo_icons/For_setting/false.png" alt="close" /></button>
+                        </div>
+                        <div className="popup-content-header_smsRecovery">
+                            <h4>Enter your phone number to receive recovery codes</h4>
+                            <p>We'll send a 6-digit code to this number to verify your account.</p>
+                        </div>
+                        <div className="popup-content_smsRecovery">
+                            <h4>Phone Number</h4>
+                            <input
+                                type="tel"
+                                value={smsPhoneInput}
+                                onChange={(e) => setSmsPhoneInput(e.target.value)}
+                                placeholder="Enter your phone number"
+                            />
+                            {smsPhoneError && <p className="error_password" style={{ color: "#dc2626", marginTop: "4px" }}>{smsPhoneError}</p>}
+                            <p style={{ fontSize: "12px", color: "#9ca3af" }}>We'll never share your phone number.</p>
+                        </div>
+                        <div className="popup-content-footer_smsRecovery">
+                            <button className="send-code-btn" onClick={handleSmsStep1Next}>Send Code</button>
+                        </div>
+                    </div>
+                </div>
+            )}
+
+            {/* ════════════════════════════════════════════════════════
+                MODAL — SMS Recovery Step 2 (Verify Code)
+                ════════════════════════════════════════════════════════ */}
+            {isSmsStep2Open && (
+                <div className="popup-overlay_code" onClick={(e) => { if (e.target === e.currentTarget) closeSmsModals(); }}>
+                    <div className="popup_code">
+                        <div className="popup-header_code">
+                            <h3>Verify your phone</h3>
+                            <button onClick={closeSmsModals}><img src="/photo_icons/For_setting/false.png" alt="close" /></button>
+                        </div>
+                        <div className="popup-content-header_code">
+                            <h4>6-digit code sent to {smsPhoneInput}</h4>
+                            <p>Check your phone for the code we just sent.</p>
+                        </div>
+                        <div className="popup-content_code">
+                            <h4>Verification Code</h4>
+                            <div className="otp-inputs">
+                                {code.map((digit, index) => (
+                                    <input
+                                        key={index}
+                                        type="text"
+                                        inputMode="numeric"
+                                        maxLength="1"
+                                        placeholder={index + 1}
+                                        value={digit}
+                                        onChange={(e) => handleSmsCodeChange(e, index)}
+                                        onKeyDown={(e) => handleSmsCodeKeyDown(e, index)}
+                                        onFocus={(e) => e.target.select()}
+                                    />
+                                ))}
+                            </div>
+                            {codeError   && <p className="error_password"  style={{ color: "#dc2626" }}>{codeError}</p>}
+                            {codeSuccess && <p className="success_password" style={{ color: "#16a34a" }}>{codeSuccess}</p>}
+                        </div>
+                        <div className="popup-content-footer_code">
+                            <button className="send-code-btn" onClick={handleSmsVerify}>Verify Code</button>
+                            <button className="send-code-btn send-code-btn--ghost" onClick={() => setCode(['', '', '', '', '', ''])}>Resend Code</button>
+                        </div>
+                    </div>
+                </div>
+            )}
+
+            {/* ════════════════════════════════════════════════════════
+                MODAL — Edit Email
+                ════════════════════════════════════════════════════════ */}
+            {isEmailOpen && (
+                <div className="popup" onClick={(e) => { if (e.target === e.currentTarget) closeAllPops(); }}>
+                    <div className="popup-content">
+                        <div className="popup-header">
+                            <h3>Edit Email</h3>
+                            <button className="close" onClick={closeAllPops}><img src="/photo_icons/For_setting/false.png" alt="close" /></button>
+                        </div>
+                        <div className="popup-body">
+                            <h4>New Email Address</h4>
+                            <input type="email" value={tempEmail} onChange={(e) => setTempEmail(e.target.value)} placeholder="Enter your new email" />
+                            {emailError && <div className="error"><p>{emailError}</p></div>}
+                        </div>
+                        <div className="popup-footer">
+                            <button onClick={closeAllPops}>Cancel</button>
+                            <button onClick={handleEmailSave}>Save Changes</button>
+                        </div>
+                    </div>
+                </div>
+            )}
+
+            {/* ════════════════════════════════════════════════════════
+                MODAL — Edit Phone
+                ════════════════════════════════════════════════════════ */}
+            {isPhoneOpen && (
+                <div className="popup" onClick={(e) => { if (e.target === e.currentTarget) closeAllPops(); }}>
+                    <div className="popup-content">
+                        <div className="popup-header">
+                            <h3>Edit Phone</h3>
+                            <button className="close" onClick={closeAllPops}><img src="/photo_icons/For_setting/false.png" alt="close" /></button>
+                        </div>
+                        <div className="popup-body">
+                            <h4>New Phone Number</h4>
+                            <input type="tel" value={tempPhone} onChange={(e) => setTempPhone(e.target.value)} placeholder="Enter your phone number" />
+                            {phoneError && <div className="error"><p>{phoneError}</p></div>}
+                        </div>
+                        <div className="popup-footer">
+                            <button onClick={closeAllPops}>Cancel</button>
+                            <button onClick={handlePhoneSave}>Save Changes</button>
+                        </div>
+                    </div>
+                </div>
+            )}
+
         </div>
     );
 }
+
 export default Security;
