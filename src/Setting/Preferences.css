@@ -1196,4 +1196,90 @@ html[dir="rtl"] .pref-select        { padding: 10px 44px 10px 38px; }
     background: rgba(239, 68, 68, 0.08) !important;
     border-color: rgba(239, 68, 68, 0.3) !important;
     color: #f87171 !important;
+}
+
+/* ============================================================
+   LUCIDE ICON UTILITIES
+   ============================================================ */
+
+/* Section-header icons (Globe, Palette, GraduationCap) — 20px */
+.pref-header-icon {
+    width: 20px;
+    height: 20px;
+    color: #4b5563;
+    stroke-width: 1.75;
+    flex-shrink: 0;
+    display: block;
+}
+
+/* .pref-card-icon already has font-size: 22px; just make it flex */
+.pref-card-icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+/* Dropdown trigger icons (CalendarDays, Gauge, Film, BarChart2) — 16px */
+.pref-dropdown-icon {
+    width: 16px;
+    height: 16px;
+    color: #6b7280;
+    stroke-width: 1.75;
+    flex-shrink: 0;
+    display: block;
+}
+
+/* Theme-card SVG icons (Sun, Moon, MonitorSmartphone) — 24px */
+.theme-card__icon-svg {
+    width: 24px;
+    height: 24px;
+    color: #6b7280;
+    stroke-width: 1.75;
+    transition: color 0.2s ease;
+    display: block;
+}
+
+/* Active card → icon turns blue */
+.theme-card--selected .theme-card__icon-svg {
+    color: #0089EA;
+}
+
+/* Category badge icons — 14px, inline with text */
+.chip-cat-icon {
+    width: 14px;
+    height: 14px;
+    stroke-width: 1.75;
+    flex-shrink: 0;
+    color: inherit;          /* inherits chip text colour */
+    display: inline-block;
+    vertical-align: middle;
+}
+
+/* chip-check SVG from lucide */
+.chip-check {
+    flex-shrink: 0;
+    color: #ffffff;          /* always white inside active chip */
+    display: inline-block;
+    vertical-align: middle;
+}
+
+/* ── Dark-mode icon colour overrides ─────────────────────── */
+.dark .pref-header-icon {
+    color: #9ca3af;
+}
+
+.dark .pref-dropdown-icon {
+    color: #9ca3af;
+}
+
+.dark .theme-card__icon-svg {
+    color: #9ca3af;
+}
+
+.dark .theme-card--selected .theme-card__icon-svg {
+    color: #38bdf8;          /* lighter blue for dark bg */
+}
+
+.dark .pref-card-icon {
+    color: #9ca3af;
 }

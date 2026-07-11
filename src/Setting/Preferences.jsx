@@ -3,7 +3,11 @@ import { Link, useLocation } from 'react-router-dom';
 import './Preferences.css';
 import "../config/i18n";
 import { useTranslation } from "react-i18next";
-
+import {
+    Globe, CalendarDays, Palette, Sun, Moon, MonitorSmartphone,
+    GraduationCap, Gauge, Film, BarChart2,
+    Cpu, TrendingUp, Languages, Heart, Music, Camera, BookOpen, FlaskConical, Brush, Tag, Check
+} from 'lucide-react';
 /* ── Reusable iOS-style toggle (matches Security page) ─────────────── */
 function IOSToggle({ checked, onChange, id }) {
     return (
@@ -100,33 +104,33 @@ function Preferences() {
     };
 
     const categories = [
-        { name: "Profile",      path: "/Setting/Profile",      black: "/photo_icons/For_setting/UserMaleBlack.png",     white: "/photo_icons/For_setting/UserMaleWhite.png",     blue: "/photo_icons/For_setting/UserMaleBlue.png" },
-        { name: "Security",     path: "/Setting/Security",     black: "/photo_icons/For_setting/SecrityBlack.png",      white: "/photo_icons/For_setting/SecrityWhite.png",      blue: "/photo_icons/For_setting/SecrityBlue.png" },
-        { name: "Preferences",  path: "/Setting/Preferences",  black: "/photo_icons/For_setting/PreferencesBlack.png",                                                            blue: "/photo_icons/For_setting/PreferencesBlue.png" },
-        { name: "Privacy",      path: "/Setting/Privacy",      black: "/photo_icons/For_setting/PrivacyBlack.png",      white: "/photo_icons/For_setting/PrivacyWhite.png",      blue: "/photo_icons/For_setting/PrivacyBlue.png" },
+        { name: "Profile", path: "/Setting/Profile", black: "/photo_icons/For_setting/UserMaleBlack.png", white: "/photo_icons/For_setting/UserMaleWhite.png", blue: "/photo_icons/For_setting/UserMaleBlue.png" },
+        { name: "Security", path: "/Setting/Security", black: "/photo_icons/For_setting/SecrityBlack.png", white: "/photo_icons/For_setting/SecrityWhite.png", blue: "/photo_icons/For_setting/SecrityBlue.png" },
+        { name: "Preferences", path: "/Setting/Preferences", black: "/photo_icons/For_setting/PreferencesBlack.png", blue: "/photo_icons/For_setting/PreferencesBlue.png" },
+        { name: "Privacy", path: "/Setting/Privacy", black: "/photo_icons/For_setting/PrivacyBlack.png", white: "/photo_icons/For_setting/PrivacyWhite.png", blue: "/photo_icons/For_setting/PrivacyBlue.png" },
         { name: "Notification", path: "/Setting/Notification", black: "/photo_icons/For_setting/NotificationBlack.png", white: "/photo_icons/For_setting/NotificationWhite.png", blue: "/photo_icons/For_setting/NotificationBlue.png" },
-        { name: "Payment",      path: "/Setting/Payment",      black: "/photo_icons/For_setting/PaymentBlack.png",      white: "/photo_icons/For_setting/PaymentWhite.png",      blue: "/photo_icons/For_setting/PaymentBlue.png" },
+        { name: "Payment", path: "/Setting/Payment", black: "/photo_icons/For_setting/PaymentBlack.png", white: "/photo_icons/For_setting/PaymentWhite.png", blue: "/photo_icons/For_setting/PaymentBlue.png" },
     ];
 
     const langIcons = {
         english: "/Photo/US_America.jpg",
-        arabic:  "/Photo/Saudi_Arabia.svg",
+        arabic: "/Photo/Saudi_Arabia.svg",
     };
     const [country, setCountry] = useState("palestine");
     const flags = {
-        palestine:   "/Photo/Palestine.png",
-        usa:         "/Photo/US_America.jpg",
-        uk:          "/Photo/UK.svg",
-        canada:      "/Photo/Canada.svg",
-        australia:   "/Photo/Australia.svg",
+        palestine: "/Photo/Palestine.png",
+        usa: "/Photo/US_America.jpg",
+        uk: "/Photo/UK.svg",
+        canada: "/Photo/Canada.svg",
+        australia: "/Photo/Australia.svg",
         new_zealand: "/Photo/New_Zealand.svg",
     };
 
     const [themeChange, setThemeChange] = useState("light");
     const themeOptions = [
-        { value: "light",  label: t('setting.light',  'Light'),  icon: "☀️" },
-        { value: "dark",   label: t('setting.dark',   'Dark'),   icon: "🌙" },
-        { value: "system", label: t('setting.system', 'System'), icon: "💻" },
+        { value: "light",  label: t('setting.light',  'Light'),  icon: <Sun  className="theme-card__icon-svg" /> },
+        { value: "dark",   label: t('setting.dark',   'Dark'),   icon: <Moon className="theme-card__icon-svg" /> },
+        { value: "system", label: t('setting.system', 'System'), icon: <MonitorSmartphone className="theme-card__icon-svg" /> },
     ];
 
     useEffect(() => {
@@ -216,7 +220,7 @@ function Preferences() {
                     {/* CARD 1 — Language & Region */}
                     <div className="pref-card">
                         <div className="pref-card-header">
-                            <span className="pref-card-icon">🌐</span>
+                            <span className="pref-card-icon"><Globe className="pref-header-icon" /></span>
                             <div>
                                 <h3 className="pref-card-title">{t('setting.lang_region', 'Language & Region')}</h3>
                                 <p className="pref-card-desc">{t('setting.lang_region_description', 'Set your language, date format, and location.')}</p>
@@ -247,7 +251,7 @@ function Preferences() {
                                     <h4 className="pref-label">{t('setting.data_format', 'Date Format')}</h4>
                                     <p className="pref-hint">{t('setting.date_format_description', 'Choose how dates are displayed throughout the app.')}</p>
                                 </div>
-                                <StyledSelect id="date-format-select" icon="📅">
+                                <StyledSelect id="date-format-select" icon={<CalendarDays className="pref-dropdown-icon" />}>
                                     <option>DD / MM / YYYY</option>
                                     <option>MM / DD / YYYY</option>
                                 </StyledSelect>
@@ -279,7 +283,7 @@ function Preferences() {
                     {/* CARD 2 — Display & Theme */}
                     <div className="pref-card">
                         <div className="pref-card-header">
-                            <span className="pref-card-icon">🎨</span>
+                            <span className="pref-card-icon"><Palette className="pref-header-icon" /></span>
                             <div>
                                 <h3 className="pref-card-title">{t('setting.display_theme', 'Display & Theme')}</h3>
                                 <p className="pref-card-desc">{t('setting.display_theme_description', 'Personalise the look and feel of your experience.')}</p>
@@ -330,7 +334,7 @@ function Preferences() {
                     {/* CARD 3 — Course Preferences */}
                     <div className="pref-card">
                         <div className="pref-card-header">
-                            <span className="pref-card-icon">🎓</span>
+                            <span className="pref-card-icon"><GraduationCap className="pref-header-icon" /></span>
                             <div>
                                 <h3 className="pref-card-title">{t('setting.course_preferences', 'Course Preferences')}</h3>
                                 <p className="pref-card-desc">{t('setting.course_preferences_description', 'Customise your learning experience.')}</p>
@@ -371,7 +375,7 @@ function Preferences() {
                                     <h4 className="pref-label">{t('setting.default_playback_speed', 'Default Playback Speed')}</h4>
                                     <p className="pref-hint">{t('setting.default_playback_speed_description', 'Set the default playback speed for all videos.')}</p>
                                 </div>
-                                <StyledSelect id="playback-speed-select" icon="⚡">
+                                <StyledSelect id="playback-speed-select" icon={<Gauge className="pref-dropdown-icon" />}>
                                     <option>{t('setting.speed_0.5', '0.5×')}</option>
                                     <option>{t('setting.speed_0.75', '0.75×')}</option>
                                     <option>{t('setting.speed_1', '1× (Normal)')}</option>
@@ -388,7 +392,7 @@ function Preferences() {
                                     <h4 className="pref-label">{t('setting.preferred_difficulty_level', 'Preferred Difficulty Level')}</h4>
                                     <p className="pref-hint">{t('setting.preferred_difficulty_level_description', 'Filter course recommendations by difficulty.')}</p>
                                 </div>
-                                <StyledSelect id="difficulty-select" icon="📊">
+                                <StyledSelect id="difficulty-select" icon={<BarChart2 className="pref-dropdown-icon" />}>
                                     <option>{t('setting.beginner', 'Beginner')}</option>
                                     <option>{t('setting.intermediate', 'Intermediate')}</option>
                                     <option>{t('setting.advanced', 'Advanced')}</option>
@@ -401,7 +405,7 @@ function Preferences() {
                                     <h4 className="pref-label">{t('setting.default_video_quality', 'Default Video Quality')}</h4>
                                     <p className="pref-hint">{t('setting.default_video_quality_description', 'Higher quality uses more data.')}</p>
                                 </div>
-                                <StyledSelect id="video-quality-select" icon="🎬">
+                                <StyledSelect id="video-quality-select" icon={<Film className="pref-dropdown-icon" />}>
                                     <option>{t('setting.quality_auto', 'Auto (Recommended)')}</option>
                                     <option>{t('setting.quality_1080p', '1080p')}</option>
                                     <option>{t('setting.quality_720p', '720p')}</option>
@@ -428,6 +432,18 @@ function Preferences() {
                             {allCategories.map(cat => {
                                 const translationKey = cat === "Language" ? "language_skill" : cat.toLowerCase();
                                 const isActive = selectedCategories.includes(cat);
+                                const catIconMap = {
+                                    Technology:   <Cpu        size={14} className="chip-cat-icon" />,
+                                    Business:     <TrendingUp size={14} className="chip-cat-icon" />,
+                                    Design:       <Brush      size={14} className="chip-cat-icon" />,
+                                    Marketing:    <BarChart2  size={14} className="chip-cat-icon" />,
+                                    Photography:  <Camera     size={14} className="chip-cat-icon" />,
+                                    Music:        <Music      size={14} className="chip-cat-icon" />,
+                                    Health:       <Heart      size={14} className="chip-cat-icon" />,
+                                    Language:     <Languages  size={14} className="chip-cat-icon" />,
+                                    Science:      <FlaskConical size={14} className="chip-cat-icon" />,
+                                    Art:          <Palette    size={14} className="chip-cat-icon" />,
+                                };
                                 return (
                                     <button
                                         key={cat}
@@ -435,10 +451,9 @@ function Preferences() {
                                         onClick={() => toggleCategory(cat)}
                                     >
                                         {isActive && (
-                                            <svg className="chip-check" width="12" height="12" viewBox="0 0 12 12" fill="none">
-                                                <path d="M2 6l3 3 5-5" stroke="white" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
-                                            </svg>
+                                            <Check className="chip-check" size={12} strokeWidth={2.5} />
                                         )}
+                                        {catIconMap[cat]}
                                         {t(`setting.${translationKey}`, cat)}
                                     </button>
                                 );
