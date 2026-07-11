@@ -135,12 +135,27 @@ function Preferences() {
 
     useEffect(() => {
         const root = document.documentElement;
-        if (themeChange === 'light') { root.classList.remove('dark'); root.classList.add('light'); }
-        else if (themeChange === 'dark') { root.classList.remove('light'); root.classList.add('dark'); }
-        else if (themeChange === 'system') {
-            const dark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+        const mq = window.matchMedia('(prefers-color-scheme: dark)');
+
+        const applyTheme = (darkPreferred) => {
             root.classList.remove('light', 'dark');
-            root.classList.add(dark ? 'dark' : 'light');
+            root.classList.add(darkPreferred ? 'dark' : 'light');
+        };
+
+        if (themeChange === 'light') {
+            root.classList.remove('dark');
+            root.classList.add('light');
+        } else if (themeChange === 'dark') {
+            root.classList.remove('light');
+            root.classList.add('dark');
+        } else if (themeChange === 'system') {
+            // Apply immediately based on current system preference
+            applyTheme(mq.matches);
+
+            // Listen for OS-level dark/light changes in real time
+            const handleChange = (e) => applyTheme(e.matches);
+            mq.addEventListener('change', handleChange);
+            return () => mq.removeEventListener('change', handleChange);
         }
     }, [themeChange]);
 
@@ -192,21 +207,21 @@ function Preferences() {
                     {categories.map((category, index) => {
                         const isActive = location.pathname === category.path;
                         const isHov = hovered === index;
+                        const isHighlighted = isActive || isHov;
                         return (
                             <Link
                                 to={category.path}
                                 key={index}
-                                className="category-tag"
+                                className={`category-tag${isHighlighted ? ' category-tag--active' : ' category-tag--idle'}`}
                                 onMouseEnter={() => setHovered(index)}
                                 onMouseLeave={() => setHovered(null)}
-                                style={isActive || isHov ? { backgroundColor: "#0089EA" } : { backgroundColor: "#FFFFFF" }}
                             >
                                 <img
-                                    src={isActive || isHov ? category.blue : category.black}
+                                    src={isHighlighted ? category.blue : (isDarkMode ? (category.white || category.black) : category.black)}
                                     alt={category.name}
-                                    style={isActive || isHov ? { filter: "brightness(0) invert(1)" } : { filter: "none" }}
+                                    style={isHighlighted ? { filter: "brightness(0) invert(1)" } : { filter: "none" }}
                                 />
-                                <p style={isActive || isHov ? { color: "#FFFFFF" } : { color: "#000000" }}>
+                                <p>
                                     {t(`setting.${category.name.toLowerCase()}`, category.name)}
                                 </p>
                             </Link>
