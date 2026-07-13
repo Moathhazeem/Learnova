@@ -5,13 +5,74 @@ import { useTranslation } from "react-i18next";
 import "./Payment.css";
 
 /* ─────────────────────────────────────────────
+   Utility: detect card brand from number
+   ───────────────────────────────────────────── */
+function detectBrand(number) {
+    const n = number.replace(/\s/g, '');
+    if (/^4/.test(n)) return 'visa';
+    if (/^5[1-5]/.test(n) || /^2[2-7]/.test(n)) return 'mastercard';
+    if (/^3[47]/.test(n)) return 'amex';
+    if (/^6(?:011|5)/.test(n)) return 'discover';
+    return 'generic';
+}
+
+/* ─────────────────────────────────────────────
+   Sub-component: CardBrandIcon
+   ───────────────────────────────────────────── */
+function CardBrandIcon({ brand, size = 36 }) {
+    if (brand === 'visa') return (
+        <svg width={size} height={size * 0.63} viewBox="0 0 60 38" aria-label="Visa" role="img">
+            <rect width="60" height="38" rx="6" fill="#1A1F71"/>
+            <text x="10" y="27" fontFamily="Arial" fontWeight="bold" fontSize="16" fill="#FFFFFF" letterSpacing="1">VISA</text>
+        </svg>
+    );
+    if (brand === 'mastercard') return (
+        <svg width={size} height={size * 0.63} viewBox="0 0 60 38" aria-label="Mastercard" role="img">
+            <rect width="60" height="38" rx="6" fill="#252525"/>
+            <circle cx="22" cy="19" r="12" fill="#EB001B"/>
+            <circle cx="38" cy="19" r="12" fill="#F79E1B"/>
+            <path d="M30 9.5a12 12 0 010 19A12 12 0 0130 9.5z" fill="#FF5F00"/>
+        </svg>
+    );
+    if (brand === 'amex') return (
+        <svg width={size} height={size * 0.63} viewBox="0 0 60 38" aria-label="American Express" role="img">
+            <rect width="60" height="38" rx="6" fill="#2557D6"/>
+            <text x="8" y="25" fontFamily="Arial" fontWeight="bold" fontSize="10" fill="#FFFFFF">AMEX</text>
+        </svg>
+    );
+    if (brand === 'discover') return (
+        <svg width={size} height={size * 0.63} viewBox="0 0 60 38" aria-label="Discover" role="img">
+            <rect width="60" height="38" rx="6" fill="#F76F20"/>
+            <text x="6" y="25" fontFamily="Arial" fontWeight="bold" fontSize="9" fill="#FFFFFF">DISCOVER</text>
+        </svg>
+    );
+    /* generic chip */
+    return (
+        <svg width={size} height={size * 0.75} viewBox="0 0 48 36" aria-hidden="true">
+            <rect width="48" height="36" rx="5" fill="#FFD166" opacity="0.9"/>
+            <rect x="4" y="10" width="40" height="16" rx="3" fill="#FFB703" opacity="0.7"/>
+            <rect x="16" y="10" width="2" height="16" fill="#FFD166" opacity="0.8"/>
+            <rect x="30" y="10" width="2" height="16" fill="#FFD166" opacity="0.8"/>
+            <rect x="4" y="16" width="40" height="3" fill="#FFD166" opacity="0.6"/>
+        </svg>
+    );
+}
+
+/* ─────────────────────────────────────────────
+   Utility: sort default card to top
+   ───────────────────────────────────────────── */
+function sortByDefault(methods) {
+    return [...methods].sort((a, b) => Number(b.isDefault) - Number(a.isDefault));
+}
+
+/* ─────────────────────────────────────────────
    Sub-component: PaymentCard
    ───────────────────────────────────────────── */
-function PaymentCard({ card, cards, onSetDefault, onDelete }) {
+function PaymentCard({ last4, expiry, isDefault, brand, id, onMakeDefault, onDelete, canDelete }) {
     const [menuOpen, setMenuOpen] = useState(false);
     const menuRef = useRef(null);
+    const cardBrand = brand || 'generic';
 
-    // Close menu when clicking outside
     useEffect(() => {
         const handleClickOutside = (e) => {
             if (menuRef.current && !menuRef.current.contains(e.target)) {
@@ -23,33 +84,40 @@ function PaymentCard({ card, cards, onSetDefault, onDelete }) {
     }, []);
 
     return (
-        <div className={`pc-card ${card.isDefault ? 'pc-card--default' : ''}`}>
-            {/* Left accent bar for default card */}
-            {card.isDefault && <span className="pc-card__accent" aria-hidden="true" />}
+        <div className={`pc-card ${isDefault ? 'pc-card--default' : ''}`}>
+            {isDefault && <span className="pc-card__accent" aria-hidden="true"/>}
 
-            {/* Card brand icon */}
             <div className="pc-card__icon-wrap">
-                <svg className="pc-card__chip" viewBox="0 0 40 30" fill="none" aria-hidden="true">
-                    <rect width="40" height="30" rx="4" fill="#FFD166" opacity="0.9"/>
-                    <rect x="4" y="9" width="32" height="12" rx="2" fill="#FFB703" opacity="0.7"/>
-                    <rect x="14" y="9" width="2" height="12" fill="#FFD166" opacity="0.8"/>
-                    <rect x="24" y="9" width="2" height="12" fill="#FFD166" opacity="0.8"/>
-                    <rect x="4" y="13" width="32" height="2" fill="#FFD166" opacity="0.6"/>
-                </svg>
+                <CardBrandIcon brand={cardBrand} size={48}/>
             </div>
 
-            {/* Card info */}
             <div className="pc-card__info">
                 <div className="pc-card__row">
-                    <span className="pc-card__number">•••• •••• •••• {card.last4}</span>
-                    {card.isDefault && (
-                        <span className="pc-card__badge" aria-label="Default card">Default</span>
+                    <span className="pc-card__number">•••• •••• •••• {last4}</span>
+                    {isDefault ? (
+                        <span className="pc-card__badge" aria-label="Default payment method">
+                            <svg width="10" height="10" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true" style={{marginRight:'4px'}}>
+                                <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/>
+                            </svg>
+                            Default
+                        </span>
+                    ) : (
+                        <button
+                            type="button"
+                            className="pc-card__make-default"
+                            onClick={() => onMakeDefault(id)}
+                            aria-label={`Make card ending in ${last4} the default`}
+                        >
+                            Make Default
+                        </button>
                     )}
                 </div>
-                <span className="pc-card__expiry">Expires {card.expires}</span>
+                <div className="pc-card__meta-row">
+                    <span className="pc-card__expiry">Expires {expiry}</span>
+                    <span className="pc-card__brand-label">{cardBrand.charAt(0).toUpperCase() + cardBrand.slice(1)}</span>
+                </div>
             </div>
 
-            {/* Contextual action menu (three-dot) */}
             <div className="pc-card__menu-wrap" ref={menuRef}>
                 <button
                     className="pc-card__menu-btn"
@@ -67,24 +135,12 @@ function PaymentCard({ card, cards, onSetDefault, onDelete }) {
 
                 {menuOpen && (
                     <div className="pc-card__dropdown" role="menu">
-                        {!card.isDefault && (
-                            <button
-                                className="pc-card__dropdown-item pc-card__dropdown-item--primary"
-                                role="menuitem"
-                                onClick={() => { onSetDefault(card.id); setMenuOpen(false); }}
-                            >
-                                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" aria-hidden="true">
-                                    <polyline points="20 6 9 17 4 12"/>
-                                </svg>
-                                Set as Default
-                            </button>
-                        )}
                         <button
                             className="pc-card__dropdown-item pc-card__dropdown-item--danger"
                             role="menuitem"
-                            onClick={() => { onDelete(card.id); setMenuOpen(false); }}
-                            disabled={cards.length <= 1}
-                            title={cards.length <= 1 ? 'Cannot delete the only card' : ''}
+                            onClick={() => { onDelete(id); setMenuOpen(false); }}
+                            disabled={!canDelete}
+                            title={!canDelete ? 'Cannot delete the only card' : ''}
                         >
                             <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" aria-hidden="true">
                                 <polyline points="3 6 5 6 21 6"/>
@@ -105,22 +161,37 @@ function PaymentCard({ card, cards, onSetDefault, onDelete }) {
    Sub-component: HistoryTable
    ───────────────────────────────────────────── */
 function HistoryTable({ purchaseHistory, onDownload }) {
+    const totalSpent = purchaseHistory
+        .filter(i => i.status === 'Completed')
+        .reduce((acc, i) => acc + parseFloat(i.price.replace('$', '')), 0);
+
     return (
         <div className="ph-section">
-            {/* Section header */}
             <div className="ph-header">
                 <div className="ph-header__text">
                     <h2 className="ph-header__title">Purchase History</h2>
                     <p className="ph-header__sub">View and download your course purchases</p>
                 </div>
-                <button className="ph-download-btn" onClick={onDownload} aria-label="Download purchase history as CSV">
-                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" aria-hidden="true">
-                        <path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/>
-                        <polyline points="7 10 12 15 17 10"/>
-                        <line x1="12" y1="15" x2="12" y2="3"/>
-                    </svg>
-                    Download CSV
-                </button>
+            </div>
+
+            {/* Summary strip */}
+            <div className="ph-summary-strip">
+                <div className="ph-summary-item">
+                    <span className="ph-summary-item__val">{purchaseHistory.length}</span>
+                    <span className="ph-summary-item__label">Total Orders</span>
+                </div>
+                <div className="ph-summary-divider"/>
+                <div className="ph-summary-item">
+                    <span className="ph-summary-item__val ph-summary-item__val--green">
+                        {purchaseHistory.filter(i => i.status === 'Completed').length}
+                    </span>
+                    <span className="ph-summary-item__label">Completed</span>
+                </div>
+                <div className="ph-summary-divider"/>
+                <div className="ph-summary-item">
+                    <span className="ph-summary-item__val ph-summary-item__val--money">${totalSpent.toFixed(2)}</span>
+                    <span className="ph-summary-item__label">Total Spent</span>
+                </div>
             </div>
 
             {/* Desktop table */}
@@ -138,11 +209,17 @@ function HistoryTable({ purchaseHistory, onDownload }) {
                         className={`ph-table__row ${idx % 2 === 1 ? 'ph-table__row--alt' : ''}`}
                         role="row"
                     >
-                        <span className="ph-table__cell ph-table__cell--course" role="cell">{item.course}</span>
+                        <span className="ph-table__cell ph-table__cell--course" role="cell">
+                            <span className="ph-table__course-dot"/>
+                            {item.course}
+                        </span>
                         <span className="ph-table__cell ph-table__cell--date" role="cell">{item.date}</span>
                         <span className="ph-table__cell ph-table__cell--price" role="cell">{item.price}</span>
                         <span className="ph-table__cell" role="cell">
-                            <span className={`ph-badge ph-badge--${item.status.toLowerCase()}`}>{item.status}</span>
+                            <span className={`ph-badge ph-badge--${item.status.toLowerCase()}`}>
+                                <span className="ph-badge__dot"/>
+                                {item.status}
+                            </span>
                         </span>
                         <span className="ph-table__cell ph-table__cell--method" role="cell">{item.method}</span>
                     </div>
@@ -155,7 +232,10 @@ function HistoryTable({ purchaseHistory, onDownload }) {
                     <div key={item.id} className="ph-mobile-card">
                         <div className="ph-mobile-card__top">
                             <span className="ph-mobile-card__course">{item.course}</span>
-                            <span className={`ph-badge ph-badge--${item.status.toLowerCase()}`}>{item.status}</span>
+                            <span className={`ph-badge ph-badge--${item.status.toLowerCase()}`}>
+                                <span className="ph-badge__dot"/>
+                                {item.status}
+                            </span>
                         </div>
                         <div className="ph-mobile-card__row">
                             <span className="ph-mobile-card__label">Date</span>
@@ -172,6 +252,15 @@ function HistoryTable({ purchaseHistory, onDownload }) {
                     </div>
                 ))}
             </div>
+
+            <button className="ph-download-btn" onClick={onDownload} aria-label="Download purchase history as CSV">
+                <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" aria-hidden="true">
+                    <path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/>
+                    <polyline points="7 10 12 15 17 10"/>
+                    <line x1="12" y1="15" x2="12" y2="3"/>
+                </svg>
+                Download CSV
+            </button>
         </div>
     );
 }
@@ -182,15 +271,30 @@ function HistoryTable({ purchaseHistory, onDownload }) {
 function SecurityBadge() {
     return (
         <div className="security-badge" role="note" aria-label="Security information">
-            <svg className="security-badge__icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" aria-hidden="true">
-                <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
-            </svg>
+            <div className="security-badge__shield">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" aria-hidden="true">
+                    <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
+                    <polyline points="9 12 11 14 15 10"/>
+                </svg>
+            </div>
             <span className="security-badge__text">
                 Your transactions are secured with <strong>256-bit SSL encryption</strong>. We never store your full card details.
             </span>
             <div className="security-badge__icons">
-                <span className="security-badge__pill">PCI DSS</span>
-                <span className="security-badge__pill">256-bit SSL</span>
+                <span className="security-badge__pill">
+                    <svg width="10" height="10" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true" style={{marginRight:'4px'}}>
+                        <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
+                    </svg>
+                    PCI DSS
+                </span>
+                <span className="security-badge__pill">
+                    <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" aria-hidden="true" style={{marginRight:'4px'}}>
+                        <rect x="3" y="11" width="18" height="11" rx="2" ry="2"/>
+                        <path d="M7 11V7a5 5 0 0110 0v4"/>
+                    </svg>
+                    256-bit SSL
+                </span>
+                <span className="security-badge__pill">✓ Verified</span>
             </div>
         </div>
     );
@@ -222,9 +326,9 @@ function Payment() {
         { name: "Payment", path: "/Setting/Payment", black: "/photo_icons/For_setting/PaymentBlack.png", white: "/photo_icons/For_setting/PaymentWhite.png", blue: "/photo_icons/For_setting/PaymentBlue.png" },
     ];
 
-    const [cards, setCards] = useState([
-        { id: 1, last4: "4242", expires: "27/12/2026", isDefault: true },
-        { id: 2, last4: "1234", expires: "27/1/2026", isDefault: false }
+    const [paymentMethods, setPaymentMethods] = useState([
+        { id: 1, last4: "4242", expires: "12/26", isDefault: true, brand: 'visa' },
+        { id: 2, last4: "1234", expires: "01/26", isDefault: false, brand: 'mastercard' },
     ]);
 
     const [purchaseHistory] = useState([
@@ -240,8 +344,12 @@ function Payment() {
     const [cardName, setCardName] = useState("");
     const [cardExpiry, setCardExpiry] = useState("");
     const [cardCVV, setCardCVV] = useState("");
-    const [error, setError] = useState([]);
-    const [success, setSuccess] = useState([]);
+    const [setAsDefault, setSetAsDefault] = useState(true);
+    const [showCVV, setShowCVV] = useState(false);
+    const [isSubmitting, setIsSubmitting] = useState(false);
+    const [formErrors, setFormErrors] = useState({});
+    const [showToast, setShowToast] = useState(false);
+    const [toastMessage, setToastMessage] = useState("");
 
     useEffect(() => {
         const updateThemeState = () => {
@@ -253,68 +361,96 @@ function Payment() {
         return () => observer.disconnect();
     }, []);
 
-    // Lock body scroll when modal is open
     useEffect(() => {
         document.body.style.overflow = showModal ? 'hidden' : '';
         return () => { document.body.style.overflow = ''; };
     }, [showModal]);
 
-    const handleSubmit = (e) => {
-        e.preventDefault();
-        let newErrors = [];
-        let newSuccess = [];
-
-        if (cardNumber.replace(/\s/g, '').length < 16) {
-            newErrors.push("Card number must be 16 digits");
-        } else {
-            newSuccess.push("Card number is valid");
-        }
-        if (cardName.length < 2) {
-            newErrors.push("Card name must be at least 2 characters");
-        } else {
-            newSuccess.push("Card name is valid");
-        }
-        if (cardExpiry.length < 5) {
-            newErrors.push("Card expiry must be at least 5 characters");
-        } else {
-            newSuccess.push("Card expiry is valid");
-        }
-        if (cardCVV.length < 3) {
-            newErrors.push("Card CVV must be at least 3 characters");
-        } else {
-            newSuccess.push("Card CVV is valid");
-        }
-
-        if (newErrors.length > 0) {
-            setError(newErrors);
-            setSuccess(newSuccess);
-            return;
-        }
-
-        const newCard = {
-            id: Date.now(),
-            last4: cardNumber.replace(/\s/g, '').slice(-4) || "****",
-            expires: cardExpiry,
-            isDefault: cards.length === 0,
-        };
-        setCards([...cards, newCard]);
-        setShowModal(false);
-        setCardNumber(""); setCardName(""); setCardExpiry(""); setCardCVV("");
-        setSuccess(["Card added successfully"]);
-        setError([]);
+    /* Format card number with spaces */
+    const formatCardNumber = (val) => {
+        const digits = val.replace(/\D/g, '').substring(0, 16);
+        return digits.replace(/(.{4})/g, '$1 ').trim();
     };
 
-    const handleSetDefault = (id) => {
-        setCards(cards.map(c => ({ ...c, isDefault: c.id === id })));
+    /* Format expiry MM/YY */
+    const formatExpiry = (val) => {
+        const digits = val.replace(/\D/g, '').substring(0, 4);
+        if (digits.length >= 3) return digits.substring(0, 2) + '/' + digits.substring(2);
+        return digits;
+    };
+
+    const showToastNotification = (message) => {
+        setToastMessage(message);
+        setShowToast(true);
+        setTimeout(() => setShowToast(false), 3200);
+    };
+
+    const validateCardForm = () => {
+        const errors = {};
+        if (cardNumber.replace(/\s/g, '').length < 16) {
+            errors.cardNumber = 'Card number must be 16 digits';
+        }
+        if (cardName.trim().length < 2) {
+            errors.cardName = 'Enter the cardholder name';
+        }
+        if (cardExpiry.length < 5) {
+            errors.cardExpiry = 'Enter a valid expiry (MM/YY)';
+        }
+        if (cardCVV.length < 3) {
+            errors.cardCVV = 'Enter a valid CVC';
+        }
+        setFormErrors(errors);
+        return Object.keys(errors).length === 0;
+    };
+
+    const handleAddMethod = async (e) => {
+        e.preventDefault();
+        if (!validateCardForm()) return;
+
+        setIsSubmitting(true);
+        try {
+            await new Promise(resolve => setTimeout(resolve, 650));
+
+            const brand = detectBrand(cardNumber);
+            const newCard = {
+                id: Date.now(),
+                last4: cardNumber.replace(/\s/g, '').slice(-4),
+                expires: cardExpiry,
+                isDefault: setAsDefault,
+                brand,
+            };
+
+            setPaymentMethods(prev => {
+                const cleared = setAsDefault
+                    ? prev.map(method => ({ ...method, isDefault: false }))
+                    : prev;
+                return sortByDefault([...cleared, newCard]);
+            });
+
+            closeModal();
+            showToastNotification('Payment method added successfully');
+        } finally {
+            setIsSubmitting(false);
+        }
+    };
+
+    const handleSetDefault = (cardId) => {
+        setPaymentMethods(prev =>
+            sortByDefault(prev.map(method => ({ ...method, isDefault: method.id === cardId })))
+        );
+        showToastNotification('Default payment method updated');
     };
 
     const handleDelete = (id) => {
-        if (cards.length <= 1) return;
-        const updated = cards.filter(c => c.id !== id);
-        if (!updated.some(c => c.isDefault) && updated.length > 0) {
-            updated[0].isDefault = true;
+        if (paymentMethods.length <= 1) return;
+        let updated = paymentMethods.filter(method => method.id !== id);
+        if (!updated.some(method => method.isDefault) && updated.length > 0) {
+            updated = updated.map((method, index) =>
+                index === 0 ? { ...method, isDefault: true } : method
+            );
         }
-        setCards(updated);
+        setPaymentMethods(sortByDefault(updated));
+        showToastNotification('Payment method removed');
     };
 
     const handleDownload = () => {
@@ -337,8 +473,19 @@ function Payment() {
         URL.revokeObjectURL(url);
     };
 
-    const openModal = () => { setShowModal(true); setError([]); setSuccess([]); };
-    const closeModal = () => { setShowModal(false); setError([]); setSuccess([]); };
+    const openModal = () => { setShowModal(true); setFormErrors({}); setSetAsDefault(true); };
+    const closeModal = () => {
+        setShowModal(false);
+        setFormErrors({});
+        setCardNumber("");
+        setCardName("");
+        setCardExpiry("");
+        setCardCVV("");
+        setSetAsDefault(true);
+        setShowCVV(false);
+    };
+
+    const sortedPaymentMethods = sortByDefault(paymentMethods);
 
     return (
         <div className="edit-profile-container">
@@ -369,8 +516,8 @@ function Payment() {
                 <div className="header_setting">
                     <p>{t('setting.header', 'Settings')}</p>
                     <div className="search_page_setting">
-                        <img src={isDarkMode ? search.white : search.black} alt="search" className="setting-search-icon" />
-                        <input type="search" placeholder={t('setting.search', 'Search settings')} />
+                        <img src={isDarkMode ? search.white : search.black} alt="search" className="setting-search-icon"/>
+                        <input type="search" placeholder={t('setting.search', 'Search settings')}/>
                     </div>
                 </div>
                 <div className="Setting_option">
@@ -400,47 +547,58 @@ function Payment() {
                 </div>
             </div>
 
-            {/* ── Payment Content ── */}
-            <div className="payment-container">
+            {/* ── Payment & Billing Dashboard ── */}
+            <div className="payment-container billing-dashboard">
 
-                {/* Section: Payment Cards */}
-                <div className="pc-section">
-                    <div className="pc-section__header">
+                <section className="pc-section">
+                    <header className="pc-section__header">
                         <div className="pc-section__title-group">
                             <h1 className="pc-section__title">Payment Cards</h1>
                             <p className="pc-section__subtitle">Manage your payment methods and default billing card.</p>
                         </div>
-                        <button className="pc-add-btn" onClick={openModal} aria-label="Add new payment card">
-                            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" aria-hidden="true">
-                                <line x1="12" y1="5" x2="12" y2="19"/>
-                                <line x1="5" y1="12" x2="19" y2="12"/>
-                            </svg>
-                            Add New Card
-                        </button>
-                    </div>
+                    </header>
 
-                    {/* Cards grid */}
                     <div className="pc-cards-grid">
-                        {cards.map(card => (
+                        {sortedPaymentMethods.map(method => (
                             <PaymentCard
-                                key={card.id}
-                                card={card}
-                                cards={cards}
-                                onSetDefault={handleSetDefault}
+                                key={method.id}
+                                id={method.id}
+                                last4={method.last4}
+                                expiry={method.expires}
+                                isDefault={method.isDefault}
+                                brand={method.brand}
+                                onMakeDefault={handleSetDefault}
                                 onDelete={handleDelete}
+                                canDelete={paymentMethods.length > 1}
                             />
                         ))}
                     </div>
 
-                    {/* Security Footer */}
-                    <SecurityBadge />
-                </div>
+                    <SecurityBadge/>
 
-                {/* Section: Purchase History */}
-                <HistoryTable purchaseHistory={purchaseHistory} onDownload={handleDownload} />
+                    <button className="pc-add-btn" onClick={openModal} aria-label="Add new payment card">
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" aria-hidden="true">
+                            <line x1="12" y1="5" x2="12" y2="19"/>
+                            <line x1="5" y1="12" x2="19" y2="12"/>
+                        </svg>
+                        Add New Card
+                    </button>
+                </section>
+
+                <HistoryTable purchaseHistory={purchaseHistory} onDownload={handleDownload}/>
             </div>
 
-            {/* ── Add Card Modal ── */}
+            {/* Toast feedback */}
+            <div className={`pay-toast ${showToast ? 'pay-toast--show' : ''}`} role="status" aria-live="polite">
+                <div className="pay-toast__content">
+                    <svg viewBox="0 0 24 24" width="18" height="18" className="pay-toast__icon" aria-hidden="true">
+                        <path fill="currentColor" d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/>
+                    </svg>
+                    <span>{toastMessage}</span>
+                </div>
+            </div>
+
+            {/* ── Add Payment Method Modal ── */}
             {showModal && (
                 <div
                     className="modal"
@@ -449,23 +607,13 @@ function Payment() {
                     aria-modal="true"
                     aria-labelledby="modal-title"
                 >
-                    <div
-                        className="modal-content"
-                        onClick={e => e.stopPropagation()}
-                    >
-                        <div className="modal-header">
-                            <div className="modal-header__icon">
-                                <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" aria-hidden="true">
-                                    <rect x="1" y="4" width="22" height="16" rx="2" ry="2"/>
-                                    <line x1="1" y1="10" x2="23" y2="10"/>
-                                </svg>
+                    <div className="modal-content modal-content--card" onClick={e => e.stopPropagation()}>
+                        <div className="modal-header modal-header--stacked">
+                            <div className="modal-header__text">
+                                <h2 id="modal-title">Add New Payment Method</h2>
+                                <p className="modal-header__subtitle">Your card details are encrypted and secure.</p>
                             </div>
-                            <h2 id="modal-title">Add New Card</h2>
-                            <button
-                                className="modal-close-btn"
-                                onClick={closeModal}
-                                aria-label="Close modal"
-                            >
+                            <button className="modal-close-btn" onClick={closeModal} aria-label="Close modal">
                                 <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" aria-hidden="true">
                                     <line x1="18" y1="6" x2="6" y2="18"/>
                                     <line x1="6" y1="6" x2="18" y2="18"/>
@@ -473,10 +621,16 @@ function Payment() {
                             </button>
                         </div>
 
-                        <div className="modal-body">
-                            <form onSubmit={handleSubmit} noValidate>
-                                <div className="form-group">
-                                    <label htmlFor="card-number">Card Number</label>
+                        <form className="modal-body" onSubmit={handleAddMethod} noValidate>
+                            <div className="form-group">
+                                <label htmlFor="card-number">Card Number</label>
+                                <div className="form-input-wrap">
+                                    <span className="form-input-icon" aria-hidden="true">
+                                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                                            <rect x="1" y="4" width="22" height="16" rx="2" ry="2"/>
+                                            <line x1="1" y1="10" x2="23" y2="10"/>
+                                        </svg>
+                                    </span>
                                     <input
                                         type="text"
                                         id="card-number"
@@ -484,19 +638,93 @@ function Payment() {
                                         inputMode="numeric"
                                         maxLength="19"
                                         value={cardNumber}
-                                        onChange={e => setCardNumber(e.target.value)}
+                                        onChange={e => setCardNumber(formatCardNumber(e.target.value))}
                                         autoComplete="cc-number"
                                     />
-                                    {error.find(m => m.toLowerCase().includes("card number")) && (
-                                        <p className="error">{error.find(m => m.toLowerCase().includes("card number"))}</p>
-                                    )}
-                                    {success.find(m => m.toLowerCase().includes("card number")) && (
-                                        <p className="success">{success.find(m => m.toLowerCase().includes("card number"))}</p>
-                                    )}
+                                    <span className="form-input-brand">
+                                        <CardBrandIcon brand={detectBrand(cardNumber)} size={28}/>
+                                    </span>
+                                </div>
+                                {formErrors.cardNumber && <p className="error">{formErrors.cardNumber}</p>}
+                            </div>
+
+                            <div className="form-row">
+                                <div className="form-group">
+                                    <label htmlFor="card-expiry">Expiry</label>
+                                    <div className="form-input-wrap">
+                                        <span className="form-input-icon" aria-hidden="true">
+                                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                                                <rect x="3" y="4" width="18" height="18" rx="2" ry="2"/>
+                                                <line x1="16" y1="2" x2="16" y2="6"/>
+                                                <line x1="8" y1="2" x2="8" y2="6"/>
+                                                <line x1="3" y1="10" x2="21" y2="10"/>
+                                            </svg>
+                                        </span>
+                                        <input
+                                            type="text"
+                                            id="card-expiry"
+                                            placeholder="MM/YY"
+                                            inputMode="numeric"
+                                            maxLength="5"
+                                            value={cardExpiry}
+                                            onChange={e => setCardExpiry(formatExpiry(e.target.value))}
+                                            autoComplete="cc-exp"
+                                        />
+                                    </div>
+                                    {formErrors.cardExpiry && <p className="error">{formErrors.cardExpiry}</p>}
                                 </div>
 
                                 <div className="form-group">
-                                    <label htmlFor="card-name">Cardholder Name</label>
+                                    <label htmlFor="card-cvv">CVC</label>
+                                    <div className="form-input-wrap">
+                                        <span className="form-input-icon" aria-hidden="true">
+                                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                                                <rect x="3" y="11" width="18" height="11" rx="2" ry="2"/>
+                                                <path d="M7 11V7a5 5 0 0110 0v4"/>
+                                            </svg>
+                                        </span>
+                                        <input
+                                            type={showCVV ? "text" : "password"}
+                                            id="card-cvv"
+                                            placeholder="•••"
+                                            inputMode="numeric"
+                                            maxLength="4"
+                                            value={cardCVV}
+                                            onChange={e => setCardCVV(e.target.value.replace(/\D/g, ''))}
+                                            autoComplete="cc-csc"
+                                        />
+                                        <button
+                                            type="button"
+                                            className="form-cvv-toggle"
+                                            onClick={() => setShowCVV(v => !v)}
+                                            aria-label={showCVV ? "Hide CVC" : "Show CVC"}
+                                        >
+                                            {showCVV ? (
+                                                <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" aria-hidden="true">
+                                                    <path d="M17.94 17.94A10.07 10.07 0 0112 20c-7 0-11-8-11-8a18.45 18.45 0 015.06-5.94"/>
+                                                    <line x1="1" y1="1" x2="23" y2="23"/>
+                                                </svg>
+                                            ) : (
+                                                <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" aria-hidden="true">
+                                                    <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/>
+                                                    <circle cx="12" cy="12" r="3"/>
+                                                </svg>
+                                            )}
+                                        </button>
+                                    </div>
+                                    {formErrors.cardCVV && <p className="error">{formErrors.cardCVV}</p>}
+                                </div>
+                            </div>
+
+                            <div className="form-group">
+                                <label htmlFor="card-name">Cardholder Name</label>
+                                <div className="form-input-wrap">
+                                    <span className="form-input-icon" aria-hidden="true">
+                                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                                            <path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2"/>
+                                            <circle cx="12" cy="7" r="4"/>
+                                        </svg>
+                                    </span>
                                     <input
                                         type="text"
                                         id="card-name"
@@ -505,63 +733,29 @@ function Payment() {
                                         onChange={e => setCardName(e.target.value)}
                                         autoComplete="cc-name"
                                     />
-                                    {error.find(m => m.toLowerCase().includes("card name")) && (
-                                        <p className="error">{error.find(m => m.toLowerCase().includes("card name"))}</p>
-                                    )}
-                                    {success.find(m => m.toLowerCase().includes("card name")) && (
-                                        <p className="success">{success.find(m => m.toLowerCase().includes("card name"))}</p>
-                                    )}
                                 </div>
+                                {formErrors.cardName && <p className="error">{formErrors.cardName}</p>}
+                            </div>
 
-                                <div className="form-row">
-                                    <div className="form-group">
-                                        <label htmlFor="card-expiry">Expiry Date</label>
-                                        <input
-                                            type="text"
-                                            id="card-expiry"
-                                            placeholder="MM/YY"
-                                            maxLength="5"
-                                            value={cardExpiry}
-                                            onChange={e => setCardExpiry(e.target.value)}
-                                            autoComplete="cc-exp"
-                                        />
-                                        {error.find(m => m.toLowerCase().includes("card expiry")) && (
-                                            <p className="error">{error.find(m => m.toLowerCase().includes("card expiry"))}</p>
-                                        )}
-                                        {success.find(m => m.toLowerCase().includes("card expiry")) && (
-                                            <p className="success">{success.find(m => m.toLowerCase().includes("card expiry"))}</p>
-                                        )}
-                                    </div>
+                            <label className="form-checkbox">
+                                <input
+                                    type="checkbox"
+                                    checked={setAsDefault}
+                                    onChange={e => setSetAsDefault(e.target.checked)}
+                                />
+                                <span className="form-checkbox__box" aria-hidden="true"/>
+                                <span className="form-checkbox__label">Set as my default payment method</span>
+                            </label>
 
-                                    <div className="form-group">
-                                        <label htmlFor="card-cvv">CVV</label>
-                                        <input
-                                            type="text"
-                                            id="card-cvv"
-                                            placeholder="123"
-                                            maxLength="3"
-                                            value={cardCVV}
-                                            onChange={e => setCardCVV(e.target.value)}
-                                            autoComplete="cc-csc"
-                                        />
-                                        {error.find(m => m.toLowerCase().includes("card cvv")) && (
-                                            <p className="error">{error.find(m => m.toLowerCase().includes("card cvv"))}</p>
-                                        )}
-                                        {success.find(m => m.toLowerCase().includes("card cvv")) && (
-                                            <p className="success">{success.find(m => m.toLowerCase().includes("card cvv"))}</p>
-                                        )}
-                                    </div>
-                                </div>
-
-                                <button type="submit" className="add-card-btn">
-                                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" aria-hidden="true">
-                                        <line x1="12" y1="5" x2="12" y2="19"/>
-                                        <line x1="5" y1="12" x2="19" y2="12"/>
-                                    </svg>
-                                    Add Card
+                            <div className="modal-footer modal-footer--stacked">
+                                <button type="submit" className="add-card-btn" disabled={isSubmitting}>
+                                    {isSubmitting ? 'Adding Card…' : 'Add Card'}
                                 </button>
-                            </form>
-                        </div>
+                                <button type="button" className="modal-cancel-btn" onClick={closeModal}>
+                                    Cancel
+                                </button>
+                            </div>
+                        </form>
                     </div>
                 </div>
             )}

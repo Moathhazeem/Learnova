@@ -51,13 +51,19 @@
 }
 
 /* ═══════════════════════════════════════════════════════════
-   PAYMENT CONTAINER — Layout Shell
+   PAYMENT CONTAINER — Left-Aligned Billing Dashboard
    ═══════════════════════════════════════════════════════════ */
 .payment-container {
     width: 100%;
     display: flex;
     flex-direction: column;
-    gap: 32px;
+    gap: 40px;
+}
+
+.billing-dashboard {
+    align-items: flex-start;
+    text-align: left;
+    max-width: 920px;
 }
 
 /* ═══════════════════════════════════════════════════════════
@@ -69,13 +75,13 @@
     gap: 20px;
 }
 
-/* Section header row */
+/* Section header — left-aligned, no right-side actions */
 .pc-section__header {
     display: flex;
+    flex-direction: column;
     align-items: flex-start;
-    justify-content: space-between;
-    gap: 16px;
-    flex-wrap: wrap;
+    gap: 6px;
+    margin-bottom: 4px;
 }
 
 .pc-section__title-group {
@@ -99,12 +105,12 @@
     line-height: 1.5;
 }
 
-/* ── Add New Card Button (Primary CTA) ── */
+/* ── Add New Card Button — below cards list, left-aligned ── */
 .pc-add-btn {
     display: inline-flex;
     align-items: center;
     gap: 8px;
-    padding: 10px 20px;
+    padding: 11px 22px;
     background: var(--pay-primary);
     color: #fff;
     font-size: 14px;
@@ -115,7 +121,8 @@
     transition: transform var(--pay-transition), box-shadow var(--pay-transition), background var(--pay-transition);
     box-shadow: 0 2px 8px var(--pay-primary-glow);
     white-space: nowrap;
-    flex-shrink: 0;
+    align-self: flex-start;
+    margin-top: 4px;
 }
 
 .pc-add-btn:hover {
@@ -244,6 +251,46 @@
     text-transform: uppercase;
 }
 
+/* Make Default action */
+.pc-card__make-default {
+    display: inline-flex;
+    align-items: center;
+    padding: 4px 12px;
+    background: transparent;
+    color: var(--pay-primary);
+    border: 1.5px solid var(--pay-primary);
+    border-radius: var(--pay-radius-pill);
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 0.3px;
+    cursor: pointer;
+    transition: background var(--pay-transition), color var(--pay-transition), transform var(--pay-transition);
+}
+
+.pc-card__make-default:hover {
+    background: var(--pay-primary-light);
+    transform: translateY(-1px);
+}
+
+.pc-card__make-default:focus-visible {
+    outline: 2px solid var(--pay-primary);
+    outline-offset: 2px;
+}
+
+.pc-card__meta-row {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    flex-wrap: wrap;
+}
+
+.pc-card__brand-label {
+    font-size: 12px;
+    font-weight: 600;
+    color: var(--pay-text-muted);
+    text-transform: capitalize;
+}
+
 /* ── Three-dot contextual menu ── */
 .pc-card__menu-wrap {
     position: relative;
@@ -338,12 +385,26 @@
     display: flex;
     align-items: center;
     gap: 12px;
-    padding: 12px 18px;
+    padding: 14px 18px;
     background: var(--pay-surface-alt);
     border: 1px solid var(--pay-border);
     border-radius: var(--pay-radius-md);
+    width: 100%;
     max-width: 860px;
     flex-wrap: wrap;
+    align-self: flex-start;
+}
+
+.security-badge__shield {
+    flex-shrink: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 36px;
+    height: 36px;
+    background: var(--pay-success-bg);
+    border-radius: var(--pay-radius-sm);
+    color: var(--pay-success);
 }
 
 .security-badge__icon {
@@ -390,13 +451,19 @@
     gap: 16px;
 }
 
-/* History header */
+/* History header — left-aligned */
 .ph-header {
     display: flex;
+    flex-direction: column;
     align-items: flex-start;
-    justify-content: space-between;
-    gap: 16px;
-    flex-wrap: wrap;
+    gap: 4px;
+}
+
+.ph-header__text {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 4px;
 }
 
 .ph-header__title {
@@ -413,22 +480,23 @@
     margin: 4px 0 0;
 }
 
-/* Download button */
+/* Download button — below table, left-aligned */
 .ph-download-btn {
     display: inline-flex;
     align-items: center;
     gap: 8px;
-    padding: 9px 18px;
+    padding: 10px 20px;
     background: var(--pay-surface);
     color: var(--pay-text-primary);
     font-size: 14px;
-    font-weight: 500;
-    border: 1px solid var(--pay-border-strong);
+    font-weight: 600;
+    border: 1.5px solid var(--pay-border-strong);
     border-radius: var(--pay-radius-md);
     cursor: pointer;
     transition: background var(--pay-transition), border-color var(--pay-transition),
                 color var(--pay-transition), transform var(--pay-transition), box-shadow var(--pay-transition);
-    flex-shrink: 0;
+    align-self: flex-start;
+    margin-top: 4px;
 }
 
 .ph-download-btn:hover {
@@ -449,38 +517,108 @@
     outline-offset: 3px;
 }
 
-/* ── Desktop Table ── */
+/* ── Summary strip ── */
+.ph-summary-strip {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    padding: 16px 20px;
+    background: var(--pay-surface);
+    border: 1px solid var(--pay-border);
+    border-radius: var(--pay-radius-lg);
+    box-shadow: var(--pay-shadow-sm);
+    width: 100%;
+    max-width: 900px;
+    flex-wrap: wrap;
+}
+
+.ph-summary-item {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+}
+
+.ph-summary-item__val {
+    font-size: 20px;
+    font-weight: 800;
+    color: var(--pay-text-primary);
+    letter-spacing: -0.5px;
+}
+
+.ph-summary-item__val--green {
+    color: var(--pay-success);
+}
+
+.ph-summary-item__val--money {
+    color: var(--pay-primary);
+}
+
+.ph-summary-item__label {
+    font-size: 11px;
+    font-weight: 600;
+    color: var(--pay-text-muted);
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.ph-summary-divider {
+    width: 1px;
+    height: 36px;
+    background: var(--pay-border);
+}
+
+.ph-table__course-dot {
+    display: inline-block;
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: var(--pay-primary);
+    margin-right: 10px;
+    flex-shrink: 0;
+}
+
+.ph-badge__dot {
+    display: inline-block;
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: currentColor;
+    margin-right: 6px;
+    opacity: 0.7;
+}
+
+/* ── Desktop Table — increased visual weight ── */
 .ph-table {
     width: 100%;
     max-width: 900px;
     background: var(--pay-surface);
-    border: 1px solid var(--pay-border);
+    border: 1.5px solid var(--pay-border-strong);
     border-radius: var(--pay-radius-lg);
     overflow: hidden;
-    box-shadow: var(--pay-shadow-sm);
+    box-shadow: var(--pay-shadow-md);
 }
 
 .ph-table__head {
     display: grid;
     grid-template-columns: 2fr 1.4fr 1fr 1.1fr 1.8fr;
-    padding: 14px 24px;
-    background: var(--pay-surface-alt);
-    border-bottom: 1px solid var(--pay-border);
+    padding: 16px 24px;
+    background: linear-gradient(180deg, var(--pay-surface-alt) 0%, var(--pay-surface) 100%);
+    border-bottom: 2px solid var(--pay-border-strong);
 }
 
 .ph-table__head span {
-    font-size: 12px;
-    font-weight: 700;
+    font-size: 11px;
+    font-weight: 800;
     color: var(--pay-text-secondary);
     text-transform: uppercase;
-    letter-spacing: 0.7px;
+    letter-spacing: 0.8px;
 }
 
 .ph-table__row {
     display: grid;
     grid-template-columns: 2fr 1.4fr 1fr 1.1fr 1.8fr;
     align-items: center;
-    padding: 16px 24px;
+    padding: 18px 24px;
     border-bottom: 1px solid var(--pay-border);
     transition: background var(--pay-transition);
 }
@@ -505,7 +643,10 @@
 }
 
 .ph-table__cell--course {
-    font-weight: 600;
+    display: flex;
+    align-items: center;
+    font-weight: 700;
+    font-size: 14px;
     color: var(--pay-text-primary);
 }
 
@@ -702,9 +843,235 @@
     outline-offset: 2px;
 }
 
+.modal-content--card {
+    max-width: 460px;
+    gap: 20px;
+}
+
+.modal-header--stacked {
+    align-items: flex-start;
+    justify-content: space-between;
+    padding-bottom: 16px;
+    border-bottom: 1px solid var(--pay-border);
+}
+
+.modal-header__text {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    flex: 1;
+}
+
+.modal-header__subtitle {
+    margin: 0;
+    font-size: 13px;
+    color: var(--pay-text-secondary);
+    line-height: 1.5;
+    font-weight: 400;
+}
+
+.modal-header h2 {
+    font-size: 20px;
+    font-weight: 700;
+    color: var(--pay-text-primary);
+    margin: 0;
+}
+
 .modal-body {
     display: flex;
     flex-direction: column;
+    gap: 0;
+}
+
+/* ── Form input with icons ── */
+.form-input-wrap {
+    position: relative;
+    display: flex;
+    align-items: center;
+}
+
+.form-input-icon {
+    position: absolute;
+    left: 12px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: var(--pay-text-muted);
+    pointer-events: none;
+    display: flex;
+    align-items: center;
+    z-index: 1;
+}
+
+.form-input-wrap input {
+    width: 100%;
+    padding: 11px 14px 11px 40px;
+    border-radius: var(--pay-radius-md);
+    border: 1.5px solid var(--pay-border);
+    background: var(--pay-surface);
+    color: var(--pay-text-primary);
+    font-size: 14px;
+    box-sizing: border-box;
+    transition: border-color var(--pay-transition), box-shadow var(--pay-transition);
+}
+
+.form-input-wrap input:focus {
+    outline: none;
+    border-color: var(--pay-primary);
+    box-shadow: 0 0 0 3px var(--pay-primary-glow);
+}
+
+.form-input-brand {
+    position: absolute;
+    right: 10px;
+    top: 50%;
+    transform: translateY(-50%);
+    display: flex;
+    align-items: center;
+}
+
+.form-cvv-toggle {
+    position: absolute;
+    right: 8px;
+    top: 50%;
+    transform: translateY(-50%);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 30px;
+    height: 30px;
+    background: transparent;
+    border: none;
+    border-radius: var(--pay-radius-sm);
+    color: var(--pay-text-muted);
+    cursor: pointer;
+    transition: color var(--pay-transition), background var(--pay-transition);
+}
+
+.form-cvv-toggle:hover {
+    color: var(--pay-text-primary);
+    background: var(--pay-surface-alt);
+}
+
+/* ── Set as default checkbox ── */
+.form-checkbox {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin: 4px 0 20px;
+    cursor: pointer;
+    user-select: none;
+}
+
+.form-checkbox input {
+    position: absolute;
+    opacity: 0;
+    width: 0;
+    height: 0;
+}
+
+.form-checkbox__box {
+    width: 18px;
+    height: 18px;
+    border: 2px solid var(--pay-border-strong);
+    border-radius: 5px;
+    background: var(--pay-surface);
+    flex-shrink: 0;
+    transition: background var(--pay-transition), border-color var(--pay-transition);
+    position: relative;
+}
+
+.form-checkbox input:checked + .form-checkbox__box {
+    background: var(--pay-primary);
+    border-color: var(--pay-primary);
+}
+
+.form-checkbox input:checked + .form-checkbox__box::after {
+    content: '';
+    position: absolute;
+    left: 5px;
+    top: 1px;
+    width: 5px;
+    height: 10px;
+    border: solid #fff;
+    border-width: 0 2px 2px 0;
+    transform: rotate(45deg);
+}
+
+.form-checkbox__label {
+    font-size: 14px;
+    font-weight: 500;
+    color: var(--pay-text-primary);
+}
+
+.form-checkbox input:focus-visible + .form-checkbox__box {
+    outline: 2px solid var(--pay-primary);
+    outline-offset: 2px;
+}
+
+/* ── Modal footer — stacked actions ── */
+.modal-footer--stacked {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    margin-top: 4px;
+}
+
+.modal-cancel-btn {
+    width: 100%;
+    padding: 11px;
+    background: var(--pay-surface-alt);
+    color: var(--pay-text-secondary);
+    border: 1.5px solid var(--pay-border);
+    border-radius: var(--pay-radius-md);
+    font-size: 14px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background var(--pay-transition), color var(--pay-transition), border-color var(--pay-transition);
+}
+
+.modal-cancel-btn:hover {
+    background: var(--pay-border);
+    color: var(--pay-text-primary);
+}
+
+.add-card-btn:disabled {
+    opacity: 0.65;
+    cursor: not-allowed;
+    transform: none;
+}
+
+/* ── Toast notification ── */
+.pay-toast {
+    position: fixed;
+    top: 28px;
+    left: 50%;
+    transform: translate(-50%, -120px);
+    background: var(--pay-success);
+    color: #fff;
+    padding: 12px 22px;
+    border-radius: var(--pay-radius-pill);
+    box-shadow: 0 8px 30px rgba(22, 163, 74, 0.35);
+    font-weight: 600;
+    font-size: 14px;
+    z-index: 1100;
+    opacity: 0;
+    pointer-events: none;
+    transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+.pay-toast--show {
+    transform: translate(-50%, 0);
+    opacity: 1;
+}
+
+.pay-toast__content {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.pay-toast__icon {
+    flex-shrink: 0;
 }
 
 /* ── Form Elements ── */
@@ -821,14 +1188,16 @@
    RESPONSIVE — Mobile breakpoint ≤ 768px
    ═══════════════════════════════════════════════════════════ */
 @media (max-width: 768px) {
+    .billing-dashboard {
+        max-width: 100%;
+    }
+
     .pc-section__header {
-        flex-direction: column;
-        align-items: stretch;
+        align-items: flex-start;
     }
 
     .pc-add-btn {
-        justify-content: center;
-        width: 100%;
+        width: auto;
     }
 
     .pc-card {
@@ -851,13 +1220,15 @@
     }
 
     .ph-header {
-        flex-direction: column;
-        align-items: stretch;
+        align-items: flex-start;
     }
 
     .ph-download-btn {
-        justify-content: center;
-        width: 100%;
+        width: auto;
+    }
+
+    .ph-summary-strip {
+        max-width: 100%;
     }
 
     .security-badge {
