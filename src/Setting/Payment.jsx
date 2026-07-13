@@ -326,10 +326,14 @@ function Payment() {
         { name: "Payment", path: "/Setting/Payment", black: "/photo_icons/For_setting/PaymentBlack.png", white: "/photo_icons/For_setting/PaymentWhite.png", blue: "/photo_icons/For_setting/PaymentBlue.png" },
     ];
 
-    const [paymentMethods, setPaymentMethods] = useState([
-        { id: 1, last4: "4242", expires: "12/26", isDefault: true, brand: 'visa' },
-        { id: 2, last4: "1234", expires: "01/26", isDefault: false, brand: 'mastercard' },
-    ]);
+    // Initialize payment methods from localStorage with fallback default data
+    const [paymentMethods, setPaymentMethods] = useState(() => {
+        const saved = localStorage.getItem('paymentMethods');
+        return saved ? JSON.parse(saved) : [
+            { id: 1, last4: "4242", expires: "12/26", isDefault: true, brand: 'visa' },
+            { id: 2, last4: "1234", expires: "01/26", isDefault: false, brand: 'mastercard' },
+        ];
+    });
 
     const [purchaseHistory] = useState([
         { id: 1, course: "Logo Design", date: "12 / 12 / 2025", price: "$80.00", status: "Completed", method: "**** **** **** 4242" },
@@ -360,6 +364,11 @@ function Payment() {
         observer.observe(document.documentElement, { attributes: true, attributeFilter: ["class"] });
         return () => observer.disconnect();
     }, []);
+
+    // Save payment methods to localStorage whenever they change
+    useEffect(() => {
+        localStorage.setItem('paymentMethods', JSON.stringify(paymentMethods));
+    }, [paymentMethods]);
 
     useEffect(() => {
         document.body.style.overflow = showModal ? 'hidden' : '';
