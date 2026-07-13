@@ -25,6 +25,9 @@ dist-ssr
 
 # Backend - user data (contains sensitive info, auto-generated)
 server/data/
+# skill
+.agents/skills
+
 
 # تجاهل مجلد الفيديوهات بالكامل
 public/video/
