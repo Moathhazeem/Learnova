@@ -4,7 +4,7 @@ import { useTranslation } from 'react-i18next';
 // 2. دمج imports الـ react-router-dom في سطر واحد
 import { useNavigate, Link, useLocation } from "react-router-dom";
 // 3. تغيير ChevronLeft إلى ChevronRight لتطابق الاستخدام في الأسفل
-import { ChevronRight, ChevronDown, Bookmark, Search, Grid, BarChart, Clock, Trash2, DollarSign, Signal, Star, Tag } from "lucide-react";
+import { ChevronRight, ChevronDown, Bookmark, Search, Grid, BarChart, Clock, Trash2, CircleDollarSign, SlidersHorizontal, Star } from "lucide-react";
 import "./Save.css";
 
 function Save() {
@@ -20,10 +20,11 @@ function Save() {
             title: "Adobe Illustrator - logos design",
             image: "Photo/Adobe Illustrator logo design.png",
             price: "$50",
-            duration: "1 h",
-            level: "Beginer",
+            duration: "1h",
+            level: "Beginner",
+            category: "Graphic Design",
             instructorName: "Dimitri Abdelhak",
-            instructorAvatar: "Photo/Dimitri Abdelhak.png",
+            instructorAvatar: "/Photo/man_suites.jpg",
             rating: "5.0"
         },
         {
@@ -31,10 +32,11 @@ function Save() {
             title: "Adobe Photoshop - Social media designs",
             image: "Photo/Adobe Photoshop - Social media designs.png",
             price: "$45",
-            duration: "2.5 h",
-            level: "Beginer",
+            duration: "2.5h",
+            level: "Beginner",
+            category: "Graphic Design",
             instructorName: "Adam Smith",
-            instructorAvatar: "Photo/Adam Smith.png",
+            instructorAvatar: "/Photo/man_suites_4.jpg",
             rating: "4.8"
         },
         {
@@ -42,10 +44,11 @@ function Save() {
             title: "Adobe After effects - Motion Graphics",
             image: "Photo/Adobe After effects-Motion Graphics.png",
             price: "$60",
-            duration: "3 h",
+            duration: "3h",
             level: "Intermediate",
+            category: "Graphic Design",
             instructorName: "George Smith",
-            instructorAvatar: "Photo/George Smith.png",
+            instructorAvatar: "/Photo/man_suites_3.jpg",
             rating: "4.9"
         }
     ]);
@@ -254,36 +257,48 @@ function Save() {
                     {filteredCourses.length > 0 ? (
                         filteredCourses.map(course => (
                             <div className="course-card-save" key={course.id}>
-                                <div className="card-image-wrapper">
-                                    <img src={course.image} alt={course.title} className="course-img" />
-                                    <button className="delete-btn" onClick={() => handleDelete(course.id)}>
-                                        <Trash2 size={16} />
+                                {/* Image + overlays */}
+                                <div className="save-card-image">
+                                    <img src={course.image} alt={course.title} />
+                                    {/* Category badge — top right */}
+                                    <div className="save-category-badge">{course.category}</div>
+                                    {/* Delete button — top left */}
+                                    <button className="save-delete-btn" onClick={() => handleDelete(course.id)}>
+                                        <Trash2 size={15} />
                                     </button>
                                 </div>
-                                <div className="card-details">
-                                    <h3 className="course-card-title">{course.title}</h3>
-                                    <div className="card-meta-info">
-                                        <span className="meta-item">
-                                            <Tag size={14} />
-                                            <span>{course.price}</span>
-                                        </span>
-                                        <span className="meta-item">
-                                            <Clock size={14} />
-                                            <span>{course.duration}</span>
-                                        </span>
-                                        <span className="meta-item">
-                                            <Signal size={14} />
-                                            <span>{course.level}</span>
-                                        </span>
-                                    </div>
-                                    <div className="course-footer">
-                                        <div className="instructor-info">
-                                            <img src={course.instructorAvatar} alt="Instructor" className="instructor-avatar" />
-                                            <span className="instructor-name">{course.instructorName}</span>
+
+                                {/* Card body */}
+                                <div className="save-card-info">
+                                    <h3 className="save-course-title">{course.title}</h3>
+
+                                    {/* Price / Duration / Level row with vertical dividers */}
+                                    <div className="save-info-PRL">
+                                        <div className="save-info-PRL-item">
+                                            <CircleDollarSign size={16} className="save-prl-icon" />
+                                            <p className="save-course-price">{course.price}</p>
                                         </div>
-                                        <div className="course-rating_save">
-                                            <Star size={14} className="start-icon_save" />
-                                            <span>{course.rating}</span>
+                                        <div className="save-info-PRL-item">
+                                            <Clock size={16} className="save-prl-icon" />
+                                            <p className="save-course-meta">{course.duration}</p>
+                                        </div>
+                                        <div className="save-info-PRL-item">
+                                            <SlidersHorizontal size={16} className="save-prl-icon" />
+                                            <p className="save-course-meta">{course.level}</p>
+                                        </div>
+                                    </div>
+
+                                    {/* Instructor / Rating footer */}
+                                    <div className="save-info-IR">
+                                        <div className="save-info-IR-item">
+                                            <img src={course.instructorAvatar} alt="Instructor" />
+                                            <p className="save-course-instructor">{course.instructorName}</p>
+                                        </div>
+                                        <div className="save-info-IR-item">
+                                            <div className="save-rating-icon">
+                                                <Star size={15} className="fill-yellow-400 text-yellow-400" />
+                                            </div>
+                                            <p className="save-course-rating">{course.rating}</p>
                                         </div>
                                     </div>
                                 </div>

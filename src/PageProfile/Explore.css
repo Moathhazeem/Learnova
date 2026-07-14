@@ -405,7 +405,7 @@
     letter-spacing: 0.3px;
     text-transform: uppercase;
     color: #0089EA;
-    box-shadow: 0 2px 12px rgba(0, 137, 234, 0.18), 0 1px 4px rgba(0,0,0,0.08);
+    box-shadow: 0 2px 12px rgba(0, 137, 234, 0.18), 0 1px 4px rgba(0, 0, 0, 0.08);
     border: 1px solid rgba(0, 137, 234, 0.15);
     white-space: nowrap;
     transition: background 0.25s ease;
@@ -667,10 +667,10 @@
     background-color: var(--bg-card);
     border: 1px solid var(--border-color);
     overflow: hidden;
-    box-shadow: 0 2px 12px rgba(0, 0, 0, 0.06), 0 1px 3px rgba(0,0,0,0.04);
+    box-shadow: 0 2px 12px rgba(0, 0, 0, 0.06), 0 1px 3px rgba(0, 0, 0, 0.04);
     transition: transform 0.35s cubic-bezier(0.34, 1.56, 0.64, 1),
-                box-shadow 0.35s cubic-bezier(0.4, 0, 0.2, 1),
-                border-color 0.25s ease;
+        box-shadow 0.35s cubic-bezier(0.4, 0, 0.2, 1),
+        border-color 0.25s ease;
     cursor: pointer;
     will-change: transform;
 }
@@ -709,11 +709,9 @@
     content: '';
     position: absolute;
     inset: 0;
-    background: linear-gradient(
-        to bottom,
-        transparent 55%,
-        rgba(0, 0, 0, 0.22) 100%
-    );
+    background: linear-gradient(to bottom,
+            transparent 55%,
+            rgba(0, 0, 0, 0.22) 100%);
     pointer-events: none;
     opacity: 0;
     transition: opacity 0.35s ease;
@@ -771,7 +769,7 @@
     padding: 0 4px;
 }
 
-.course-info-PRL-item + .course-info-PRL-item {
+.course-info-PRL-item+.course-info-PRL-item {
     border-left: 1px solid var(--border-color);
     padding-left: 12px;
 }
@@ -836,7 +834,7 @@
     object-fit: cover;
     flex-shrink: 0;
     border: 2px solid var(--border-color);
-    box-shadow: 0 1px 4px rgba(0,0,0,0.10);
+    box-shadow: 0 1px 4px rgba(0, 0, 0, 0.10);
     transition: border-color 0.2s ease, box-shadow 0.2s ease;
 }
 
@@ -883,7 +881,7 @@
 
 /* dark mode card */
 .dark .course-item {
-    box-shadow: 0 2px 12px rgba(0, 0, 0, 0.25), 0 1px 3px rgba(0,0,0,0.15);
+    box-shadow: 0 2px 12px rgba(0, 0, 0, 0.25), 0 1px 3px rgba(0, 0, 0, 0.15);
 }
 
 .dark .course-item:hover {
