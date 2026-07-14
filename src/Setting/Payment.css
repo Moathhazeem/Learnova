@@ -108,6 +108,34 @@
     max-width: 920px;
 }
 
+.payment-header {
+    display: flex;
+    align-items: center;
+
+    width: 100%;
+    /* لضمان تمدد الهيدر بكامل عرض الحاوية */
+    box-sizing: border-box;
+    /* لضمان حساب الـ padding بشكل صحيح */
+    margin-bottom: 14px;
+    /* مسافة مريحة بين الهيدر وأول بطاقة */
+    gap: 300px;
+}
+
+.header-text h1 {
+    font-size: 24px;
+    font-weight: 700;
+    color: var(--pay-text-primary);
+    margin: 0 0 4px 0;
+    line-height: 1.2;
+}
+
+.header-text p {
+    font-size: 14px;
+    color: var(--pay-text-secondary);
+    margin: 0;
+    line-height: 1.5;
+}
+
 /* ═══════════════════════════════════════════════════════════
    PAYMENT CARDS SECTION
    ═══════════════════════════════════════════════════════════ */

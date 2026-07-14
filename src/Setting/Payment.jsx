@@ -574,7 +574,19 @@ function Payment() {
 
             {/* ── Payment & Billing Dashboard ── */}
             <div className="payment-container billing-dashboard">
-
+                <div className="payment-header">
+                    <div className="header-text">
+                        <h1>Payment Cards</h1>
+                        <p>Manage your payment methods and default billing card.</p>
+                    </div>
+                    <button className="pc-add-btn" onClick={openModal} aria-label="Add new payment card">
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" aria-hidden="true">
+                            <line x1="12" y1="5" x2="12" y2="19" />
+                            <line x1="5" y1="12" x2="19" y2="12" />
+                        </svg>
+                        Add New Card
+                    </button>
+                </div>
                 <section className="pc-section">
                     <header className="pc-section__header">
                         <div className="pc-section__title-group">
@@ -600,14 +612,6 @@ function Payment() {
                     </div>
 
                     <SecurityBadge />
-
-                    <button className="pc-add-btn" onClick={openModal} aria-label="Add new payment card">
-                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" aria-hidden="true">
-                            <line x1="12" y1="5" x2="12" y2="19" />
-                            <line x1="5" y1="12" x2="19" y2="12" />
-                        </svg>
-                        Add New Card
-                    </button>
                 </section>
 
                 <HistoryTable purchaseHistory={purchaseHistory} onDownload={handleDownload} />
