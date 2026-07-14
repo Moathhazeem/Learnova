@@ -172,6 +172,14 @@ function HistoryTable({ purchaseHistory, onDownload }) {
                     <h2 className="ph-header__title">Purchase History</h2>
                     <p className="ph-header__sub">View and download your course purchases</p>
                 </div>
+                <button className="ph-download-btn" onClick={onDownload} aria-label="Download purchase history as CSV">
+                    <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" aria-hidden="true">
+                        <path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4" />
+                        <polyline points="7 10 12 15 17 10" />
+                        <line x1="12" y1="15" x2="12" y2="3" />
+                    </svg>
+                    Download CSV
+                </button>
             </div>
 
             {/* Summary strip */}
@@ -253,14 +261,7 @@ function HistoryTable({ purchaseHistory, onDownload }) {
                 ))}
             </div>
 
-            <button className="ph-download-btn" onClick={onDownload} aria-label="Download purchase history as CSV">
-                <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" aria-hidden="true">
-                    <path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4" />
-                    <polyline points="7 10 12 15 17 10" />
-                    <line x1="12" y1="15" x2="12" y2="3" />
-                </svg>
-                Download CSV
-            </button>
+
         </div>
     );
 }
@@ -576,8 +577,8 @@ function Payment() {
             <div className="payment-container billing-dashboard">
                 <div className="payment-header">
                     <div className="header-text">
-                        <h1>Payment Cards</h1>
-                        <p>Manage your payment methods and default billing card.</p>
+                        <h1 className="ph-header__title">Payment Cards</h1>
+                        <p className="ph-header__sub">Manage your payment methods and default billing card.</p>
                     </div>
                     <button className="pc-add-btn" onClick={openModal} aria-label="Add new payment card">
                         <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" aria-hidden="true">

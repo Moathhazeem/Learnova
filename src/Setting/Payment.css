@@ -60,7 +60,7 @@
     width: 100%;
     display: flex;
     flex-direction: column;
-    gap: 40px;
+    gap: 20px;
     margin: 0 !important;
 
 }
@@ -110,30 +110,26 @@
 
 .payment-header {
     display: flex;
-    align-items: center;
-
-    width: 100%;
-    /* لضمان تمدد الهيدر بكامل عرض الحاوية */
-    box-sizing: border-box;
-    /* لضمان حساب الـ padding بشكل صحيح */
-    margin-bottom: 14px;
-    /* مسافة مريحة بين الهيدر وأول بطاقة */
-    gap: 300px;
+    flex-direction: row;
+    align-items: flex-start;
+    gap: 315px;
+    margin-bottom: 24px;
 }
 
 .header-text h1 {
-    font-size: 24px;
+    font-size: 22px;
     font-weight: 700;
     color: var(--pay-text-primary);
-    margin: 0 0 4px 0;
+    margin: 0;
     line-height: 1.2;
+    height: auto;
 }
 
 .header-text p {
     font-size: 14px;
     color: var(--pay-text-secondary);
     margin: 0;
-    line-height: 1.5;
+    line-height: 1;
 }
 
 /* ═══════════════════════════════════════════════════════════
@@ -143,6 +139,18 @@
     display: flex;
     flex-direction: column;
     gap: 20px;
+    margin-bottom: 48px;
+    /* مسافة كافية ومريحة جداً لفصل الأقسام */
+}
+
+.ph-section,
+.payment-header {
+    /* أو الاسم البرمجي لترويسة القسم الثاني */
+    display: flex !important;
+    justify-content: center !important;
+    align-items: center !important;
+    margin-bottom: 20px !important;
+    /* مسافة ثابتة وموحدة بين العنوان ومحتواه */
 }
 
 /* Section header — left-aligned, no right-side actions */
@@ -533,9 +541,11 @@
 /* History header — left-aligned */
 .ph-header {
     display: flex;
-    flex-direction: column;
+    flex-direction: row;
     align-items: flex-start;
-    gap: 4px;
+    gap: 415px;
+    margin-bottom: 24px;
+
 }
 
 .ph-header__text {
@@ -546,7 +556,7 @@
 }
 
 .ph-header__title {
-    font-size: 22px;
+    font-size: 22px !important;
     font-weight: 700;
     color: var(--pay-text-primary);
     margin: 0;
@@ -554,7 +564,7 @@
 }
 
 .ph-header__sub {
-    font-size: 14px;
+    font-size: 14px !important;
     color: var(--pay-text-secondary);
     margin: 4px 0 0;
 }
