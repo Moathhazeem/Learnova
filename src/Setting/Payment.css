@@ -224,6 +224,8 @@
     display: flex;
     flex-direction: column;
     gap: 14px;
+    overflow: visible !important;
+    /* يضمن عدم قص أي قائمة منسدلة داخل الشبكة */
 }
 
 /* ── Individual Payment Card ── */
@@ -266,7 +268,10 @@
     bottom: 0;
     width: 4px;
     background: var(--pay-primary);
-    border-radius: var(--pay-radius-lg) 0 0 var(--pay-radius-lg);
+
+    /* تدوير الزوايا اليسرى فقط لمطابقة انحناء البطاقة */
+    border-top-left-radius: var(--pay-radius-lg);
+    border-bottom-left-radius: var(--pay-radius-lg);
 }
 
 /* ── Card chip visual ── */
@@ -401,16 +406,20 @@
 /* Dropdown */
 .pc-card__dropdown {
     position: absolute;
-    top: calc(100% + 6px);
+    top: 100%;
+    /* تظهر مباشرة أسفل زر النقاط الثلاث */
     right: 0;
     min-width: 180px;
     background: var(--pay-surface);
     border: 1px solid var(--pay-border);
     border-radius: var(--pay-radius-md);
     box-shadow: var(--pay-shadow-lg);
-    z-index: 50;
-    overflow: hidden;
+    overflow: visible !important;
     animation: dropdownFade 0.15s ease-out;
+    /* السطرين الأهم لحل المشكلة 👇 */
+    z-index: 9999 !important;
+    /* يرفع القائمة فوق البطاقة التالية مجبرًا المتصفح على إظهارها */
+    display: block !important;
 }
 
 @keyframes dropdownFade {
@@ -455,11 +464,24 @@
 }
 
 .pc-card__dropdown-item--danger {
-    color: var(--pay-danger);
+    width: 100%;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 8px 12px;
+    color: #ef4444;
+    /* اللون الأحمر التحذيري */
+    background: transparent;
+    border: none;
+    border-radius: 6px;
+    font-size: 14px;
+    cursor: pointer;
+    transition: background-color 0.2s;
 }
 
 .pc-card__dropdown-item--danger:hover:not(:disabled) {
-    background: var(--pay-danger-bg);
+    background-color: #fef2f2;
+    /* خلفية حمراء خفيفة عند الوقوف مؤشر الماوس */
 }
 
 /* ═══════════════════════════════════════════════════════════

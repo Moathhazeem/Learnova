@@ -329,22 +329,22 @@ function Payment() {
 
     // Initialize payment methods from localStorage with fallback default data
     const [paymentMethods, setPaymentMethods] = useState(() => {
-        const saved = localStorage.getItem('paymentMethods');
-        return saved ? JSON.parse(saved) : [
+        try {
+            const saved = localStorage.getItem('payment_methods');
+            if (saved) {
+                const parsed = JSON.parse(saved);
+                if (Array.isArray(parsed) && parsed.length > 0) {
+                    return parsed;
+                }
+            }
+        } catch (e) {
+            console.error("Error loading paymentMethods from localStorage:", e);
+        }
+        return [
             { id: 1, last4: "4242", expires: "12/26", isDefault: true, brand: 'visa' },
             { id: 2, last4: "1234", expires: "01/26", isDefault: false, brand: 'mastercard' },
         ];
     });
-    const [cards, setCards] = useState([
-        {
-            id: 1,
-            cardNumber: "•••• •••• •••• 4242",
-            cardExpiry: "12/26",
-            cardName: "Visa",
-            brand: "visa",
-            isDefault: true
-        }
-    ]);
     const [purchaseHistory] = useState([
         { id: 1, course: "Logo Design", date: "12 / 12 / 2025", price: "$80.00", status: "Completed", method: "**** **** **** 4242" },
         { id: 2, course: "Video Editing", date: "12 / 03 / 2024", price: "$100.00", status: "Completed", method: "**** **** **** 4122" },
@@ -377,7 +377,9 @@ function Payment() {
 
     // Save payment methods to localStorage whenever they change
     useEffect(() => {
-        localStorage.setItem('paymentMethods', JSON.stringify(paymentMethods));
+        if (Array.isArray(paymentMethods)) {
+            localStorage.setItem('payment_methods', JSON.stringify(paymentMethods));
+        }
     }, [paymentMethods]);
 
     useEffect(() => {
@@ -422,41 +424,33 @@ function Payment() {
         return Object.keys(errors).length === 0;
     };
 
-    const handleAddMethod = async (e) => {
+    const handleAddMethod = (e) => {
         e.preventDefault();
         if (!validateCardForm()) return;
 
-        setIsSubmitting(true);
-        try {
-            await new Promise(resolve => setTimeout(resolve, 650));
+        const brand = detectBrand(cardNumber);
+        const shouldBeDefault = setAsDefault;
+        const newCard = {
+            id: Date.now(),
+            last4: cardNumber.replace(/\s/g, '').slice(-4),
+            expires: cardExpiry,
+            isDefault: shouldBeDefault,
+            brand,
+        };
 
-            const brand = detectBrand(cardNumber);
-            const newCard = {
-                id: Date.now(),
-                last4: cardNumber.replace(/\s/g, '').slice(-4),
-                expires: cardExpiry,
-                isDefault: setAsDefault,
-                brand,
-            };
+        setPaymentMethods(prev => {
+            const safePrev = Array.isArray(prev) ? prev : [];
+            const cleared = safePrev.map(method => ({
+                ...method,
+                isDefault: shouldBeDefault ? false : method.isDefault
+            }));
+            return sortByDefault([...cleared, newCard]);
+        });
 
-            setPaymentMethods(prev => {
-                const cleared = setAsDefault
-                    ? prev.map(method => ({ ...method, isDefault: false }))
-                    : prev;
-                return sortByDefault([...cleared, newCard]);
-            });
-
-            closeModal();
-            showToastNotification('Payment method added successfully');
-            setCardNumber("");
-            setCardExpiry("");
-            setCardCVV("");
-            setCardName("");
-            setSetAsDefault(false);
-        } finally {
-            setIsSubmitting(false);
-        }
+        showToastNotification('Card added successfully');
+        closeModal();
     };
+
 
     const handleSetDefault = (cardId) => {
         setPaymentMethods(prev =>
@@ -576,8 +570,8 @@ function Payment() {
             {/* ── Payment & Billing Dashboard ── */}
             <div className="payment-container billing-dashboard">
                 <div className="payment-header">
-                    <div className="header-text">
-                        <h1 className="ph-header__title">Payment Cards</h1>
+                    <div className="ph-header__text">
+                        <h1 className='ph-header__title'>Payment Cards</h1>
                         <p className="ph-header__sub">Manage your payment methods and default billing card.</p>
                     </div>
                     <button className="pc-add-btn" onClick={openModal} aria-label="Add new payment card">
