@@ -426,29 +426,37 @@ function Payment() {
 
     const handleAddMethod = (e) => {
         e.preventDefault();
+        if (isSubmitting) return;
+
         if (!validateCardForm()) return;
 
-        const brand = detectBrand(cardNumber);
-        const shouldBeDefault = setAsDefault;
-        const newCard = {
-            id: Date.now(),
-            last4: cardNumber.replace(/\s/g, '').slice(-4),
-            expires: cardExpiry,
-            isDefault: shouldBeDefault,
-            brand,
-        };
+        setIsSubmitting(true);
+        try {
+            const brand = detectBrand(cardNumber);
+            const shouldBeDefault = setAsDefault;
+            const newCard = {
+                id: Date.now(),
+                last4: cardNumber.replace(/\s/g, '').slice(-4),
+                expires: cardExpiry,
+                isDefault: shouldBeDefault,
+                brand,
+            };
 
-        setPaymentMethods(prev => {
-            const safePrev = Array.isArray(prev) ? prev : [];
-            const cleared = safePrev.map(method => ({
-                ...method,
-                isDefault: shouldBeDefault ? false : method.isDefault
-            }));
-            return sortByDefault([...cleared, newCard]);
-        });
+            setPaymentMethods(prev => {
+                const safePrev = Array.isArray(prev) ? prev : [];
+                const cleared = safePrev.map(method => ({
+                    ...method,
+                    isDefault: shouldBeDefault ? false : method.isDefault
+                }));
+                return sortByDefault([...cleared, newCard]);
+            });
 
-        showToastNotification('Card added successfully');
-        closeModal();
+            showToastNotification('Card added successfully');
+            closeModal();
+        } catch (error) {
+            console.error("Error adding card:", error);
+            setIsSubmitting(false);
+        }
     };
 
 
@@ -491,16 +499,25 @@ function Payment() {
         URL.revokeObjectURL(url);
     };
 
-    const openModal = () => { setShowModal(true); setFormErrors({}); setSetAsDefault(true); };
-    const closeModal = () => {
-        setShowModal(false);
-        setFormErrors({});
+    const resetForm = () => {
         setCardNumber("");
         setCardName("");
         setCardExpiry("");
         setCardCVV("");
         setSetAsDefault(true);
         setShowCVV(false);
+        setFormErrors({});
+        setIsSubmitting(false);
+    };
+
+    const openModal = () => {
+        resetForm();
+        setShowModal(true);
+    };
+    
+    const closeModal = () => {
+        setShowModal(false);
+        resetForm();
     };
 
     const sortedPaymentMethods = useMemo(() => {

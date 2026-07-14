@@ -119,21 +119,23 @@ function Payment_pay() {
                     <span className="current">Payment</span>
                 </nav>
 
-                <div className="payment-header">
+                <div className="payment-header_my_purchases">
                     <span className="payment-eyebrow">
                         <Sparkles size={13} />
                         Secure checkout
                     </span>
-                    <h1>Checkout &amp; Payment</h1>
-                    <p>Review your selected courses, choose a payment method, and finalize your order. No hidden fees.</p>
-                    <div className="payment-trust-row">
-                        <span><ShieldCheck size={14} /> SSL encrypted</span>
-                        <span><Lock size={14} /> PCI compliant</span>
-                        <span><CheckCircle2 size={14} /> 30-day refund</span>
+                    <div className="payment-header-content" style={{ marginBottom: "20px !important" }}>
+                        <h1>Checkout &amp; Payment</h1>
+                        <p>Review your selected courses, choose a payment method, and finalize your order. No hidden fees.</p>
+                        <div className="payment-trust-row">
+                            <span><ShieldCheck size={14} /> SSL encrypted</span>
+                            <span><Lock size={14} /> PCI compliant</span>
+                            <span><CheckCircle2 size={14} /> 30-day refund</span>
+                        </div>
                     </div>
                 </div>
 
-                <div className="payment-content">
+                <div className="payment-content_my_purchases">
 
                     <div className="payment-left">
 

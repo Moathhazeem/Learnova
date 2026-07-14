@@ -90,9 +90,17 @@
 }
 
 /* ── Page header ── */
-.payment-header {
-  margin-bottom: 40px;
+.payment-header_my_purchases {
+  margin-bottom: 40px !important;
+  padding: 10px !important;
 }
+
+.payment-header_my_purchases h1 {
+  color: black !important;
+  margin-bottom: 20px !important;
+}
+
+
 
 .payment-eyebrow {
   display: inline-flex;
@@ -156,15 +164,30 @@
 }
 
 /* ── Main grid ── */
-.payment-content {
+.payment-content_my_purchases {
   display: grid;
   grid-template-columns: 1fr 380px;
   gap: 28px;
+  margin-top: 20px !important;
   align-items: start;
+  justify-content: center;
+  min-height: 700px;
+  width: 100%;
+  margin-left: 30%;
+}
+
+
+
+.payment-header-content {
+  width: 100%;
+  max-width: 600px;
+  display: flex;
+  flex-direction: column;
+  gap: 20px !important;
 }
 
 @media (max-width: 980px) {
-  .payment-content {
+  .payment-content_my_purchases {
     grid-template-columns: 1fr;
   }
 
@@ -1321,6 +1344,21 @@
 
 /* صندوق النافذة المنبثقة الأبيض */
 .modal-content {
+  background-color: #ffffff;
+  width: 100%;
+  max-width: 480px;
+  border-radius: 16px;
+  padding: 24px;
+  box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  font-family: sans-serif;
+  /* تأكيد إضافي لمنع الانحياز لليمين أو اليسار بسبب الـ RTL */
+  margin: auto !important;
+}
+
+.modal-content--card {
   background-color: #ffffff;
   width: 100%;
   max-width: 480px;

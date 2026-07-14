@@ -186,7 +186,7 @@ function Header() {
                     <li role="menuitem" onClick={() => Navigate("/My Learning")}>
                       {t("setting.my_learning", "My Learning")}
                     </li>
-                    <li role="menuitem" onClick={() => Navigate("/Mypurchases")}>
+                    <li role="menuitem" onClick={() => Navigate("/payment_pay")}>
                       {t("setting.my_purchases", "My Purchases")}
                     </li>
                     <li role="menuitem" onClick={() => Navigate("/Save")}>
