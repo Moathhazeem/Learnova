@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect, useRef, useMemo } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import "../config/i18n";
 import { useTranslation } from "react-i18next";
@@ -22,38 +22,38 @@ function detectBrand(number) {
 function CardBrandIcon({ brand, size = 36 }) {
     if (brand === 'visa') return (
         <svg width={size} height={size * 0.63} viewBox="0 0 60 38" aria-label="Visa" role="img">
-            <rect width="60" height="38" rx="6" fill="#1A1F71"/>
+            <rect width="60" height="38" rx="6" fill="#1A1F71" />
             <text x="10" y="27" fontFamily="Arial" fontWeight="bold" fontSize="16" fill="#FFFFFF" letterSpacing="1">VISA</text>
         </svg>
     );
     if (brand === 'mastercard') return (
         <svg width={size} height={size * 0.63} viewBox="0 0 60 38" aria-label="Mastercard" role="img">
-            <rect width="60" height="38" rx="6" fill="#252525"/>
-            <circle cx="22" cy="19" r="12" fill="#EB001B"/>
-            <circle cx="38" cy="19" r="12" fill="#F79E1B"/>
-            <path d="M30 9.5a12 12 0 010 19A12 12 0 0130 9.5z" fill="#FF5F00"/>
+            <rect width="60" height="38" rx="6" fill="#252525" />
+            <circle cx="22" cy="19" r="12" fill="#EB001B" />
+            <circle cx="38" cy="19" r="12" fill="#F79E1B" />
+            <path d="M30 9.5a12 12 0 010 19A12 12 0 0130 9.5z" fill="#FF5F00" />
         </svg>
     );
     if (brand === 'amex') return (
         <svg width={size} height={size * 0.63} viewBox="0 0 60 38" aria-label="American Express" role="img">
-            <rect width="60" height="38" rx="6" fill="#2557D6"/>
+            <rect width="60" height="38" rx="6" fill="#2557D6" />
             <text x="8" y="25" fontFamily="Arial" fontWeight="bold" fontSize="10" fill="#FFFFFF">AMEX</text>
         </svg>
     );
     if (brand === 'discover') return (
         <svg width={size} height={size * 0.63} viewBox="0 0 60 38" aria-label="Discover" role="img">
-            <rect width="60" height="38" rx="6" fill="#F76F20"/>
+            <rect width="60" height="38" rx="6" fill="#F76F20" />
             <text x="6" y="25" fontFamily="Arial" fontWeight="bold" fontSize="9" fill="#FFFFFF">DISCOVER</text>
         </svg>
     );
     /* generic chip */
     return (
         <svg width={size} height={size * 0.75} viewBox="0 0 48 36" aria-hidden="true">
-            <rect width="48" height="36" rx="5" fill="#FFD166" opacity="0.9"/>
-            <rect x="4" y="10" width="40" height="16" rx="3" fill="#FFB703" opacity="0.7"/>
-            <rect x="16" y="10" width="2" height="16" fill="#FFD166" opacity="0.8"/>
-            <rect x="30" y="10" width="2" height="16" fill="#FFD166" opacity="0.8"/>
-            <rect x="4" y="16" width="40" height="3" fill="#FFD166" opacity="0.6"/>
+            <rect width="48" height="36" rx="5" fill="#FFD166" opacity="0.9" />
+            <rect x="4" y="10" width="40" height="16" rx="3" fill="#FFB703" opacity="0.7" />
+            <rect x="16" y="10" width="2" height="16" fill="#FFD166" opacity="0.8" />
+            <rect x="30" y="10" width="2" height="16" fill="#FFD166" opacity="0.8" />
+            <rect x="4" y="16" width="40" height="3" fill="#FFD166" opacity="0.6" />
         </svg>
     );
 }
@@ -85,10 +85,10 @@ function PaymentCard({ last4, expiry, isDefault, brand, id, onMakeDefault, onDel
 
     return (
         <div className={`pc-card ${isDefault ? 'pc-card--default' : ''}`}>
-            {isDefault && <span className="pc-card__accent" aria-hidden="true"/>}
+            {isDefault && <span className="pc-card__accent" aria-hidden="true" />}
 
             <div className="pc-card__icon-wrap">
-                <CardBrandIcon brand={cardBrand} size={48}/>
+                <CardBrandIcon brand={cardBrand} size={48} />
             </div>
 
             <div className="pc-card__info">
@@ -96,8 +96,8 @@ function PaymentCard({ last4, expiry, isDefault, brand, id, onMakeDefault, onDel
                     <span className="pc-card__number">•••• •••• •••• {last4}</span>
                     {isDefault ? (
                         <span className="pc-card__badge" aria-label="Default payment method">
-                            <svg width="10" height="10" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true" style={{marginRight:'4px'}}>
-                                <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/>
+                            <svg width="10" height="10" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true" style={{ marginRight: '4px' }}>
+                                <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z" />
                             </svg>
                             Default
                         </span>
@@ -127,9 +127,9 @@ function PaymentCard({ last4, expiry, isDefault, brand, id, onMakeDefault, onDel
                     onClick={() => setMenuOpen(prev => !prev)}
                 >
                     <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
-                        <circle cx="12" cy="5" r="2"/>
-                        <circle cx="12" cy="12" r="2"/>
-                        <circle cx="12" cy="19" r="2"/>
+                        <circle cx="12" cy="5" r="2" />
+                        <circle cx="12" cy="12" r="2" />
+                        <circle cx="12" cy="19" r="2" />
                     </svg>
                 </button>
 
@@ -143,10 +143,10 @@ function PaymentCard({ last4, expiry, isDefault, brand, id, onMakeDefault, onDel
                             title={!canDelete ? 'Cannot delete the only card' : ''}
                         >
                             <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" aria-hidden="true">
-                                <polyline points="3 6 5 6 21 6"/>
-                                <path d="M19 6l-1 14H6L5 6"/>
-                                <path d="M10 11v6M14 11v6"/>
-                                <path d="M9 6V4h6v2"/>
+                                <polyline points="3 6 5 6 21 6" />
+                                <path d="M19 6l-1 14H6L5 6" />
+                                <path d="M10 11v6M14 11v6" />
+                                <path d="M9 6V4h6v2" />
                             </svg>
                             Remove Card
                         </button>
@@ -180,14 +180,14 @@ function HistoryTable({ purchaseHistory, onDownload }) {
                     <span className="ph-summary-item__val">{purchaseHistory.length}</span>
                     <span className="ph-summary-item__label">Total Orders</span>
                 </div>
-                <div className="ph-summary-divider"/>
+                <div className="ph-summary-divider" />
                 <div className="ph-summary-item">
                     <span className="ph-summary-item__val ph-summary-item__val--green">
                         {purchaseHistory.filter(i => i.status === 'Completed').length}
                     </span>
                     <span className="ph-summary-item__label">Completed</span>
                 </div>
-                <div className="ph-summary-divider"/>
+                <div className="ph-summary-divider" />
                 <div className="ph-summary-item">
                     <span className="ph-summary-item__val ph-summary-item__val--money">${totalSpent.toFixed(2)}</span>
                     <span className="ph-summary-item__label">Total Spent</span>
@@ -210,14 +210,14 @@ function HistoryTable({ purchaseHistory, onDownload }) {
                         role="row"
                     >
                         <span className="ph-table__cell ph-table__cell--course" role="cell">
-                            <span className="ph-table__course-dot"/>
+                            <span className="ph-table__course-dot" />
                             {item.course}
                         </span>
                         <span className="ph-table__cell ph-table__cell--date" role="cell">{item.date}</span>
                         <span className="ph-table__cell ph-table__cell--price" role="cell">{item.price}</span>
                         <span className="ph-table__cell" role="cell">
                             <span className={`ph-badge ph-badge--${item.status.toLowerCase()}`}>
-                                <span className="ph-badge__dot"/>
+                                <span className="ph-badge__dot" />
                                 {item.status}
                             </span>
                         </span>
@@ -233,7 +233,7 @@ function HistoryTable({ purchaseHistory, onDownload }) {
                         <div className="ph-mobile-card__top">
                             <span className="ph-mobile-card__course">{item.course}</span>
                             <span className={`ph-badge ph-badge--${item.status.toLowerCase()}`}>
-                                <span className="ph-badge__dot"/>
+                                <span className="ph-badge__dot" />
                                 {item.status}
                             </span>
                         </div>
@@ -255,9 +255,9 @@ function HistoryTable({ purchaseHistory, onDownload }) {
 
             <button className="ph-download-btn" onClick={onDownload} aria-label="Download purchase history as CSV">
                 <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" aria-hidden="true">
-                    <path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/>
-                    <polyline points="7 10 12 15 17 10"/>
-                    <line x1="12" y1="15" x2="12" y2="3"/>
+                    <path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4" />
+                    <polyline points="7 10 12 15 17 10" />
+                    <line x1="12" y1="15" x2="12" y2="3" />
                 </svg>
                 Download CSV
             </button>
@@ -273,8 +273,8 @@ function SecurityBadge() {
         <div className="security-badge" role="note" aria-label="Security information">
             <div className="security-badge__shield">
                 <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" aria-hidden="true">
-                    <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
-                    <polyline points="9 12 11 14 15 10"/>
+                    <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" />
+                    <polyline points="9 12 11 14 15 10" />
                 </svg>
             </div>
             <span className="security-badge__text">
@@ -282,15 +282,15 @@ function SecurityBadge() {
             </span>
             <div className="security-badge__icons">
                 <span className="security-badge__pill">
-                    <svg width="10" height="10" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true" style={{marginRight:'4px'}}>
-                        <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
+                    <svg width="10" height="10" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true" style={{ marginRight: '4px' }}>
+                        <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" />
                     </svg>
                     PCI DSS
                 </span>
                 <span className="security-badge__pill">
-                    <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" aria-hidden="true" style={{marginRight:'4px'}}>
-                        <rect x="3" y="11" width="18" height="11" rx="2" ry="2"/>
-                        <path d="M7 11V7a5 5 0 0110 0v4"/>
+                    <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" aria-hidden="true" style={{ marginRight: '4px' }}>
+                        <rect x="3" y="11" width="18" height="11" rx="2" ry="2" />
+                        <path d="M7 11V7a5 5 0 0110 0v4" />
                     </svg>
                     256-bit SSL
                 </span>
@@ -334,7 +334,16 @@ function Payment() {
             { id: 2, last4: "1234", expires: "01/26", isDefault: false, brand: 'mastercard' },
         ];
     });
-
+    const [cards, setCards] = useState([
+        {
+            id: 1,
+            cardNumber: "•••• •••• •••• 4242",
+            cardExpiry: "12/26",
+            cardName: "Visa",
+            brand: "visa",
+            isDefault: true
+        }
+    ]);
     const [purchaseHistory] = useState([
         { id: 1, course: "Logo Design", date: "12 / 12 / 2025", price: "$80.00", status: "Completed", method: "**** **** **** 4242" },
         { id: 2, course: "Video Editing", date: "12 / 03 / 2024", price: "$100.00", status: "Completed", method: "**** **** **** 4122" },
@@ -438,6 +447,11 @@ function Payment() {
 
             closeModal();
             showToastNotification('Payment method added successfully');
+            setCardNumber("");
+            setCardExpiry("");
+            setCardCVV("");
+            setCardName("");
+            setSetAsDefault(false);
         } finally {
             setIsSubmitting(false);
         }
@@ -494,7 +508,9 @@ function Payment() {
         setShowCVV(false);
     };
 
-    const sortedPaymentMethods = sortByDefault(paymentMethods);
+    const sortedPaymentMethods = useMemo(() => {
+        return sortByDefault(paymentMethods);
+    }, [paymentMethods]);
 
     return (
         <div className="edit-profile-container">
@@ -525,8 +541,8 @@ function Payment() {
                 <div className="header_setting">
                     <p>{t('setting.header', 'Settings')}</p>
                     <div className="search_page_setting">
-                        <img src={isDarkMode ? search.white : search.black} alt="search" className="setting-search-icon"/>
-                        <input type="search" placeholder={t('setting.search', 'Search settings')}/>
+                        <img src={isDarkMode ? search.white : search.black} alt="search" className="setting-search-icon" />
+                        <input type="search" placeholder={t('setting.search', 'Search settings')} />
                     </div>
                 </div>
                 <div className="Setting_option">
@@ -583,25 +599,25 @@ function Payment() {
                         ))}
                     </div>
 
-                    <SecurityBadge/>
+                    <SecurityBadge />
 
                     <button className="pc-add-btn" onClick={openModal} aria-label="Add new payment card">
                         <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" aria-hidden="true">
-                            <line x1="12" y1="5" x2="12" y2="19"/>
-                            <line x1="5" y1="12" x2="19" y2="12"/>
+                            <line x1="12" y1="5" x2="12" y2="19" />
+                            <line x1="5" y1="12" x2="19" y2="12" />
                         </svg>
                         Add New Card
                     </button>
                 </section>
 
-                <HistoryTable purchaseHistory={purchaseHistory} onDownload={handleDownload}/>
+                <HistoryTable purchaseHistory={purchaseHistory} onDownload={handleDownload} />
             </div>
 
             {/* Toast feedback */}
             <div className={`pay-toast ${showToast ? 'pay-toast--show' : ''}`} role="status" aria-live="polite">
                 <div className="pay-toast__content">
                     <svg viewBox="0 0 24 24" width="18" height="18" className="pay-toast__icon" aria-hidden="true">
-                        <path fill="currentColor" d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/>
+                        <path fill="currentColor" d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z" />
                     </svg>
                     <span>{toastMessage}</span>
                 </div>
@@ -624,8 +640,8 @@ function Payment() {
                             </div>
                             <button className="modal-close-btn" onClick={closeModal} aria-label="Close modal">
                                 <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" aria-hidden="true">
-                                    <line x1="18" y1="6" x2="6" y2="18"/>
-                                    <line x1="6" y1="6" x2="18" y2="18"/>
+                                    <line x1="18" y1="6" x2="6" y2="18" />
+                                    <line x1="6" y1="6" x2="18" y2="18" />
                                 </svg>
                             </button>
                         </div>
@@ -636,8 +652,8 @@ function Payment() {
                                 <div className="form-input-wrap">
                                     <span className="form-input-icon" aria-hidden="true">
                                         <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-                                            <rect x="1" y="4" width="22" height="16" rx="2" ry="2"/>
-                                            <line x1="1" y1="10" x2="23" y2="10"/>
+                                            <rect x="1" y="4" width="22" height="16" rx="2" ry="2" />
+                                            <line x1="1" y1="10" x2="23" y2="10" />
                                         </svg>
                                     </span>
                                     <input
@@ -651,7 +667,7 @@ function Payment() {
                                         autoComplete="cc-number"
                                     />
                                     <span className="form-input-brand">
-                                        <CardBrandIcon brand={detectBrand(cardNumber)} size={28}/>
+                                        <CardBrandIcon brand={detectBrand(cardNumber)} size={28} />
                                     </span>
                                 </div>
                                 {formErrors.cardNumber && <p className="error">{formErrors.cardNumber}</p>}
@@ -663,10 +679,10 @@ function Payment() {
                                     <div className="form-input-wrap">
                                         <span className="form-input-icon" aria-hidden="true">
                                             <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-                                                <rect x="3" y="4" width="18" height="18" rx="2" ry="2"/>
-                                                <line x1="16" y1="2" x2="16" y2="6"/>
-                                                <line x1="8" y1="2" x2="8" y2="6"/>
-                                                <line x1="3" y1="10" x2="21" y2="10"/>
+                                                <rect x="3" y="4" width="18" height="18" rx="2" ry="2" />
+                                                <line x1="16" y1="2" x2="16" y2="6" />
+                                                <line x1="8" y1="2" x2="8" y2="6" />
+                                                <line x1="3" y1="10" x2="21" y2="10" />
                                             </svg>
                                         </span>
                                         <input
@@ -688,8 +704,8 @@ function Payment() {
                                     <div className="form-input-wrap">
                                         <span className="form-input-icon" aria-hidden="true">
                                             <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-                                                <rect x="3" y="11" width="18" height="11" rx="2" ry="2"/>
-                                                <path d="M7 11V7a5 5 0 0110 0v4"/>
+                                                <rect x="3" y="11" width="18" height="11" rx="2" ry="2" />
+                                                <path d="M7 11V7a5 5 0 0110 0v4" />
                                             </svg>
                                         </span>
                                         <input
@@ -710,13 +726,13 @@ function Payment() {
                                         >
                                             {showCVV ? (
                                                 <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" aria-hidden="true">
-                                                    <path d="M17.94 17.94A10.07 10.07 0 0112 20c-7 0-11-8-11-8a18.45 18.45 0 015.06-5.94"/>
-                                                    <line x1="1" y1="1" x2="23" y2="23"/>
+                                                    <path d="M17.94 17.94A10.07 10.07 0 0112 20c-7 0-11-8-11-8a18.45 18.45 0 015.06-5.94" />
+                                                    <line x1="1" y1="1" x2="23" y2="23" />
                                                 </svg>
                                             ) : (
                                                 <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" aria-hidden="true">
-                                                    <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/>
-                                                    <circle cx="12" cy="12" r="3"/>
+                                                    <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z" />
+                                                    <circle cx="12" cy="12" r="3" />
                                                 </svg>
                                             )}
                                         </button>
@@ -730,8 +746,8 @@ function Payment() {
                                 <div className="form-input-wrap">
                                     <span className="form-input-icon" aria-hidden="true">
                                         <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-                                            <path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2"/>
-                                            <circle cx="12" cy="7" r="4"/>
+                                            <path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2" />
+                                            <circle cx="12" cy="7" r="4" />
                                         </svg>
                                     </span>
                                     <input
@@ -752,7 +768,7 @@ function Payment() {
                                     checked={setAsDefault}
                                     onChange={e => setSetAsDefault(e.target.checked)}
                                 />
-                                <span className="form-checkbox__box" aria-hidden="true"/>
+                                <span className="form-checkbox__box" aria-hidden="true" />
                                 <span className="form-checkbox__label">Set as my default payment method</span>
                             </label>
 

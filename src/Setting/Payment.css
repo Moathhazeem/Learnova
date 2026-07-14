@@ -2,55 +2,55 @@
    PAYMENT PAGE — Design System Tokens
    ═══════════════════════════════════════════════════════════ */
 :root {
-    --pay-primary:        #0089EA;
-    --pay-primary-light:  #D6EFFF;
-    --pay-primary-dark:   #006bbf;
-    --pay-primary-glow:   rgba(0, 137, 234, 0.25);
+    --pay-primary: #0089EA;
+    --pay-primary-light: #D6EFFF;
+    --pay-primary-dark: #006bbf;
+    --pay-primary-glow: rgba(0, 137, 234, 0.25);
 
-    --pay-success:        #16a34a;
-    --pay-success-bg:     #dcfce7;
-    --pay-danger:         #dc2626;
-    --pay-danger-bg:      #fee2e2;
-    --pay-danger-hover:   #b91c1c;
+    --pay-success: #16a34a;
+    --pay-success-bg: #dcfce7;
+    --pay-danger: #dc2626;
+    --pay-danger-bg: #fee2e2;
+    --pay-danger-hover: #b91c1c;
 
-    --pay-text-primary:   #0f172a;
+    --pay-text-primary: #0f172a;
     --pay-text-secondary: #64748b;
-    --pay-text-muted:     #94a3b8;
+    --pay-text-muted: #94a3b8;
 
-    --pay-surface:        #ffffff;
-    --pay-surface-alt:    #f8fafc;
-    --pay-border:         #e2e8f0;
-    --pay-border-strong:  #cbd5e1;
+    --pay-surface: #ffffff;
+    --pay-surface-alt: #f8fafc;
+    --pay-border: #e2e8f0;
+    --pay-border-strong: #cbd5e1;
 
-    --pay-shadow-sm:      0 1px 3px rgba(0,0,0,.06), 0 1px 2px rgba(0,0,0,.04);
-    --pay-shadow-md:      0 4px 12px rgba(0,0,0,.08), 0 2px 6px rgba(0,0,0,.04);
-    --pay-shadow-lg:      0 8px 24px rgba(0,0,0,.10), 0 4px 8px rgba(0,0,0,.04);
+    --pay-shadow-sm: 0 1px 3px rgba(0, 0, 0, .06), 0 1px 2px rgba(0, 0, 0, .04);
+    --pay-shadow-md: 0 4px 12px rgba(0, 0, 0, .08), 0 2px 6px rgba(0, 0, 0, .04);
+    --pay-shadow-lg: 0 8px 24px rgba(0, 0, 0, .10), 0 4px 8px rgba(0, 0, 0, .04);
 
-    --pay-radius-sm:      6px;
-    --pay-radius-md:      10px;
-    --pay-radius-lg:      14px;
-    --pay-radius-xl:      18px;
-    --pay-radius-pill:    999px;
+    --pay-radius-sm: 6px;
+    --pay-radius-md: 10px;
+    --pay-radius-lg: 14px;
+    --pay-radius-xl: 18px;
+    --pay-radius-pill: 999px;
 
-    --pay-transition:     0.2s cubic-bezier(0.4, 0, 0.2, 1);
+    --pay-transition: 0.2s cubic-bezier(0.4, 0, 0.2, 1);
 
     /* Typography */
-    --pay-font-mono:      'Courier New', 'Roboto Mono', monospace;
+    --pay-font-mono: 'Courier New', 'Roboto Mono', monospace;
 }
 
 /* Dark-mode token overrides */
 .dark {
-    --pay-text-primary:   #f1f5f9;
+    --pay-text-primary: #f1f5f9;
     --pay-text-secondary: #94a3b8;
-    --pay-text-muted:     #64748b;
-    --pay-surface:        #1e293b;
-    --pay-surface-alt:    #0f172a;
-    --pay-border:         #334155;
-    --pay-border-strong:  #475569;
-    --pay-primary-light:  rgba(0, 137, 234, 0.15);
-    --pay-primary-glow:   rgba(0, 137, 234, 0.3);
-    --pay-success-bg:     rgba(22, 163, 74, 0.15);
-    --pay-danger-bg:      rgba(220, 38, 38, 0.15);
+    --pay-text-muted: #64748b;
+    --pay-surface: #1e293b;
+    --pay-surface-alt: #0f172a;
+    --pay-border: #334155;
+    --pay-border-strong: #475569;
+    --pay-primary-light: rgba(0, 137, 234, 0.15);
+    --pay-primary-glow: rgba(0, 137, 234, 0.3);
+    --pay-success-bg: rgba(22, 163, 74, 0.15);
+    --pay-danger-bg: rgba(220, 38, 38, 0.15);
 }
 
 /* ═══════════════════════════════════════════════════════════
@@ -62,7 +62,7 @@
     flex-direction: column;
     gap: 40px;
     margin: 0 !important;
-    
+
 }
 
 /* Payment Content Sections */
@@ -205,7 +205,7 @@
     box-shadow: var(--pay-shadow-sm);
     box-sizing: border-box;
     transition: box-shadow var(--pay-transition), border-color var(--pay-transition), transform var(--pay-transition);
-    overflow: hidden;
+    overflow: visible !important;
     cursor: default;
 }
 
@@ -217,11 +217,9 @@
 /* Default card: primary-color left accent + highlighted border */
 .pc-card--default {
     border-color: var(--pay-primary);
-    background: linear-gradient(
-        to right,
-        var(--pay-primary-light) 0%,
-        var(--pay-surface) 30%
-    );
+    background: linear-gradient(to right,
+            var(--pay-primary-light) 0%,
+            var(--pay-surface) 30%);
 }
 
 /* Accent bar */
@@ -380,8 +378,15 @@
 }
 
 @keyframes dropdownFade {
-    from { opacity: 0; transform: translateY(-6px) scale(0.97); }
-    to   { opacity: 1; transform: translateY(0) scale(1); }
+    from {
+        opacity: 0;
+        transform: translateY(-6px) scale(0.97);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+    }
 }
 
 .pc-card__dropdown-item {
@@ -397,6 +402,7 @@
     text-align: left;
     cursor: pointer;
     transition: background var(--pay-transition);
+
 }
 
 .pc-card__dropdown-item:disabled {
@@ -536,7 +542,7 @@
     border-radius: var(--pay-radius-md);
     cursor: pointer;
     transition: background var(--pay-transition), border-color var(--pay-transition),
-                color var(--pay-transition), transform var(--pay-transition), box-shadow var(--pay-transition);
+        color var(--pay-transition), transform var(--pay-transition), box-shadow var(--pay-transition);
     align-self: flex-start;
     margin-top: 4px;
 }
@@ -825,13 +831,20 @@
     display: flex;
     flex-direction: column;
     gap: 24px;
-    box-shadow: 0 20px 60px rgba(0,0,0,.2);
+    box-shadow: 0 20px 60px rgba(0, 0, 0, .2);
     animation: modalFade 0.25s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 @keyframes modalFade {
-    from { opacity: 0; transform: translateY(-16px) scale(0.96); }
-    to   { opacity: 1; transform: translateY(0) scale(1); }
+    from {
+        opacity: 0;
+        transform: translateY(-16px) scale(0.96);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+    }
 }
 
 .modal-header {
@@ -1022,12 +1035,12 @@
     position: relative;
 }
 
-.form-checkbox input:checked + .form-checkbox__box {
+.form-checkbox input:checked+.form-checkbox__box {
     background: var(--pay-primary);
     border-color: var(--pay-primary);
 }
 
-.form-checkbox input:checked + .form-checkbox__box::after {
+.form-checkbox input:checked+.form-checkbox__box::after {
     content: '';
     position: absolute;
     left: 5px;
@@ -1045,7 +1058,7 @@
     color: var(--pay-text-primary);
 }
 
-.form-checkbox input:focus-visible + .form-checkbox__box {
+.form-checkbox input:focus-visible+.form-checkbox__box {
     outline: 2px solid var(--pay-primary);
     outline-offset: 2px;
 }
@@ -1218,12 +1231,27 @@
     animation: msgFadeIn 0.25s ease-out;
 }
 
-.error::before  { content: '⚠'; font-size: 11px; }
-.success::before { content: '✓'; font-size: 12px; font-weight: 700; }
+.error::before {
+    content: '⚠';
+    font-size: 11px;
+}
+
+.success::before {
+    content: '✓';
+    font-size: 12px;
+    font-weight: 700;
+}
 
 @keyframes msgFadeIn {
-    from { opacity: 0; transform: translateY(-4px); }
-    to   { opacity: 1; transform: translateY(0); }
+    from {
+        opacity: 0;
+        transform: translateY(-4px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
 }
 
 /* ═══════════════════════════════════════════════════════════
@@ -1290,6 +1318,7 @@
    REDUCED MOTION — respect user preference
    ═══════════════════════════════════════════════════════════ */
 @media (prefers-reduced-motion: reduce) {
+
     *,
     *::before,
     *::after {
