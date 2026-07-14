@@ -198,10 +198,10 @@ function Header() {
                     <li role="menuitem" onClick={() => Navigate("/Setting/Profile")}>
                       {t("setting.settings", "Settings")}
                     </li>
-                    <li role="menuitem" onClick={() => Navigate("/Help center")}>
+                    <li role="menuitem" onClick={() => Navigate("/FAQ")}>
                       {t("setting.help_center", "Help Center")}
                     </li>
-                    <li role="menuitem" className="menu-logout">
+                    <li role="menuitem" className="menu-logout" onClick={() => Navigate("/log_in")}>
                       {t("setting.logout", "Logout")}
                     </li>
                   </ul>
