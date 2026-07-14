@@ -525,6 +525,9 @@
     display: flex;
     flex-direction: column;
     gap: 16px;
+    width: 100%;
+    max-width: 870px;
+    margin: 0;
 }
 
 /* History header — left-aligned */
@@ -666,7 +669,7 @@
 /* ── Desktop Table — increased visual weight ── */
 .ph-table {
     width: 100%;
-    max-width: 900px;
+    max-width: 1180px !important;
     background: var(--pay-surface);
     border: 1.5px solid var(--pay-border-strong);
     border-radius: var(--pay-radius-lg);
