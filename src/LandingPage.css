@@ -142,6 +142,11 @@
     transition: opacity 0.2s ease;
 }
 
+.auth-buttons {
+    display: flex;
+    gap: 20px;
+}
+
 .landing-course-item .course-duration,
 .landing-course-item .course-level {
     font-size: 13px;
