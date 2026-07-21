@@ -70,13 +70,14 @@
 }
 
 .payment-breadcrumbs a {
-  color: #64748b;
+  color: #0089EA !important;
   text-decoration: none;
   transition: color 0.18s;
 }
 
 .payment-breadcrumbs a:hover {
-  color: #0089EA;
+  color: #0089EA !important;
+  text-decoration: underline !important;
 }
 
 .payment-breadcrumbs svg {
