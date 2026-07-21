@@ -1183,7 +1183,7 @@ function Explore() {
                         {currentCourses.length > 0 ? (
                             currentCourses.map((course) => {
                                 return (
-                                    <div className="course-item" key={course.id} onClick={() => {
+                                    <div className="explore-course-item" key={course.id} onClick={() => {
                                         if (course.title === "Adobe Illustrator Logo Design") {
                                             navigate("/Explore/Course");
                                         }

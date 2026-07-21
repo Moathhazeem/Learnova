@@ -154,7 +154,7 @@ function Home() {
                 </div>
                 <div className="courses-container">
                     {recommendedCourses.map((course, index) => (
-                        <div key={index} className="course-item">
+                        <div key={index} className="home-course-item">
                             <div className="course-item-image">
                                 <img src={course.image} alt={course.title} />
                             </div>

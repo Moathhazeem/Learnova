@@ -49,7 +49,7 @@ function LandingPage() {
                                 rating: "5.0"
                             }
                         ].map((course, index) => (
-                            <div className="course-item" key={index}>
+                            <div className="landing-course-item" key={index}>
                                 <div className="course-item-image">
                                     <img src={course.image} alt={course.title} />
                                 </div>

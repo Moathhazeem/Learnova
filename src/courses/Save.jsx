@@ -256,7 +256,7 @@ function Save() {
                 <div className="courses-list-container">
                     {filteredCourses.length > 0 ? (
                         filteredCourses.map(course => (
-                            <div className="course-card-save" key={course.id}>
+                            <div className="save-course-item" key={course.id}>
                                 {/* Image + overlays */}
                                 <div className="save-card-image">
                                     <img src={course.image} alt={course.title} />
