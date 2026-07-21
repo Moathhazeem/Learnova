@@ -517,8 +517,8 @@ section {
 
 .home-course-item .course-price {
     font-size: 14.5px;
-    font-weight: 800;
-    color: #0089EA;
+    font-weight: 600;
+    color: var(--text-secondary, #6b7280);
     margin: 0;
     white-space: nowrap;
     letter-spacing: -0.3px;
@@ -579,16 +579,16 @@ section {
 .home-course-item .course-rating {
     font-size: 13.5px;
     font-weight: 700;
-    color: #facc15;
     margin: 0;
     white-space: nowrap;
 }
 
 /* Rating star icon styling */
 .home-course-item .course-info-IR-item img[src*="Rating"] {
-    width: auto;
-    height: auto;
-    filter: invert(78%) sepia(85%) saturate(1200%) hue-rotate(359deg) brightness(102%) contrast(105%);
+    width: 14px;
+    height: 14px;
+    color: #facc15;
+    fill: #facc15;
 }
 
 /* ─── Dark mode ─── */
