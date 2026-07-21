@@ -1,202 +1,286 @@
-.Create-new-pas-page-container {
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-    justify-content: space-between;
-    min-height: 100vh;
-    width: 100%;
-    direction: rtl;
-}
+/* ══════════════════════════════════════════════
+   Create New Password Page  –  cnp-* namespace
+   Matches the centered-card pattern of other
+   auth pages (Check Email, Verification Code)
+   ══════════════════════════════════════════════ */
 
-.Create-new-pas-form {
+/* ── Full-screen backdrop ── */
+.cnp-page {
     display: flex;
-    flex-direction: column;
     align-items: center;
     justify-content: center;
     min-height: 100vh;
-    flex: 1;
-    position: relative;
-    padding-bottom: 40px;
+    width: 100%;
+    background-color: #f5f7fa;
+    padding: 24px 16px;
+    box-sizing: border-box;
 }
 
-.Create-new-pas {
-    display: block;
-    width: 555px;
-    white-space: wrap;
-    margin-bottom: -20px;
-}
-
-.title-create-new-pas {
+/* ── White card ── */
+.cnp-card {
     display: flex;
-    align-items: flex-end;
-    justify-content: flex-end;
-    font-size: 32px;
-    font-weight: 700;
-    margin-bottom: 24px;
-    margin-top: 50px;
-    color: #000000;
-}
-
-.description-create-new-pas {
-    display: block;
-    font-size: 22px;
-    margin-bottom: 50px;
-    color: rgba(81, 76, 76, 0.5);
-    line-height: 1.4;
-    text-align: left;
-    font-weight: 500;
-}
-
-.Form-new-pas {
-    width: 555px;
     flex-direction: column;
-    direction: ltr;
+    align-items: center;
+    width: 100%;
+    max-width: 480px;
+    background: #ffffff;
+    border-radius: 20px;
+    box-shadow: 0 4px 32px rgba(0, 0, 0, 0.08);
+    padding: 48px 40px 40px;
+    box-sizing: border-box;
+}
+
+/* ── Lock icon badge ── */
+.cnp-icon-wrap {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 72px;
+    height: 72px;
+    border-radius: 50%;
+    background-color: #e8f3fd;
+    margin-bottom: 24px;
+    flex-shrink: 0;
+}
+
+.cnp-icon-wrap svg {
+    width: 34px;
+    height: 34px;
+    stroke: #0089EA;
+}
+
+/* ── Heading ── */
+.cnp-title {
+    font-size: 26px;
+    font-weight: 700;
+    color: #111827;
+    text-align: center;
+    margin: 0 0 10px;
+    line-height: 1.25;
+}
+
+/* ── Subtitle ── */
+.cnp-subtitle {
+    font-size: 15px;
+    color: #6b7280;
+    text-align: center;
+    line-height: 1.55;
+    margin: 0 0 28px;
+    max-width: 360px;
+}
+
+/* ── Field group ── */
+.cnp-field-group {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
     margin-bottom: 20px;
 }
 
-.Form-new-pas input {
-    border-radius: 10px;
-    border: 1px solid rgba(0, 0, 0, 0.2);
-    width: 555px;
-    height: 50px;
-    color: #000000;
-    padding-left: 15px;
-    /* لإزاحة النص والـ placeholder من البداية */
-    font-size: 18px;
-    margin-bottom: 10px;
-}
-
-.Form-new-pas input::placeholder {
-    color: rgba(0, 0, 0, 0.2);
-    font-size: 20px;
-    font-weight: bold;
-}
-
-.Form-new-pas h2 {
-    font-size: 22px;
+/* ── Label ── */
+.cnp-label {
+    font-size: 14px;
     font-weight: 600;
-    color: #000000;
-    margin-bottom: 10px;
-    margin-top: 20px;
+    color: #374151;
+    margin-bottom: 7px;
 }
 
-.error-message {
-    color: #FF0000;
+/* ── Input wrapper (input + eye btn) ── */
+.cnp-input-wrap {
+    position: relative;
+    width: 100%;
 }
 
-.success-message {
-    color: #28a745;
+/* ── Input ── */
+.cnp-input {
+    width: 100%;
+    height: 50px;
+    border: 1.5px solid #d1d5db;
+    border-radius: 12px;
+    padding: 0 48px 0 16px;
+    font-size: 15px;
+    color: #111827;
+    background: #ffffff;
+    box-sizing: border-box;
+    transition: border-color 0.2s ease, box-shadow 0.2s ease;
+    outline: none;
 }
 
-.error-message img,
-.success-message img {
-    width: 18px;
-    height: 18px;
+.cnp-input::placeholder {
+    color: #9ca3af;
+    font-weight: 400;
 }
 
-.error-message,
-.success-message {
-    font-size: 16px;
+.cnp-input:focus {
+    border-color: #0089EA;
+    box-shadow: 0 0 0 3px rgba(0, 137, 234, 0.12);
+}
+
+.cnp-input--error {
+    border-color: #dc2626 !important;
+}
+
+.cnp-input--success {
+    border-color: #16a34a !important;
+}
+
+/* ── Eye toggle button ── */
+.cnp-eye-btn {
+    position: absolute;
+    right: 14px;
+    top: 50%;
+    transform: translateY(-50%);
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 0;
     display: flex;
-    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    color: #9ca3af;
+    transition: color 0.2s ease;
+}
+
+.cnp-eye-btn:hover {
+    color: #0089EA;
+}
+
+.cnp-eye-btn svg {
+    width: 20px;
+    height: 20px;
+    stroke: currentColor;
+}
+
+/* ── Strength checklist ── */
+.cnp-strength-list {
+    list-style: none;
+    margin: 10px 0 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+}
+
+.cnp-strength-item {
+    display: flex;
+    align-items: center;
+    gap: 7px;
+    font-size: 13px;
+    font-weight: 500;
+    line-height: 1.3;
+}
+
+.cnp-strength-item--ok {
+    color: #16a34a;
+}
+
+.cnp-strength-item--fail {
+    color: #dc2626;
+}
+
+/* ── Inline feedback messages ── */
+.cnp-msg {
+    display: flex;
+    align-items: center;
+    gap: 7px;
+    font-size: 13px;
+    font-weight: 500;
+    margin-top: 8px;
+    line-height: 1.3;
+}
+
+.cnp-msg--error {
+    color: #dc2626;
+}
+
+.cnp-msg--success {
+    color: #16a34a;
+}
+
+/* ── Primary button ── */
+.cnp-btn-primary {
+    width: 100%;
+    height: 52px;
+    background-color: #0089EA;
+    color: #ffffff;
+    font-size: 16px;
+    font-weight: 700;
+    border: none;
+    border-radius: 12px;
+    cursor: pointer;
+    margin-top: 8px;
+    transition: background-color 0.2s ease, transform 0.15s ease, box-shadow 0.2s ease;
+    letter-spacing: 0.3px;
+}
+
+.cnp-btn-primary:hover {
+    background-color: #0076cc;
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(0, 137, 234, 0.3);
+}
+
+.cnp-btn-primary:active {
+    transform: translateY(0);
+    background-color: #0089EA;
+    box-shadow: none;
+}
+
+/* ── Back to login ── */
+.cnp-back-wrap {
+    display: flex;
+    justify-content: center;
+    margin-top: 18px;
+}
+
+.cnp-btn-back {
+    display: flex;
     align-items: center;
     gap: 8px;
-    margin-top: 8px;
-    /* For messages not in a list */
-    font-weight: 500;
-}
-
-.Confirm_new_pass {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    width: 551px;
-    height: 60px;
-    border-radius: 12px;
-    background-color: #0089EA;
-    color: #FFFFFF;
-    font-size: 22px;
-    font-weight: 700;
-    margin-bottom: 20px;
-    margin-top: 40px;
-    cursor: pointer;
+    background: none;
     border: none;
-    transition: all 0.3s ease;
-}
-
-.Confirm_new_pass:hover {
-    transform: translateY(-5px);
-    background-color: #0076cc;
-    box-shadow: 0px 4px 15px rgba(0, 137, 234, 0.3);
-}
-
-.Confirm_new_pass:active {
-    transform: translateY(0px);
-    background-color: #0089EA;
-}
-
-.BTLI {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    width: 551px;
-    margin: 25px auto 0 auto;
     cursor: pointer;
-    direction: ltr;
-}
-
-.BTLI label {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 15px;
-    color: rgba(0, 0, 0, 0.5);
-    font-size: 20px;
+    font-size: 14px;
     font-weight: 600;
-    cursor: pointer;
+    color: #6b7280;
+    padding: 6px 10px;
+    border-radius: 8px;
+    transition: color 0.2s ease, background-color 0.2s ease;
 }
 
-.BTLI img {
-    width: 24px;
-    height: 24px;
-    object-fit: contain;
+.cnp-btn-back:hover {
+    color: #0089EA;
+    background-color: #f0f9ff;
 }
 
-.dots-container {
-    position: absolute;
-    bottom: 50px;
-    left: 50%;
-    transform: translateX(-50%);
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    gap: 12px;
-    direction: ltr;
-}
-
-.dot {
-    width: 20px;
-    height: 20px;
-    background-color: #D9D9D9;
-    border-radius: 50%;
-    transition: all 0.3s ease;
-}
-
-.dot.active {
-    background-color: #000000;
-    width: 20px;
-    height: 20px;
-}
-
-.photo {
-    width: 50%;
-    height: 100vh;
+.cnp-btn-back svg {
+    width: 16px;
+    height: 16px;
+    stroke: currentColor;
     flex-shrink: 0;
-    overflow: hidden;
 }
 
-.photo img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
+/* ── Responsiveness ── */
+@media (max-width: 520px) {
+    .cnp-card {
+        padding: 36px 24px 32px;
+        border-radius: 16px;
+    }
+
+    .cnp-title {
+        font-size: 22px;
+    }
+
+    .cnp-subtitle {
+        font-size: 14px;
+    }
+}
+
+@media (max-width: 360px) {
+    .cnp-card {
+        padding: 28px 16px 24px;
+    }
+
+    .cnp-title {
+        font-size: 20px;
+    }
 }
