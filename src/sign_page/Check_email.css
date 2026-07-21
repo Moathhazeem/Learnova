@@ -1,147 +1,218 @@
-.check-email-page-container {
+/* =========================================
+   Check Email — Centered Minimal Layout
+   (mirrors Forgot Password card style)
+   ========================================= */
+
+/* Google Font */
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
+
+/* ── Page wrapper ── */
+.ce-page {
     display: flex;
-    flex-direction: row;
     align-items: center;
-    justify-content: space-between;
+    justify-content: center;
     min-height: 100vh;
     width: 100%;
-    direction: rtl;
+    background: #f0f4f8;
+    padding: 24px 16px;
+    box-sizing: border-box;
+    font-family: 'Inter', system-ui, -apple-system, sans-serif;
 }
 
-.check-email-form {
+/* ── Card ── */
+.ce-card {
+    background: #ffffff;
+    border-radius: 20px;
+    box-shadow:
+        0 4px 6px -1px rgba(0, 0, 0, 0.04),
+        0 20px 40px -8px rgba(0, 0, 0, 0.08);
+    border: 1px solid rgba(226, 232, 240, 0.8);
+    width: 100%;
+    max-width: 480px;
+    padding: 48px 44px;
+    box-sizing: border-box;
     display: flex;
     flex-direction: column;
     align-items: center;
-    justify-content: center;
-    min-height: 100vh;
-    flex: 1;
-    position: relative;
+    text-align: center;
 }
 
-.check-email {
-    display: block;
-    width: 740px;
-    white-space: wrap;
-}
-
-.title-check-email {
-    display: flex;
-    align-items: flex-end;
-    justify-content: flex-end;
-    font-size: 32px;
-    font-weight: 700;
-    margin-bottom: 24px;
-    margin-top: 50px;
-    color: #000000;
-}
-
-.description-check-email {
-    display: block;
-    font-size: 22px;
-    margin-bottom: 50px;
-    color: rgba(81, 76, 76, 0.5);
-    line-height: 1.4;
-    text-align: left;
-}
-
-.resend-email {
-    color: #0089EA;
-    text-decoration: underline;
-    cursor: pointer;
-    font-weight: bold;
-
-}
-
-.enter_code {
+/* ── Envelope icon badge ── */
+.ce-icon-wrap {
+    width: 64px;
+    height: 64px;
+    background: linear-gradient(135deg, #dbeafe 0%, #bfdbfe 100%);
+    border-radius: 18px;
     display: flex;
     align-items: center;
     justify-content: center;
-    width: 551px;
-    height: 60px;
+    margin-bottom: 28px;
+    flex-shrink: 0;
+}
+
+.ce-envelope-icon {
+    width: 30px;
+    height: 30px;
+    color: #0089ea;
+    stroke: #0089ea;
+}
+
+/* ── Header text ── */
+.ce-header {
+    width: 100%;
+    margin-bottom: 32px;
+}
+
+.ce-title {
+    font-size: 26px;
+    font-weight: 700;
+    color: #0f172a;
+    margin: 0 0 10px 0;
+    line-height: 1.2;
+    letter-spacing: -0.4px;
+}
+
+.ce-subtitle {
+    font-size: 15px;
+    color: #64748b;
+    line-height: 1.55;
+    margin: 0;
+    max-width: 340px;
+    margin-inline: auto;
+}
+
+/* ── Actions block ── */
+.ce-actions {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 16px;
+    margin-bottom: 8px;
+}
+
+/* ── Primary button ── */
+.ce-btn-primary {
+    width: 100%;
+    height: 52px;
+    color: #ffffff;
+    background: linear-gradient(135deg, #0089ea 0%, #0070d0 100%);
+    font-family: inherit;
+    font-weight: 600;
+    font-size: 15.5px;
     border-radius: 12px;
-    background-color: #0089EA;
-    color: #FFFFFF;
-    font-size: 22px;
-    font-weight: 700;
-    margin-bottom: 20px;
-    cursor: pointer;
     border: none;
-    transition: all 0.3s ease;
-}
-
-.enter_code:hover {
-    transform: translateY(-5px);
-    background-color: #0076cc;
-    box-shadow: 0px 4px 15px rgba(0, 137, 234, 0.3);
-}
-
-.enter_code:active {
-    transform: translateY(0px);
-    background-color: #0089EA;
-}
-
-.BTLI {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    width: 551px;
-    margin: 25px auto 0 auto;
     cursor: pointer;
-    direction: ltr;
+    letter-spacing: 0.01em;
+    transition: background 0.2s ease, transform 0.15s ease, box-shadow 0.2s ease;
+    box-shadow: 0 4px 14px rgba(0, 137, 234, 0.3);
 }
 
-.BTLI label {
+.ce-btn-primary:hover {
+    background: linear-gradient(135deg, #007dd4 0%, #005fb8 100%);
+    transform: translateY(-1px);
+    box-shadow: 0 6px 20px rgba(0, 137, 234, 0.4);
+}
+
+.ce-btn-primary:active {
+    transform: translateY(0);
+    box-shadow: 0 2px 8px rgba(0, 137, 234, 0.2);
+}
+
+/* ── Resend text ── */
+.ce-resend-text {
+    font-size: 14px;
+    color: #64748b;
+    margin: 0;
+}
+
+.ce-resend-link {
+    color: #0089ea;
+    font-weight: 600;
+    text-decoration: none;
+    transition: color 0.2s ease;
+}
+
+.ce-resend-link:hover {
+    color: #0070d0;
+    text-decoration: underline;
+}
+
+/* ── Back to login ── */
+.ce-back-wrap {
     display: flex;
-    align-items: center;
     justify-content: center;
-    gap: 15px;
-    color: rgba(0, 0, 0, 0.5);
-    font-size: 20px;
+    width: 100%;
+    margin-top: 20px;
+}
+
+.ce-btn-back {
+    background: transparent;
+    border: none;
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    color: #64748b;
+    font-family: inherit;
+    font-size: 14px;
     font-weight: 600;
     cursor: pointer;
+    padding: 8px 14px;
+    border-radius: 8px;
+    transition: color 0.2s ease, background-color 0.2s ease;
+    text-decoration: none;
 }
 
-.BTLI img {
-    width: 24px;
-    height: 24px;
-    object-fit: contain;
+.ce-btn-back:hover {
+    color: #0089ea;
+    background-color: #f0f9ff;
 }
 
-.dots-container {
-    position: absolute;
-    bottom: 50px;
-    left: 50%;
-    transform: translateX(-50%);
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    gap: 12px;
-    direction: ltr;
-}
-
-.dot {
-    width: 20px;
-    height: 20px;
-    background-color: #D9D9D9;
-    border-radius: 50%;
-    transition: all 0.3s ease;
-}
-
-.dot.active {
-    background-color: #000000;
-    width: 20px;
-    height: 20px;
-}
-
-.photo {
-    width: 50%;
-    height: 100vh;
+.ce-btn-back svg {
+    width: 18px;
+    height: 18px;
+    transition: transform 0.2s ease;
+    stroke: currentColor;
     flex-shrink: 0;
-    overflow: hidden;
 }
 
-.photo img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
+.ce-btn-back:hover svg {
+    transform: translateX(-3px);
+}
+
+/* ── Responsive ── */
+@media (max-width: 520px) {
+    .ce-card {
+        padding: 36px 24px;
+        border-radius: 16px;
+    }
+
+    .ce-title {
+        font-size: 22px;
+    }
+
+    .ce-subtitle {
+        font-size: 14px;
+    }
+
+    .ce-btn-primary {
+        height: 48px;
+        font-size: 14.5px;
+    }
+
+    .ce-icon-wrap {
+        width: 56px;
+        height: 56px;
+        border-radius: 14px;
+    }
+}
+
+@media (max-width: 360px) {
+    .ce-card {
+        padding: 28px 16px;
+    }
+
+    .ce-title {
+        font-size: 20px;
+    }
 }
