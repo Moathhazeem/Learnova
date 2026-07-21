@@ -82,68 +82,72 @@ function Header() {
   return (
     <>
       {/* ════════════════════════ HEADER ════════════════════════ */}
-      <header className={scrolled ? "scrolled" : ""}>
+      <header className={`header-main ${scrolled ? "header-scrolled" : ""}`}>
 
-        {/* ── Logo (far left) ─────────────────────────────────── */}
-        <div className="header-logo" onClick={() => Navigate("/LandingPage")}>
-          <span className="logo">Learnova</span>
+        {/* ── Left Group: Logo + Explore / Navigation ───────── */}
+        <div className="header-left-group">
+          {/* Logo */}
+          <div className="header-logo" onClick={() => Navigate("/LandingPage")}>
+            <span className="header-logo-text">Learnova</span>
+          </div>
+
+          {/* Navigation links (Coursera style: right next to logo) */}
+          <nav className="header-nav-links">
+            <a
+              href="/Explore"
+              className={location.pathname === "/Explore" ? "header-active" : ""}
+            >
+              {t("setting.explore", "Explore")}
+            </a>
+            {!isLandingPage && (
+              <a
+                href="/My Learning"
+                className={location.pathname === "/My Learning" ? "header-active" : ""}
+              >
+                {t("setting.my_learning", "My Learning")}
+              </a>
+            )}
+          </nav>
         </div>
 
-        {/* ── Center nav (desktop only) ───────────────────────── */}
-        <nav className="nav-links">
-          <a
-            href="/Explore"
-            className={location.pathname === "/Explore" ? "active" : ""}
-          >
-            {t("setting.explore", "Explore")}
-          </a>
-          {!isLandingPage && (
-            <a
-              href="/My Learning"
-              className={location.pathname === "/My Learning" ? "active" : ""}
-            >
-              {t("setting.my_learning", "My Learning")}
-            </a>
-          )}
-        </nav>
-
-        {/* ── Right section ───────────────────────────────────── */}
-        <div className="header-right">
-
-          {/* Search */}
-          <div className="search-container">
-            <div className="search-icon">
-              <img
-                src={isDarkMode ? "/photo_icons/search_white.png" : "/photo_icons/search.png"}
-                alt="Search"
-              />
-            </div>
-            <input
-              type="text"
-              placeholder={t("setting.what_are_you_learning", "What are you learning?")}
-              value={search}
-              onChange={(e) => setSearch(e.target.value)}
-              aria-label="Search courses"
+        {/* ── Center: Search Bar (Coursera style: expands in middle) ─ */}
+        <div className="header-search-container">
+          <div className="header-search-icon">
+            <img
+              src={isDarkMode ? "/photo_icons/search_white.png" : "/photo_icons/search.png"}
+              alt="Search"
             />
           </div>
+          <input
+            type="text"
+            className="header-search-input"
+            placeholder={t("setting.what_are_you_learning", "What are you learning?")}
+            value={search}
+            onChange={(e) => setSearch(e.target.value)}
+            aria-label="Search courses"
+          />
+        </div>
+
+        {/* ── Right Group: Auth or Account / Notifications ───── */}
+        <div className="header-right">
 
           {/* Auth: Landing page → Sign up / Log In */}
           {isLandingPage ? (
-            <div className="auth-buttons">
-              <button className="log-in" onClick={() => Navigate("/log_in")}>
+            <div className="header-auth-buttons">
+              <button className="header-log-in" onClick={() => Navigate("/log_in")}>
                 {t("setting.log_in", "Log In")}
               </button>
-              <button className="sign-up" onClick={() => Navigate("/sign_up")}>
+              <button className="header-sign-up" onClick={() => Navigate("/sign_up")}>
                 {t("setting.sign_up", "Sign up")}
               </button>
             </div>
           ) : (
             /* Auth: App pages → account + notification icons */
-            <div className="account-wrapper" ref={accountWrapperRef}>
-              <div className="account">
+            <div className="header-account-wrapper" ref={accountWrapperRef}>
+              <div className="header-account">
                 {/* Notification */}
                 <button
-                  className="icon-btn"
+                  className="header-icon-btn"
                   aria-label="Notifications"
                   onClick={toggleNotification}
                 >
@@ -158,9 +162,9 @@ function Header() {
                   />
                 </button>
 
-                {/* Account */}
+                {/* Account menu button */}
                 <button
-                  className="icon-btn"
+                  className="header-icon-btn"
                   aria-label="Account menu"
                   onClick={toggleMenu}
                 >
@@ -178,7 +182,7 @@ function Header() {
 
               {/* ── Account dropdown ─────────────────────────── */}
               {isOpen && (
-                <div className="Menu" role="menu">
+                <div className="header-menu" role="menu">
                   <ul>
                     <li role="menuitem" onClick={() => Navigate("/Setting/Profile")}>
                       {t("setting.profile", "Profile")}
@@ -201,7 +205,7 @@ function Header() {
                     <li role="menuitem" onClick={() => Navigate("/FAQ")}>
                       {t("setting.help_center", "Help Center")}
                     </li>
-                    <li role="menuitem" className="menu-logout" onClick={() => Navigate("/log_in")}>
+                    <li role="menuitem" className="header-menu-logout" onClick={() => Navigate("/log_in")}>
                       {t("setting.logout", "Logout")}
                     </li>
                   </ul>
@@ -210,69 +214,69 @@ function Header() {
 
               {/* ── Notification panel ───────────────────────── */}
               {isNotificationOpen && (
-                <div className="notification-panel" ref={notificationRef}>
-                  <div className="notification-header">
+                <div className="header-notification-panel" ref={notificationRef}>
+                  <div className="header-notification-header">
                     <h3>{t("setting.notification", "Notifications")}</h3>
-                    <button className="mark-as-read">
+                    <button className="header-mark-as-read">
                       {t("setting.mark_all_as_read", "Mark all as read")}
                     </button>
                   </div>
 
-                  <div className="notification-list">
-                    <div className="notification-item unread">
-                      <div className="noti-icon-container">
-                        <img src="/photo_icons/book.png" alt="" className="noti-icon" />
+                  <div className="header-notification-list">
+                    <div className="header-notification-item header-unread">
+                      <div className="header-noti-icon-container">
+                        <img src="/photo_icons/book.png" alt="" className="header-noti-icon" />
                       </div>
-                      <div className="noti-content">
-                        <p className="noti-text">
+                      <div className="header-noti-content">
+                        <p className="header-noti-text">
                           Your course <strong>"React Masterclass"</strong> has new content!
                         </p>
-                        <span className="noti-time">2 mins ago</span>
+                        <span className="header-noti-time">2 mins ago</span>
                       </div>
-                      <div className="unread-dot" />
+                      <div className="header-unread-dot" />
                     </div>
 
-                    <div className="notification-item">
-                      <div className="noti-icon-container">
+                    <div className="header-notification-item">
+                      <div className="header-noti-icon-container">
                         <img
                           src="/photo_icons/account.png"
                           alt=""
-                          className="noti-icon"
+                          className="header-noti-icon"
                           style={{ filter: isDarkMode ? "none" : "brightness(0) invert(1)" }}
                         />
                       </div>
-                      <div className="noti-content">
-                        <p className="noti-text">
+                      <div className="header-noti-content">
+                        <p className="header-noti-text">
                           You've completed <strong>"Advanced CSS Layouts"</strong>.
                         </p>
-                        <span className="noti-time">1 hour ago</span>
+                        <span className="header-noti-time">1 hour ago</span>
                       </div>
                     </div>
 
-                    <div className="notification-item unread">
-                      <div className="noti-icon-container">
-                        <img src="/photo_icons/Rating.png" alt="" className="noti-icon" />
+                    <div className="header-notification-item header-unread">
+                      <div className="header-noti-icon-container">
+                        <img src="/photo_icons/Rating.png" alt="" className="header-noti-icon" />
                       </div>
-                      <div className="noti-content">
-                        <p className="noti-text">A new review was added to your profile.</p>
-                        <span className="noti-time">3 hours ago</span>
+                      <div className="header-noti-content">
+                        <p className="header-noti-text">A new review was added to your profile.</p>
+                        <span className="header-noti-time">3 hours ago</span>
                       </div>
-                      <div className="unread-dot" />
+                      <div className="header-unread-dot" />
                     </div>
                   </div>
 
-                  <div className="notification-footer">
-                    <button className="view-all-btn" onClick={() => Navigate("/Communication")}>
+                  <div className="header-notification-footer">
+                    <button className="header-view-all-btn" onClick={() => Navigate("/Communication")}>
                       {t("setting.view_all", "View all")}
                     </button>
                     <button
-                      className="noti-settings-btn"
+                      className="header-noti-settings-btn"
                       onClick={() => Navigate("/Setting/Notification")}
                     >
                       <img
                         src="/photo_icons/For_setting/PreferencesBlack.png"
                         alt=""
-                        className={isDarkMode ? "noti-settings-icon dark" : "noti-settings-icon"}
+                        className={isDarkMode ? "header-noti-settings-icon dark" : "header-noti-settings-icon"}
                       />
                       {t("setting.notification_settings", "Notification Settings")}
                     </button>
@@ -284,7 +288,7 @@ function Header() {
 
           {/* ── Hamburger (mobile only) ──────────────────────── */}
           <button
-            className={`hamburger ${mobileOpen ? "is-open" : ""}`}
+            className={`header-hamburger ${mobileOpen ? "header-is-open" : ""}`}
             onClick={toggleMobileNav}
             aria-label="Toggle mobile menu"
             aria-expanded={mobileOpen}
@@ -297,7 +301,7 @@ function Header() {
       </header>
 
       {/* ══════════════════ MOBILE DRAWER ══════════════════════ */}
-      <div className={`mobile-nav ${mobileOpen ? "is-open" : ""}`} aria-hidden={!mobileOpen}>
+      <div className={`header-mobile-nav ${mobileOpen ? "header-is-open" : ""}`} aria-hidden={!mobileOpen}>
         <nav>
           <a href="/Explore" onClick={() => setMobileOpen(false)}>
             {t("setting.explore", "Explore")}
@@ -308,11 +312,11 @@ function Header() {
             </a>
           )}
           {isLandingPage ? (
-            <div className="mobile-auth">
-              <button className="log-in" onClick={() => { Navigate("/log_in"); setMobileOpen(false); }}>
+            <div className="header-mobile-auth">
+              <button className="header-log-in" onClick={() => { Navigate("/log_in"); setMobileOpen(false); }}>
                 {t("setting.log_in", "Log In")}
               </button>
-              <button className="sign-up" onClick={() => { Navigate("/sign_up"); setMobileOpen(false); }}>
+              <button className="header-sign-up" onClick={() => { Navigate("/sign_up"); setMobileOpen(false); }}>
                 {t("setting.sign_up", "Sign up")}
               </button>
             </div>
@@ -330,7 +334,7 @@ function Header() {
       </div>
       {/* Overlay that closes the drawer on tap */}
       {mobileOpen && (
-        <div className="mobile-nav-overlay" onClick={() => setMobileOpen(false)} />
+        <div className="header-mobile-nav-overlay" onClick={() => setMobileOpen(false)} />
       )}
     </>
   );

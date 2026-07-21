@@ -298,6 +298,7 @@
         border-color 0.25s ease;
     cursor: pointer;
     will-change: transform;
+    width: 500px;
 }
 
 .course-card-save:hover {
@@ -520,7 +521,7 @@
 .save-course-rating {
     font-size: 13.5px;
     font-weight: 700;
-    color: #f59e0b;
+    color: var(--text-grey);
     margin: 0;
     white-space: nowrap;
 }
@@ -530,6 +531,7 @@
     align-items: center;
     justify-content: center;
     flex-shrink: 0;
+    fill: #f59e0b;
 }
 
 /* ─── Responsive ─────────────────────────────────────────── */

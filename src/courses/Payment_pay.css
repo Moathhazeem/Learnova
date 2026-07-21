@@ -173,7 +173,7 @@
   justify-content: center;
   min-height: 700px;
   width: 100%;
-  margin-left: 40%;
+
 }
 
 
@@ -619,6 +619,7 @@
 .payment-right {
   position: sticky;
   top: calc(var(--header-h, 68px) + 24px);
+
 }
 
 .order-summary-card {
