@@ -299,7 +299,8 @@
         background-color 0.25s ease;
     cursor: pointer;
     will-change: transform;
-    width: 500px;
+    width: 600px;
+
 }
 
 .save-course-item:hover {
@@ -309,6 +310,7 @@
         0 24px 48px rgba(0, 0, 0, 0.13);
     border-color: rgba(0, 137, 234, 0.5);
 }
+
 
 /* ─── Image Container ─── */
 .save-card-image {
@@ -445,8 +447,8 @@
 
 .save-course-price {
     font-size: 14.5px;
-    font-weight: 800;
-    color: #0089EA;
+    font-weight: 600;
+    color: var(--text-secondary, #6b7280);
     margin: 0;
     white-space: nowrap;
     letter-spacing: -0.3px;
@@ -490,7 +492,7 @@
     transition: border-color 0.2s ease, box-shadow 0.2s ease;
 }
 
-.save-rating-icon {
+.save-rating-icon svg {
     display: flex;
     align-items: center;
     justify-content: center;
