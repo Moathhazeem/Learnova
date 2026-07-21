@@ -507,7 +507,7 @@ section {
     padding-left: 12px;
 }
 
-.home-course-item .course-info-PRL-item img {
+.home-course-item .course-info-PRL-item {
     width: auto;
     height: auto;
     flex-shrink: 0;

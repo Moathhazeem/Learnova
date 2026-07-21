@@ -1,12 +1,11 @@
 import { useState } from "react";
-import { Link } from "react-router-dom";
-import { BookOpen, Play, ChevronRight } from "lucide-react";
-import { useNavigate } from 'react-router-dom';
+import { Link, useNavigate } from "react-router-dom";
+import { BookOpen, Play, ChevronRight, CircleDollarSign, Clock, SlidersHorizontal, Star } from "lucide-react";
 import "./Home.css";
 
 function Home() {
     const [progress] = useState(30);
-    const [image, setImage] = useState(null)
+    const [image, setImage] = useState(null);
     const navigate = useNavigate();
 
     const handleClick = () => {
@@ -162,15 +161,15 @@ function Home() {
                                 <h3 className="course-title">{course.title}</h3>
                                 <div className="course-info-PRL">
                                     <div className="course-info-PRL-item">
-                                        <img src="/photo_icons/price.png" alt="price" />
+                                        <CircleDollarSign size={16} />
                                         <p className="course-price">{course.price}</p>
                                     </div>
                                     <div className="course-info-PRL-item">
-                                        <img src="/photo_icons/Timing.png" alt="duration" />
+                                        <Clock size={16} />
                                         <p className="course-duration">{course.duration}</p>
                                     </div>
                                     <div className="course-info-PRL-item">
-                                        <img src="/photo_icons/Level.png" alt="level" />
+                                        <SlidersHorizontal size={16} />
                                         <p className="course-level">{course.level}</p>
                                     </div>
                                 </div>
@@ -180,7 +179,7 @@ function Home() {
                                         <p className="course-instructor">{course.instructor}</p>
                                     </div>
                                     <div className="course-info-IR-item">
-                                        <img src="/photo_icons/Rating.png" alt="rating" />
+                                        <Star size={16} fill="#ffc107" stroke="#ffc107" />
                                         <p className="course-rating">{course.rating}</p>
                                     </div>
                                 </div>

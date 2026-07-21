@@ -1,5 +1,7 @@
 import { useNavigate } from "react-router-dom";
+import { CircleDollarSign, Clock, SlidersHorizontal, Star } from "lucide-react";
 import "./LandingPage.css";
+
 function LandingPage() {
     const navigate = useNavigate();
     return (
@@ -57,15 +59,15 @@ function LandingPage() {
                                     <h3 className="course-title">{course.title}</h3>
                                     <div className="course-info-PRL">
                                         <div className="course-info-PRL-item">
-                                            <img src="/photo_icons/price.png" alt="price" />
+                                            <CircleDollarSign size={16} />
                                             <p className="course-price">{course.price}</p>
                                         </div>
                                         <div className="course-info-PRL-item">
-                                            <img src="/photo_icons/Timing.png" alt="duration" />
+                                            <Clock size={16} />
                                             <p className="course-duration">{course.duration}</p>
                                         </div>
                                         <div className="course-info-PRL-item">
-                                            <img src="/photo_icons/Level.png" alt="level" />
+                                            <SlidersHorizontal size={16} />
                                             <p className="course-level">{course.level}</p>
                                         </div>
                                     </div>
@@ -75,7 +77,7 @@ function LandingPage() {
                                             <p className="course-instructor">{course.instructor}</p>
                                         </div>
                                         <div className="course-info-IR-item">
-                                            <img src="/photo_icons/Rating.png" alt="rating" />
+                                            <Star size={16} fill="#ffc107" stroke="#ffc107" />
                                             <p className="course-rating">{course.rating}</p>
                                         </div>
                                     </div>
