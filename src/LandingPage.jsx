@@ -4,6 +4,9 @@ import "./LandingPage.css";
 
 function LandingPage() {
     const navigate = useNavigate();
+    const handleClick = () => {
+        navigate('/Log_in');
+    };
     return (
         <>
             <div className="landing-page">
@@ -28,7 +31,9 @@ function LandingPage() {
                                 level: "Beginner",
                                 instructor: "Dimitri Abdelhak",
                                 instructorImage: "/Photo/Dimitri Abdelhak.png",
-                                rating: "5.0"
+                                rating: "5.0",
+                                path: "/Log_in"
+
                             },
                             {
                                 image: "/Photo/Adobe Photoshop - Social media designs.png",
@@ -49,9 +54,87 @@ function LandingPage() {
                                 instructor: "Dimitri Abdelhak",
                                 instructorImage: "/Photo/Dimitri Abdelhak.png",
                                 rating: "5.0"
-                            }
+                            },
+                            {
+                                id: 41,
+                                image: "/Photo/figma.jfif",
+                                title: "Figma",
+                                price: "$80",
+                                rating: "5",
+                                category: "UI / UX Design",
+                                instructor: "Rawand Issa",
+                                duration: "3h",
+                                level: "Beginner",
+                                instructorImage: "/Photo/women_suites_1.jpg",
+                                ratingIcon: <Star size={16} className="text-yellow-500 fill-yellow-500" />,
+                                priceIcon: <CircleDollarSign size={18} className="text-gray-500" />,
+                                durationIcon: <Clock size={18} className="text-gray-500" />,
+                                levelIcon: <SlidersHorizontal size={18} className="text-gray-500" />,
+                                path: "/Explore/Course"
+                            },
+                            {
+                                id: 42,
+                                image: "/Photo/UI Design.jfif",
+                                title: "UI Design",
+                                price: "$20",
+                                rating: "4.5",
+                                category: "UI / UX Design",
+                                instructor: "Zyad Barzanji",
+                                duration: "12h",
+                                level: "Advanced",
+                                instructorImage: "/Photo/man_suites_4.jpg",
+                                ratingIcon: <Star size={16} className="text-yellow-500 fill-yellow-500" />,
+                                priceIcon: <CircleDollarSign size={18} className="text-gray-500" />,
+                                durationIcon: <Clock size={18} className="text-gray-500" />,
+                                levelIcon: <SlidersHorizontal size={18} className="text-gray-500" />,
+                                path: "/Explore/Course"
+                            },
+                            {
+                                id: 43,
+                                image: "/Photo/UX design.jfif",
+                                title: "UX design",
+                                price: "$50",
+                                rating: "4.5",
+                                category: "UI / UX Design",
+                                instructor: "Omed Jabar",
+                                duration: "12h",
+                                level: "Advanced",
+                                instructorImage: "/Photo/man_suites_5.jpg",
+                                ratingIcon: <Star size={16} className="text-yellow-500 fill-yellow-500" />,
+                                priceIcon: <CircleDollarSign size={18} className="text-gray-500" />,
+                                durationIcon: <Clock size={18} className="text-gray-500" />,
+                                levelIcon: <SlidersHorizontal size={18} className="text-gray-500" />,
+                                path: "/Explore/Course"
+                            },
+                            {
+                                id: 44,
+                                image: "/Photo/Adobe_XD.jfif",
+                                title: "Adobe XD",
+                                price: "$20",
+                                rating: "4.5",
+                                category: "UI / UX Design",
+                                instructor: "Zyad Barzanji",
+                                duration: "12h",
+                                level: "Beginner",
+                                instructorImage: "/Photo/man_suites_4.jpg",
+                                ratingIcon: <Star size={16} className="text-yellow-500 fill-yellow-500" />,
+                                priceIcon: <CircleDollarSign size={18} className="text-gray-500" />,
+                                durationIcon: <Clock size={18} className="text-gray-500" />,
+                                levelIcon: <SlidersHorizontal size={18} className="text-gray-500" />,
+                                path: "/Explore/Course"
+                            },
                         ].map((course, index) => (
-                            <div className="landing-course-item" key={index}>
+                            <div 
+                                className="landing-course-item" 
+                                key={index}
+                                onClick={() => {
+                                    if (course.path) {
+                                        navigate(course.path);
+                                    } else {
+                                        handleClick();
+                                    }
+                                }}
+                            >
                                 <div className="course-item-image">
                                     <img src={course.image} alt={course.title} />
                                 </div>

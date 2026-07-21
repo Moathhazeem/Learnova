@@ -28,7 +28,8 @@ function Home() {
             level: "Beginner",
             instructor: "Dimitri Abdelhak",
             instructorImage: "/Photo/Dimitri Abdelhak.png",
-            rating: "5.0"
+            rating: "5.0",
+            path: "/Explore/Course"
         },
         {
             title: "Adobe Photoshop - Social media designs",
@@ -49,7 +50,77 @@ function Home() {
             instructor: "Dimitri Abdelhak",
             instructorImage: "/Photo/Dimitri Abdelhak.png",
             rating: "5.0"
-        }
+        },
+        {
+            id: 32,
+            image: "/Photo/social media marketing.jfif",
+            title: "Social Media Marketing",
+            price: "$150",
+            rating: "4.0",
+            category: "Marketing",
+            instructor: "Abdullah Samer",
+            duration: "6h",
+            level: "Intermediate",
+            instructorImage: "/Photo/man_suites_2.jpg",
+            ratingIcon: <Star size={16} className="text-yellow-500 fill-yellow-500" />,
+            priceIcon: <CircleDollarSign size={18} className="text-gray-500" />,
+            durationIcon: <Clock size={18} className="text-gray-500" />,
+            levelIcon: <SlidersHorizontal size={18} className="text-gray-500" />,
+            path: "/Explore/Course"
+        },
+        {
+            id: 33,
+            image: "/Photo/digital marketing.jfif",
+            title: "Digital Marketing",
+            price: "$100",
+            rating: "4.3",
+            category: "Marketing",
+            instructor: "Abdullah Samer",
+            duration: "5.5h",
+            level: "Beginner",
+            instructorImage: "/Photo/man_suites_2.jpg",
+            ratingIcon: <Star size={16} className="text-yellow-500 fill-yellow-500" />,
+            priceIcon: <CircleDollarSign size={18} className="text-gray-500" />,
+            durationIcon: <Clock size={18} className="text-gray-500" />,
+            levelIcon: <SlidersHorizontal size={18} className="text-gray-500" />,
+            path: "/Explore/Course"
+        },
+        {
+            id: 34,
+            image: "/Photo/html&css.jfif",
+            title: "HTML&CSS",
+            price: "$50",
+            rating: "4.1",
+            category: "Web Development",
+            instructor: "Rawand Issa",
+            duration: "5.5h",
+            level: "Beginner",
+            instructorImage: "/Photo/women_suites_1.jpg",
+            ratingIcon: <Star size={16} className="text-yellow-500 fill-yellow-500" />,
+            priceIcon: <CircleDollarSign size={18} className="text-gray-500" />,
+            durationIcon: <Clock size={18} className="text-gray-500" />,
+            levelIcon: <SlidersHorizontal size={18} className="text-gray-500" />,
+            path: "/Explore/Course"
+        },
+        {
+            id: 35,
+            image: "/Photo/ReactJs.jfif",
+            title: "React.js",
+            price: "$70",
+            rating: "4.4",
+            category: "Web Development",
+            instructor: "Rawand Issa",
+            duration: "8h",
+            level: "Advanced",
+            instructorImage: "/Photo/women_suites_1.jpg",
+            ratingIcon: <Star size={16} className="text-yellow-500 fill-yellow-500" />,
+            priceIcon: <CircleDollarSign size={18} className="text-gray-500" />,
+            durationIcon: <Clock size={18} className="text-gray-500" />,
+            levelIcon: <SlidersHorizontal size={18} className="text-gray-500" />,
+            path: "/Explore/Course"
+        },
+
+
     ];
 
     return (
@@ -153,7 +224,13 @@ function Home() {
                 </div>
                 <div className="courses-container">
                     {recommendedCourses.map((course, index) => (
-                        <div key={index} className="home-course-item">
+                        <div key={index} className="home-course-item" onClick={() => {
+                            if (course.path) {
+                                navigate(course.path);
+                            } else {
+                                handleClick();
+                            }
+                        }}>
                             <div className="course-item-image">
                                 <img src={course.image} alt={course.title} />
                             </div>
