@@ -306,8 +306,8 @@ header.header-main.header-scrolled {
 }
 
 .header-icon-btn:hover {
-  background-color: var(--brand-light);
-  transform: scale(1.08);
+  background-color: transparent;
+  transform: scale(1.18);
 }
 
 .header-icon-btn:active {
