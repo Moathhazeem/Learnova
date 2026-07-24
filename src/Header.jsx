@@ -59,7 +59,7 @@ function Header() {
       text: 'Your course "React Masterclass" has new content!',
       time: "2 mins ago",
       isUnread: true,
-      link: "/My Learning",
+      link: "/Communication",
     },
     {
       id: 2,
@@ -68,16 +68,16 @@ function Header() {
       text: 'You\'ve completed "Advanced CSS Layouts".',
       time: "1 hour ago",
       isUnread: false,
-      link: "/My Learning",
+      link: "/Communication",
     },
     {
       id: 3,
       type: "review",
       icon: "/photo_icons/Rating.png",
-      text: "A new review was added to your profile.",
+      text: "A new review has been added to your profile which is very detailed and has multiple sentences, leading to truncation...",
       time: "3 hours ago",
       isUnread: true,
-      link: "/Setting/Profile",
+      link: "/Communication",
     },
   ]);
 
@@ -322,7 +322,9 @@ function Header() {
                           </div>
 
                           <div className="header-noti-content">
-                            <p className="header-noti-text">{item.text}</p>
+                            <p className="header-noti-text">
+                              {item.text}
+                            </p>
                             <span className="header-noti-time">{item.time}</span>
                           </div>
 
