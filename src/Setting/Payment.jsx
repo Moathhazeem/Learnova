@@ -318,6 +318,19 @@ function Payment() {
     const pathname = location.pathname.split("/").filter(x => x);
     const { t } = useTranslation();
 
+    const [searchQuery, setSearchQuery] = useState("");
+
+    const checkMatch = (title, keywords) => {
+        if (!searchQuery) return true;
+        const q = searchQuery.toLowerCase();
+        return title.toLowerCase().includes(q) || keywords.some(k => k.toLowerCase().includes(q));
+    };
+
+    const showPaymentCards = checkMatch("Payment Cards", ["payment cards", "cards", "credit card", "visa", "mastercard", "amex", "default card", "add card", "billing", "add new card"]);
+    const showPurchaseHistory = checkMatch("Purchase History", ["purchase history", "orders", "receipts", "spent", "history", "transactions", "csv", "download csv", "total spent"]);
+
+    const hasAnyMatch = showPaymentCards || showPurchaseHistory;
+
     const categories = [
         { name: "Profile", path: "/Setting/Profile", black: "/photo_icons/For_setting/UserMaleBlack.png", white: "/photo_icons/For_setting/UserMaleWhite.png", blue: "/photo_icons/For_setting/UserMaleBlue.png" },
         { name: "Security", path: "/Setting/Security", black: "/photo_icons/For_setting/SecrityBlack.png", white: "/photo_icons/For_setting/SecrityWhite.png", blue: "/photo_icons/For_setting/SecrityBlue.png" },
@@ -554,7 +567,12 @@ function Payment() {
                     <p>{t('setting.header', 'Settings')}</p>
                     <div className="search_page_setting">
                         <img src={isDarkMode ? search.white : search.black} alt="search" className="setting-search-icon" />
-                        <input type="search" placeholder={t('setting.search', 'Search settings')} />
+                        <input
+                            type="search"
+                            placeholder={t('setting.search', 'Search settings')}
+                            value={searchQuery}
+                            onChange={(e) => setSearchQuery(e.target.value)}
+                        />
                     </div>
                 </div>
                 <div className="Setting_option">
@@ -586,6 +604,8 @@ function Payment() {
 
             {/* ── Payment & Billing Dashboard ── */}
             <div className="payment-container billing-dashboard">
+                {showPaymentCards && (
+                <>
                 <div className="payment-header">
                     <div className="ph-header__text">
                         <h1 className='ph-header__title'>Payment Cards</h1>
@@ -625,8 +645,19 @@ function Payment() {
 
                     <SecurityBadge />
                 </section>
+                </>
+                )}
 
+                {showPurchaseHistory && (
                 <HistoryTable purchaseHistory={purchaseHistory} onDownload={handleDownload} />
+                )}
+
+                {!hasAnyMatch && (
+                    <div className="no-results-found" style={{ textAlign: 'center', padding: '40px 20px', color: '#888', width: '100%' }}>
+                        <p style={{ fontSize: '18px', fontWeight: '500', marginBottom: '8px' }}>No settings match your search</p>
+                        <p style={{ fontSize: '14px' }}>Try searching for something else on this page.</p>
+                    </div>
+                )}
             </div>
 
             {/* Toast feedback */}

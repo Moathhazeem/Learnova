@@ -50,7 +50,68 @@ function Header() {
     setIsNotificationOpen(false);
   };
 
-  /* ── Notification panel ───────────────────────────────────── */
+  /* ── Notification state & actions ─────────────────────────── */
+  const [notifications, setNotifications] = useState([
+    {
+      id: 1,
+      type: "course",
+      icon: "/photo_icons/book.png",
+      text: 'Your course "React Masterclass" has new content!',
+      time: "2 mins ago",
+      isUnread: true,
+      link: "/My Learning",
+    },
+    {
+      id: 2,
+      type: "completion",
+      icon: "/photo_icons/account.png",
+      text: 'You\'ve completed "Advanced CSS Layouts".',
+      time: "1 hour ago",
+      isUnread: false,
+      link: "/My Learning",
+    },
+    {
+      id: 3,
+      type: "review",
+      icon: "/photo_icons/Rating.png",
+      text: "A new review was added to your profile.",
+      time: "3 hours ago",
+      isUnread: true,
+      link: "/Setting/Profile",
+    },
+  ]);
+
+  const unreadCount = notifications.filter((n) => n.isUnread).length;
+
+  const handleToggleRead = (id, e) => {
+    e?.stopPropagation();
+    setNotifications((prev) =>
+      prev.map((n) => (n.id === id ? { ...n, isUnread: !n.isUnread } : n))
+    );
+  };
+
+  const handleDeleteNotification = (id, e) => {
+    e?.stopPropagation();
+    setNotifications((prev) => prev.filter((n) => n.id !== id));
+  };
+
+  const handleMarkAllRead = () => {
+    setNotifications((prev) => prev.map((n) => ({ ...n, isUnread: false })));
+  };
+
+  const handleNotificationClick = (item) => {
+    if (item.isUnread) {
+      setNotifications((prev) =>
+        prev.map((n) => (n.id === item.id ? { ...n, isUnread: false } : n))
+      );
+    }
+    if (item.link) {
+      Navigate(item.link);
+      setIsNotificationOpen(false);
+    }
+  };
+
+  /* ── Notification panel toggle ────────────────────────────── */
   const [isNotificationOpen, setIsNotificationOpen] = useState(false);
   const notificationRef = useRef(null);
   const toggleNotification = () => {
@@ -147,7 +208,7 @@ function Header() {
               <div className="header-account">
                 {/* Notification */}
                 <button
-                  className="header-icon-btn"
+                  className="header-icon-btn header-noti-btn-relative"
                   aria-label="Notifications"
                   onClick={toggleNotification}
                 >
@@ -160,6 +221,9 @@ function Header() {
                     alt="Notifications"
                     className="header-notification-icon"
                   />
+                  {unreadCount > 0 && (
+                    <span className="header-noti-badge">{unreadCount}</span>
+                  )}
                 </button>
 
                 {/* Account menu button */}
@@ -216,57 +280,114 @@ function Header() {
               {isNotificationOpen && (
                 <div className="header-notification-panel" ref={notificationRef}>
                   <div className="header-notification-header">
-                    <h3>{t("setting.notification", "Notifications")}</h3>
-                    <button className="header-mark-as-read">
-                      {t("setting.mark_all_as_read", "Mark all as read")}
-                    </button>
+                    <div className="header-noti-title-wrap">
+                      <h3>{t("setting.notification", "Notifications")}</h3>
+                      {unreadCount > 0 && (
+                        <span className="header-noti-unread-count">
+                          {unreadCount} new
+                        </span>
+                      )}
+                    </div>
+                    {notifications.length > 0 && unreadCount > 0 && (
+                      <button
+                        className="header-mark-as-read"
+                        onClick={handleMarkAllRead}
+                      >
+                        {t("setting.mark_all_as_read", "Mark all as read")}
+                      </button>
+                    )}
                   </div>
 
                   <div className="header-notification-list">
-                    <div className="header-notification-item header-unread">
-                      <div className="header-noti-icon-container">
-                        <img src="/photo_icons/book.png" alt="" className="header-noti-icon" />
-                      </div>
-                      <div className="header-noti-content">
-                        <p className="header-noti-text">
-                          Your course <strong>"React Masterclass"</strong> has new content!
-                        </p>
-                        <span className="header-noti-time">2 mins ago</span>
-                      </div>
-                      <div className="header-unread-dot" />
-                    </div>
+                    {notifications.length > 0 ? (
+                      notifications.map((item) => (
+                        <div
+                          key={item.id}
+                          className={`header-notification-item ${
+                            item.isUnread ? "header-unread" : ""
+                          }`}
+                          onClick={() => handleNotificationClick(item)}
+                        >
+                          <div className="header-noti-icon-container">
+                            <img
+                              src={item.icon}
+                              alt=""
+                              className="header-noti-icon"
+                              style={
+                                item.type === "completion"
+                                  ? { filter: isDarkMode ? "none" : "brightness(0) invert(1)" }
+                                  : undefined
+                              }
+                            />
+                          </div>
 
-                    <div className="header-notification-item">
-                      <div className="header-noti-icon-container">
-                        <img
-                          src="/photo_icons/account.png"
-                          alt=""
-                          className="header-noti-icon"
-                          style={{ filter: isDarkMode ? "none" : "brightness(0) invert(1)" }}
-                        />
-                      </div>
-                      <div className="header-noti-content">
-                        <p className="header-noti-text">
-                          You've completed <strong>"Advanced CSS Layouts"</strong>.
-                        </p>
-                        <span className="header-noti-time">1 hour ago</span>
-                      </div>
-                    </div>
+                          <div className="header-noti-content">
+                            <p className="header-noti-text">{item.text}</p>
+                            <span className="header-noti-time">{item.time}</span>
+                          </div>
 
-                    <div className="header-notification-item header-unread">
-                      <div className="header-noti-icon-container">
-                        <img src="/photo_icons/Rating.png" alt="" className="header-noti-icon" />
+                          <div className="header-noti-actions">
+                            <button
+                              className="header-noti-action-btn"
+                              title={item.isUnread ? "Mark as read" : "Mark as unread"}
+                              onClick={(e) => handleToggleRead(item.id, e)}
+                            >
+                              <span
+                                className={`header-dot-toggle ${
+                                  item.isUnread ? "unread" : "read"
+                                }`}
+                              />
+                            </button>
+                            <button
+                              className="header-noti-action-btn delete"
+                              title="Delete notification"
+                              onClick={(e) => handleDeleteNotification(item.id, e)}
+                            >
+                              <svg
+                                width="14"
+                                height="14"
+                                viewBox="0 0 24 24"
+                                fill="none"
+                                stroke="currentColor"
+                                strokeWidth="2"
+                                strokeLinecap="round"
+                                strokeLinejoin="round"
+                              >
+                                <polyline points="3 6 5 6 21 6" />
+                                <path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2" />
+                              </svg>
+                            </button>
+                          </div>
+                        </div>
+                      ))
+                    ) : (
+                      <div className="header-noti-empty-state">
+                        <div className="header-noti-empty-icon-wrap">
+                          <svg
+                            width="28"
+                            height="28"
+                            viewBox="0 0 24 24"
+                            fill="none"
+                            stroke="currentColor"
+                            strokeWidth="1.6"
+                            strokeLinecap="round"
+                            strokeLinejoin="round"
+                          >
+                            <path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9" />
+                            <path d="M13.73 21a2 2 0 0 1-3.46 0" />
+                          </svg>
+                        </div>
+                        <h4>No notifications right now</h4>
+                        <p>We'll notify you when something important arrives!</p>
                       </div>
-                      <div className="header-noti-content">
-                        <p className="header-noti-text">A new review was added to your profile.</p>
-                        <span className="header-noti-time">3 hours ago</span>
-                      </div>
-                      <div className="header-unread-dot" />
-                    </div>
+                    )}
                   </div>
 
                   <div className="header-notification-footer">
-                    <button className="header-view-all-btn" onClick={() => Navigate("/Communication")}>
+                    <button
+                      className="header-view-all-btn"
+                      onClick={() => Navigate("/Communication")}
+                    >
                       {t("setting.view_all", "View all")}
                     </button>
                     <button
@@ -276,7 +397,11 @@ function Header() {
                       <img
                         src="/photo_icons/For_setting/PreferencesBlack.png"
                         alt=""
-                        className={isDarkMode ? "header-noti-settings-icon dark" : "header-noti-settings-icon"}
+                        className={
+                          isDarkMode
+                            ? "header-noti-settings-icon dark"
+                            : "header-noti-settings-icon"
+                        }
                       />
                       {t("setting.notification_settings", "Notification Settings")}
                     </button>

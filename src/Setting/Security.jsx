@@ -86,6 +86,20 @@ function Security() {
     /* ── Nav / misc ───────────────────────────────────────────────── */
     const location    = useLocation();
     const [hovered, setHovered] = useState(null);
+    const [searchQuery, setSearchQuery] = useState("");
+
+    const checkMatch = (title, keywords) => {
+        if (!searchQuery) return true;
+        const q = searchQuery.toLowerCase();
+        return title.toLowerCase().includes(q) || keywords.some(k => k.toLowerCase().includes(q));
+    };
+
+    const showPasswordCard = checkMatch("Password", ["current password", "new password", "update password", "change password"]);
+    const show2faCard = checkMatch("Two-Factor Authentication", ["2fa", "authenticator", "google authenticator", "sms recovery", "otp", "code"]);
+    const showSessionsCard = checkMatch("Active Sessions", ["devices", "logged in", "macbook", "iphone", "windows", "logout", "remove session"]);
+    const showRecoveryCard = checkMatch("Account Recovery", ["recovery", "email address", "phone number", "recovery options"]);
+
+    const hasAnyMatch = showPasswordCard || show2faCard || showSessionsCard || showRecoveryCard;
 
     /* ── Devices ─────────────────────────────────────────────────── */
     const devicesData = [
@@ -319,7 +333,12 @@ function Security() {
                     <p>{t('setting.header', 'Settings')}</p>
                     <div className="search_page_setting">
                         <img src={search.black} alt="search" className="setting-search-icon" />
-                        <input type="search" placeholder={t('setting.search', 'Search settings')} />
+                        <input
+                            type="search"
+                            placeholder={t('setting.search', 'Search settings')}
+                            value={searchQuery}
+                            onChange={(e) => setSearchQuery(e.target.value)}
+                        />
                     </div>
                 </div>
 
@@ -354,6 +373,7 @@ function Security() {
                 <div className="Secrity_content">
 
                     {/* ══ Password Card ══════════════════════════════ */}
+                    {showPasswordCard && (
                     <div className="sec-card Security_password">
                         <div className="sec-card-header">
                             <h3>Password</h3>
@@ -425,8 +445,10 @@ function Security() {
                         </div>
                         <button className="btn-primary" onClick={handleUpdatePassword}>Update Password</button>
                     </div>
+                    )}
 
                     {/* ══ 2FA Card ════════════════════════════════════ */}
+                    {show2faCard && (
                     <div className="sec-card Secrity_2FA">
                         <div className="sec-card-header">
                             <h3>Two-Factor Authentication</h3>
@@ -459,8 +481,10 @@ function Security() {
                             />
                         </div>
                     </div>
+                    )}
 
                     {/* ══ Active Sessions Card ════════════════════════ */}
+                    {showSessionsCard && (
                     <div className="sec-card Active_session">
                         <div className="sec-card-header">
                             <h3>Active Sessions</h3>
@@ -492,8 +516,10 @@ function Security() {
                             ))}
                         </div>
                     </div>
+                    )}
 
                     {/* ══ Account Recovery Card ═══════════════════════ */}
+                    {showRecoveryCard && (
                     <div className="sec-card Acount-recovery">
                         <div className="sec-card-header">
                             <h3>Account Recovery</h3>
@@ -545,6 +571,14 @@ function Security() {
                             <button><p>Cancel</p></button>
                         </div>
                     </div>
+                    )}
+
+                    {!hasAnyMatch && (
+                        <div className="no-results-found" style={{ textAlign: 'center', padding: '40px 20px', color: '#888', gridColumn: '1 / -1' }}>
+                            <p style={{ fontSize: '18px', fontWeight: '500', marginBottom: '8px' }}>No settings match your search</p>
+                            <p style={{ fontSize: '14px' }}>Try searching for something else on this page.</p>
+                        </div>
+                    )}
 
                 </div>{/* /Secrity_content */}
             </div>{/* /Setting */}

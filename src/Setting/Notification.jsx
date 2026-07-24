@@ -19,6 +19,18 @@ function Notification() {
 
     const { t } = useTranslation();
 
+    const checkMatch = (title, keywords) => {
+        if (!searchQuery) return true;
+        const q = searchQuery.toLowerCase();
+        return title.toLowerCase().includes(q) || keywords.some(k => k.toLowerCase().includes(q));
+    };
+
+    const showSystemAlerts = checkMatch("System Alerts", ["system alerts", "do not disturb", "dnd", "quiet hours", "schedule"]);
+    const showEngagement = checkMatch("Engagement & Growth", ["engagement", "growth", "new courses", "course updates", "assignment deadlines", "discussion replies"]);
+    const showMarketing = checkMatch("Marketing & Achievement", ["marketing", "promotions", "offers", "achievements", "certificates", "badges"]);
+
+    const hasAnyMatch = showSystemAlerts || showEngagement || showMarketing;
+
     const categories = [
         { name: "Profile", path: "/Setting/Profile", black: "/photo_icons/For_setting/UserMaleBlack.png", white: "/photo_icons/For_setting/UserMaleWhite.png", blue: "/photo_icons/For_setting/UserMaleBlue.png" },
         { name: "Security", path: "/Setting/Security", black: "/photo_icons/For_setting/SecrityBlack.png", white: "/photo_icons/For_setting/SecrityWhite.png", blue: "/photo_icons/For_setting/SecrityBlue.png" },
@@ -103,7 +115,12 @@ function Notification() {
                     <div className="search_page_setting">
                         <img src={isDarkMode ? search.white : search.black}
                             alt="search" className="setting-search-icon" />
-                        <input type="search" placeholder={t('setting.search', 'Search settings')} />
+                        <input
+                            type="search"
+                            placeholder={t('setting.search', 'Search settings')}
+                            value={searchQuery}
+                            onChange={(e) => setSearchQuery(e.target.value)}
+                        />
                     </div>
                 </div>
 
@@ -147,6 +164,8 @@ function Notification() {
                         </div>
 
                         {/* Card 1: System Alerts (Do Not Disturb) */}
+                        {showSystemAlerts && (
+                        <>
                         <section className="notification_card system_alerts_card" aria-labelledby="system-alerts-heading">
                             <div className="card_header">
                                 <h3 id="system-alerts-heading">{t('setting.system_alerts_title', 'System Alerts')}</h3>
@@ -180,10 +199,13 @@ function Notification() {
                                 </div>
                             </div>
                         </section>
-
                         <div className="card_divider"></div>
+                        </>
+                        )}
 
                         {/* Card 2: Engagement & Growth */}
+                        {showEngagement && (
+                        <>
                         <section className="notification_card engagement_growth_card" aria-labelledby="engagement-growth-heading">
                             <div className="card_header">
                                 <h3 id="engagement-growth-heading">{t('setting.engagement_growth_title', 'Engagement & Growth')}</h3>
@@ -275,10 +297,12 @@ function Notification() {
                                 </div>
                             </div>
                         </section>
-
                         <div className="card_divider"></div>
+                        </>
+                        )}
 
                         {/* Card 3: Marketing & Achievement */}
+                        {showMarketing && (
                         <section className="notification_card marketing_achievement_card" aria-labelledby="marketing-achievement-heading">
                             <div className="card_header">
                                 <h3 id="marketing-achievement-heading">{t('setting.marketing_achievement_title', 'Marketing & Achievement')}</h3>
@@ -328,6 +352,14 @@ function Notification() {
                                 </div>
                             </div>
                         </section>
+                        )}
+
+                        {!hasAnyMatch && (
+                            <div className="no-results-found" style={{ textAlign: 'center', padding: '40px 20px', color: '#888' }}>
+                                <p style={{ fontSize: '18px', fontWeight: '500', marginBottom: '8px' }}>No settings match your search</p>
+                                <p style={{ fontSize: '14px' }}>Try searching for something else on this page.</p>
+                            </div>
+                        )}
                     </div>
                 </div>
             </div>

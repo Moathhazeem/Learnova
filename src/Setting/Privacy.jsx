@@ -21,6 +21,19 @@ function Privacy() {
 
     const { t } = useTranslation();
 
+    const checkMatch = (title, keywords) => {
+        if (!searchQuery) return true;
+        const q = searchQuery.toLowerCase();
+        return title.toLowerCase().includes(q) || keywords.some(k => k.toLowerCase().includes(q));
+    };
+
+    const showVisibilitySection = checkMatch("Profile Visibility", ["visibility", "public", "private", "connections", "search engine", "indexing", "allow indexing"]);
+    const showSharingSection = checkMatch("Data Sharing & Analytics", ["data sharing", "analytics", "progress", "online status", "usage data", "share"]);
+    const showPermissionsSection = checkMatch("Account Permissions", ["permissions", "third-party", "integrations", "linkedin", "core services", "sharing"]);
+    const showDangerSection = checkMatch("Danger Zone", ["danger zone", "download data", "delete account", "remove"]);
+
+    const hasAnyMatch = showVisibilitySection || showSharingSection || showPermissionsSection || showDangerSection;
+
     const categories = [
         { name: "Profile", path: "/Setting/Profile", black: "/photo_icons/For_setting/UserMaleBlack.png", white: "/photo_icons/For_setting/UserMaleWhite.png", blue: "/photo_icons/For_setting/UserMaleBlue.png" },
         { name: "Security", path: "/Setting/Security", black: "/photo_icons/For_setting/SecrityBlack.png", white: "/photo_icons/For_setting/SecrityWhite.png", blue: "/photo_icons/For_setting/SecrityBlue.png" },
@@ -115,7 +128,12 @@ function Privacy() {
                     <div className="search_page_setting">
                         <img src={isDarkMode ? search.white : search.black}
                             alt="search" className="setting-search-icon" />
-                        <input type="search" placeholder={t('setting.search', 'Search settings')} />
+                        <input
+                            type="search"
+                            placeholder={t('setting.search', 'Search settings')}
+                            value={searchQuery}
+                            onChange={(e) => setSearchQuery(e.target.value)}
+                        />
                     </div>
                 </div>
 
@@ -148,6 +166,7 @@ function Privacy() {
 
             <div className="Privacy_content">
                 {/* 1. Profile Visibility Section */}
+                {showVisibilitySection && (
                 <div className="privacy-section-card">
                     <div className="privacy-section-header">
                         <h3>{t('setting.privacy_visiblity', 'Profile Visibility')}</h3>
@@ -228,8 +247,10 @@ function Privacy() {
                         </div>
                     </div>
                 </div>
+                )}
 
                 {/* 2. Data Sharing & Analytics Section */}
+                {showSharingSection && (
                 <div className="privacy-section-card">
                     <div className="privacy-section-header">
                         <h3>{t('setting.data_sharing_analytics', 'Data Sharing & Analytics')}</h3>
@@ -283,8 +304,10 @@ function Privacy() {
                         </div>
                     </div>
                 </div>
+                )}
 
                 {/* 3. Account Permissions Section */}
+                {showPermissionsSection && (
                 <div className="privacy-section-card">
                     <div className="privacy-section-header">
                         <h3>{t('setting.account_permissions', 'Account Permissions')}</h3>
@@ -323,8 +346,10 @@ function Privacy() {
                         </div>
                     </div>
                 </div>
+                )}
 
                 {/* Danger Zone Section */}
+                {showDangerSection && (
                 <div className="privacy-section-card danger-card">
                     <div className="privacy-section-header danger-header">
                         <div className="danger-title-wrapper">
@@ -369,6 +394,14 @@ function Privacy() {
                         </div>
                     </div>
                 </div>
+                )}
+
+                {!hasAnyMatch && (
+                     <div className="no-results-found" style={{ textAlign: 'center', padding: '40px 20px', color: '#888' }}>
+                         <p style={{ fontSize: '18px', fontWeight: '500', marginBottom: '8px' }}>No settings match your search</p>
+                         <p style={{ fontSize: '14px' }}>Try searching for something else on this page.</p>
+                     </div>
+                )}
             </div>
 
             <div className="page_actions_footer">

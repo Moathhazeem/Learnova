@@ -81,6 +81,21 @@ function Preferences() {
     const pathname = location.pathname.split("/").filter(x => x);
     const { t, i18n } = useTranslation();
 
+    const [searchQuery, setSearchQuery] = useState("");
+
+    const checkMatch = (title, keywords) => {
+        if (!searchQuery) return true;
+        const q = searchQuery.toLowerCase();
+        return title.toLowerCase().includes(q) || keywords.some(k => k.toLowerCase().includes(q));
+    };
+
+    const showLangRegion = checkMatch("Language & Region", ["language", "region", "english", "arabic", "date format", "location", "country", "palestine"]);
+    const showDisplayTheme = checkMatch("Display & Theme", ["theme", "light", "dark", "system", "text size", "font size", "display"]);
+    const showCoursePref = checkMatch("Course Preferences", ["course preferences", "autoplay", "captions", "subtitles", "digest", "playback speed", "difficulty", "video quality"]);
+    const showCategories = checkMatch("Interested Categories", ["interested categories", "categories", "topics", "technology", "business", "design", "marketing"]);
+
+    const hasAnyMatch = showLangRegion || showDisplayTheme || showCoursePref || showCategories;
+
     const changeLanguage = (e) => {
         const lang = e.target.value;
         i18n.changeLanguage(lang);
@@ -198,7 +213,12 @@ function Preferences() {
                     <p>{t('setting.header', 'Settings')}</p>
                     <div className="search_page_setting">
                         <img src={isDarkMode ? search.white : search.black} alt="search" className="setting-search-icon" />
-                        <input type="search" placeholder={t('setting.search', 'Search settings')} />
+                        <input
+                            type="search"
+                            placeholder={t('setting.search', 'Search settings')}
+                            value={searchQuery}
+                            onChange={(e) => setSearchQuery(e.target.value)}
+                        />
                     </div>
                 </div>
 
@@ -233,6 +253,7 @@ function Preferences() {
                 <div className="Preferences_content">
 
                     {/* CARD 1 — Language & Region */}
+                    {showLangRegion && (
                     <div className="pref-card">
                         <div className="pref-card-header">
                             <span className="pref-card-icon"><Globe className="pref-header-icon" /></span>
@@ -294,8 +315,10 @@ function Preferences() {
                             </div>
                         </div>
                     </div>
+                    )}
 
                     {/* CARD 2 — Display & Theme */}
+                    {showDisplayTheme && (
                     <div className="pref-card">
                         <div className="pref-card-header">
                             <span className="pref-card-icon"><Palette className="pref-header-icon" /></span>
@@ -345,8 +368,10 @@ function Preferences() {
                             </div>
                         </div>
                     </div>
+                    )}
 
                     {/* CARD 3 — Course Preferences */}
+                    {showCoursePref && (
                     <div className="pref-card">
                         <div className="pref-card-header">
                             <span className="pref-card-icon"><GraduationCap className="pref-header-icon" /></span>
@@ -432,8 +457,10 @@ function Preferences() {
                             </div>
                         </div>
                     </div>
+                    )}
 
                     {/* CARD 4 — Interested Categories */}
+                    {showCategories && (
                     <div className="pref-card">
                         <div className="pref-card-header">
                             <span className="pref-card-icon"><Boxes className="pref-header-icon" /></span>
@@ -475,6 +502,14 @@ function Preferences() {
                             })}
                         </div>
                     </div>
+                    )}
+
+                    {!hasAnyMatch && (
+                        <div className="no-results-found" style={{ textAlign: 'center', padding: '40px 20px', color: '#888' }}>
+                            <p style={{ fontSize: '18px', fontWeight: '500', marginBottom: '8px' }}>No settings match your search</p>
+                            <p style={{ fontSize: '14px' }}>Try searching for something else on this page.</p>
+                        </div>
+                    )}
 
                 </div>{/* end Preferences_content */}
 
