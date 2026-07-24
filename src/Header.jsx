@@ -312,12 +312,9 @@ function Header() {
                             <img
                               src={item.icon}
                               alt=""
-                              className="header-noti-icon"
-                              style={
-                                item.type === "completion"
-                                  ? { filter: isDarkMode ? "none" : "brightness(0) invert(1)" }
-                                  : undefined
-                              }
+                              className={`header-noti-icon ${
+                                item.type === "completion" ? "header-noti-icon-account" : ""
+                              }`}
                             />
                           </div>
 
@@ -329,17 +326,17 @@ function Header() {
                           </div>
 
                           <div className="header-noti-actions">
-                            <button
-                              className="header-noti-action-btn"
-                              title={item.isUnread ? "Mark as read" : "Mark as unread"}
-                              onClick={(e) => handleToggleRead(item.id, e)}
-                            >
-                              <span
-                                className={`header-dot-toggle ${
-                                  item.isUnread ? "unread" : "read"
-                                }`}
-                              />
-                            </button>
+                            {item.isUnread ? (
+                              <button
+                                className="header-noti-action-btn"
+                                title="Mark as read"
+                                onClick={(e) => handleToggleRead(item.id, e)}
+                              >
+                                <span className="header-dot-toggle unread" />
+                              </button>
+                            ) : (
+                              <div className="header-noti-action-spacer" />
+                            )}
                             <button
                               className="header-noti-action-btn delete"
                               title="Delete notification"

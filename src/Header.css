@@ -516,10 +516,9 @@ header.header-main.header-scrolled {
   display: flex;
   gap: 12px;
   align-items: center;
-  /* Vertically center icon and content */
   cursor: pointer;
-  background-color: #F0F8FF;
-  /* Very light pale blue background */
+  background-color: #ffffff;
+  /* Read state: clean white */
   border-bottom: 1px solid var(--border);
   transition: background-color 0.2s ease, transform 0.18s ease;
 }
@@ -529,12 +528,13 @@ header.header-main.header-scrolled {
 }
 
 .header-notification-item:hover {
-  background-color: #E6F2FF;
-  /* Slightly darker pale blue on hover */
+  background-color: #f5f5f5;
+  /* Read state hover: soft neutral grey */
 }
 
 .header-notification-item.header-unread {
   background-color: #F0F8FF;
+  /* Unread state: pale blue */
 }
 
 .header-notification-item.header-unread:hover {
@@ -562,8 +562,16 @@ header.header-main.header-scrolled {
   height: 18px;
 }
 
+/* Darkened user silhouette icon for read completion notifications */
+.header-noti-icon-account {
+  filter: brightness(0) saturate(100%) invert(22%) sepia(0%) saturate(0%) hue-rotate(0deg) brightness(96%) contrast(89%);
+  /* Results in ~#383838 charcoal grey — dark but not pure black */
+}
+
+
 .header-noti-content {
   flex: 1;
+  padding-left: 10px; /* Spacing to the left */
   padding-right: 18px;
   /* Clear spacing to prevent crowding */
   min-width: 0;
@@ -653,20 +661,22 @@ header.header-main.header-scrolled {
 .header-noti-actions {
   display: flex;
   flex-direction: column;
-  align-items: flex-end;
-  /* Align all right-side elements to the right edge */
+  align-items: center;
+  /* Center-align all right-side elements horizontally */
   justify-content: center;
-  gap: 6px;
+  gap: 8px;
   flex-shrink: 0;
   align-self: center;
   /* Center vertically inside notification item */
+  margin-right: -6px;
+  /* Pushed tighter to the right edge */
 }
 
 .header-noti-action-btn {
   background: none;
   border: none;
-  padding: 4px 0 4px 10px;
-  /* Zero padding on the right to align perfectly to the right edge */
+  padding: 4px;
+  /* Symmetrical padding for perfect center alignment */
   cursor: pointer;
   display: flex;
   align-items: center;
