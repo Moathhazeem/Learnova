@@ -1,8 +1,28 @@
-import { useState, useEffect, useRef } from "react";
+import { useState, useEffect, useRef, useCallback } from "react";
 import "./Header.css";
 import { useNavigate, useLocation } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 import i18n from "i18next";
+
+/* ── Course catalogue for autocomplete ──────────────────────── */
+const COURSES = [
+  { title: "React Masterclass", route: "/Explore/Course" },
+  { title: "Advanced CSS Layouts", route: "/Explore/Course" },
+  { title: "JavaScript Fundamentals", route: "/Explore/Course" },
+  { title: "Node.js Backend Development", route: "/Explore/Course" },
+  { title: "Python for Data Science", route: "/Explore/Course" },
+  { title: "UI/UX Design Principles", route: "/Explore/Course" },
+  { title: "TypeScript Advanced Patterns", route: "/Explore/Course" },
+  { title: "Machine Learning Basics", route: "/Explore/Course" },
+  { title: "Cloud Computing with AWS", route: "/Explore/Course" },
+  { title: "Digital Marketing Essentials", route: "/Explore/Course" },
+  { title: "Graphic Design Fundamentals", route: "/Explore/Course" },
+  { title: "SQL & Database Design", route: "/Explore/Course" },
+  { title: "Mobile App Development", route: "/Explore/Course" },
+  { title: "Cybersecurity Foundations", route: "/Explore/Course" },
+  { title: "Project Management Pro", route: "/Explore/Course" },
+  { title: "Communication Skills", route: "/Communication" },
+];
 
 function Header() {
   const Navigate = useNavigate();
@@ -41,6 +61,56 @@ function Header() {
     window.addEventListener("scroll", onScroll, { passive: true });
     return () => window.removeEventListener("scroll", onScroll);
   }, []);
+
+  /* ── Search autocomplete ──────────────────────────────────── */
+  const searchContainerRef = useRef(null);
+  const [showDropdown, setShowDropdown] = useState(false);
+  const [activeIndex, setActiveIndex] = useState(-1);
+
+  const filteredCourses = search.trim().length > 0
+    ? COURSES.filter((c) =>
+        c.title.toLowerCase().includes(search.trim().toLowerCase())
+      ).slice(0, 8)
+    : [];
+
+  const handleSearchFocus = () => {
+    if (search.trim().length > 0) setShowDropdown(true);
+  };
+
+  const handleSearchChange = (e) => {
+    const val = e.target.value;
+    setSearch(val);
+    setShowDropdown(val.trim().length > 0);
+    setActiveIndex(-1);
+  };
+
+  const handleSearchKeyDown = (e) => {
+    if (!showDropdown || filteredCourses.length === 0) return;
+    if (e.key === "ArrowDown") {
+      e.preventDefault();
+      setActiveIndex((i) => Math.min(i + 1, filteredCourses.length - 1));
+    } else if (e.key === "ArrowUp") {
+      e.preventDefault();
+      setActiveIndex((i) => Math.max(i - 1, -1));
+    } else if (e.key === "Enter" && activeIndex >= 0) {
+      e.preventDefault();
+      const course = filteredCourses[activeIndex];
+      Navigate(course.route, { state: { query: course.title } });
+      setSearch("");
+      setShowDropdown(false);
+      setActiveIndex(-1);
+    } else if (e.key === "Escape") {
+      setShowDropdown(false);
+      setActiveIndex(-1);
+    }
+  };
+
+  const handleCourseSelect = (course) => {
+    Navigate(course.route, { state: { query: course.title } });
+    setSearch("");
+    setShowDropdown(false);
+    setActiveIndex(-1);
+  };
 
   /* ── Account dropdown ─────────────────────────────────────── */
   const [isOpen, setIsOpen] = useState(false);
@@ -132,6 +202,10 @@ function Header() {
       if (notificationRef.current && !notificationRef.current.contains(e.target)) {
         setIsNotificationOpen(false);
       }
+      if (searchContainerRef.current && !searchContainerRef.current.contains(e.target)) {
+        setShowDropdown(false);
+        setActiveIndex(-1);
+      }
     };
     document.addEventListener("mousedown", handler);
     return () => document.removeEventListener("mousedown", handler);
@@ -171,8 +245,8 @@ function Header() {
           </nav>
         </div>
 
-        {/* ── Center: Search Bar (Coursera style: expands in middle) ─ */}
-        <div className="header-search-container">
+        {/* ── Center: Search Bar with Autocomplete ─────────────── */}
+        <div className="header-search-container" ref={searchContainerRef}>
           <div className="header-search-icon">
             <img
               src={isDarkMode ? "/photo_icons/search_white.png" : "/photo_icons/search.png"}
@@ -184,9 +258,57 @@ function Header() {
             className="header-search-input"
             placeholder={t("setting.what_are_you_learning", "What are you learning?")}
             value={search}
-            onChange={(e) => setSearch(e.target.value)}
+            onChange={handleSearchChange}
+            onFocus={handleSearchFocus}
+            onKeyDown={handleSearchKeyDown}
             aria-label="Search courses"
+            aria-autocomplete="list"
+            aria-expanded={showDropdown}
+            autoComplete="off"
           />
+          {/* ── Autocomplete Dropdown ─────────────────────────── */}
+          {showDropdown && filteredCourses.length > 0 && (
+            <div className="search-dropdown" role="listbox" aria-label="Course suggestions">
+              {filteredCourses.map((course, idx) => (
+                <div
+                  key={course.title}
+                  className={`search-dropdown-item${
+                    idx === activeIndex ? " search-dropdown-item--active" : ""
+                  }`}
+                  role="option"
+                  aria-selected={idx === activeIndex}
+                  onMouseDown={(e) => e.preventDefault()}
+                  onClick={() => handleCourseSelect(course)}
+                >
+                  <svg
+                    className="search-dropdown-icon"
+                    width="14"
+                    height="14"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    strokeWidth="2"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    aria-hidden="true"
+                  >
+                    <circle cx="11" cy="11" r="8" />
+                    <line x1="21" y1="21" x2="16.65" y2="16.65" />
+                  </svg>
+                  <span className="search-dropdown-text">
+                    {course.title}
+                  </span>
+                </div>
+              ))}
+            </div>
+          )}
+          {showDropdown && filteredCourses.length === 0 && search.trim().length > 0 && (
+            <div className="search-dropdown" role="listbox">
+              <div className="search-dropdown-empty">
+                No courses found for &ldquo;{search}&rdquo;
+              </div>
+            </div>
+          )}
         </div>
 
         {/* ── Right Group: Auth or Account / Notifications ───── */}
