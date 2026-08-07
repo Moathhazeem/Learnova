@@ -22,4 +22,4 @@ An interactive e-learning platform designed for discovering, managing, and watch
 
 1. **Clone the repository:**
    ```bash
-   git clone [https://github.com/Moathhazeem/Learnova.git](https://github.com/Moathhazeem/Learnova.git)
+   git clone https://github.com/Moathhazeem/Learnova.git
