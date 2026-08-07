@@ -25,10 +25,11 @@ An interactive e-learning platform designed for discovering, managing, and watch
    git clone https://github.com/Moathhazeem/Learnova.git
 
    Navigate into the directory:
-cd Learnova
-Install dependencies:
+   cd Learnova
+   
+   Install dependencies:
+   npm install
+   
+   Start the development server:
+   npm start
 
-npm install
-Start the development server:
-
-npm start
