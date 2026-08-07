@@ -23,3 +23,12 @@ An interactive e-learning platform designed for discovering, managing, and watch
 1. **Clone the repository:**
    ```bash
    git clone https://github.com/Moathhazeem/Learnova.git
+
+   Navigate into the directory:
+cd Learnova
+Install dependencies:
+
+npm install
+Start the development server:
+
+npm start
