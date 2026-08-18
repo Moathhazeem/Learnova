@@ -1,12 +1,11 @@
 import React, { useState, useEffect, useRef, useMemo } from 'react';
 import { Link, useLocation } from 'react-router-dom';
-import "../config/i18n";
 import { useTranslation } from "react-i18next";
+
+import "../config/i18n";
 import "./Payment.css";
 
-/* ─────────────────────────────────────────────
-   Utility: detect card brand from number
-   ───────────────────────────────────────────── */
+// تحديد نوع بطاقة الدفع (Visa, Mastercard, Amex, Discover) بناءً على الأرقام المدخلة
 function detectBrand(number) {
     const n = number.replace(/\s/g, '');
     if (/^4/.test(n)) return 'visa';
@@ -16,9 +15,7 @@ function detectBrand(number) {
     return 'generic';
 }
 
-/* ─────────────────────────────────────────────
-   Sub-component: CardBrandIcon
-   ───────────────────────────────────────────── */
+// عرض شعار بطاقة الدفع المناسب بناءً على نوعها وحجمها
 function CardBrandIcon({ brand, size = 36 }) {
     if (brand === 'visa') return (
         <svg width={size} height={size * 0.63} viewBox="0 0 60 38" aria-label="Visa" role="img">
@@ -46,7 +43,6 @@ function CardBrandIcon({ brand, size = 36 }) {
             <text x="6" y="25" fontFamily="Arial" fontWeight="bold" fontSize="9" fill="#FFFFFF">DISCOVER</text>
         </svg>
     );
-    /* generic chip */
     return (
         <svg width={size} height={size * 0.75} viewBox="0 0 48 36" aria-hidden="true">
             <rect width="48" height="36" rx="5" fill="#FFD166" opacity="0.9" />
@@ -58,16 +54,12 @@ function CardBrandIcon({ brand, size = 36 }) {
     );
 }
 
-/* ─────────────────────────────────────────────
-   Utility: sort default card to top
-   ───────────────────────────────────────────── */
+// ترتيب قائمة البطاقات بحيث تظهر البطاقة الافتراضية في المقدمة
 function sortByDefault(methods) {
     return [...methods].sort((a, b) => Number(b.isDefault) - Number(a.isDefault));
 }
 
-/* ─────────────────────────────────────────────
-   Sub-component: PaymentCard
-   ───────────────────────────────────────────── */
+// عرض تفاصيل بطاقة دفع فردية مع الخيارات المتاحة لها (مثل التعيين كافتراضية أو الحذف)
 function PaymentCard({ last4, expiry, isDefault, brand, id, onMakeDefault, onDelete, canDelete }) {
     const [menuOpen, setMenuOpen] = useState(false);
     const menuRef = useRef(null);
@@ -157,9 +149,7 @@ function PaymentCard({ last4, expiry, isDefault, brand, id, onMakeDefault, onDel
     );
 }
 
-/* ─────────────────────────────────────────────
-   Sub-component: HistoryTable
-   ───────────────────────────────────────────── */
+// عرض جدول سجل المشتريات السابقة للمستخدم
 function HistoryTable({ purchaseHistory, onDownload }) {
     const totalSpent = purchaseHistory
         .filter(i => i.status === 'Completed')
@@ -182,7 +172,6 @@ function HistoryTable({ purchaseHistory, onDownload }) {
                 </button>
             </div>
 
-            {/* Summary strip */}
             <div className="ph-summary-strip">
                 <div className="ph-summary-item">
                     <span className="ph-summary-item__val">{purchaseHistory.length}</span>
@@ -202,7 +191,6 @@ function HistoryTable({ purchaseHistory, onDownload }) {
                 </div>
             </div>
 
-            {/* Desktop table */}
             <div className="ph-table" role="table" aria-label="Purchase history">
                 <div className="ph-table__head" role="row">
                     <span role="columnheader">Course</span>
@@ -234,7 +222,6 @@ function HistoryTable({ purchaseHistory, onDownload }) {
                 ))}
             </div>
 
-            {/* Mobile card-stack view */}
             <div className="ph-mobile-stack" aria-label="Purchase history (mobile)">
                 {purchaseHistory.map((item) => (
                     <div key={item.id} className="ph-mobile-card">
@@ -260,15 +247,11 @@ function HistoryTable({ purchaseHistory, onDownload }) {
                     </div>
                 ))}
             </div>
-
-
         </div>
     );
 }
 
-/* ─────────────────────────────────────────────
-   Sub-component: SecurityBadge
-   ───────────────────────────────────────────── */
+// عرض رسالة الأمان وشارات التشفير لحماية البيانات
 function SecurityBadge() {
     return (
         <div className="security-badge" role="note" aria-label="Security information">
@@ -301,9 +284,7 @@ function SecurityBadge() {
     );
 }
 
-/* ─────────────────────────────────────────────
-   Main Component: Payment
-   ───────────────────────────────────────────── */
+// المكون الرئيسي لإدارة وسائل الدفع وعرض سجل المشتريات
 function Payment() {
     const [hovered, setHovered] = useState(null);
     const [isDarkMode, setIsDarkMode] = useState(
@@ -340,7 +321,6 @@ function Payment() {
         { name: "Payment", path: "/Setting/Payment", black: "/photo_icons/For_setting/PaymentBlack.png", white: "/photo_icons/For_setting/PaymentWhite.png", blue: "/photo_icons/For_setting/PaymentBlue.png" },
     ];
 
-    // Initialize payment methods from localStorage with fallback default data
     const [paymentMethods, setPaymentMethods] = useState(() => {
         try {
             const saved = localStorage.getItem('payment_methods');
@@ -358,6 +338,7 @@ function Payment() {
             { id: 2, last4: "1234", expires: "01/26", isDefault: false, brand: 'mastercard' },
         ];
     });
+
     const [purchaseHistory] = useState([
         { id: 1, course: "Logo Design", date: "12 / 12 / 2025", price: "$80.00", status: "Completed", method: "**** **** **** 4242" },
         { id: 2, course: "Video Editing", date: "12 / 03 / 2024", price: "$100.00", status: "Completed", method: "**** **** **** 4122" },
@@ -365,7 +346,6 @@ function Payment() {
         { id: 4, course: "React Native", date: "03 / 09 / 2024", price: "$50.00", status: "Refunded", method: "**** **** **** 1234" },
     ]);
 
-    // Modal state
     const [showModal, setShowModal] = useState(false);
     const [cardNumber, setCardNumber] = useState("");
     const [cardName, setCardName] = useState("");
@@ -388,7 +368,6 @@ function Payment() {
         return () => observer.disconnect();
     }, []);
 
-    // Save payment methods to localStorage whenever they change
     useEffect(() => {
         if (Array.isArray(paymentMethods)) {
             localStorage.setItem('payment_methods', JSON.stringify(paymentMethods));
@@ -400,25 +379,27 @@ function Payment() {
         return () => { document.body.style.overflow = ''; };
     }, [showModal]);
 
-    /* Format card number with spaces */
+    // تنسيق رقم البطاقة بإضافة مسافات بعد كل 4 أرقام لتسهيل القراءة
     const formatCardNumber = (val) => {
         const digits = val.replace(/\D/g, '').substring(0, 16);
         return digits.replace(/(.{4})/g, '$1 ').trim();
     };
 
-    /* Format expiry MM/YY */
+    // تنسيق تاريخ انتهاء الصلاحية بصيغة شهر/سنة (MM/YY)
     const formatExpiry = (val) => {
         const digits = val.replace(/\D/g, '').substring(0, 4);
         if (digits.length >= 3) return digits.substring(0, 2) + '/' + digits.substring(2);
         return digits;
     };
 
+    // عرض إشعار مؤقت لتأكيد حالة العملية للمستخدم
     const showToastNotification = (message) => {
         setToastMessage(message);
         setShowToast(true);
         setTimeout(() => setShowToast(false), 3200);
     };
 
+    // التحقق من صحة البيانات المدخلة في نموذج البطاقة
     const validateCardForm = () => {
         const errors = {};
         if (cardNumber.replace(/\s/g, '').length < 16) {
@@ -437,6 +418,7 @@ function Payment() {
         return Object.keys(errors).length === 0;
     };
 
+    // إضافة بطاقة دفع جديدة إلى قائمة بطاقات المستخدم
     const handleAddMethod = (e) => {
         e.preventDefault();
         if (isSubmitting) return;
@@ -472,7 +454,7 @@ function Payment() {
         }
     };
 
-
+    // تعيين البطاقة المحددة كبطاقة دفع افتراضية
     const handleSetDefault = (cardId) => {
         setPaymentMethods(prev =>
             sortByDefault(prev.map(method => ({ ...method, isDefault: method.id === cardId })))
@@ -480,6 +462,7 @@ function Payment() {
         showToastNotification('Default payment method updated');
     };
 
+    // حذف بطاقة الدفع المحددة من القائمة
     const handleDelete = (id) => {
         if (paymentMethods.length <= 1) return;
         let updated = paymentMethods.filter(method => method.id !== id);
@@ -492,6 +475,7 @@ function Payment() {
         showToastNotification('Payment method removed');
     };
 
+    // تنزيل سجل المشتريات بصيغة ملف CSV
     const handleDownload = () => {
         const headers = ["Course", "Date", "Price", "Status", "Payment Method"];
         const csvContent = [
@@ -512,6 +496,7 @@ function Payment() {
         URL.revokeObjectURL(url);
     };
 
+    // إعادة تعيين حقول نموذج إضافة البطاقة إلى حالتها الافتراضية
     const resetForm = () => {
         setCardNumber("");
         setCardName("");
@@ -523,11 +508,13 @@ function Payment() {
         setIsSubmitting(false);
     };
 
+    // فتح النافذة المنبثقة لإضافة بطاقة جديدة
     const openModal = () => {
         resetForm();
         setShowModal(true);
     };
-    
+
+    // إغلاق النافذة المنبثقة لإضافة بطاقة جديدة وتصفير النموذج
     const closeModal = () => {
         setShowModal(false);
         resetForm();
@@ -539,7 +526,6 @@ function Payment() {
 
     return (
         <div className="edit-profile-container">
-            {/* Breadcrumbs */}
             <nav className="breadcrumbs-nav">
                 <Link to="/Home" className="Breadcrumbs">{t("setting.home", "Home")}</Link>
                 {pathname.map((value, index) => {
@@ -561,7 +547,6 @@ function Payment() {
                 })}
             </nav>
 
-            {/* Settings sidebar */}
             <div className="Setting">
                 <div className="header_setting">
                     <p>{t('setting.header', 'Settings')}</p>
@@ -602,54 +587,53 @@ function Payment() {
                 </div>
             </div>
 
-            {/* ── Payment & Billing Dashboard ── */}
             <div className="payment-container billing-dashboard">
                 {showPaymentCards && (
-                <>
-                <div className="payment-header">
-                    <div className="ph-header__text">
-                        <h1 className='ph-header__title'>Payment Cards</h1>
-                        <p className="ph-header__sub">Manage your payment methods and default billing card.</p>
-                    </div>
-                    <button className="pc-add-btn" onClick={openModal} aria-label="Add new payment card">
-                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" aria-hidden="true">
-                            <line x1="12" y1="5" x2="12" y2="19" />
-                            <line x1="5" y1="12" x2="19" y2="12" />
-                        </svg>
-                        Add New Card
-                    </button>
-                </div>
-                <section className="pc-section">
-                    <header className="pc-section__header">
-                        <div className="pc-section__title-group">
-                            <h1 className="pc-section__title">Payment Cards</h1>
-                            <p className="pc-section__subtitle">Manage your payment methods and default billing card.</p>
+                    <>
+                        <div className="payment-header">
+                            <div className="ph-header__text">
+                                <h1 className="ph-header__title">Payment Cards</h1>
+                                <p className="ph-header__sub">Manage your payment methods and default billing card.</p>
+                            </div>
+                            <button className="pc-add-btn" onClick={openModal} aria-label="Add new payment card">
+                                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" aria-hidden="true">
+                                    <line x1="12" y1="5" x2="12" y2="19" />
+                                    <line x1="5" y1="12" x2="19" y2="12" />
+                                </svg>
+                                Add New Card
+                            </button>
                         </div>
-                    </header>
+                        <section className="pc-section">
+                            <header className="pc-section__header">
+                                <div className="pc-section__title-group">
+                                    <h1 className="pc-section__title">Payment Cards</h1>
+                                    <p className="pc-section__subtitle">Manage your payment methods and default billing card.</p>
+                                </div>
+                            </header>
 
-                    <div className="pc-cards-grid">
-                        {sortedPaymentMethods.map(method => (
-                            <PaymentCard
-                                key={method.id}
-                                id={method.id}
-                                last4={method.last4}
-                                expiry={method.expires}
-                                isDefault={method.isDefault}
-                                brand={method.brand}
-                                onMakeDefault={handleSetDefault}
-                                onDelete={handleDelete}
-                                canDelete={paymentMethods.length > 1}
-                            />
-                        ))}
-                    </div>
+                            <div className="pc-cards-grid">
+                                {sortedPaymentMethods.map(method => (
+                                    <PaymentCard
+                                        key={method.id}
+                                        id={method.id}
+                                        last4={method.last4}
+                                        expiry={method.expires}
+                                        isDefault={method.isDefault}
+                                        brand={method.brand}
+                                        onMakeDefault={handleSetDefault}
+                                        onDelete={handleDelete}
+                                        canDelete={paymentMethods.length > 1}
+                                    />
+                                ))}
+                            </div>
 
-                    <SecurityBadge />
-                </section>
-                </>
+                            <SecurityBadge />
+                        </section>
+                    </>
                 )}
 
                 {showPurchaseHistory && (
-                <HistoryTable purchaseHistory={purchaseHistory} onDownload={handleDownload} />
+                    <HistoryTable purchaseHistory={purchaseHistory} onDownload={handleDownload} />
                 )}
 
                 {!hasAnyMatch && (
@@ -660,7 +644,6 @@ function Payment() {
                 )}
             </div>
 
-            {/* Toast feedback */}
             <div className={`pay-toast ${showToast ? 'pay-toast--show' : ''}`} role="status" aria-live="polite">
                 <div className="pay-toast__content">
                     <svg viewBox="0 0 24 24" width="18" height="18" className="pay-toast__icon" aria-hidden="true">
@@ -670,7 +653,6 @@ function Payment() {
                 </div>
             </div>
 
-            {/* ── Add Payment Method Modal ── */}
             {showModal && (
                 <div
                     className="modal"

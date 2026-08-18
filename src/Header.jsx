@@ -1,10 +1,13 @@
-import { useState, useEffect, useRef, useCallback } from "react";
+import { useState, useEffect, useRef } from "react";
 import "./Header.css";
 import { useNavigate, useLocation } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 import i18n from "i18next";
 
-/* ── Course catalogue for autocomplete ──────────────────────── */
+/**
+ * Static catalogue of courses available for autocomplete search recommendations.
+ * Each entry consists of a display title and the target route to navigate to upon selection.
+ */
 const COURSES = [
   { title: "React Masterclass", route: "/Explore/Course" },
   { title: "Advanced CSS Layouts", route: "/Explore/Course" },
@@ -24,13 +27,38 @@ const COURSES = [
   { title: "Communication Skills", route: "/Communication" },
 ];
 
+/**
+ * Header Component
+ * 
+ * Provides a responsive, accessible top navigation bar for the Learnova web application.
+ * Key Features:
+ * - Brand logo & core navigation links (Explore, My Learning)
+ * - Course search input with keyboard-navigable autocomplete dropdown
+ * - User account dropdown menu with routing
+ * - Interactive notification panel with unread badge counters, toggle-read, and deletion actions
+ * - Dark mode theme detection (switching icons appropriately)
+ * - Mobile responsive navigation menu (hamburger menu + slide-over drawer)
+ * - Multi-language support (i18n integration)
+ */
 function Header() {
+  // Navigation hook to programmatically redirect users across routes
   const Navigate = useNavigate();
-  const [search, setSearch] = useState("");
+
+  // Location hook to observe the current active URL path
   const location = useLocation();
+
+  // Translation hook for internationalization (i18n) strings
   const { t } = useTranslation();
 
-  /* ── i18n ─────────────────────────────────────────────────── */
+  /* ─────────────────────────────────────────────────────────────
+     1. INTERNATIONALIZATION (i18n) & LOCALIZATION
+     ───────────────────────────────────────────────────────────── */
+
+  /**
+   * Switches the active application language, updates the DOM `lang` attribute,
+   * and sets text direction (RTL for Arabic, LTR for others).
+   * @param {React.ChangeEvent<HTMLSelectElement>} e - Event object containing selected language code.
+   */
   const changeLanguage = (e) => {
     const language = e.target.value;
     i18n.changeLanguage(language);
@@ -38,73 +66,110 @@ function Header() {
     document.documentElement.dir = language === "ar" ? "rtl" : "ltr";
   };
 
-  /* ── Route flags ──────────────────────────────────────────── */
+  /* ─────────────────────────────────────────────────────────────
+     2. ROUTE & LAYOUT FLAGS
+     ───────────────────────────────────────────────────────────── */
+
+  // Flag determining if the user is currently viewing the home/landing page
   const isLandingPage =
     location.pathname === "/" || location.pathname === "/LandingPage";
 
-  /* ── Dark-mode observer ───────────────────────────────────── */
+  /* ─────────────────────────────────────────────────────────────
+     3. DARK MODE OBSERVER
+     ───────────────────────────────────────────────────────────── */
+
+  // State tracking whether the dark theme class is present on document body
   const [isDarkMode, setIsDarkMode] = useState(
     document.body.classList.contains("dark")
   );
+
+  // Observes dynamic changes to the document body element's `class` attribute for dark mode status
   useEffect(() => {
-    const update = () => setIsDarkMode(document.body.classList.contains("dark"));
-    update();
-    const obs = new MutationObserver(update);
-    obs.observe(document.body, { attributes: true, attributeFilter: ["class"] });
-    return () => obs.disconnect();
+    const updateDarkMode = () => setIsDarkMode(document.body.classList.contains("dark"));
+    updateDarkMode();
+
+    const observer = new MutationObserver(updateDarkMode);
+    observer.observe(document.body, { attributes: true, attributeFilter: ["class"] });
+
+    return () => observer.disconnect();
   }, []);
 
-  /* ── Scroll shadow ────────────────────────────────────────── */
+  /* ─────────────────────────────────────────────────────────────
+     4. SCROLL SHADOW EFFECT
+     ───────────────────────────────────────────────────────────── */
+
+  // State tracking if the page has scrolled past a threshold to apply an elevated shadow style
   const [scrolled, setScrolled] = useState(false);
+
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 8);
     window.addEventListener("scroll", onScroll, { passive: true });
     return () => window.removeEventListener("scroll", onScroll);
   }, []);
 
-  /* ── Search autocomplete ──────────────────────────────────── */
+  /* ─────────────────────────────────────────────────────────────
+     5. SEARCH & AUTOCOMPLETE STATE & HANDLERS
+     ───────────────────────────────────────────────────────────── */
+
+  // State holding the current query string in the search input field
+  const [search, setSearch] = useState("");
+
+  // DOM reference to the search container for detecting outside clicks
   const searchContainerRef = useRef(null);
+
+  // Controls visibility of the autocomplete dropdown menu
   const [showDropdown, setShowDropdown] = useState(false);
+
+  // Index of the currently highlighted search result item (for keyboard navigation)
   const [activeIndex, setActiveIndex] = useState(-1);
 
-  const filteredCourses = search.trim().length > 0
-    ? COURSES.filter((c) =>
-        c.title.toLowerCase().includes(search.trim().toLowerCase())
-      ).slice(0, 8)
-    : [];
+  // Filtered array of up to 8 matching course recommendations based on user input
+  const filteredCourses =
+    search.trim().length > 0
+      ? COURSES.filter((course) =>
+          course.title.toLowerCase().includes(search.trim().toLowerCase())
+        ).slice(0, 8)
+      : [];
 
+  /** Opens autocomplete dropdown when input gains focus if query exists */
   const handleSearchFocus = () => {
     if (search.trim().length > 0) setShowDropdown(true);
   };
 
+  /** Updates search text, opens dropdown when query is non-empty, and resets highlighted item index */
   const handleSearchChange = (e) => {
-    const val = e.target.value;
-    setSearch(val);
-    setShowDropdown(val.trim().length > 0);
+    const value = e.target.value;
+    setSearch(value);
+    setShowDropdown(value.trim().length > 0);
     setActiveIndex(-1);
   };
 
+  /**
+   * Handles keyboard interactions for search input:
+   * - ArrowDown / ArrowUp: Navigates through filtered autocomplete items
+   * - Enter: Selects currently highlighted item
+   * - Escape: Dismisses the autocomplete dropdown
+   */
   const handleSearchKeyDown = (e) => {
     if (!showDropdown || filteredCourses.length === 0) return;
+
     if (e.key === "ArrowDown") {
       e.preventDefault();
-      setActiveIndex((i) => Math.min(i + 1, filteredCourses.length - 1));
+      setActiveIndex((prevIndex) => Math.min(prevIndex + 1, filteredCourses.length - 1));
     } else if (e.key === "ArrowUp") {
       e.preventDefault();
-      setActiveIndex((i) => Math.max(i - 1, -1));
+      setActiveIndex((prevIndex) => Math.max(prevIndex - 1, -1));
     } else if (e.key === "Enter" && activeIndex >= 0) {
       e.preventDefault();
       const course = filteredCourses[activeIndex];
-      Navigate(course.route, { state: { query: course.title } });
-      setSearch("");
-      setShowDropdown(false);
-      setActiveIndex(-1);
+      handleCourseSelect(course);
     } else if (e.key === "Escape") {
       setShowDropdown(false);
       setActiveIndex(-1);
     }
   };
 
+  /** Directs user to the selected course page and resets search input state */
   const handleCourseSelect = (course) => {
     Navigate(course.route, { state: { query: course.title } });
     setSearch("");
@@ -112,15 +177,33 @@ function Header() {
     setActiveIndex(-1);
   };
 
-  /* ── Account dropdown ─────────────────────────────────────── */
+  /* ─────────────────────────────────────────────────────────────
+     6. USER ACCOUNT MENU STATE & HANDLERS
+     ───────────────────────────────────────────────────────────── */
+
+  // State governing open/closed state of user account dropdown
   const [isOpen, setIsOpen] = useState(false);
+
+  // DOM reference to account wrapper for click-outside detection
   const accountWrapperRef = useRef(null);
+
+  /** Toggles account menu dropdown and closes notification panel if open */
   const toggleMenu = () => {
-    setIsOpen((v) => !v);
+    setIsOpen((prev) => !prev);
     setIsNotificationOpen(false);
   };
 
-  /* ── Notification state & actions ─────────────────────────── */
+  /* ─────────────────────────────────────────────────────────────
+     7. NOTIFICATION SYSTEM STATE & HANDLERS
+     ───────────────────────────────────────────────────────────── */
+
+  // Controls visibility of notification popup panel
+  const [isNotificationOpen, setIsNotificationOpen] = useState(false);
+
+  // DOM reference to notification container for click-outside detection
+  const notificationRef = useRef(null);
+
+  // List of active user notification items
   const [notifications, setNotifications] = useState([
     {
       id: 1,
@@ -151,8 +234,10 @@ function Header() {
     },
   ]);
 
+  // Total count of unread notifications for display badge
   const unreadCount = notifications.filter((n) => n.isUnread).length;
 
+  /** Toggles read/unread state for a specific notification */
   const handleToggleRead = (id, e) => {
     e?.stopPropagation();
     setNotifications((prev) =>
@@ -160,15 +245,18 @@ function Header() {
     );
   };
 
+  /** Removes a notification item from state */
   const handleDeleteNotification = (id, e) => {
     e?.stopPropagation();
     setNotifications((prev) => prev.filter((n) => n.id !== id));
   };
 
+  /** Marks all notifications in the list as read */
   const handleMarkAllRead = () => {
     setNotifications((prev) => prev.map((n) => ({ ...n, isUnread: false })));
   };
 
+  /** Handles clicking on a notification item: marks it read and navigates if a link is defined */
   const handleNotificationClick = (item) => {
     if (item.isUnread) {
       setNotifications((prev) =>
@@ -181,21 +269,29 @@ function Header() {
     }
   };
 
-  /* ── Notification panel toggle ────────────────────────────── */
-  const [isNotificationOpen, setIsNotificationOpen] = useState(false);
-  const notificationRef = useRef(null);
+  /** Toggles notification panel and closes account menu if open */
   const toggleNotification = () => {
-    setIsNotificationOpen((v) => !v);
+    setIsNotificationOpen((prev) => !prev);
     setIsOpen(false);
   };
 
-  /* ── Mobile nav drawer ────────────────────────────────────── */
-  const [mobileOpen, setMobileOpen] = useState(false);
-  const toggleMobileNav = () => setMobileOpen((v) => !v);
+  /* ─────────────────────────────────────────────────────────────
+     8. MOBILE NAVIGATION DRAWER STATE & HANDLERS
+     ───────────────────────────────────────────────────────────── */
 
-  /* ── Unified click-outside handler ───────────────────────── */
+  // State governing mobile nav drawer visibility
+  const [mobileOpen, setMobileOpen] = useState(false);
+
+  /** Toggles mobile drawer view */
+  const toggleMobileNav = () => setMobileOpen((prev) => !prev);
+
+  /* ─────────────────────────────────────────────────────────────
+     9. UNIFIED OUTSIDE CLICK DISMISSAL EFFECT
+     ───────────────────────────────────────────────────────────── */
+
+  // Listens for clicks outside of open dropdowns/panels to close them cleanly
   useEffect(() => {
-    const handler = (e) => {
+    const handleOutsideClick = (e) => {
       if (accountWrapperRef.current && !accountWrapperRef.current.contains(e.target)) {
         setIsOpen(false);
       }
@@ -207,26 +303,32 @@ function Header() {
         setActiveIndex(-1);
       }
     };
-    document.addEventListener("mousedown", handler);
-    return () => document.removeEventListener("mousedown", handler);
+    document.addEventListener("mousedown", handleOutsideClick);
+    return () => document.removeEventListener("mousedown", handleOutsideClick);
   }, []);
 
-  /* ── Close mobile nav on route change ─────────────────────── */
-  useEffect(() => { setMobileOpen(false); }, [location.pathname]);
+  // Automatically close mobile menu when route changes
+  useEffect(() => {
+    setMobileOpen(false);
+  }, [location.pathname]);
+
+  /* ─────────────────────────────────────────────────────────────
+     10. COMPONENT RENDER (JSX)
+     ───────────────────────────────────────────────────────────── */
 
   return (
     <>
-      {/* ════════════════════════ HEADER ════════════════════════ */}
+      {/* Main Top Header Navigation Bar */}
       <header className={`header-main ${scrolled ? "header-scrolled" : ""}`}>
 
-        {/* ── Left Group: Logo + Explore / Navigation ───────── */}
+        {/* ── Left Group: Brand Logo & Nav Links ─────────────────── */}
         <div className="header-left-group">
-          {/* Logo */}
+          {/* Logo element with click redirect to Landing Page */}
           <div className="header-logo" onClick={() => Navigate("/LandingPage")}>
             <span className="header-logo-text">Learnova</span>
           </div>
 
-          {/* Navigation links (Coursera style: right next to logo) */}
+          {/* Desktop Navigation Links */}
           <nav className="header-nav-links">
             <a
               href="/Explore"
@@ -245,14 +347,17 @@ function Header() {
           </nav>
         </div>
 
-        {/* ── Center: Search Bar with Autocomplete ─────────────── */}
+        {/* ── Center: Search Input Bar with Autocomplete Dropdown ──── */}
         <div className="header-search-container" ref={searchContainerRef}>
+          {/* Search Icon */}
           <div className="header-search-icon">
             <img
               src={isDarkMode ? "/photo_icons/search_white.png" : "/photo_icons/search.png"}
               alt="Search"
             />
           </div>
+
+          {/* Search Input Control */}
           <input
             type="text"
             className="header-search-input"
@@ -266,7 +371,8 @@ function Header() {
             aria-expanded={showDropdown}
             autoComplete="off"
           />
-          {/* ── Autocomplete Dropdown ─────────────────────────── */}
+
+          {/* Autocomplete Suggestions Dropdown List */}
           {showDropdown && filteredCourses.length > 0 && (
             <div className="search-dropdown" role="listbox" aria-label="Course suggestions">
               {filteredCourses.map((course, idx) => (
@@ -302,6 +408,8 @@ function Header() {
               ))}
             </div>
           )}
+
+          {/* Autocomplete No Results Fallback State */}
           {showDropdown && filteredCourses.length === 0 && search.trim().length > 0 && (
             <div className="search-dropdown" role="listbox">
               <div className="search-dropdown-empty">
@@ -311,10 +419,10 @@ function Header() {
           )}
         </div>
 
-        {/* ── Right Group: Auth or Account / Notifications ───── */}
+        {/* ── Right Group: Authentication Buttons or Account & Notifications ── */}
         <div className="header-right">
 
-          {/* Auth: Landing page → Sign up / Log In */}
+          {/* Render Log In / Sign Up buttons when on Landing Page */}
           {isLandingPage ? (
             <div className="header-auth-buttons">
               <button className="header-log-in" onClick={() => Navigate("/log_in")}>
@@ -325,10 +433,10 @@ function Header() {
               </button>
             </div>
           ) : (
-            /* Auth: App pages → account + notification icons */
+            /* Render Account & Notifications Controls when logged in / on app pages */
             <div className="header-account-wrapper" ref={accountWrapperRef}>
               <div className="header-account">
-                {/* Notification */}
+                {/* Notification Bell Button */}
                 <button
                   className="header-icon-btn header-noti-btn-relative"
                   aria-label="Notifications"
@@ -343,12 +451,13 @@ function Header() {
                     alt="Notifications"
                     className="header-notification-icon"
                   />
+                  {/* Unread count badge */}
                   {unreadCount > 0 && (
                     <span className="header-noti-badge">{unreadCount}</span>
                   )}
                 </button>
 
-                {/* Account menu button */}
+                {/* Account Profile Menu Button */}
                 <button
                   className="header-icon-btn"
                   aria-label="Account menu"
@@ -366,7 +475,7 @@ function Header() {
                 </button>
               </div>
 
-              {/* ── Account dropdown ─────────────────────────── */}
+              {/* Account Profile Dropdown Menu */}
               {isOpen && (
                 <div className="header-menu" role="menu">
                   <ul>
@@ -398,9 +507,10 @@ function Header() {
                 </div>
               )}
 
-              {/* ── Notification panel ───────────────────────── */}
+              {/* Interactive Notifications Popup Panel */}
               {isNotificationOpen && (
                 <div className="header-notification-panel" ref={notificationRef}>
+                  {/* Notification Header Bar */}
                   <div className="header-notification-header">
                     <div className="header-noti-title-wrap">
                       <h3>{t("setting.notification", "Notifications")}</h3>
@@ -420,6 +530,7 @@ function Header() {
                     )}
                   </div>
 
+                  {/* Scrollable Notification Items List */}
                   <div className="header-notification-list">
                     {notifications.length > 0 ? (
                       notifications.map((item) => (
@@ -430,6 +541,7 @@ function Header() {
                           }`}
                           onClick={() => handleNotificationClick(item)}
                         >
+                          {/* Item Icon */}
                           <div className="header-noti-icon-container">
                             <img
                               src={item.icon}
@@ -440,6 +552,7 @@ function Header() {
                             />
                           </div>
 
+                          {/* Item Body Text & Timestamp */}
                           <div className="header-noti-content">
                             <p className="header-noti-text">
                               {item.text}
@@ -447,6 +560,7 @@ function Header() {
                             <span className="header-noti-time">{item.time}</span>
                           </div>
 
+                          {/* Item Actions (Mark as Read / Delete) */}
                           <div className="header-noti-actions">
                             {item.isUnread ? (
                               <button
@@ -482,6 +596,7 @@ function Header() {
                         </div>
                       ))
                     ) : (
+                      /* Empty Notifications State */
                       <div className="header-noti-empty-state">
                         <div className="header-noti-empty-icon-wrap">
                           <svg
@@ -504,6 +619,7 @@ function Header() {
                     )}
                   </div>
 
+                  {/* Notification Footer Bar */}
                   <div className="header-notification-footer">
                     <button
                       className="header-view-all-btn"
@@ -532,7 +648,7 @@ function Header() {
             </div>
           )}
 
-          {/* ── Hamburger (mobile only) ──────────────────────── */}
+          {/* ── Mobile Hamburger Toggle Button ─────────────────────── */}
           <button
             className={`header-hamburger ${mobileOpen ? "header-is-open" : ""}`}
             onClick={toggleMobileNav}
@@ -546,7 +662,7 @@ function Header() {
         </div>
       </header>
 
-      {/* ══════════════════ MOBILE DRAWER ══════════════════════ */}
+      {/* ── Mobile Navigation Drawer ───────────────────────────────── */}
       <div className={`header-mobile-nav ${mobileOpen ? "header-is-open" : ""}`} aria-hidden={!mobileOpen}>
         <nav>
           <a href="/Explore" onClick={() => setMobileOpen(false)}>
@@ -578,7 +694,8 @@ function Header() {
           )}
         </nav>
       </div>
-      {/* Overlay that closes the drawer on tap */}
+
+      {/* Background Overlay to close mobile menu on click */}
       {mobileOpen && (
         <div className="header-mobile-nav-overlay" onClick={() => setMobileOpen(false)} />
       )}

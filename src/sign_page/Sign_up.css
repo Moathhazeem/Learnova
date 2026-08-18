@@ -1,6 +1,15 @@
+/* ============================================================================
+   Learnova - Sign Up Page Stylesheet
+   ============================================================================
+   Design System: Centered Glassmorphism Card Layout
+   Typography: 'Plus Jakarta Sans', Google Fonts
+   Features: Interactive validation states, password strength progress bar,
+             animated rule checklist popover, responsive media queries, dark mode.
+   ============================================================================ */
+
 @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap');
 
-/* ─── Base Page Centering Layout ───────────────────────────────────────────── */
+/* ─── 1. Base Page Centering Layout ────────────────────────────────────────── */
 .sign-up-page-container {
     display: flex;
     align-items: center;
@@ -18,11 +27,12 @@
     font-family: 'Plus Jakarta Sans', sans-serif;
 }
 
+/* Enforce border-box model across all child elements */
 .sign-up-page-container * {
     box-sizing: border-box;
 }
 
-/* Background decorative glowing mesh blobs to add rich visual depth */
+/* Background decorative glowing mesh blobs for visual depth */
 .sign-up-page-container::before,
 .sign-up-page-container::after {
     content: "";
@@ -47,10 +57,10 @@
     right: 10%;
 }
 
+/* Outer Form Wrapper */
 .sign-up-form {
     width: 100%;
     max-width: 800px;
-    /* Increased max-width to allow card to expand more */
     display: flex;
     justify-content: center;
     align-items: center;
@@ -58,6 +68,7 @@
     z-index: 1;
 }
 
+/* ─── 2. Signup Glassmorphic Card Container ────────────────────────────────── */
 .signup-card {
     background: rgba(255, 255, 255, 0.9);
     backdrop-filter: blur(20px);
@@ -71,7 +82,6 @@
     border-radius: 24px;
     width: 100%;
     max-width: 580px;
-    /* Controlled width to keep inputs "shorter" */
     padding: 40px 45px;
     transition: all 0.3s ease;
     overflow: hidden;
@@ -83,12 +93,14 @@
     min-width: 0;
 }
 
+/* Hover elevation effect on card */
 .signup-card:hover {
     box-shadow:
         0 10px 20px -5px rgba(0, 0, 0, 0.02),
         0 25px 50px -12px rgba(0, 137, 234, 0.12);
 }
 
+/* ─── 3. Typography & Headers ──────────────────────────────────────────────── */
 .title-sign-up {
     font-size: 32px;
     font-weight: 800;
@@ -119,31 +131,8 @@
     font-weight: 500;
 }
 
-/* Isolated fix for Name fields using the new class */
-.name-field-input {
-    background: transparent !important;
-    border: none !important;
-    box-shadow: none !important;
-    outline: none !important;
-    appearance: none !important;
-    -webkit-appearance: none !important;
-    width: 100% !important;
-    height: 100% !important;
-    padding: 10px 14px !important;
-    margin: 0 !important;
-    display: block !important;
-    font-size: 15px !important;
-    font-weight: 500 !important;
-    font-family: inherit !important;
-}
-
-/* Handle padding for name fields when validation icons are present */
-.input-wrapper.has-error .name-field-input,
-.input-wrapper.has-success .name-field-input {
-    padding-right: 48px !important;
-}
-
-/* Scoped to .signup-card to override Log_in.css global .form-group { max-width: 551px } */
+/* ─── 4. Form Groups & Input Wrappers ─────────────────────────────────────── */
+/* Scoped form group overrides */
 .signup-card .form-group {
     display: flex;
     flex-direction: column;
@@ -167,10 +156,7 @@
     color: #0089EA;
 }
 
-.input-wrapper.has-error+.error-message {
-    /* Potential future styling for label if needed */
-}
-
+/* Input Wrapper Box styling */
 .input-wrapper {
     position: relative;
     width: 100%;
@@ -181,9 +167,7 @@
     border-radius: 10px;
     transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
     height: 46px;
-    /* Moved height here from input */
     overflow: hidden;
-    /* Ensures no internal overflow breaks the border */
 }
 
 .input-wrapper:focus-within {
@@ -191,32 +175,31 @@
     box-shadow: 0 0 0 3px rgba(0, 137, 234, 0.1);
 }
 
+/* Input text element reset */
+.name-field-input,
 .signup-card .form-group input {
-    width: 100%;
-    height: 100%;
-    padding: 10px 14px;
-    font-size: 15px;
-    font-weight: 500;
-    font-family: inherit;
-    color: #1e293b;
-    /* Aggressively removing the inner element's appearance */
     background: transparent !important;
     border: none !important;
-    outline: none !important;
     box-shadow: none !important;
+    outline: none !important;
     appearance: none !important;
     -webkit-appearance: none !important;
+    width: 100% !important;
+    height: 100% !important;
+    padding: 10px 14px !important;
     margin: 0 !important;
-    display: block;
+    display: block !important;
+    font-size: 15px !important;
+    font-weight: 500 !important;
+    font-family: inherit !important;
+    color: #1e293b;
 }
 
-/* Specific padding for password fields to not overlap toggle button */
+/* Specific padding for password & feedback icon fields */
 .signup-card .form-group input#password,
-.signup-card .form-group input#confirm_password {
-    padding-right: 48px !important;
-}
-
-/* Also for other fields if feedback icons are present */
+.signup-card .form-group input#confirm_password,
+.input-wrapper.has-error .name-field-input,
+.input-wrapper.has-success .name-field-input,
 .input-wrapper.has-error input,
 .input-wrapper.has-success input {
     padding-right: 48px !important;
@@ -229,14 +212,14 @@
     font-family: inherit !important;
 }
 
-/* Prevent browser autofill from changing the background color of the wrapper indirectly */
+/* Browser autofill background override */
 .signup-card .form-group input:-webkit-autofill {
     -webkit-text-fill-color: #1e293b !important;
     -webkit-box-shadow: 0 0 0px 1000px transparent inset !important;
     transition: background-color 5000s ease-in-out 0s !important;
 }
 
-/* Success Validation States applied to Wrapper */
+/* Success & Error Wrapper Border States */
 .input-wrapper.has-success {
     border-color: #10b981;
 }
@@ -245,7 +228,6 @@
     box-shadow: 0 0 0 3px rgba(16, 185, 129, 0.1);
 }
 
-/* Error Validation States applied to Wrapper */
 .input-wrapper.has-error {
     border-color: #ef4444;
 }
@@ -254,15 +236,7 @@
     box-shadow: 0 0 0 3px rgba(239, 68, 68, 0.1);
 }
 
-
-
-/* Password inputs toggle override spacing - keeping it consistent */
-.signup-card .form-group input#password,
-.signup-card .form-group input#confirm_password {
-    padding-right: 48px;
-}
-
-/* Feedback icon positioning */
+/* ─── 5. Feedback Icons & Password Toggle ─────────────────────────────────── */
 .feedback-icon {
     position: absolute;
     right: 12px;
@@ -289,14 +263,13 @@
         transform: translateY(-50%) scale(0.6);
         opacity: 0;
     }
-
     to {
         transform: translateY(-50%) scale(1);
         opacity: 1;
     }
 }
 
-/* Password Toggle Visibility Icon */
+/* Password Toggle Eye Button */
 .password-toggle-btn {
     position: absolute;
     right: 8px;
@@ -318,14 +291,13 @@
 .password-toggle-btn:hover {
     color: #1e293b;
     background-color: #f1f5f9;
-
 }
 
 .password-toggle-btn:focus {
     outline: none;
 }
 
-/* ─── Validation Error Messages ───────────────────────────────────────────── */
+/* ─── 6. Validation Error & Success Messages ──────────────────────────────── */
 .error-message {
     color: #ef4444;
     font-size: 16px;
@@ -359,14 +331,13 @@
         opacity: 0;
         transform: translateY(-4px);
     }
-
     to {
         opacity: 1;
         transform: translateY(0);
     }
 }
 
-/* ─── Password Strength Analytics ─────────────────────────────────────────── */
+/* ─── 7. Password Strength Analytics Meter ─────────────────────────────────── */
 .password-strength-container {
     margin-top: 10px;
     width: 100%;
@@ -412,13 +383,12 @@
     from {
         opacity: 0;
     }
-
     to {
         opacity: 1;
     }
 }
 
-/* ─── Password Rules Popover Checklist ────────────────────────────────────── */
+/* ─── 8. Password Rules Popover Checklist ─────────────────────────────────── */
 .password-rules-popover {
     background: #f8fafc;
     border: 1px solid #e2e8f0;
@@ -491,14 +461,13 @@
         opacity: 0;
         transform: translateY(-8px);
     }
-
     to {
         opacity: 1;
         transform: translateY(0);
     }
 }
 
-/* ─── Terms & Conditions Custom Checkbox ─────────────────────────────────── */
+/* ─── 9. Terms & Conditions Custom Checkbox ───────────────────────────────── */
 .signup-options {
     display: flex;
     flex-direction: column;
@@ -587,7 +556,7 @@
     background-color: #fef2f2;
 }
 
-/* ─── Submit button & Simulated Spinner ────────────────────────────────────── */
+/* ─── 10. Submit Button & Spinner Animation ────────────────────────────────── */
 .signup-submit-btn {
     width: 100%;
     height: 50px;
@@ -648,7 +617,7 @@
     }
 }
 
-/* ─── Divider "Or" ────────────────────────────────────────────────────────── */
+/* ─── 11. Divider Line ─────────────────────────────────────────────────────── */
 .signup-divider {
     display: flex;
     align-items: center;
@@ -674,7 +643,7 @@
     margin-left: 12px;
 }
 
-/* ─── Social Media Buttons ────────────────────────────────────────────────── */
+/* ─── 12. Social Registration Buttons ─────────────────────────────────────── */
 .social-media-container {
     display: flex;
     gap: 16px;
@@ -719,7 +688,7 @@
     color: #1e293b;
 }
 
-/* ─── Footer Links ────────────────────────────────────────────────────────── */
+/* ─── 13. Navigation Footer Prompt ────────────────────────────────────────── */
 .signup-footer {
     display: flex;
     align-items: center;
@@ -749,7 +718,7 @@
     text-decoration: underline;
 }
 
-/* ─── Dark Mode Support ───────────────────────────────────────────────────── */
+/* ─── 14. Dark Mode Custom Overrides ──────────────────────────────────────── */
 .dark .sign-up-page-container {
     background: radial-gradient(circle at 10% 20%, rgba(0, 137, 234, 0.08) 0%, transparent 40%),
         radial-gradient(circle at 90% 80%, rgba(0, 137, 234, 0.12) 0%, transparent 50%),
@@ -856,7 +825,7 @@
     background-color: rgba(239, 68, 68, 0.05);
 }
 
-/* ─── Responsive Media Queries ───────────────────────────────────────────── */
+/* ─── 15. Responsive Media Queries ─────────────────────────────────────────── */
 @media (max-width: 680px) {
     .signup-card {
         padding: 30px 24px;

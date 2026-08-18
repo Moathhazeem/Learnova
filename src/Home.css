@@ -1,3 +1,6 @@
+/* ==========================================================================
+   Global Color Variables & Theme Tokens
+   ========================================================================== */
 :root {
     --primary-blue: #0089EA;
     --primary-blue-dark: #006ec0;
@@ -11,6 +14,9 @@
     --progress-bg: #e9ecef;
 }
 
+/* ==========================================================================
+   Main Page Wrapper & Layout Setup
+   ========================================================================== */
 .home-container {
     margin-top: 100px;
     margin-left: 60px;
@@ -27,7 +33,9 @@
     transition: background-color 0.3s ease, color 0.3s ease;
 }
 
-/* ─── Welcome (below fixed header, no overlap) ─── */
+/* ==========================================================================
+   Welcome Banner & Dashboard Greeting Section
+   ========================================================================== */
 .home-welcome-section {
     display: flex;
     justify-content: space-between;
@@ -65,6 +73,7 @@
     line-height: 1.55;
 }
 
+/* Optional Circular Progress Ring Styling */
 .welcome-progress-chip {
     flex-shrink: 0;
     display: flex;
@@ -125,7 +134,9 @@
     letter-spacing: -0.2px;
 }
 
-/* ─── Sections ─── */
+/* ==========================================================================
+   Shared Section Typography & Header Controls
+   ========================================================================== */
 section {
     margin-bottom: 56px;
 }
@@ -179,7 +190,9 @@ section {
     gap: 8px;
 }
 
-/* ─── In progress card ─── */
+/* ==========================================================================
+   In-Progress Course Banner Card
+   ========================================================================== */
 .progress-card {
     display: flex;
     background: var(--bg-white);
@@ -198,6 +211,7 @@ section {
     position: relative;
 }
 
+/* Dynamic gradient left border indicator on hover */
 .progress-card::before {
     content: "";
     position: absolute;
@@ -328,7 +342,9 @@ section {
     transition: width 0.4s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
-/* ─── Categories ─── */
+/* ==========================================================================
+   Category Navigation Pills
+   ========================================================================== */
 .explore-section,
 .in-progress-section,
 .recommended-section {
@@ -390,7 +406,9 @@ section {
     background: rgba(255, 255, 255, 0.2);
 }
 
-/* ─── Recommended courses grid ─── */
+/* ==========================================================================
+   Recommended Courses Responsive Grid
+   ========================================================================== */
 .courses-container {
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(min(100%, 300px), 1fr));
@@ -401,7 +419,7 @@ section {
     max-width: 100%;
 }
 
-/* ─── Course Card ─────────────────────────────────────────── */
+/* Course Card Wrapper */
 .home-course-item {
     position: relative;
     display: flex;
@@ -427,7 +445,7 @@ section {
     border-color: rgba(0, 137, 234, 0.5);
 }
 
-/* ─── Image Container ─── */
+/* Course Image Header & Overlay */
 .home-course-item .course-item-image {
     width: 100%;
     height: 210px;
@@ -443,7 +461,6 @@ section {
     display: block;
 }
 
-/* subtle gradient overlay on hover */
 .home-course-item .course-item-image::after {
     content: '';
     position: absolute;
@@ -458,7 +475,7 @@ section {
     opacity: 1;
 }
 
-/* ─── Card Body ─── */
+/* Card Body Content */
 .home-course-item .course-info {
     padding: 20px 20px 18px;
     display: flex;
@@ -467,7 +484,6 @@ section {
     flex: 1;
 }
 
-/* ─── Title ─── */
 .home-course-item .course-title {
     font-size: 16px;
     font-weight: 700;
@@ -483,7 +499,7 @@ section {
     transition: color 0.2s ease;
 }
 
-/* ─── Price / Duration / Level row ─── */
+/* Metadata Info Row (Price, Duration, Level) */
 .home-course-item .course-info-PRL {
     display: flex;
     align-items: center;
@@ -535,7 +551,7 @@ section {
     text-overflow: ellipsis;
 }
 
-/* ─── Instructor / Rating footer ─── */
+/* Instructor & Rating Footer */
 .home-course-item .course-info-IR {
     display: flex;
     align-items: center;
@@ -553,7 +569,6 @@ section {
     min-width: 0;
 }
 
-/* instructor avatar */
 .home-course-item .course-info-IR-item:first-child img {
     width: 32px;
     height: 32px;
@@ -583,7 +598,6 @@ section {
     white-space: nowrap;
 }
 
-/* Rating star icon styling */
 .home-course-item .course-info-IR-item img[src*="Rating"] {
     width: 14px;
     height: 14px;
@@ -591,7 +605,9 @@ section {
     fill: #facc15;
 }
 
-/* ─── Dark mode ─── */
+/* ==========================================================================
+   Dark Mode Theme Overrides
+   ========================================================================== */
 .dark .home-container {
     background-color: #0f0f0f;
     color: #f0f0f0;
@@ -644,7 +660,9 @@ section {
     border-top-color: #333;
 }
 
-/* ─── Responsive ─── */
+/* ==========================================================================
+   Responsive Breakpoints & Media Queries
+   ========================================================================== */
 @media (max-width: 900px) {
     .home-container {
         margin-left: 24px;

@@ -8,10 +8,12 @@ import {
 } from 'lucide-react';
 import './Communication.css';
 
+// ─── ثوابت الصور الرمزية للمستخدمين ────────────────────────────────
 const AVATAR_DIMITRI = 'https://i.pravatar.cc/45?img=11';
-const AVATAR_GEORGE = 'https://i.pravatar.cc/45?img=52';
-const AVATAR_ALEX = 'https://i.pravatar.cc/45?img=47';
+const AVATAR_GEORGE  = 'https://i.pravatar.cc/45?img=52';
+const AVATAR_ALEX    = 'https://i.pravatar.cc/45?img=47';
 
+// ─── قائمة الرسائل الأولية (بيانات ثابتة) ──────────────────────────
 const messagesList = [
     {
         id: 1,
@@ -51,7 +53,7 @@ const messagesList = [
     },
 ];
 
-
+// ─── بيانات المحادثات الأولية لكل مستخدم ──────────────────────────
 const initialConversations = {
     1: [
         { id: 1, sender: 'them', text: "I've looked at the work. The idea is clear, but you have problems with contrast and visual hierarchy.", time: '10:30 AM' },
@@ -70,7 +72,10 @@ const initialConversations = {
     ],
 };
 
+// ─── المكوّن الرئيسي لصفحة التواصل ────────────────────────────────
 function Communication() {
+
+    // ─── قائمة الإشعارات (تُعرَّف داخل المكوّن لاحتوائها عناصر JSX) ──
     const notificationsList = [
         {
             id: 1,
@@ -123,42 +128,63 @@ function Communication() {
             unread: false,
         },
     ];
-    const fileInputRef = useRef(null);
-    const [attachedFiles, setAttachedFiles] = useState([]);
-    const { t } = useTranslation();
-    const location = useLocation();
-    const pathname = location.pathname.split('/').filter(x => x);
-    const [OpenNot, setOpenNot] = useState(false);
-    const [selectedNotification, setSelectedNotification] = useState(null);
-    const [activeTab, setActiveTab] = useState('notifications');
-    const [search, setSearch] = useState('');
-    const [selectedFilter, setSelectedFilter] = useState('All');
-    const [filtersOpen, setFiltersOpen] = useState(false);
-    const [notifications, setNotifications] = useState(notificationsList);
-    const [messages, setMessages] = useState(messagesList);
 
-    // Messages state
-    const [selectedConvId, setSelectedConvId] = useState(1);
-    const [conversations, setConversations] = useState(initialConversations);
-    const [inputText, setInputText] = useState('');
+    // ─── مراجع DOM ──────────────────────────────────────────────────
+    const fileInputRef    = useRef(null);
     const chatMessagesRef = useRef(null);
-    const [msgFilter, setMsgFilter] = useState('All');
+
+    // ─── الحالات العامة ─────────────────────────────────────────────
+    const { t }      = useTranslation();
+    const location   = useLocation();
+    const pathname   = location.pathname.split('/').filter(x => x);
+    const [activeTab,            setActiveTab]            = useState('notifications');
+    const [search,               setSearch]               = useState('');
+    const [selectedFilter,       setSelectedFilter]       = useState('All');
+    const [filtersOpen,          setFiltersOpen]          = useState(false);
+    const [notifications,        setNotifications]        = useState(notificationsList);
+    const [selectedNotification, setSelectedNotification] = useState(null);
+    const [messages,             setMessages]             = useState(messagesList);
+
+    // ─── حالات المحادثات والرسائل ──────────────────────────────────
+    const [selectedConvId, setSelectedConvId] = useState(1);
+    const [conversations,  setConversations]  = useState(initialConversations);
+    const [inputText,      setInputText]      = useState('');
+    const [attachedFiles,  setAttachedFiles]  = useState([]);
+    const [msgFilter,      setMsgFilter]      = useState('All');
     const [msgFiltersOpen, setMsgFiltersOpen] = useState(false);
 
-    const selectedUser = messages.find(m => m.id === selectedConvId);
+    // ─── بيانات مشتقة ───────────────────────────────────────────────
+    const selectedUser    = messages.find(m => m.id === selectedConvId);
     const currentMessages = conversations[selectedConvId] || [];
 
+    // ─── تصفية الرسائل حسب البحث والفلتر المختار ──────────────────
     const filteredMessages = messages.filter(m => {
         const matchesSearch = m.name.toLowerCase().includes(search.toLowerCase()) ||
             m.subject.toLowerCase().includes(search.toLowerCase());
         if (!matchesSearch) return false;
-        if (msgFilter === 'Unread') return m.unread;
-        if (msgFilter === 'Read') return !m.unread;
+        if (msgFilter === 'Unread')  return m.unread;
+        if (msgFilter === 'Read')    return !m.unread;
         if (msgFilter === 'Teacher') return ['Dimitri Abdelhak', 'George Smith'].includes(m.name);
         if (msgFilter === 'Student') return ['Alex Johnson'].includes(m.name);
         return true;
     });
 
+    // ─── تصفية الإشعارات حسب البحث والفلتر المختار ────────────────
+    const filteredNotifications = notifications.filter(n => {
+        const matchesSearch = n.title.toLowerCase().includes(search.toLowerCase()) ||
+            n.description.toLowerCase().includes(search.toLowerCase());
+        if (!matchesSearch) return false;
+        if (selectedFilter === 'Unread')      return n.unread;
+        if (selectedFilter === 'Read')        return !n.unread;
+        if (selectedFilter === 'Assignments') return n.title.toLowerCase().includes('assignment');
+        return true;
+    });
+
+    // ─── عداد العناصر غير المقروءة ─────────────────────────────────
+    const unreadMessageCount      = filteredMessages.filter(m => m.unread).length;
+    const unreadNotificationCount = filteredNotifications.filter(n => n.unread).length;
+
+    // ─── تمرير منطقة الدردشة للأسفل عند إضافة رسالة جديدة ──────────
     useEffect(() => {
         if (chatMessagesRef.current) {
             chatMessagesRef.current.scrollTo({
@@ -168,19 +194,7 @@ function Communication() {
         }
     }, [currentMessages]);
 
-    const filteredNotifications = notifications.filter(n => {
-        const matchesSearch = n.title.toLowerCase().includes(search.toLowerCase()) ||
-            n.description.toLowerCase().includes(search.toLowerCase());
-        if (!matchesSearch) return false;
-        if (selectedFilter === 'Unread') return n.unread;
-        if (selectedFilter === 'Read') return !n.unread;
-        if (selectedFilter === 'Assignments') return n.title.toLowerCase().includes('assignment');
-        return true;
-    });
-
-    const unreadMessageCount = filteredMessages.filter(m => m.unread).length;
-    const unreadNotificationCount = filteredNotifications.filter(n => n.unread).length;
-
+    // ─── تعليم رسالة واحدة كمقروءة ─────────────────────────────────
     const handleMarkAsRead_Messages = (id) => {
         setMessages(prevMessages =>
             prevMessages.map(msg =>
@@ -188,6 +202,8 @@ function Communication() {
             )
         );
     };
+
+    // ─── تعليم إشعار واحد كمقروء ────────────────────────────────────
     const handleMarkAsRead_Notifications = (id) => {
         setNotifications(prevNotifications =>
             prevNotifications.map(notification =>
@@ -196,6 +212,7 @@ function Communication() {
         );
     };
 
+    // ─── تعليم جميع العناصر في التبويب الحالي كمقروءة ───────────────
     const handleMarkAllAsRead = () => {
         if (activeTab === 'notifications') {
             setNotifications(notifications.map(item => ({ ...item, unread: false })));
@@ -204,6 +221,7 @@ function Communication() {
         }
     };
 
+    // ─── حذف محادثة كاملة والانتقال للتالية ────────────────────────
     const handleDeleteConversation = (idToDelete) => {
         const updatedMessages = messages.filter(m => m.id !== idToDelete);
         setMessages(updatedMessages);
@@ -221,6 +239,7 @@ function Communication() {
         }
     };
 
+    // ─── إرسال رسالة نصية أو مع مرفقات ─────────────────────────────
     const handleSendMessage = () => {
         if (inputText.trim() === '' && attachedFiles.length === 0) return;
         const newMsg = {
@@ -238,23 +257,25 @@ function Communication() {
         setAttachedFiles([]);
     };
 
+    // ─── إرسال الرسالة عند الضغط على Enter (دون Shift) ─────────────
     const handleKeyDown = (e) => {
         if (e.key === 'Enter' && !e.shiftKey) {
             e.preventDefault();
             handleSendMessage();
         }
     };
-    const handleopenNotification = () => {
-        setOpenNot(true);
-    }
+
+    // ─── فتح نافذة اختيار الملفات ───────────────────────────────────
     const triggerFileInput = () => {
         fileInputRef.current.click();
     };
 
+    // ─── إزالة ملف مرفق من قائمة الانتظار ──────────────────────────
     const handleRemoveFile = (id) => {
         setAttachedFiles(prev => prev.filter(file => file.id !== id));
     };
 
+    // ─── معالجة الملفات المختارة وإضافتها للمرفقات ──────────────────
     const handleFileChange = (event) => {
         const files = Array.from(event.target.files);
         const newFiles = files.map(file => ({
@@ -267,14 +288,12 @@ function Communication() {
         }));
         setAttachedFiles(prev => [...prev, ...newFiles]);
         if (files.length > 0) {
-            // Here you can handle the files
-            console.log('Selected files:', files);
-            // For example, you can add them to the message input
             const fileNames = files.map(f => f.name).join(', ');
             setInputText(prev => prev ? `${prev} ${fileNames}` : fileNames);
         }
     };
 
+    // ─── فتح/تنزيل ملف مرفق عند النقر عليه ─────────────────────────
     const handleFileClick = (file) => {
         let url = file.previewUrl;
         if (!url && file.rawFile) {
@@ -296,7 +315,8 @@ function Communication() {
     return (
         <div className="communication-page">
             <div className="comm-container">
-                {/* Breadcrumbs */}
+
+                {/* مسار التنقل (Breadcrumbs) */}
                 <nav className="breadcrumbs-nav">
                     <Link to="/Home" className="Breadcrumbs">
                         {t('setting.home', 'Home')}
@@ -320,13 +340,13 @@ function Communication() {
                     })}
                 </nav>
 
-                {/* Header */}
+                {/* عنوان الصفحة ووصفها */}
                 <div className="comm-header">
                     <h1>{t('setting.Communication_Center', 'Communication Center')}</h1>
                     <p>{t('setting.Communication_Center_description', 'Stay updated with your courses and connect with instructors')}</p>
                 </div>
 
-                {/* Tabs Row + Mark all read */}
+                {/* شريط التبويبات وزر "تعليم الكل كمقروء" */}
                 <div className="comm-tabs-row">
                     <div className="comm-tabs">
                         <button
@@ -357,28 +377,19 @@ function Communication() {
                     </button>
                 </div>
 
-                {/* Search + Filter Row */}
+                {/* شريط البحث والفلتر */}
                 <div className="comm-search-filter-row">
                     <div className="comm-search-bar">
                         <Search size={18} className="comm-search-icon" />
-                        {activeTab === 'notifications' ? (
-                            <input
-                                type="text"
-                                placeholder="Search notifications"
-                                value={search}
-                                onChange={e => setSearch(e.target.value)}
-                            />
-                        ) : (
-                            <input
-                                type="text"
-                                placeholder="Search messages"
-                                value={search}
-                                onChange={e => setSearch(e.target.value)}
-                            />
-                        )}
+                        <input
+                            type="text"
+                            placeholder={activeTab === 'notifications' ? "Search notifications" : "Search messages"}
+                            value={search}
+                            onChange={e => setSearch(e.target.value)}
+                        />
                     </div>
 
-                    {/* Unified Filter Dropdown */}
+                    {/* قائمة الفلتر المنسدلة (تختلف حسب التبويب) */}
                     <div className="comm-filter-wrapper">
                         {activeTab === 'notifications' ? (
                             <>
@@ -413,6 +424,7 @@ function Communication() {
                                             <SlidersHorizontal size={15} />
                                             <span>Filters</span>
                                         </div>
+                                        {/* تطبيع أسماء الفلاتر عند الاختيار */}
                                         {['All', 'read', 'Unread', 'Teachar', 'Student'].map(f => {
                                             const normalizedFilter = f === 'read' ? 'Read' : f === 'Teachar' ? 'Teacher' : f;
                                             return (
@@ -433,7 +445,7 @@ function Communication() {
                     </div>
                 </div>
 
-                {/* ── NOTIFICATIONS TAB ── */}
+                {/* ── تبويب الإشعارات ── */}
                 {activeTab === 'notifications' && (
                     <div className="comm-list">
                         {filteredNotifications.map(n => (
@@ -459,7 +471,7 @@ function Communication() {
                     </div>
                 )}
 
-                {/* ── NOTIFICATION MODAL (POP-UP WINDOW) ── */}
+                {/* ── نافذة تفاصيل الإشعار (Modal) ── */}
                 {selectedNotification && (
                     <div className="comm-modal-overlay" onClick={() => setSelectedNotification(null)}>
                         <div className="comm-modal-content" onClick={e => e.stopPropagation()}>
@@ -485,10 +497,11 @@ function Communication() {
                     </div>
                 )}
 
-                {/* ── MESSAGES TAB ── */}
+                {/* ── تبويب الرسائل ── */}
                 {activeTab === 'messages' && (
                     <div className="messages-layout">
-                        {/* Left: conversation list */}
+
+                        {/* قائمة المحادثات (العمود الأيسر) */}
                         <div className="conv-list">
                             {filteredMessages.map(m => (
                                 <div
@@ -513,10 +526,11 @@ function Communication() {
                             ))}
                         </div>
 
-                        {/* Right: chat panel */}
+                        {/* لوحة الدردشة (العمود الأيمن) */}
                         {selectedUser && (
                             <div className="chat-panel">
-                                {/* Chat header */}
+
+                                {/* رأس لوحة الدردشة */}
                                 <div className="chat-panel-header">
                                     <div className="chat-panel-user">
                                         <img src={selectedUser.avatar} alt={selectedUser.name} className="chat-panel-avatar" />
@@ -534,7 +548,7 @@ function Communication() {
                                     </button>
                                 </div>
 
-                                {/* Messages area */}
+                                {/* منطقة عرض الرسائل مع دعم التمرير التلقائي */}
                                 <div ref={chatMessagesRef} className="chat-messages">
                                     {currentMessages.map(msg => (
                                         <div key={msg.id} className={`chat-msg-row ${msg.sender === 'me' ? 'chat-msg-row--me' : 'chat-msg-row--them'}`}>
@@ -572,36 +586,29 @@ function Communication() {
                                     ))}
                                 </div>
 
+                                {/* معاينة الملفات المرفقة قبل الإرسال */}
                                 {attachedFiles.length > 0 && (
                                     <div className="attached-files-preview-container" style={{ margin: '0 16px', width: 'auto' }}>
                                         {attachedFiles.map((file) => (
                                             <div key={file.id} className="file-preview-card">
-                                                {/* إذا كان الملف صورة: اعرض الصورة مصغرة */}
                                                 {file.previewUrl ? (
                                                     <div className="preview-image-wrapper">
                                                         <img src={file.previewUrl} alt={file.name} className="attached-img-thumb" />
                                                     </div>
                                                 ) : (
-                                                    /* إذا كان ملفاً عادياً (PDF, Doc...): اعرض أيقونة مجلد أو ملف */
                                                     <div className="preview-file-icon">📄</div>
                                                 )}
-
-                                                {/* تفاصيل الملف (الاسم والحجم) */}
                                                 <div className="file-preview-info">
                                                     <span className="file-preview-name" title={file.name}>{file.name}</span>
                                                     <span className="file-preview-size">{file.size}</span>
                                                 </div>
-
-                                                {/* زر (X) لحذف المرفق إذا لم يعد يريده المستخدم */}
-                                                <button className="remove-file-btn" onClick={() => handleRemoveFile(file.id)}>
-                                                    ✕
-                                                </button>
+                                                <button className="remove-file-btn" onClick={() => handleRemoveFile(file.id)}>✕</button>
                                             </div>
                                         ))}
                                     </div>
                                 )}
 
-                                {/* Input bar */}
+                                {/* شريط كتابة الرسالة وإرسالها */}
                                 <div className="chat-input-bar">
                                     <input
                                         type="file"
@@ -630,6 +637,7 @@ function Communication() {
                         )}
                     </div>
                 )}
+
             </div>
         </div>
     );

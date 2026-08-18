@@ -1,6 +1,10 @@
 @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap');
 
-/* ─── Base Page Layout ────────────────────────────────────────────────────── */
+/* ==========================================================================
+   1. Base Page Layout & Main Background Containers
+   ========================================================================== */
+
+/* Fullscreen responsive viewport container with subtle radial and linear gradients */
 .login-page-container {
     display: flex;
     align-items: center;
@@ -18,6 +22,7 @@
     font-family: 'Plus Jakarta Sans', sans-serif;
 }
 
+/* Center alignment wrapper for the login card component */
 .login-card-wrapper {
     width: 100%;
     display: flex;
@@ -27,6 +32,7 @@
     z-index: 1;
 }
 
+/* Glassmorphism login card container with backdrop blur, borders, and depth shadows */
 .login-card {
     background: rgba(255, 255, 255, 0.9);
     backdrop-filter: blur(20px);
@@ -45,6 +51,7 @@
     overflow: hidden;
 }
 
+/* Subtle elevation lift on card hover */
 .login-card:hover {
     box-shadow:
         0 10px 20px -5px rgba(0, 0, 0, 0.02),
@@ -64,19 +71,25 @@
     pointer-events: none;
 }
 
+/* Top-left glowing ambient light blob */
 .login-page-container::before {
     background: rgba(0, 137, 234, 0.12);
     top: 15%;
     left: 10%;
 }
 
+/* Bottom-right glowing ambient light blob */
 .login-page-container::after {
     background: rgba(0, 137, 234, 0.08);
     bottom: 15%;
     right: 10%;
 }
 
-/* ─── Typography ──────────────────────────────────────────────────────────── */
+/* ==========================================================================
+   2. Header & Subtitle Typography Styles
+   ========================================================================== */
+
+/* Main headline text for login title */
 .title-login {
     font-size: 32px;
     font-weight: 800;
@@ -86,6 +99,7 @@
     letter-spacing: -0.5px;
 }
 
+/* Brand name gradient text accent */
 .brand-accent {
     color: #0089EA;
     background: linear-gradient(135deg, #0089EA 0%, #006ec0 100%);
@@ -94,6 +108,7 @@
     font-weight: 800;
 }
 
+/* Subtitle description text below the main heading */
 .login-subtitle {
     font-size: 16px;
     color: #64748b;
@@ -102,7 +117,11 @@
     font-weight: 500;
 }
 
-/* ─── Form Elements ───────────────────────────────────────────────────────── */
+/* ==========================================================================
+   3. Form Control Elements & Input Field Layouts
+   ========================================================================== */
+
+/* Form item wrapper for labels, inputs, and validation feedback */
 .login-card .form-group {
     display: flex;
     flex-direction: column;
@@ -111,6 +130,7 @@
     position: relative;
 }
 
+/* Input label typography */
 .login-card .form-group label {
     font-size: 14px;
     font-weight: 600;
@@ -118,13 +138,12 @@
     margin-bottom: 8px;
     text-align: left;
     width: 85%;
-    /* Label width to match shortened input */
 }
 
+/* Input wrapper container managing active focus ring and border state styling */
 .login-input-field-wrapper {
     position: relative;
     width: 100%;
-    /* Shortened width from the right */
     display: flex;
     align-items: center;
     background-color: #ffffff;
@@ -134,19 +153,21 @@
     height: 48px;
     overflow: hidden;
     margin-left: 0;
-    /* Keep it aligned to the left */
 }
 
+/* Override default input margins inside field wrappers */
 .login-input-field-wrapper .login-email-input,
 .login-input-field-wrapper .login-password-input {
     margin: 0 !important;
 }
 
+/* Active focus ring outline effect on field wrapper */
 .login-input-field-wrapper:focus-within {
     border-color: #0089EA;
     box-shadow: 0 0 0 3px rgba(0, 137, 234, 0.1);
 }
 
+/* Base style resets and typography for input fields */
 .login-email-input,
 .login-password-input {
     width: 100% !important;
@@ -167,6 +188,7 @@
     align-items: center !important;
 }
 
+/* Placeholder styling for form inputs */
 .login-email-input::placeholder,
 .login-password-input::placeholder {
     color: #94a3b8 !important;
@@ -176,12 +198,12 @@
     line-height: 48px !important;
 }
 
-/* Specific overrides for Password field (accounting for toggle icon) */
+/* Padding adjustment for password input to prevent text overlap with toggle icon */
 .login-password-input {
     padding-right: 48px !important;
 }
 
-/* Adjust padding for validation states on both fields */
+/* Adjust right padding when validation icons are present */
 .login-input-field-wrapper.has-error .login-email-input,
 .login-input-field-wrapper.has-success .login-email-input,
 .login-input-field-wrapper.has-error .login-password-input,
@@ -189,7 +211,7 @@
     padding-right: 48px !important;
 }
 
-/* Prevent browser autofill from changing the background color */
+/* WebKit browser autofill styling fixes to retain light theme appearance */
 .login-email-input:-webkit-autofill,
 .login-email-input:-webkit-autofill:hover,
 .login-email-input:-webkit-autofill:focus,
@@ -202,6 +224,7 @@
     background: transparent !important;
 }
 
+/* Dark mode autofill overrides */
 .dark .login-email-input:-webkit-autofill,
 .dark .login-email-input:-webkit-autofill:hover,
 .dark .login-email-input:-webkit-autofill:focus,
@@ -212,24 +235,27 @@
     -webkit-box-shadow: 0 0 0px 1000px #1e293b inset !important;
 }
 
-/* Validation States on Wrapper */
+/* Validation error state border */
 .login-input-field-wrapper.has-error {
     border-color: #ef4444;
 }
 
+/* Validation error state focus glow */
 .login-input-field-wrapper.has-error:focus-within {
     box-shadow: 0 0 0 3px rgba(239, 68, 68, 0.1);
 }
 
+/* Validation success state border */
 .login-input-field-wrapper.has-success {
     border-color: #10b981;
 }
 
+/* Validation success state focus glow */
 .login-input-field-wrapper.has-success:focus-within {
     box-shadow: 0 0 0 3px rgba(16, 185, 129, 0.1);
 }
 
-/* Icons and Toggles */
+/* Icon placement wrapper inside input fields */
 .feedback-icon {
     position: absolute;
     right: 12px;
@@ -242,6 +268,7 @@
     animation: scaleInIcon 0.2s cubic-bezier(0.175, 0.885, 0.32, 1.275);
 }
 
+/* Animation keyframe for feedback icon entrance */
 @keyframes scaleInIcon {
     from {
         transform: translateY(-50%) scale(0.6);
@@ -254,14 +281,17 @@
     }
 }
 
+/* Error icon color */
 .icon-err {
     color: #ef4444;
 }
 
+/* Success icon color */
 .icon-succ {
     color: #10b981;
 }
 
+/* Password eye toggle button styling */
 .login-password-toggle-btn {
     position: absolute;
     right: 8px;
@@ -280,11 +310,13 @@
     z-index: 3;
 }
 
+/* Password toggle button hover state */
 .login-password-toggle-btn:hover {
     color: #1e293b;
     background-color: #f1f5f9;
 }
 
+/* Inline error feedback text message */
 .error-message {
     color: #ef4444;
     font-size: 13px;
@@ -292,10 +324,10 @@
     margin-top: 6px;
     text-align: left;
     width: 85%;
-    /* Match shortened input width */
     animation: slideDownError 0.2s ease;
 }
 
+/* Animation keyframe for error message entrance */
 @keyframes slideDownError {
     from {
         opacity: 0;
@@ -308,18 +340,21 @@
     }
 }
 
-/* ─── Options (Remember & Forgot) ─────────────────────────────────────────── */
+/* ==========================================================================
+   4. Form Options (Remember Me Checkbox & Forgot Password Link)
+   ========================================================================== */
+
+/* Container for options row above submit button */
 .login-options {
     display: flex;
     justify-content: space-between;
     align-items: center;
     width: 100%;
-    /* Restored to full width */
     margin-bottom: 25px;
     padding: 0;
-
 }
 
+/* Remember me wrapper column */
 .remember-me {
     display: flex;
     align-items: center;
@@ -328,6 +363,7 @@
     min-width: 50%;
 }
 
+/* Forgot password link wrapper column */
 .forgot-password {
     display: flex;
     justify-content: flex-end;
@@ -335,16 +371,19 @@
     min-width: 50%;
 }
 
+/* Custom checkbox wrapper */
 .custom-checkbox-wrapper {
     display: flex;
     align-items: center;
     cursor: pointer;
 }
 
+/* Hide native checkbox input element */
 .custom-checkbox-wrapper input[type="checkbox"] {
     display: none;
 }
 
+/* Custom checkbox label text styling */
 .checkbox-label {
     display: flex;
     align-items: center;
@@ -356,6 +395,7 @@
     cursor: pointer;
 }
 
+/* Styled square box element for checkbox */
 .checkbox-box {
     width: 20px;
     height: 20px;
@@ -368,11 +408,13 @@
     transition: all 0.2s;
 }
 
+/* Active checked state for checkbox box */
 .custom-checkbox-wrapper input[type="checkbox"]:checked+.checkbox-label .checkbox-box {
     background-color: #0089EA;
     border-color: #0089EA;
 }
 
+/* Checkmark SVG icon initial state */
 .checkmark {
     color: #ffffff;
     opacity: 0;
@@ -380,11 +422,13 @@
     transition: all 0.2s;
 }
 
+/* Checkmark SVG icon visible state when checked */
 .custom-checkbox-wrapper input[type="checkbox"]:checked+.checkbox-label .checkmark {
     opacity: 1;
     transform: scale(1);
 }
 
+/* Forgot password link styling */
 .forgot-link {
     color: #0089EA;
     font-size: 14px;
@@ -393,15 +437,19 @@
     transition: color 0.2s;
 }
 
+/* Forgot password link hover state */
 .forgot-link:hover {
     color: #006ec0;
     text-decoration: underline;
 }
 
-/* ─── Buttons & Divider ───────────────────────────────────────────────────── */
+/* ==========================================================================
+   5. Submit Button, Loading Spinner & Divider
+   ========================================================================== */
+
+/* Main call-to-action login submit button */
 .login-submit-btn {
     width: 100%;
-    /* Restored to full width */
     height: 50px;
     font-size: 16px;
     font-weight: 700;
@@ -419,16 +467,19 @@
     outline: none;
 }
 
+/* Submit button hover elevation effect */
 .login-submit-btn:hover {
     transform: translateY(-2px);
     box-shadow: 0 8px 20px rgba(0, 137, 234, 0.3);
     background: linear-gradient(135deg, #0096ff 0%, #0080dc 100%);
 }
 
+/* Submit button active click state */
 .login-submit-btn:active {
     transform: translateY(0);
 }
 
+/* Disabled submit button state during active submission */
 .login-submit-btn:disabled {
     background: #cbd5e1;
     box-shadow: none;
@@ -436,6 +487,7 @@
     transform: none;
 }
 
+/* Loading spinner content wrapper inside button */
 .btn-loading {
     display: flex;
     align-items: center;
@@ -443,6 +495,7 @@
     gap: 10px;
 }
 
+/* Circular animated loading spinner element */
 .spinner {
     display: inline-block;
     width: 20px;
@@ -453,12 +506,14 @@
     animation: spin 0.8s linear infinite;
 }
 
+/* Rotation keyframes for loading spinner */
 @keyframes spin {
     to {
         transform: rotate(360deg);
     }
 }
 
+/* Section divider with text line */
 .login-divider {
     display: flex;
     align-items: center;
@@ -469,6 +524,7 @@
     font-weight: 500;
 }
 
+/* Left and right divider lines */
 .login-divider::before,
 .login-divider::after {
     content: '';
@@ -484,6 +540,11 @@
     margin-left: 12px;
 }
 
+/* ==========================================================================
+   6. Social Authentication Buttons & Footer
+   ========================================================================== */
+
+/* Container for Google and Facebook sign-in options */
 .social-media-container {
     display: flex;
     gap: 16px;
@@ -492,6 +553,7 @@
     width: 100%;
 }
 
+/* Individual social login button */
 .login-social-btn {
     flex: 1;
     display: flex;
@@ -506,6 +568,7 @@
     transition: all 0.2s ease;
 }
 
+/* Social button hover state */
 .login-social-btn:hover {
     background-color: #f8fafc;
     border-color: #cbd5e1;
@@ -513,34 +576,39 @@
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
 }
 
+/* Social button active click state */
 .login-social-btn:active {
     transform: translateY(0);
 }
 
+/* Social media icon image dimensions */
 .login-social-btn img {
     height: 20px;
     width: auto;
 }
 
+/* Social media button label text */
 .login-social-btn span {
     font-size: 14px;
     font-weight: 600;
     color: #1e293b;
 }
 
-/* ─── Footer ──────────────────────────────────────────────────────────────── */
+/* Card bottom footer wrapper */
 .login-footer {
     display: flex;
     justify-content: center;
     margin-top: 20px;
 }
 
+/* Sign up redirection prompt text */
 .signup-prompt {
     font-size: 14px;
     color: #64748b;
     font-weight: 500;
 }
 
+/* Sign up action link styling */
 .signup-link {
     color: #0089EA;
     font-weight: 700;
@@ -548,77 +616,96 @@
     margin-left: 4px;
 }
 
+/* Sign up link hover state */
 .signup-link:hover {
     text-decoration: underline;
 }
 
-/* ─── Dark Mode ───────────────────────────────────────────────────────────── */
+/* ==========================================================================
+   7. Dark Mode Theme Overrides
+   ========================================================================== */
+
+/* Dark mode main background gradient override */
 .dark .login-page-container {
     background: radial-gradient(circle at 10% 20%, rgba(0, 137, 234, 0.08) 0%, transparent 40%),
         radial-gradient(circle at 90% 80%, rgba(0, 137, 234, 0.12) 0%, transparent 50%),
         linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
 }
 
+/* Dark mode card container background and borders */
 .dark .login-card {
     background: rgba(30, 41, 59, 0.8);
     border-color: rgba(255, 255, 255, 0.1);
     box-shadow: 0 20px 50px rgba(0, 0, 0, 0.3);
 }
 
+/* Dark mode header title color */
 .dark .title-login {
     color: #f8fafc;
 }
 
+/* Dark mode subtitle color */
 .dark .login-subtitle {
     color: #94a3b8;
 }
 
+/* Dark mode input labels */
 .dark .login-card .form-group label {
     color: #cbd5e1;
 }
 
+/* Dark mode input wrapper background and border */
 .dark .login-input-field-wrapper {
     background-color: #1e293b;
     border-color: #334155;
 }
 
+/* Dark mode focused input wrapper state */
 .dark .login-input-field-wrapper:focus-within {
     background-color: #0f172a;
     border-color: #0089EA;
     box-shadow: 0 0 0 4px rgba(0, 137, 234, 0.2);
 }
 
+/* Dark mode input text colors */
 .dark .login-email-input,
 .dark .login-password-input {
     color: #f8fafc !important;
 }
 
+/* Dark mode input placeholder color */
 .dark .login-email-input::placeholder,
 .dark .login-password-input::placeholder {
     color: #475569 !important;
 }
 
+/* Dark mode validation success background hint */
 .dark .login-input-field-wrapper.has-success {
     background-color: rgba(16, 185, 129, 0.05);
 }
 
+/* Dark mode validation error background hint */
 .dark .login-input-field-wrapper.has-error {
     background-color: rgba(239, 68, 68, 0.05);
 }
 
+/* Dark mode password eye toggle hover background */
 .dark .login-password-toggle-btn:hover {
     background-color: #334155;
 }
 
+/* Dark mode custom checkbox box */
 .dark .checkbox-box {
     background-color: #1e293b;
     border-color: #334155;
 }
 
+/* Dark mode checkbox label text */
 .dark .checkbox-label {
     color: #94a3b8;
 }
 
+/* Dark mode social authentication buttons */
 .dark .login-social-btn {
     background-color: #1e293b;
     border-color: #334155;
@@ -632,16 +719,22 @@
     background-color: #334155;
 }
 
+/* Dark mode divider lines */
 .dark .login-divider::before,
 .dark .login-divider::after {
     border-color: #334155;
 }
 
+/* Dark mode signup prompt text */
 .dark .signup-prompt {
     color: #94a3b8;
 }
 
-/* ─── Responsive ──────────────────────────────────────────────────────────── */
+/* ==========================================================================
+   8. Responsive Media Queries
+   ========================================================================== */
+
+/* Mobile view adjustments for smaller screens (under 576px) */
 @media (max-width: 576px) {
     .login-card {
         padding: 30px 24px;

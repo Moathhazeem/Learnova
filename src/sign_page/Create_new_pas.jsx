@@ -2,7 +2,10 @@ import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import "./Create_new_pas.css";
 
-/* ── Lock SVG icon ── */
+/**
+ * LockIcon Component
+ * Renders a stylized lock SVG icon used in the header badge.
+ */
 const LockIcon = () => (
     <svg viewBox="0 0 24 24" fill="none" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
         <rect x="3" y="11" width="18" height="11" rx="2" ry="2" />
@@ -11,13 +14,21 @@ const LockIcon = () => (
     </svg>
 );
 
-/* ── Eye icons ── */
+/**
+ * EyeOpen Component
+ * SVG icon representing an open eye (indicates visible password text).
+ */
 const EyeOpen = () => (
     <svg viewBox="0 0 24 24" fill="none" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
         <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z" />
         <circle cx="12" cy="12" r="3" />
     </svg>
 );
+
+/**
+ * EyeClosed Component
+ * SVG icon representing a slashed eye (indicates hidden password text).
+ */
 const EyeClosed = () => (
     <svg viewBox="0 0 24 24" fill="none" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
         <path d="M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-11-8-11-8a18.45 18.45 0 0 1 5.06-5.94" />
@@ -26,12 +37,20 @@ const EyeClosed = () => (
     </svg>
 );
 
-/* ── Inline icons for strength messages ── */
+/**
+ * CheckIcon Component
+ * Green checkmark SVG icon used in the password strength checklist when a rule is satisfied.
+ */
 const CheckIcon = () => (
     <svg viewBox="0 0 24 24" fill="none" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" style={{ width: 14, height: 14, stroke: "#16a34a", flexShrink: 0 }}>
         <polyline points="20 6 9 17 4 12" />
     </svg>
 );
+
+/**
+ * XIcon Component
+ * Red 'X' SVG icon used in the password strength checklist when a rule is not yet satisfied.
+ */
 const XIcon = () => (
     <svg viewBox="0 0 24 24" fill="none" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" style={{ width: 14, height: 14, stroke: "#dc2626", flexShrink: 0 }}>
         <line x1="18" y1="6" x2="6" y2="18" />
@@ -39,20 +58,40 @@ const XIcon = () => (
     </svg>
 );
 
+/**
+ * CreateNewPas Component
+ * Renders the password reset form where users can set a new password,
+ * validate password strength via live checklist feedback, and confirm their new password.
+ */
 function CreateNewPas() {
+    // Router navigation hook
     const navigate = useNavigate();
 
+    // ── State Management ──
+    // Stores the input value for the new password field
     const [password, setPassword] = useState("");
+    // Stores the input value for the confirm password field
     const [confirmPassword, setConfirmPassword] = useState("");
+
+    // Toggle visibility for new password input (false = masked/dots, true = visible text)
     const [showPass, setShowPass] = useState(false);
+    // Toggle visibility for confirm password input (false = masked/dots, true = visible text)
     const [showConf, setShowConf] = useState(false);
+
+    // Feedback message states for confirmation validation
     const [confError, setConfError] = useState("");
     const [confSuccess, setConfSuccess] = useState("");
+
+    // Tracks if the user has attempted form submission
     const [submitted, setSubmitted] = useState(false);
 
+    /**
+     * Navigates the user back to the login page.
+     */
     const goToLogin = () => navigate("/log_in");
 
-    /* ── Strength rules ── */
+    // ── Password Strength Rules ──
+    // List of validation rules for calculating password complexity requirements
     const rules = [
         { label: "At least 8 characters", test: (p) => p.length >= 8 },
         { label: "At least one uppercase letter (A–Z)", test: (p) => /[A-Z]/.test(p) },
@@ -61,8 +100,13 @@ function CreateNewPas() {
         { label: "At least one special character (!@#$%^&*)", test: (p) => /[!@#$%^&*]/.test(p) },
     ];
 
+    // Boolean check evaluating whether all password strength rules pass
     const allPassed = rules.every((r) => r.test(password));
 
+    /**
+     * Handles password submission and validation.
+     * @param {React.FormEvent} e - Form submission event
+     */
     const handleSubmit = (e) => {
         e.preventDefault();
         setSubmitted(true);
@@ -72,17 +116,22 @@ function CreateNewPas() {
         const trimPass = password.trim();
         const trimConf = confirmPassword.trim();
 
+        // Halt processing if password strength criteria are not fully met
         if (!allPassed) return;
 
+        // Ensure confirm password input is not empty
         if (!trimConf) {
             setConfError("Please confirm your password.");
             return;
         }
+
+        // Check if new password matches confirm password
         if (trimPass !== trimConf) {
             setConfError("Passwords do not match!");
             return;
         }
 
+        // On successful validation, display success feedback and redirect to login after delay
         setConfSuccess("Password updated successfully!");
         setTimeout(() => goToLogin(), 1500);
     };
@@ -91,20 +140,21 @@ function CreateNewPas() {
         <div className="cnp-page">
             <div className="cnp-card">
 
-                {/* Lock icon badge */}
+                {/* Header Icon Badge */}
                 <div className="cnp-icon-wrap">
                     <LockIcon />
                 </div>
 
-                {/* Header */}
+                {/* Form Title & Subtitle */}
                 <h1 className="cnp-title">Create new password</h1>
                 <p className="cnp-subtitle">
                     Your new password must be different from previously used passwords.
                 </p>
 
+                {/* Password Reset Form */}
                 <form onSubmit={handleSubmit} noValidate style={{ width: "100%" }}>
 
-                    {/* New Password */}
+                    {/* New Password Input Group */}
                     <div className="cnp-field-group">
                         <label className="cnp-label" htmlFor="cnp-new-pass">New Password</label>
                         <div className="cnp-input-wrap">
@@ -117,6 +167,7 @@ function CreateNewPas() {
                                 className={`cnp-input ${submitted && !allPassed ? "cnp-input--error" : ""}`}
                                 autoComplete="new-password"
                             />
+                            {/* Toggle password visibility button */}
                             <button
                                 type="button"
                                 className="cnp-eye-btn"
@@ -127,7 +178,7 @@ function CreateNewPas() {
                             </button>
                         </div>
 
-                        {/* Strength checklist — always visible once user starts typing */}
+                        {/* Password strength checklist displayed when typing starts or after submit attempt */}
                         {(password.length > 0 || submitted) && (
                             <ul className="cnp-strength-list">
                                 {rules.map((rule) => {
@@ -143,7 +194,7 @@ function CreateNewPas() {
                         )}
                     </div>
 
-                    {/* Confirm Password */}
+                    {/* Confirm Password Input Group */}
                     <div className="cnp-field-group">
                         <label className="cnp-label" htmlFor="cnp-conf-pass">Confirm Password</label>
                         <div className="cnp-input-wrap">
@@ -156,6 +207,7 @@ function CreateNewPas() {
                                 className={`cnp-input ${confError ? "cnp-input--error" : ""} ${confSuccess ? "cnp-input--success" : ""}`}
                                 autoComplete="new-password"
                             />
+                            {/* Toggle confirm password visibility button */}
                             <button
                                 type="button"
                                 className="cnp-eye-btn"
@@ -166,6 +218,7 @@ function CreateNewPas() {
                             </button>
                         </div>
 
+                        {/* Error Feedback Message */}
                         {confError && (
                             <div className="cnp-msg cnp-msg--error">
                                 <svg viewBox="0 0 24 24" fill="none" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" style={{ width: 15, height: 15, flexShrink: 0, stroke: "#dc2626" }}>
@@ -176,6 +229,7 @@ function CreateNewPas() {
                                 {confError}
                             </div>
                         )}
+                        {/* Success Feedback Message */}
                         {confSuccess && (
                             <div className="cnp-msg cnp-msg--success">
                                 <svg viewBox="0 0 24 24" fill="none" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" style={{ width: 15, height: 15, flexShrink: 0, stroke: "#16a34a" }}>
@@ -187,12 +241,12 @@ function CreateNewPas() {
                         )}
                     </div>
 
-                    {/* Submit */}
+                    {/* Submit Button */}
                     <button type="submit" className="cnp-btn-primary">
                         Reset Password
                     </button>
 
-                    {/* Back to login */}
+                    {/* Navigation back to login page */}
                     <div className="cnp-back-wrap">
                         <button type="button" className="cnp-btn-back" onClick={goToLogin}>
                             <svg viewBox="0 0 24 24" fill="none" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
@@ -210,3 +264,4 @@ function CreateNewPas() {
 }
 
 export default CreateNewPas;
+

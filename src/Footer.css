@@ -1,7 +1,8 @@
 /* ═══════════════════════════════════════════════════════════════
-   LEARNOVA Footer  —  Bold & Modern
+   LEARNOVA Footer Stylesheet — Modern Dark Theme
    ═══════════════════════════════════════════════════════════════ */
 
+/* ─── Main Footer Container ──────────────────────────────────── */
 .footer {
     background-color: #0d1117;
     color: #c9d1d9;
@@ -11,7 +12,7 @@
     border-top: none;
 }
 
-/* ─── Top section ───────────────────────────────────────────── */
+/* ─── Top Section: Layout & Navigation Columns ─────────────── */
 .footer-top {
     display: flex;
     flex-direction: row;
@@ -19,17 +20,20 @@
     width: 100%;
     gap: 40px;
     padding-bottom: 60px;
-    border-bottom: 1px solid rgba(255,255,255,0.08);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.08);
 }
 
+/* Base Navigation List Styling */
 .footer-top ul {
     list-style: none;
     display: flex;
     flex-direction: column;
     gap: 12px;
     padding: 0;
+    margin: 0;
 }
 
+/* Column Category Headers */
 .list_title {
     font-size: 13px;
     font-weight: 700;
@@ -40,6 +44,7 @@
     list-style: none;
 }
 
+/* Navigation Links & Hover Effect */
 .footer-top ul li a {
     color: #8b949e;
     text-decoration: none;
@@ -52,7 +57,7 @@
     color: var(--brand, #0089EA);
 }
 
-/* ─── App store buttons ─────────────────────────────────────── */
+/* ─── App Store Buttons ──────────────────────────────────────── */
 .store-buttons {
     display: flex;
     flex-direction: column;
@@ -61,9 +66,10 @@
     padding: 0;
 }
 
+/* Individual App Store Button Container */
 .store-button {
     background-color: #1c2128;
-    border: 1px solid rgba(255,255,255,0.1);
+    border: 1px solid rgba(255, 255, 255, 0.1);
     width: 140px;
     height: 44px;
     border-radius: 10px;
@@ -72,22 +78,29 @@
     padding: 0 12px;
     gap: 10px;
     text-decoration: none;
-    color: white;
+    color: #ffffff;
     box-sizing: border-box;
     white-space: nowrap;
     font-size: 16px;
-    transition: border-color 0.2s ease, background-color 0.2s ease,
-                transform 0.3s var(--ease-spring, cubic-bezier(0.34,1.56,0.64,1));
+    transition: border-color 0.2s ease, 
+                background-color 0.2s ease,
+                transform 0.3s var(--ease-spring, cubic-bezier(0.34, 1.56, 0.64, 1));
 }
 
+/* Store Button Hover State (Elevate & Glow) */
 .store-button:hover {
     border-color: var(--brand, #0089EA);
-    background-color: rgba(0,137,234,0.08);
+    background-color: rgba(0, 137, 234, 0.08);
     transform: translateY(-3px);
 }
 
-.store-button_1, .store-button_2 { /* kept for JSX compat */ }
+/* Compatibility classes retained for JSX structural stability */
+.store-button_1, 
+.store-button_2 {
+    list-style: none;
+}
 
+/* App Store Icon Images */
 .store-button img {
     height: 22px;
     width: 22px;
@@ -95,6 +108,7 @@
     flex-shrink: 0;
 }
 
+/* Typography Container inside Store Buttons */
 .button-text {
     display: flex;
     flex-direction: column;
@@ -102,19 +116,21 @@
     line-height: 1.15;
 }
 
+/* Small Subtitle Label ("Download on the" / "GET IT ON") */
 .top-text {
     font-size: 7px;
     font-weight: 500;
     color: #8b949e;
 }
 
+/* Main Store Name Label ("App Store" / "Google Play") */
 .bottom-text {
     font-size: 13px;
     font-weight: 600;
     color: #ffffff;
 }
 
-/* ─── Bottom section ────────────────────────────────────────── */
+/* ─── Bottom Section: Branding & Copyright ───────────────────── */
 .footer-bottom {
     display: flex;
     flex-direction: row;
@@ -124,12 +140,14 @@
     padding: 32px 0 40px;
 }
 
+/* Brand Section Wrapper */
 .footer-brand-section {
     display: flex;
     flex-direction: column;
     gap: 6px;
 }
 
+/* Brand Title Text */
 .title_footer {
     font-size: 28px;
     font-weight: 700;
@@ -138,13 +156,14 @@
     letter-spacing: -0.3px;
 }
 
+/* Copyright & Documentation Notice */
 .documentation {
     font-size: 13px;
     color: #6e7681;
     margin-top: 2px;
 }
 
-/* ─── Social icons ──────────────────────────────────────────── */
+/* ─── Social Media Icons ─────────────────────────────────────── */
 .social-icons {
     list-style: none;
     display: flex;
@@ -154,6 +173,7 @@
     margin: 0;
 }
 
+/* Social Icon Action Button */
 .social-icons li a {
     display: flex;
     align-items: center;
@@ -162,31 +182,35 @@
     height: 38px;
     border-radius: 10px;
     background-color: #1c2128;
-    border: 1px solid rgba(255,255,255,0.08);
-    transition: border-color 0.2s ease, background-color 0.2s ease,
-                transform 0.25s var(--ease-spring, cubic-bezier(0.34,1.56,0.64,1));
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    transition: border-color 0.2s ease, 
+                background-color 0.2s ease,
+                transform 0.25s var(--ease-spring, cubic-bezier(0.34, 1.56, 0.64, 1));
 }
 
+/* Social Icon Hover State */
 .social-icons li a:hover {
     border-color: var(--brand, #0089EA);
-    background-color: rgba(0,137,234,0.1);
+    background-color: rgba(0, 137, 234, 0.1);
     transform: translateY(-3px);
 }
 
+/* Social Icon Images (Grayscale Filter by Default) */
 .social-icons img {
     width: 20px;
     height: 20px;
-    transition: none;
+    transition: filter 0.2s ease;
     filter: brightness(0) invert(0.6);
 }
 
+/* Invert Image Color to Full White on Hover */
 .social-icons li a:hover img {
     filter: brightness(0) invert(1);
 }
 
-/* ─── Copyright bar ─────────────────────────────────────────── */
+/* ─── Optional Copyright Bar ─────────────────────────────────── */
 .footer-copyright {
-    border-top: 1px solid rgba(255,255,255,0.06);
+    border-top: 1px solid rgba(255, 255, 255, 0.06);
     padding: 20px 0;
     display: flex;
     align-items: center;
@@ -196,14 +220,31 @@
     text-align: center;
 }
 
-/* ─── Responsive ────────────────────────────────────────────── */
+/* ─── Responsive Layout Adjustments ──────────────────────────── */
+
+/* Tablet Screens (<= 900px) */
 @media (max-width: 900px) {
-    .footer { padding: 60px 40px 0; }
-    .footer-top { flex-wrap: wrap; gap: 32px; }
+    .footer { 
+        padding: 60px 40px 0; 
+    }
+    .footer-top { 
+        flex-wrap: wrap; 
+        gap: 32px; 
+    }
 }
 
+/* Mobile Screens (<= 600px) */
 @media (max-width: 600px) {
-    .footer { padding: 48px 24px 0; }
-    .footer-bottom { flex-direction: column; align-items: flex-start; gap: 24px; }
-    .footer-top { gap: 24px; }
+    .footer { 
+        padding: 48px 24px 0; 
+    }
+    .footer-bottom { 
+        flex-direction: column; 
+        align-items: flex-start; 
+        gap: 24px; 
+    }
+    .footer-top { 
+        gap: 24px; 
+    }
 }
+

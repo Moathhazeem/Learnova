@@ -1,5 +1,5 @@
 /* ═══════════════════════════════════════════════════════════
-   PAYMENT PAGE — Design System Tokens
+   صفحة الدفع — رموز نظام التصميم (Tokens)
    ═══════════════════════════════════════════════════════════ */
 :root {
     --pay-primary: #0089EA;
@@ -34,11 +34,11 @@
 
     --pay-transition: 0.2s cubic-bezier(0.4, 0, 0.2, 1);
 
-    /* Typography */
+    /* الخطوط والكتابة */
     --pay-font-mono: 'Courier New', 'Roboto Mono', monospace;
 }
 
-/* Dark-mode token overrides */
+/* قيم الوضع الداكن البديلة */
 .dark {
     --pay-text-primary: #f1f5f9;
     --pay-text-secondary: #94a3b8;
@@ -54,7 +54,7 @@
 }
 
 /* ═══════════════════════════════════════════════════════════
-   PAYMENT CONTAINER — Left-Aligned Billing Dashboard
+   حاوية الدفع — لوحة تحكم الفواتير محاذية لليسار
    ═══════════════════════════════════════════════════════════ */
 .payment-container {
     width: 100%;
@@ -62,10 +62,9 @@
     flex-direction: column;
     gap: 20px;
     margin: 0 !important;
-
 }
 
-/* Payment Content Sections */
+/* أقسام محتوى الدفع */
 .payment-content {
     display: flex;
     flex-direction: column;
@@ -73,7 +72,7 @@
     text-align: left;
 }
 
-/* Payment Section Card */
+/* بطاقة قسم الدفع */
 .payment-section-card {
     background-color: var(--pay-surface);
     border-radius: var(--pay-radius-lg);
@@ -133,27 +132,24 @@
 }
 
 /* ═══════════════════════════════════════════════════════════
-   PAYMENT CARDS SECTION
+   قسم بطاقات الدفع
    ═══════════════════════════════════════════════════════════ */
 .pc-section {
     display: flex;
     flex-direction: column;
     gap: 20px;
     margin-bottom: 48px;
-    /* مسافة كافية ومريحة جداً لفصل الأقسام */
 }
 
 .ph-section,
 .payment-header {
-    /* أو الاسم البرمجي لترويسة القسم الثاني */
     display: flex !important;
     justify-content: center !important;
     align-items: center !important;
     margin-bottom: 20px !important;
-    /* مسافة ثابتة وموحدة بين العنوان ومحتواه */
 }
 
-/* Section header — left-aligned, no right-side actions */
+/* ترويسة القسم — محاذاة لليسار بدون إجراءات جانبية */
 .pc-section__header {
     display: flex;
     flex-direction: column;
@@ -183,7 +179,7 @@
     line-height: 1.5;
 }
 
-/* ── Add New Card Button — below cards list, left-aligned ── */
+/* ── زر إضافة بطاقة جديدة — أسفل قائمة البطاقات ومحاذاة لليسار ── */
 .pc-add-btn {
     display: inline-flex;
     align-items: center;
@@ -219,16 +215,15 @@
     outline-offset: 3px;
 }
 
-/* ── Cards Grid ── */
+/* ── شبكة البطاقات ── */
 .pc-cards-grid {
     display: flex;
     flex-direction: column;
     gap: 14px;
     overflow: visible !important;
-    /* يضمن عدم قص أي قائمة منسدلة داخل الشبكة */
 }
 
-/* ── Individual Payment Card ── */
+/* ── بطاقة دفع فردية ── */
 .pc-card {
     position: relative;
     display: flex;
@@ -252,7 +247,7 @@
     transform: translateY(-1px);
 }
 
-/* Default card: primary-color left accent + highlighted border */
+/* البطاقة الافتراضية: حافة ملونة يساراً وإطار محدد */
 .pc-card--default {
     border-color: var(--pay-primary);
     background: linear-gradient(to right,
@@ -260,7 +255,7 @@
             var(--pay-surface) 30%);
 }
 
-/* Accent bar */
+/* شريط التمييز */
 .pc-card__accent {
     position: absolute;
     left: 0;
@@ -268,13 +263,11 @@
     bottom: 0;
     width: 4px;
     background: var(--pay-primary);
-
-    /* تدوير الزوايا اليسرى فقط لمطابقة انحناء البطاقة */
     border-top-left-radius: var(--pay-radius-lg);
     border-bottom-left-radius: var(--pay-radius-lg);
 }
 
-/* ── Card chip visual ── */
+/* ── مظهر شريحة البطاقة ── */
 .pc-card__icon-wrap {
     flex-shrink: 0;
     width: 48px;
@@ -289,7 +282,7 @@
     height: 100%;
 }
 
-/* ── Card info ── */
+/* ── معلومات البطاقة ── */
 .pc-card__info {
     display: flex;
     flex-direction: column;
@@ -318,7 +311,7 @@
     color: var(--pay-text-secondary);
 }
 
-/* Default badge */
+/* شارة افتراضية */
 .pc-card__badge {
     display: inline-flex;
     align-items: center;
@@ -332,7 +325,7 @@
     text-transform: uppercase;
 }
 
-/* Make Default action */
+/* خيار التعيين كافتراضية */
 .pc-card__make-default {
     display: inline-flex;
     align-items: center;
@@ -372,7 +365,7 @@
     text-transform: capitalize;
 }
 
-/* ── Three-dot contextual menu ── */
+/* ── قائمة الخيارات (ثلاث نقاط) ── */
 .pc-card__menu-wrap {
     position: relative;
     margin-left: auto;
@@ -403,11 +396,10 @@
     outline-offset: 2px;
 }
 
-/* Dropdown */
+/* القائمة المنسدلة */
 .pc-card__dropdown {
     position: absolute;
     top: 100%;
-    /* تظهر مباشرة أسفل زر النقاط الثلاث */
     right: 0;
     min-width: 180px;
     background: var(--pay-surface);
@@ -416,9 +408,7 @@
     box-shadow: var(--pay-shadow-lg);
     overflow: visible !important;
     animation: dropdownFade 0.15s ease-out;
-    /* السطرين الأهم لحل المشكلة 👇 */
     z-index: 9999 !important;
-    /* يرفع القائمة فوق البطاقة التالية مجبرًا المتصفح على إظهارها */
     display: block !important;
 }
 
@@ -427,7 +417,6 @@
         opacity: 0;
         transform: translateY(-6px) scale(0.97);
     }
-
     to {
         opacity: 1;
         transform: translateY(0) scale(1);
@@ -447,7 +436,6 @@
     text-align: left;
     cursor: pointer;
     transition: background var(--pay-transition);
-
 }
 
 .pc-card__dropdown-item:disabled {
@@ -470,7 +458,6 @@
     gap: 8px;
     padding: 8px 12px;
     color: #ef4444;
-    /* اللون الأحمر التحذيري */
     background: transparent;
     border: none;
     border-radius: 6px;
@@ -481,11 +468,10 @@
 
 .pc-card__dropdown-item--danger:hover:not(:disabled) {
     background-color: #fef2f2;
-    /* خلفية حمراء خفيفة عند الوقوف مؤشر الماوس */
 }
 
 /* ═══════════════════════════════════════════════════════════
-   SECURITY BADGE
+   شارة الأمان
    ═══════════════════════════════════════════════════════════ */
 .security-badge {
     display: flex;
@@ -549,7 +535,7 @@
 }
 
 /* ═══════════════════════════════════════════════════════════
-   PURCHASE HISTORY SECTION
+   قسم سجل المشتريات
    ═══════════════════════════════════════════════════════════ */
 .ph-section {
     display: flex;
@@ -560,14 +546,13 @@
     margin: 0;
 }
 
-/* History header — left-aligned */
+/* ترويسة سجل المشتريات — محاذاة لليسار */
 .ph-header {
     display: flex;
     flex-direction: row;
     align-items: flex-start;
     gap: 415px;
     margin-bottom: 24px;
-
 }
 
 .ph-header__text {
@@ -591,7 +576,7 @@
     margin: 4px 0 0;
 }
 
-/* Download button — below table, left-aligned */
+/* زر التحميل — محاذاة لليسار أسفل الجدول */
 .ph-download-btn {
     display: inline-flex;
     align-items: center;
@@ -628,7 +613,7 @@
     outline-offset: 3px;
 }
 
-/* ── Summary strip ── */
+/* ── شريط الملخص ── */
 .ph-summary-strip {
     display: flex;
     align-items: center;
@@ -698,7 +683,7 @@
     opacity: 0.7;
 }
 
-/* ── Desktop Table — increased visual weight ── */
+/* ── جدول سطح المكتب ── */
 .ph-table {
     width: 100%;
     max-width: 1180px !important;
@@ -738,7 +723,7 @@
     border-bottom: none;
 }
 
-/* Zebra striping */
+/* خطوط الجدول المتبادلة */
 .ph-table__row--alt {
     background: var(--pay-surface-alt);
 }
@@ -778,7 +763,7 @@
     color: var(--pay-text-secondary);
 }
 
-/* ── Status Badges ── */
+/* ── شارات الحالة ── */
 .ph-badge {
     display: inline-flex;
     align-items: center;
@@ -804,7 +789,7 @@
     color: var(--pay-text-muted);
 }
 
-/* ── Mobile card-stack (hidden on desktop) ── */
+/* ── قائمة البطاقات للهواتف (مخفية على سطح المكتب) ── */
 .ph-mobile-stack {
     display: none;
     flex-direction: column;
@@ -869,7 +854,7 @@
 }
 
 /* ═══════════════════════════════════════════════════════════
-   MODAL — Add New Card
+   النافذة المنبثقة (Modal) — إضافة بطاقة جديدة
    ═══════════════════════════════════════════════════════════ */
 .modal {
     position: fixed;
@@ -903,7 +888,6 @@
         opacity: 0;
         transform: translateY(-16px) scale(0.96);
     }
-
     to {
         opacity: 1;
         transform: translateY(0) scale(1);
@@ -1001,7 +985,7 @@
     gap: 0;
 }
 
-/* ── Form input with icons ── */
+/* ── حقول الإدخال مع الأيقونات ── */
 .form-input-wrap {
     position: relative;
     display: flex;
@@ -1070,7 +1054,7 @@
     background: var(--pay-surface-alt);
 }
 
-/* ── Set as default checkbox ── */
+/* ── مربع خيار التعيين كافتراضية ── */
 .form-checkbox {
     display: flex;
     align-items: center;
@@ -1126,7 +1110,7 @@
     outline-offset: 2px;
 }
 
-/* ── Modal footer — stacked actions ── */
+/* ── تذييل النافذة المنبثقة — الأزرار المتراكمة ── */
 .modal-footer--stacked {
     display: flex;
     flex-direction: column;
@@ -1158,7 +1142,7 @@
     transform: none;
 }
 
-/* ── Toast notification ── */
+/* ── إشعار التنبيه المؤقت (Toast) ── */
 .pay-toast {
     position: fixed;
     top: 28px;
@@ -1192,7 +1176,7 @@
     flex-shrink: 0;
 }
 
-/* ── Form Elements ── */
+/* ── عناصر النموذج ── */
 .form-group {
     display: flex;
     flex-direction: column;
@@ -1235,7 +1219,7 @@
     gap: 14px;
 }
 
-/* Submit button */
+/* زر الإرسال */
 .add-card-btn {
     width: 100%;
     margin-top: 6px;
@@ -1271,7 +1255,7 @@
     outline-offset: 3px;
 }
 
-/* ── Validation messages ── */
+/* ── رسائل التحقق من صحة البيانات ── */
 .error {
     color: var(--pay-danger) !important;
     font-size: 12px;
@@ -1310,7 +1294,6 @@
         opacity: 0;
         transform: translateY(-4px);
     }
-
     to {
         opacity: 1;
         transform: translateY(0);
@@ -1318,7 +1301,7 @@
 }
 
 /* ═══════════════════════════════════════════════════════════
-   RESPONSIVE — Mobile breakpoint ≤ 768px
+   التجاوب مع الشاشات — الهواتف ≤ 768px
    ═══════════════════════════════════════════════════════════ */
 @media (max-width: 768px) {
     .billing-dashboard {
@@ -1343,7 +1326,7 @@
         letter-spacing: 1px;
     }
 
-    /* Hide desktop table, show mobile stack */
+    /* إخفاء جدول سطح المكتب وعرض البطاقات للهواتف */
     .ph-table {
         display: none;
     }
@@ -1378,10 +1361,9 @@
 }
 
 /* ═══════════════════════════════════════════════════════════
-   REDUCED MOTION — respect user preference
+   تقليل الحركة — احترام تفضيلات المستخدم الخاصة بالحركة
    ═══════════════════════════════════════════════════════════ */
 @media (prefers-reduced-motion: reduce) {
-
     *,
     *::before,
     *::after {

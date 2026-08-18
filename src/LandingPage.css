@@ -1,10 +1,135 @@
+/* ==========================================================================
+   LANDING PAGE STYLESHEET
+   ========================================================================== */
+
+/* ─── Main Landing Page Container ────────────────────────────────────────── */
 .landing-page {
     padding-left: 100px;
     padding-top: 150px;
 }
 
-/* Landing Page Course Card */
-/* ─── Course Card ─────────────────────────────────────────── */
+/* ─── Hero Page Content Section (Title & Description) ────────────────────── */
+.page-title {
+    color: #000000;
+    font-size: 50px;
+    font-weight: bold;
+    margin: 0;
+    font-family: "Inter", sans-serif;
+    margin-top: 20px;
+}
+
+/* Highlighted accent text inside the main hero title */
+.page-title-2 {
+    display: inline;
+    color: #0089EA;
+    font-size: 50px;
+    font-weight: bold;
+    margin: 0;
+    font-family: "Inter", sans-serif;
+}
+
+/* Hero section subtext / introductory paragraph */
+.page-description {
+    color: #666363;
+    font-size: 30px;
+    font-weight: 500;
+    margin: 0;
+    font-family: "Inter", sans-serif;
+    margin-top: 12px;
+    margin-bottom: 80px;
+}
+
+/* ─── Call to Action (CTA) Action Buttons ────────────────────────────────── */
+.auth-buttons {
+    display: flex;
+    gap: 20px;
+}
+
+/* Primary CTA Button: "Get Started For Free" */
+.Started {
+    display: flex;
+    width: 255px;
+    height: 50px;
+    border-radius: 10px;
+    border: none;
+    background-color: #0089EA;
+    color: #ffffff;
+    font-size: 20px;
+    font-weight: 500;
+    gap: 10px;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    box-sizing: border-box;
+    font-family: "Inter", sans-serif;
+    transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275), 
+                background-color 0.4s ease, 
+                box-shadow 0.4s ease;
+}
+
+.Started:hover {
+    background-color: #0073c5;
+    transform: translateY(-5px);
+    box-shadow: 0 5px 15px rgba(0, 137, 234, 0.3);
+    text-decoration: underline;
+    text-decoration-thickness: 2px;
+}
+
+/* Secondary CTA Button: "View all courses" */
+.View-courses {
+    display: flex;
+    width: 255px;
+    height: 50px;
+    border-radius: 10px;
+    border: 1px solid #0089EA;
+    background-color: #ffffff;
+    color: #0089EA;
+    font-size: 20px;
+    font-weight: 500;
+    gap: 10px;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    box-sizing: border-box;
+    font-family: "Inter", sans-serif;
+    transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275), 
+                background-color 0.4s ease, 
+                box-shadow 0.4s ease;
+}
+
+.View-courses:hover {
+    background-color: rgba(0, 115, 197, 0.1);
+    transform: translateY(-5px);
+    box-shadow: 0 5px 15px rgba(0, 137, 234, 0.1);
+    text-decoration: underline;
+    text-decoration-thickness: 2px;
+}
+
+/* ─── Popular Courses Showcase Section ───────────────────────────────────── */
+.popular-courses-section {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    margin-top: 80px;
+    gap: 30px;
+}
+
+.popular-courses-title {
+    color: #000000;
+    font-size: 20px;
+    font-weight: bold;
+    margin: 0;
+    font-family: "Inter", sans-serif;
+}
+
+/* Flex row holding all course cards */
+.courses-container {
+    display: flex;
+    flex-direction: row;
+    gap: 30px;
+}
+
+/* ─── Course Card Layout & Styling ────────────────────────────────────────── */
 .landing-course-item {
     position: relative;
     display: flex;
@@ -15,23 +140,23 @@
     overflow: hidden;
     box-shadow: 0 2px 12px rgba(0, 0, 0, 0.06), 0 1px 3px rgba(0, 0, 0, 0.04);
     transition: transform 0.35s cubic-bezier(0.34, 1.56, 0.64, 1),
-        box-shadow 0.35s cubic-bezier(0.4, 0, 0.2, 1),
-        border-color 0.25s ease,
-        background-color 0.25s ease;
+                box-shadow 0.35s cubic-bezier(0.4, 0, 0.2, 1),
+                border-color 0.25s ease,
+                background-color 0.25s ease;
     cursor: pointer;
     will-change: transform;
     flex: 0 0 auto;
 }
 
+/* Hover elevation & accent border glow on course card */
 .landing-course-item:hover {
     transform: translateY(-6px);
-    box-shadow:
-        0 8px 16px rgba(0, 137, 234, 0.08),
-        0 24px 48px rgba(0, 0, 0, 0.13);
+    box-shadow: 0 8px 16px rgba(0, 137, 234, 0.08),
+                0 24px 48px rgba(0, 0, 0, 0.13);
     border-color: rgba(0, 137, 234, 0.5);
 }
 
-/* ─── Image Container ─── */
+/* ─── Course Card Image Banner ─── */
 .landing-course-item .course-item-image {
     width: 100%;
     height: 210px;
@@ -47,7 +172,7 @@
     display: block;
 }
 
-/* subtle gradient overlay on hover */
+/* Subtle gradient overlay effect on image hover */
 .landing-course-item .course-item-image::after {
     content: '';
     position: absolute;
@@ -62,7 +187,7 @@
     opacity: 1;
 }
 
-/* ─── Card Body ─── */
+/* ─── Course Card Details / Content Body ─── */
 .landing-course-item .course-info {
     padding: 20px 20px 18px;
     display: flex;
@@ -71,7 +196,7 @@
     flex: 1;
 }
 
-/* ─── Title ─── */
+/* Course card title formatting with 2-line clamping */
 .landing-course-item .course-title {
     font-size: 16px;
     font-weight: 700;
@@ -87,7 +212,7 @@
     transition: color 0.2s ease;
 }
 
-/* ─── Price / Duration / Level row ─── */
+/* ─── Price / Duration / Level Attribute Row ─── */
 .landing-course-item .course-info-PRL {
     display: flex;
     align-items: center;
@@ -100,13 +225,20 @@
 .landing-course-item .course-info-PRL-item {
     display: flex;
     align-items: center;
+    justify-content: center;
     gap: 5px;
     flex: 1;
     min-width: 0;
     padding: 0 4px;
+    width: auto;
+    height: auto;
+    opacity: 0.65;
+    color: var(--text-secondary, #6b7280);
+    transition: opacity 0.2s ease;
 }
 
-.landing-course-item .course-info-PRL-item+.course-info-PRL-item {
+/* Left divider for consecutive attribute items in the row */
+.landing-course-item .course-info-PRL-item + .course-info-PRL-item {
     border-left: 1px solid var(--border-color, #e5e7eb);
     padding-left: 12px;
 }
@@ -119,6 +251,7 @@
     transition: opacity 0.2s ease;
 }
 
+/* Price label */
 .landing-course-item .course-price {
     font-size: 14.5px;
     font-weight: 600;
@@ -126,27 +259,9 @@
     margin: 0;
     white-space: nowrap;
     letter-spacing: -0.3px;
-
 }
 
-.course-info-PRL-item {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    flex-shrink: 0;
-    width: auto;
-    /* إلغاء أي عرض إجباري قد يسبب المشكلة */
-    height: auto;
-    opacity: 0.65;
-    color: var(--text-secondary, #6b7280);
-    transition: opacity 0.2s ease;
-}
-
-.auth-buttons {
-    display: flex;
-    gap: 20px;
-}
-
+/* Duration & Level labels */
 .landing-course-item .course-duration,
 .landing-course-item .course-level {
     font-size: 13px;
@@ -158,7 +273,7 @@
     text-overflow: ellipsis;
 }
 
-/* ─── Instructor / Rating footer ─── */
+/* ─── Instructor & Rating Footer Row ─── */
 .landing-course-item .course-info-IR {
     display: flex;
     align-items: center;
@@ -176,7 +291,7 @@
     min-width: 0;
 }
 
-/* instructor avatar */
+/* Circular Avatar for Instructor */
 .landing-course-item .course-info-IR-item:first-child img {
     width: 32px !important;
     height: 32px !important;
@@ -188,6 +303,7 @@
     transition: border-color 0.2s ease, box-shadow 0.2s ease;
 }
 
+/* Instructor Name */
 .landing-course-item .course-instructor {
     font-size: 13px;
     font-weight: 600;
@@ -199,6 +315,7 @@
     max-width: 110px;
 }
 
+/* Star Rating Value */
 .landing-course-item .course-rating {
     font-size: 13.5px;
     font-weight: 700;
@@ -206,112 +323,9 @@
     white-space: nowrap;
 }
 
-/* Rating star icon styling */
+/* Rating star image fallback icon styling */
 .landing-course-item .course-info-IR-item img[src*="Rating"] {
     width: 14px;
     height: 14px;
     color: yellow;
-}
-
-.courses-container {
-    display: flex;
-    flex-direction: row;
-    gap: 30px;
-}
-
-.popular-courses-section {
-    display: flex;
-    flex-direction: column;
-    align-items: flex-start;
-    margin-top: 80px;
-    gap: 30px;
-}
-
-.Started {
-    display: flex;
-    width: 255px;
-    height: 50px;
-    border-radius: 10px;
-    border: none;
-    background-color: #0089EA;
-    color: white;
-    font-size: 20px;
-    font-weight: medium;
-    gap: 10px;
-    align-items: center;
-    justify-content: center;
-    cursor: pointer;
-    box-sizing: border-box;
-    font-family: "Inter";
-    transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275), background-color 0.4s ease, box-shadow 0.4s ease;
-}
-
-.Started:hover {
-    background-color: #0073c5;
-    transform: translateY(-5px);
-    box-shadow: 0 5px 15px rgba(0, 137, 234, 0.3);
-    text-decoration: underline;
-    text-decoration-thickness: 2px;
-}
-
-.View-courses {
-    display: flex;
-    width: 255px;
-    height: 50px;
-    border-radius: 10px;
-    border: 1px solid #0089EA;
-    background-color: white;
-    color: #0089EA;
-    font-size: 20px;
-    font-weight: medium;
-    gap: 10px;
-    align-items: center;
-    justify-content: center;
-    cursor: pointer;
-    box-sizing: border-box;
-    font-family: "Inter";
-    transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275), background-color 0.4s ease, box-shadow 0.4s ease;
-}
-
-.View-courses:hover {
-    background-color: #0073c51a;
-    transform: translateY(-5px);
-    box-shadow: 0 5px 15px rgba(0, 137, 234, 0.1);
-    text-decoration: underline;
-    text-decoration-thickness: 2px;
-}
-
-.popular-courses-title {
-    color: black;
-    font-size: 20px;
-    font-weight: bold;
-    margin: 0;
-    font-family: "Inter";
-}
-
-.page-title {
-    color: #000000;
-    font-size: 50px;
-    font-weight: bold;
-    margin: 0;
-    font-family: "Inter";
-    margin-top: 20px;
-}
-
-.page-title-2 {
-    color: #0089EA;
-    font-size: 50px;
-    font-weight: bold;
-    margin: 0;
-    font-family: "Inter";
-}
-
-.page-description {
-    color: #666363;
-    font-size: 30px;
-    font-weight: medium;
-    margin: 0;
-    font-family: "Inter";
-    margin-top: 12px;
-    margin-bottom: 80px;
-}
+}

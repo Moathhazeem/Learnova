@@ -1,8 +1,7 @@
 import React, { useState, useEffect } from "react";
-import { Link, useLocation } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 import { ChevronLeft, ChevronRight, Pencil, Trash2, Plus } from "lucide-react";
-import { useNavigate } from 'react-router-dom';
 import "../config/i18n";
 import "./My Learning.css";
 
@@ -10,6 +9,7 @@ const PLAN_STORAGE_KEY = "learnova-learning-plan";
 const VISITS_STORAGE_KEY = "learnova-course-visits";
 const DAYS_OF_WEEK_SHORT = ["SA", "SU", "MO", "TU", "WE", "TH", "FR"];
 
+// إنشاء معرف فريد لكل مهمة جديدة
 const createTaskId = () => `task-${Date.now()}-${Math.random().toString(36).slice(2, 9)}`;
 
 const DEFAULT_TASKS_BY_DAY = {
@@ -22,6 +22,7 @@ const DEFAULT_TASKS_BY_DAY = {
     FR: [{ id: "default-fr", task: "Weekly learning reflection & recap", duration: "20 mins", completed: false }],
 };
 
+// تحميل خطة المهام اليومية للمستخدم من التخزين المحلي (localStorage)
 const loadTasksFromStorage = () => {
     try {
         const raw = localStorage.getItem(PLAN_STORAGE_KEY);
@@ -39,6 +40,7 @@ const loadTasksFromStorage = () => {
     }
 };
 
+// تحميل عدد زيارات المستخدم للكورسات من التخزين المحلي (localStorage)
 const loadVisitsFromStorage = () => {
     try {
         const raw = localStorage.getItem(VISITS_STORAGE_KEY);
@@ -48,7 +50,8 @@ const loadVisitsFromStorage = () => {
     }
 };
 
-// ─── CalendarUI Component (outside MyLearning to avoid re-creation on each render) ───
+// ─── CalendarUI Component ───
+// مكون واجهة المستخدم لعرض التقويم الشهري وإدارة مهام خطة الدراسة اليومية
 const CalendarUI = ({ t, i18n, taskDurationInput, setTaskDurationInput, tasksByDay, setTasksByDay, selectedPlanDay, setSelectedPlanDay }) => {
     const today = new Date();
     const [currentDate, setCurrentDate] = useState(new Date());
@@ -58,6 +61,7 @@ const CalendarUI = ({ t, i18n, taskDurationInput, setTaskDurationInput, tasksByD
 
     const dayTasks = tasksByDay[selectedPlanDay] ?? [];
 
+    // تبديل حالة اكتمال المهمة (مكتملة / غير مكتملة) لليوم المحدد
     const toggleTask = (day, taskId) => {
         setTasksByDay((prev) => ({
             ...prev,
@@ -67,12 +71,14 @@ const CalendarUI = ({ t, i18n, taskDurationInput, setTaskDurationInput, tasksByD
         }));
     };
 
+    // تجهيز وفتح النافذة المنبثقة لإضافة المهام
     const handleOpenModal = () => {
         setTaskNameInput("");
         setTaskDurationInput("");
         setIsModalOpen(true);
     };
 
+    // معالجة وإضافة مهمة جديدة لخطة اليوم المحدد
     const handleAddTask = (e) => {
         e.preventDefault();
         if (!taskNameInput.trim()) return;
@@ -93,6 +99,7 @@ const CalendarUI = ({ t, i18n, taskDurationInput, setTaskDurationInput, tasksByD
         setTaskDurationInput("");
     };
 
+    // حذف مهمة محددة من خطة اليوم
     const handleDeleteTask = (day, taskId) => {
         setTasksByDay((prev) => ({
             ...prev,
@@ -288,18 +295,20 @@ const CalendarUI = ({ t, i18n, taskDurationInput, setTaskDurationInput, tasksByD
     );
 };
 
+// ─── Streak Component ───
+// مكون يعرض إحصائيات الاستمرارية والالتزام اليومي بالتعلم وزيارات الكورسات للمستخدم
 const Streak = ({ t, i18n, tasksByDay, selectedPlanDay, vist }) => {
     const visitsTarget = 1;
 
-    // 1. Extract the current day's tasks array
+    // 1. استخراج مهام اليوم الحالي
     const currentTasks = tasksByDay[selectedPlanDay] || [];
 
-    // 2. Calculate minTarget dynamically
+    // 2. حساب وقت الدراسة المستهدف ديناميكياً بناءً على مجموع مدد المهام
     const minTarget = currentTasks.length > 0
         ? currentTasks.reduce((sum, task) => sum + (parseInt(task.duration) || 0), 0)
         : 30;
 
-    // 3. Calculate progress dynamically
+    // 3. حساب الدقائق المكتملة فعلياً
     const progress = currentTasks.reduce((sum, task) => {
         if (task.completed === true) {
             return sum + (parseInt(task.duration) || 0);
@@ -307,7 +316,7 @@ const Streak = ({ t, i18n, tasksByDay, selectedPlanDay, vist }) => {
         return sum;
     }, 0);
 
-    // 4. Update progressPercent
+    // 4. حساب النسب المئوية لمؤشرات التقدم
     const progressPercent = minTarget > 0 ? (progress / minTarget) * 100 : 0;
     const vistPercent = Math.min((vist / visitsTarget) * 100, 100);
 
@@ -320,7 +329,7 @@ const Streak = ({ t, i18n, tasksByDay, selectedPlanDay, vist }) => {
                 </div>
                 <div className="header-right">
                     <img src="/photo_icons/info.png" alt="Info about study" />
-                    {/* 🟢 صندوق المعلومات الخفيف */}
+                    {/* صندوق المعلومات الخفيف */}
                     <div className="tooltip-box">
                         Keep the fire burning! Your daily streak activates and updates when you visit your course and watch for at least 30 minutes every day.
                     </div>
@@ -363,6 +372,7 @@ const Streak = ({ t, i18n, tasksByDay, selectedPlanDay, vist }) => {
 };
 
 // ─── Main MyLearning Component ───
+// المكون الرئيسي لصفحة "تعليمي" المسؤول عن دمج وعرض الكورسات المسجل بها، خطة التعلم والتقويم
 function MyLearning() {
     const [taskDurationInput, setTaskDurationInput] = useState("");
     const [selectedPlanDay, setSelectedPlanDay] = useState("SU");
@@ -374,6 +384,7 @@ function MyLearning() {
     const completedTasksCount = currentTasks.filter(task => task.completed).length;
     const taskProgressPercent = totalTasksCount > 0 ? (completedTasksCount / totalTasksCount) * 100 : 0;
 
+    // تسجيل زيادة في الزيارات لليوم الحالي عند التحميل الأول للصفحة
     useEffect(() => {
         const todayDayKey = DAYS_OF_WEEK_SHORT[(new Date().getDay() + 1) % 7];
         setVisitsByDay((prev) => {
@@ -386,11 +397,11 @@ function MyLearning() {
         });
     }, []);
 
+    // تحديث خطة المهام في التخزين المحلي عند تغييرها
     useEffect(() => {
         localStorage.setItem(PLAN_STORAGE_KEY, JSON.stringify(tasksByDay));
     }, [tasksByDay]);
 
-    const durationVal = taskDurationInput && taskDurationInput.trim() ? `${taskDurationInput.trim()} mins` : "30 mins";
     const location = useLocation();
     const pathname = location.pathname.split("/").filter((x) => x);
     const { t, i18n } = useTranslation();
@@ -407,6 +418,7 @@ function MyLearning() {
         4: ["Illustrator Interface & Basic Shapes", "Working with Pen Tool & Paths", "Typography & Color Management", "Advanced Vector Effects & Exporting"]
     };
 
+    // متابعة وتحديث حالة المظهر الداكن ديناميكياً عند تغيره في نظام الموقع
     useEffect(() => {
         const updateThemeState = () => {
             setIsDarkMode(document.documentElement.classList.contains("dark"));

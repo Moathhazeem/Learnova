@@ -1,12 +1,19 @@
-/* =========================================
-   Check Email — Centered Minimal Layout
-   (mirrors Forgot Password card style)
-   ========================================= */
+/* ==========================================================================
+   Check Email Screen Stylesheet
+   ==========================================================================
+   Provides full-page centered layout, card structure, typography, buttons, 
+   animations, and responsive rules for the "Check Email" flow.
+   ========================================================================== */
 
-/* Google Font */
+/* --------------------------------------------------------------------------
+   1. Typography & External Fonts
+   -------------------------------------------------------------------------- */
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
 
-/* ── Page wrapper ── */
+/* --------------------------------------------------------------------------
+   2. Outer Page Layout
+   -------------------------------------------------------------------------- */
+/* Full viewport background container centering the content card */
 .ce-page {
     display: flex;
     align-items: center;
@@ -19,7 +26,10 @@
     font-family: 'Inter', system-ui, -apple-system, sans-serif;
 }
 
-/* ── Card ── */
+/* --------------------------------------------------------------------------
+   3. Card Component Structure
+   -------------------------------------------------------------------------- */
+/* Elevated container holding icons, messaging, and action buttons */
 .ce-card {
     background: #ffffff;
     border-radius: 20px;
@@ -37,7 +47,10 @@
     text-align: center;
 }
 
-/* ── Envelope icon badge ── */
+/* --------------------------------------------------------------------------
+   4. Icon Badge Styling
+   -------------------------------------------------------------------------- */
+/* Gradient container badge framing the envelope vector graphic */
 .ce-icon-wrap {
     width: 64px;
     height: 64px;
@@ -50,6 +63,7 @@
     flex-shrink: 0;
 }
 
+/* Vector envelope graphic sizing and accent color */
 .ce-envelope-icon {
     width: 30px;
     height: 30px;
@@ -57,12 +71,16 @@
     stroke: #0089ea;
 }
 
-/* ── Header text ── */
+/* --------------------------------------------------------------------------
+   5. Header & Typography Section
+   -------------------------------------------------------------------------- */
+/* Header wrapper block */
 .ce-header {
     width: 100%;
     margin-bottom: 32px;
 }
 
+/* Main title text */
 .ce-title {
     font-size: 26px;
     font-weight: 700;
@@ -72,6 +90,7 @@
     letter-spacing: -0.4px;
 }
 
+/* Subtitle descriptive message text */
 .ce-subtitle {
     font-size: 15px;
     color: #64748b;
@@ -81,7 +100,10 @@
     margin-inline: auto;
 }
 
-/* ── Actions block ── */
+/* --------------------------------------------------------------------------
+   6. Action Elements (Buttons & Resend Link)
+   -------------------------------------------------------------------------- */
+/* Vertical flex container organizing action elements */
 .ce-actions {
     width: 100%;
     display: flex;
@@ -91,7 +113,7 @@
     margin-bottom: 8px;
 }
 
-/* ── Primary button ── */
+/* Primary call-to-action button with gradient fill & hover micro-interactions */
 .ce-btn-primary {
     width: 100%;
     height: 52px;
@@ -108,24 +130,27 @@
     box-shadow: 0 4px 14px rgba(0, 137, 234, 0.3);
 }
 
+/* Primary button hover state - elevation lift & deeper gradient */
 .ce-btn-primary:hover {
     background: linear-gradient(135deg, #007dd4 0%, #005fb8 100%);
     transform: translateY(-1px);
     box-shadow: 0 6px 20px rgba(0, 137, 234, 0.4);
 }
 
+/* Primary button active state - pressed down shadow adjustment */
 .ce-btn-primary:active {
     transform: translateY(0);
     box-shadow: 0 2px 8px rgba(0, 137, 234, 0.2);
 }
 
-/* ── Resend text ── */
+/* Resend prompt text block */
 .ce-resend-text {
     font-size: 14px;
     color: #64748b;
     margin: 0;
 }
 
+/* Interactive resend link element */
 .ce-resend-link {
     color: #0089ea;
     font-weight: 600;
@@ -138,7 +163,10 @@
     text-decoration: underline;
 }
 
-/* ── Back to login ── */
+/* --------------------------------------------------------------------------
+   7. Back to Login Navigation
+   -------------------------------------------------------------------------- */
+/* Container wrapper for back navigation */
 .ce-back-wrap {
     display: flex;
     justify-content: center;
@@ -146,6 +174,7 @@
     margin-top: 20px;
 }
 
+/* Back button style with integrated arrow animation */
 .ce-btn-back {
     background: transparent;
     border: none;
@@ -168,6 +197,7 @@
     background-color: #f0f9ff;
 }
 
+/* Arrow SVG icon within back navigation button */
 .ce-btn-back svg {
     width: 18px;
     height: 18px;
@@ -176,11 +206,15 @@
     flex-shrink: 0;
 }
 
+/* Leftward translation effect for back arrow on hover */
 .ce-btn-back:hover svg {
     transform: translateX(-3px);
 }
 
-/* ── Responsive ── */
+/* --------------------------------------------------------------------------
+   8. Responsive Layout Breakpoints
+   -------------------------------------------------------------------------- */
+/* Tablet & Mobile devices (width <= 520px) */
 @media (max-width: 520px) {
     .ce-card {
         padding: 36px 24px;
@@ -207,6 +241,7 @@
     }
 }
 
+/* Small screen mobile devices (width <= 360px) */
 @media (max-width: 360px) {
     .ce-card {
         padding: 28px 16px;

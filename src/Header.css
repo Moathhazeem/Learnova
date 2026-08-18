@@ -1,30 +1,60 @@
 /* ═══════════════════════════════════════════════════════════════
-   LEARNOVA Header  —  Coursera-Style Single Row Layout
+   LEARNOVA HEADER STYLESHEET
+   
+   Structure & Sections:
+   1. Design Tokens & Root Variables
+   2. Main Header Container & Scroll Elevation
+   3. Left Navigation Group (Brand Logo & Nav Links)
+   4. Center Search Container & Input Bar
+   5. Right Group (Auth Buttons & Account Controls)
+   6. Dropdowns (Account Menu & Notification Panel)
+   7. Mobile Navigation (Hamburger Button & Slide Drawer)
+   8. Autocomplete Suggestions Dropdown
+   9. Dark Mode Theme Overrides
+   10. Media Queries / Responsive Breakpoints
    ═══════════════════════════════════════════════════════════════ */
 
+/* ─── 1. DESIGN TOKENS & ROOT VARIABLES ──────────────────────── */
 :root {
+  /* Layout Dimensions */
   --header-h: 68px;
+
+  /* Header Background & Borders */
   --header-bg: rgba(255, 255, 255, 0.95);
   --header-border: #eef0f3;
+
+  /* Primary Brand Palette */
   --brand: #0089EA;
   --brand-dark: #006fbb;
   --brand-light: #e8f4fd;
   --brand-glow: rgba(0, 137, 234, 0.18);
+
+  /* Typography Colors */
   --text-primary: #0d0d0d;
   --text-secondary: #4b5563;
   --text-muted: #9ca3af;
+
+  /* Surfaces & Borders */
   --bg: #ffffff;
   --bg-secondary: #f8fafc;
   --bg-card: #ffffff;
   --border: #e5e7eb;
   --border-strong: #d1d5db;
+
+  /* Shadows & Elevation */
   --shadow-lg: 0 8px 40px rgba(0, 0, 0, 0.10);
+
+  /* Border Radii */
   --radius-sm: 6px;
   --radius-md: 10px;
   --radius-lg: 16px;
   --radius-full: 9999px;
+
+  /* Font Families */
   --font-sans: 'Inter', 'Outfit', system-ui, sans-serif;
   --font-brand: 'Kranky', 'Outfit', sans-serif;
+
+  /* Motion & Animation Timings */
   --ease-spring: cubic-bezier(0.34, 1.56, 0.64, 1);
 }
 

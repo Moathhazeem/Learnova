@@ -1,11 +1,16 @@
-/* =========================================
-   Forgot Password — Centered Minimal Layout
-   ========================================= */
+/* ==========================================================================
+   Forgot Password Page — Stylesheet
+   ========================================================================== */
 
-/* Google Font */
+/* --------------------------------------------------------------------------
+   Font Import
+   -------------------------------------------------------------------------- */
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
 
-/* Page wrapper — full viewport, centered */
+/* --------------------------------------------------------------------------
+   Page Layout & Container
+   Full viewport centered container with a modern, subtle background.
+   -------------------------------------------------------------------------- */
 .fp-page {
     display: flex;
     align-items: center;
@@ -18,7 +23,10 @@
     font-family: 'Inter', system-ui, -apple-system, sans-serif;
 }
 
-/* Card */
+/* --------------------------------------------------------------------------
+   Card Component
+   Elevated container for the forgot password content.
+   -------------------------------------------------------------------------- */
 .fp-card {
     background: #ffffff;
     border-radius: 20px;
@@ -36,7 +44,10 @@
     text-align: center;
 }
 
-/* Lock icon bubble */
+/* --------------------------------------------------------------------------
+   Icon Bubble Header
+   Soft circular gradient wrapper around the lock icon.
+   -------------------------------------------------------------------------- */
 .fp-icon-wrap {
     width: 64px;
     height: 64px;
@@ -56,7 +67,9 @@
     stroke: #0089ea;
 }
 
-/* Header text */
+/* --------------------------------------------------------------------------
+   Header Typography
+   -------------------------------------------------------------------------- */
 .fp-header {
     width: 100%;
     margin-bottom: 32px;
@@ -80,7 +93,9 @@
     margin-inline: auto;
 }
 
-/* Form */
+/* --------------------------------------------------------------------------
+   Form Container & Input Fields
+   -------------------------------------------------------------------------- */
 .fp-form {
     width: 100%;
     display: flex;
@@ -88,7 +103,6 @@
     gap: 0;
 }
 
-/* Field group */
 .fp-field {
     display: flex;
     flex-direction: column;
@@ -98,7 +112,6 @@
     text-align: left;
 }
 
-/* Label */
 .fp-label {
     font-size: 13.5px;
     font-weight: 600;
@@ -107,7 +120,6 @@
     letter-spacing: 0.01em;
 }
 
-/* Input */
 .fp-input {
     width: 100%;
     height: 52px;
@@ -128,12 +140,14 @@
     font-size: 14px;
 }
 
+/* Focused state */
 .fp-input:focus {
     background-color: #ffffff;
     border-color: #0089ea;
     box-shadow: 0 0 0 4px rgba(0, 137, 234, 0.12);
 }
 
+/* Validation modifier classes */
 .fp-input--error {
     border-color: #ef4444 !important;
     box-shadow: 0 0 0 4px rgba(239, 68, 68, 0.1) !important;
@@ -144,7 +158,9 @@
     box-shadow: 0 0 0 4px rgba(16, 185, 129, 0.1) !important;
 }
 
-/* Feedback messages */
+/* --------------------------------------------------------------------------
+   Validation Feedback Messages
+   -------------------------------------------------------------------------- */
 .fp-feedback {
     font-size: 13px;
     font-weight: 500;
@@ -168,7 +184,11 @@
     color: #059669;
 }
 
-/* Primary button */
+/* --------------------------------------------------------------------------
+   Buttons & Navigation Controls
+   -------------------------------------------------------------------------- */
+
+/* Main submit action button */
 .fp-btn-primary {
     width: 100%;
     height: 52px;
@@ -197,7 +217,7 @@
     box-shadow: 0 2px 8px rgba(0, 137, 234, 0.2);
 }
 
-/* Back to login */
+/* Secondary "Back to Login" button */
 .fp-back-wrap {
     display: flex;
     justify-content: center;
@@ -238,7 +258,9 @@
     transform: translateX(-3px);
 }
 
-/* ── Responsive ── */
+/* --------------------------------------------------------------------------
+   Responsive Design Adjustments
+   -------------------------------------------------------------------------- */
 @media (max-width: 520px) {
     .fp-card {
         padding: 36px 24px;

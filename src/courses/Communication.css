@@ -137,20 +137,6 @@
     padding: 0 3px;
 }
 
-.comm-badge--read {
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    min-width: 20px;
-    height: 20px;
-    border-radius: 50%;
-    background-color: #0084f4;
-    color: #ffffff;
-    font-size: 11px;
-    font-weight: 700;
-    padding: 0 3px;
-}
-
 .comm-tab--active .comm-badge {
     background-color: rgba(255, 255, 255, 0.25);
 }
@@ -763,94 +749,6 @@
     }
 }
 
-/* ─── Messages Filter Bar ───────────────────────────────────────── */
-.msg-filter-bar {
-    padding: 10px 14px;
-    border-bottom: 1px solid #f1f5f9;
-    background: #ffffff;
-}
-
-.msg-filter-wrapper {
-    position: relative;
-    display: inline-block;
-}
-
-.msg-filter-trigger {
-    display: inline-flex;
-    align-items: center;
-    gap: 7px;
-    padding: 7px 14px;
-    border-radius: 8px;
-    border: none;
-    background: #0084f4;
-    color: #ffffff;
-    font-size: 13px;
-    font-weight: 500;
-    font-family: 'Inter', sans-serif;
-    cursor: pointer;
-    transition: background 0.2s ease;
-}
-
-.msg-filter-trigger:hover,
-.msg-filter-trigger--open {
-    background: #0076dc;
-}
-
-/* Blue dropdown panel */
-.msg-filtter-div {
-    position: absolute;
-    left: 0;
-    top: calc(100% + 6px);
-    min-width: 170px;
-    background: #0084f4;
-    border-radius: 10px;
-    box-shadow: 0 8px 24px rgba(0, 132, 244, 0.35);
-    padding: 4px 0;
-    z-index: 200;
-    animation: slideDown 0.18s ease-out;
-    overflow: hidden;
-}
-
-.msg-filtter-header {
-    display: flex;
-    align-items: center;
-    gap: 8px;
-    padding: 10px 16px 8px 16px;
-    color: #ffffff;
-    font-size: 14px;
-    font-weight: 600;
-    font-family: 'Inter', sans-serif;
-    border-bottom: 1px solid rgba(255, 255, 255, 0.2);
-    margin-bottom: 4px;
-}
-
-.msg-filtter-btn {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    padding: 9px 16px;
-    color: #ffffff;
-    font-size: 14px;
-    font-weight: 400;
-    font-family: 'Inter', sans-serif;
-    cursor: pointer;
-    transition: background 0.15s ease;
-}
-
-.msg-filtter-btn:hover {
-    background: rgba(255, 255, 255, 0.15);
-}
-
-.msg-filtter-btn.active {
-    font-weight: 600;
-}
-
-.msg-filtter-btn svg {
-    color: #ffffff;
-    flex-shrink: 0;
-}
-
-
 /* ─── Notification Modal Popup ─────────────────────────────────── */
 .comm-modal-overlay {
     position: fixed;
@@ -859,7 +757,6 @@
     right: 0;
     bottom: 0;
     background-color: rgba(15, 23, 42, 0.45);
-    /* Elegant semi-transparent dark */
     backdrop-filter: blur(8px);
     -webkit-backdrop-filter: blur(8px);
     display: flex;

@@ -1,4 +1,4 @@
-/* ─── Page Container ────────────────────────────────────────────────────── */
+/* ─── حاوية الصفحة الرئيسية ──────────────────────────────────────────────── */
 .about-us-container {
     margin-top: 100px;
     padding: 60px 80px 100px;
@@ -8,7 +8,7 @@
     min-height: 100vh;
 }
 
-/* ─── Breadcrumbs ───────────────────────────────────────────────────────── */
+/* ─── مسار التنقل (Breadcrumbs) ────────────────────────────────────────── */
 .breadcrumbs-nav {
     display: flex;
     align-items: center;
@@ -44,14 +44,14 @@
     text-transform: capitalize;
 }
 
-/* ─── About Content Wrapper ─────────────────────────────────────────────── */
+/* ─── الغلاف الخارجي لمحتوى الصفحة ────────────────────────────────────── */
 .about-us-content {
     display: flex;
     flex-direction: column;
     align-items: center;
 }
 
-/* ─── Hero Slogan ───────────────────────────────────────────────────────── */
+/* ─── الشعار الترحيبي ──────────────────────────────────────────────────── */
 .about-us-description {
     font-size: 42px;
     font-weight: 400;
@@ -65,7 +65,7 @@
     letter-spacing: 0.5px;
 }
 
-/* ─── Story Section ─────────────────────────────────────────────────────── */
+/* ─── قسم قصة Learnova ─────────────────────────────────────────────────── */
 .about_us_Story {
     width: 100%;
     margin-bottom: 100px;
@@ -120,7 +120,7 @@
     margin: 0;
 }
 
-/* ─── Trusted Students Section ──────────────────────────────────────────── */
+/* ─── قسم شهادات الطلاب الموثوقين ──────────────────────────────────────── */
 .Trust_student {
     width: 100%;
 }
@@ -139,7 +139,7 @@
     gap: 24px;
 }
 
-/* ─── Student Testimonial Card ──────────────────────────────────────────── */
+/* ─── بطاقة شهادة الطالب ───────────────────────────────────────────────── */
 .student_card {
     background-color: #fff;
     border-radius: 14px;
@@ -158,7 +158,7 @@
     box-shadow: 0 8px 24px rgba(0, 0, 0, 0.11);
 }
 
-/* Blue quote mark at top */
+/* علامة الاقتباس العلوية */
 .student_card::before {
     content: '\201C';
     font-size: 52px;
@@ -178,7 +178,7 @@
     flex: 1;
 }
 
-/* Avatar + Name row */
+/* صف الصورة الرمزية واسم الطالب */
 .student_container {
     display: flex;
     align-items: center;
@@ -201,9 +201,9 @@
     margin: 0;
 }
 
-/* ─── Achievements Section ──────────────────────────────────────────────── */
+/* ─── قسم الإنجازات ────────────────────────────────────────────────────── */
 
-/* 1. Section wrapper — soft off-white background so white cards pop */
+/* غلاف القسم */
 .our-achievements {
     width: 100%;
     margin-top: 100px;
@@ -212,7 +212,7 @@
     border-radius: 24px;
 }
 
-/* Section title */
+/* عنوان القسم */
 .Achievements_title {
     font-size: 36px;
     font-weight: 700;
@@ -222,7 +222,7 @@
     letter-spacing: -0.4px;
 }
 
-/* 2. Cards container — flex so cards breathe with generous gap */
+/* حاوية البطاقات */
 .Achievements_container {
     display: flex;
     flex-wrap: wrap;
@@ -234,7 +234,7 @@
     border: none;
 }
 
-/* 3. Individual card — standalone floating card */
+/* بطاقة الإنجاز الفردية */
 .achievement-card {
     display: flex;
     flex-direction: column;
@@ -245,25 +245,19 @@
     max-width: 220px;
     padding: 36px 24px 32px;
 
-    /* Pure white so it pops against #f8fafc background */
     background-color: #ffffff;
-
-    /* All four corners rounded — no shared borders */
     border-radius: 16px;
-
-    /* Soft, blurred floating shadow */
     box-shadow:
         0 2px 4px rgba(0, 0, 0, 0.04),
         0 8px 24px rgba(0, 0, 0, 0.07);
-
     border: 1px solid rgba(0, 137, 234, 0.08);
 
-    /* Smooth micro-interaction base */
+    /* حركة ناعمة عند التمرير فوق البطاقة */
     transition: transform 0.28s cubic-bezier(0.34, 1.56, 0.64, 1),
                 box-shadow 0.28s ease;
 }
 
-/* 4. Hover — subtle lift + deeper glow */
+/* تأثير الرفع عند التمرير */
 .achievement-card:hover {
     transform: translateY(-7px);
     box-shadow:
@@ -273,7 +267,7 @@
     cursor: default;
 }
 
-/* Icon wrapper */
+/* غلاف الأيقونة */
 .achievement-icon {
     display: flex;
     align-items: center;
@@ -292,7 +286,7 @@
     color: #ffffff;
 }
 
-/* 5. Number — bold & prominent */
+/* الرقم البارز */
 .achievement-number {
     font-size: 30px;
     font-weight: 800;
@@ -302,7 +296,7 @@
     line-height: 1;
 }
 
-/* 6. Description — muted for visual hierarchy */
+/* نص الوصف بلون خافت */
 .achievement-description {
     font-size: 13px;
     font-weight: 400;
@@ -311,7 +305,7 @@
     margin: 0;
 }
 
-/* ─── Team Section ──────────────────────────────────────────────────────── */
+/* ─── قسم فريق العمل ───────────────────────────────────────────────────── */
 .Team_learnova {
     width: 100%;
     margin-top: 100px;
@@ -327,7 +321,7 @@
     letter-spacing: -0.4px;
 }
 
-/* Carousel outer wrapper — positions the arrows on the sides */
+/* الغلاف الخارجي للكاروسيل — يضع أزرار التنقل على الجانبين */
 .team-carousel-wrapper {
     position: relative;
     display: flex;
@@ -335,7 +329,7 @@
     gap: 16px;
 }
 
-/* The sliding track — clips overflow so only 4 cards show */
+/* مسار الشرائح — يخفي الفائض بحيث تظهر 4 بطاقات فقط */
 .team-cards-track {
     display: grid;
     grid-template-columns: repeat(4, 1fr);
@@ -344,7 +338,7 @@
     overflow: hidden;
 }
 
-/* Individual team card */
+/* بطاقة عضو الفريق */
 .team-card {
     display: flex;
     flex-direction: column;
@@ -361,7 +355,7 @@
     box-shadow: 0 8px 24px rgba(0, 0, 0, 0.1);
 }
 
-/* Photo area — light grey background exactly like the design */
+/* منطقة الصورة */
 .team-image-wrapper {
     width: 100%;
     aspect-ratio: 3 / 4;
@@ -392,7 +386,7 @@
     margin: 0 14px 16px;
 }
 
-/* Arrow buttons */
+/* أزرار التنقل بين شرائح الكاروسيل */
 .team-arrow {
     flex-shrink: 0;
     width: 44px;
@@ -423,7 +417,7 @@
     cursor: not-allowed;
 }
 
-/* ─── CTA Section ───────────────────────────────────────────────────────── */
+/* ─── قسم الدعوة للعمل (CTA) ───────────────────────────────────────────── */
 .about-cta-section {
     width: 100%;
     margin-top: 100px;
@@ -438,7 +432,7 @@
     gap: 20px;
 }
 
-/* Heading */
+/* عنوان القسم */
 .about-cta-title {
     font-size: 36px;
     font-weight: 800;
@@ -448,12 +442,12 @@
     line-height: 1.2;
 }
 
-/* "Learnova" brand word in blue */
+/* كلمة "Learnova" باللون الأزرق */
 .about-cta-brand {
     color: #0089EA;
 }
 
-/* Subtitle */
+/* العنوان الفرعي */
 .about-cta-subtitle {
     font-size: 15px;
     font-weight: 400;
@@ -463,7 +457,7 @@
     line-height: 1.7;
 }
 
-/* Button */
+/* زر الدعوة للعمل */
 .about-cta-btn {
     display: inline-flex;
     align-items: center;
@@ -493,7 +487,7 @@
     box-shadow: 0 4px 12px rgba(0, 137, 234, 0.25);
 }
 
-/* ─── Responsive ────────────────────────────────────────────────────────── */
+/* ─── استجابة الشاشات المختلفة ─────────────────────────────────────────── */
 @media (max-width: 1024px) {
     .about-us-container {
         padding: 60px 40px 80px;
@@ -510,13 +504,13 @@
         font-size: 32px;
     }
 
-    /* 3 cards per row on tablet */
+    /* 3 بطاقات في الصف على الشاشات المتوسطة */
     .achievement-card {
         flex: 1 1 140px;
         max-width: 200px;
     }
 
-    /* Show 2 team cards on tablet */
+    /* عرض بطاقتين للفريق على الشاشات المتوسطة */
     .team-cards-track {
         grid-template-columns: repeat(2, 1fr);
     }
@@ -532,7 +526,7 @@
         grid-template-columns: 1fr;
     }
 
-    /* Show 1 team card on mobile */
+    /* عرض بطاقة واحدة للفريق على الجوال */
     .team-cards-track {
         grid-template-columns: 1fr;
     }
@@ -542,7 +536,7 @@
         height: 36px;
     }
 
-    /* Full-width single column on mobile */
+    /* عمود واحد بعرض كامل على الجوال */
     .Achievements_container {
         padding: 0 20px;
         gap: 16px;

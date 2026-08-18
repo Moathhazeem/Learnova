@@ -1,20 +1,18 @@
 import React, { useState, useEffect, useRef } from "react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import { useTranslation } from "react-i18next";
-import { ChevronLeft, ChevronRight, Pencil, Search, X, CircleDollarSign, Clock, SlidersHorizontal, User, Star } from "lucide-react";
+import { ChevronLeft, ChevronRight, Search, X, CircleDollarSign, Clock, SlidersHorizontal, Star } from "lucide-react";
+
 import "../config/i18n";
 import "./Explore.css";
 
+/* مكون صفحة الاستكشاف لعرض الدورات وتصفيتها */
 function Explore() {
     const navigate = useNavigate();
     const location = useLocation();
     const pathname = location.pathname.split("/").filter((x) => x);
-    const { t, i18n } = useTranslation();
-    const [isDarkMode, setIsDarkMode] = useState(
-        document.documentElement.classList.contains("dark")
-    );
+    const { t } = useTranslation();
     const [currentPage, setCurrentPage] = useState(1);
-    const [totalPages, setTotalPages] = useState(1);
     const explore = [
         {
             id: 1,
@@ -829,31 +827,10 @@ function Explore() {
             priceIcon: <CircleDollarSign size={18} className="text-gray-500" />,
             durationIcon: <Clock size={18} className="text-gray-500" />,
             levelIcon: <SlidersHorizontal size={18} className="text-gray-500" />,
-            path: "/Explore/Course"
         },
-    ]
-    const PageNumbers = [
-        {
-            id: 1,
-            number: 1,
-        },
-        {
-            id: 2,
-            number: 2,
-        },
-        {
-            id: 3,
-            number: 3,
-        },
-        {
-            id: 4,
-            number: 4,
-        },
-        {
-            id: 5,
-            number: 5,
-        },
-    ]
+    ];
+
+    // خيارات التصفية المعروضة في شريط التصفية
     const Fillter = [
         {
             id: 1,
@@ -879,25 +856,27 @@ function Explore() {
             icon: "/photo_icons/Sort by.png",
             arrow: "/photo_icons/arrow-down.png",
         },
-    ]
+    ];
+
+    // حالات تتبع فتح القوائم المنسدلة للتصفية
     const [FillterPrice, setFillterPrice] = useState(false);
     const [FillterTime, setFillterTime] = useState(false);
     const [FillterLevel, setFillterLevel] = useState(false);
     const [FillterSortBy, setFillterSortBy] = useState(false);
-    const [FillterPriceOpen, setFillterPriceOpen] = useState(false);
-    const [FillterTimeOpen, setFillterTimeOpen] = useState(false);
-    const [FillterLevelOpen, setFillterLevelOpen] = useState(false);
-    const [FillterSortByOpen, setFillterSortByOpen] = useState(false);
+
+    // حالات الفلترة الحالية والبحث والتركيز على حقل الإدخال
     const [selectedFilter, setSelectedFilter] = useState("");
     const [searchQuery, setSearchQuery] = useState("");
     const [isSearchFocused, setIsSearchFocused] = useState(false);
     const searchInputRef = useRef(null);
 
+    /* مسح نص البحث وإعادة التركيز على حقل الإدخال */
     const handleClearSearch = () => {
         setSearchQuery("");
         searchInputRef.current?.focus();
     };
 
+    /* التعامل مع الضغط على الأزرار في حقل البحث، مثل إلغاء البحث بالضغط على Escape */
     const handleSearchKeyDown = (e) => {
         if (e.key === "Escape") {
             handleClearSearch();
@@ -906,6 +885,7 @@ function Explore() {
     };
     const coursesPerPage = 9;
 
+    /* إغلاق قوائم التصفية عند النقر خارج عنصر التصفية */
     useEffect(() => {
         const handleClickOutside = (event) => {
             if (!event.target.closest('.filter-item-container')) {
@@ -922,10 +902,12 @@ function Explore() {
         };
     }, []);
 
+    /* إعادة الصفحة الحالية إلى 1 عند تغيير التصفية أو البحث */
     useEffect(() => {
         setCurrentPage(1);
     }, [selectedFilter, searchQuery]);
 
+    /* تصفية الدورات بناءً على نص البحث والتصفية المختارة (التصنيف، السعر، الوقت، المستوى) */
     const filterCourses = courses.filter((course) => {
         const matchesSearch = course.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
             course.instructor.toLowerCase().includes(searchQuery.toLowerCase()) ||
@@ -961,6 +943,7 @@ function Explore() {
         return true;
     });
 
+    // حساب عدد الصفحات ومؤشرات العناصر لعرض الدورات الحالية في الصفحة
     const totalPagesCount = Math.ceil(filterCourses.length / coursesPerPage);
     const indexOfLastCourse = currentPage * coursesPerPage;
     const indexOfFirstCourse = indexOfLastCourse - coursesPerPage;

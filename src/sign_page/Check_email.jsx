@@ -1,27 +1,48 @@
 import { useNavigate } from "react-router-dom";
 import "./Check_email.css";
 
+/**
+ * CheckEmail Component
+ * 
+ * Renders the "Check Your Email" notification screen displayed after a user requests
+ * a password reset. Guides the user to verify their inbox, input a verification code,
+ * request a resend, or return to the login screen.
+ */
 function CheckEmail() {
+    // Hook from React Router for handling programmatic navigation between routes
     const navigate = useNavigate();
 
+    /**
+     * Navigates the user back to the Login screen.
+     */
     const goToLogin = () => {
         navigate("/log_in");
     };
 
+    /**
+     * Navigates the user to the Verification Code input page.
+     */
     const goToVC = () => {
         navigate("/Verification_Code");
     };
 
+    /**
+     * Prevents default anchor navigation and handles email resend request.
+     * 
+     * @param {React.MouseEvent<HTMLAnchorElement>} e - Click event object
+     */
     const handleResend = (e) => {
         e.preventDefault();
-        // TODO: wire up resend logic
+        // TODO: Wire up API resend email logic here
     };
 
     return (
+        /* Outer page container providing full-height centered layout */
         <div className="ce-page">
+            {/* Central content card */}
             <div className="ce-card">
 
-                {/* Envelope icon badge */}
+                {/* Decorative envelope icon badge */}
                 <div className="ce-icon-wrap" aria-hidden="true">
                     <svg
                         className="ce-envelope-icon"
@@ -38,7 +59,7 @@ function CheckEmail() {
                     </svg>
                 </div>
 
-                {/* Header */}
+                {/* Header title and instructional message */}
                 <div className="ce-header">
                     <h1 className="ce-title">Check your email</h1>
                     <p className="ce-subtitle">
@@ -47,7 +68,7 @@ function CheckEmail() {
                     </p>
                 </div>
 
-                {/* Actions */}
+                {/* Primary call-to-action buttons and resend link */}
                 <div className="ce-actions">
                     <button
                         type="button"
@@ -65,7 +86,7 @@ function CheckEmail() {
                     </p>
                 </div>
 
-                {/* Back to login */}
+                {/* Navigation link to return to login */}
                 <div className="ce-back-wrap">
                     <button type="button" onClick={goToLogin} className="ce-btn-back">
                         <svg

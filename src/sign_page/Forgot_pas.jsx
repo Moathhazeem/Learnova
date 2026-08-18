@@ -2,38 +2,66 @@ import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import "./Forgot_pas.css";
 
+/**
+ * ForgotPassword Component
+ * 
+ * Renders the "Forgot Password?" page where users can input their email address
+ * to request a password reset link. Handles validation for email format and navigates
+ * to the check email page upon successful submission.
+ */
 function ForgotPassword() {
+    // React Router navigation hook for programmatic route navigation
     const navigate = useNavigate();
 
+    /**
+     * Navigates the user back to the Login page.
+     */
     const goToLogin = () => {
         navigate("/log_in");
     };
+
+    /**
+     * Navigates the user to the Check Email page after successful submission.
+     */
     const goToCE = () => {
         navigate("/check_email");
     };
 
-    const [emailError, setEmailError] = useState("");
-    const [emailSuccess, setEmailSuccess] = useState("");
+    // State management for form feedback
+    const [emailError, setEmailError] = useState("");     // Holds validation error messages
+    const [emailSuccess, setEmailSuccess] = useState(""); // Holds validation success messages
 
+    /**
+     * Handles the form submission event.
+     * Validates that the email is not empty and contains '@gmail.com'.
+     * 
+     * @param {React.FormEvent<HTMLFormElement>} e - The form submit event object
+     */
     const handleSubmit = (e) => {
         e.preventDefault();
+
+        // Reset feedback state on new submission attempt
         setEmailError("");
         setEmailSuccess("");
+
+        // Extract and trim the user input from the email field
         const email = e.target.email.value;
+
+        // Validation logic
         if (email.trim() === "") {
             setEmailError("Please fill in this field.");
         } else if (!email.trim().includes("@gmail.com")) {
             setEmailError("Email must contain @gmail.com");
         } else {
             setEmailSuccess("Email is valid");
-            goToCE();
+            goToCE(); // Proceed to Check Email page
         }
     };
 
     return (
         <div className="fp-page">
             <div className="fp-card">
-                {/* Lock icon */}
+                {/* Visual Header Icon (Padlock Symbol) */}
                 <div className="fp-icon-wrap">
                     <svg
                         className="fp-lock-icon"
@@ -51,7 +79,7 @@ function ForgotPassword() {
                     </svg>
                 </div>
 
-                {/* Header */}
+                {/* Header Title & Subtitle */}
                 <div className="fp-header">
                     <h1 className="fp-title">Forgot password?</h1>
                     <p className="fp-subtitle">
@@ -59,8 +87,9 @@ function ForgotPassword() {
                     </p>
                 </div>
 
-                {/* Form */}
+                {/* Password Reset Form */}
                 <form onSubmit={handleSubmit} noValidate className="fp-form">
+                    {/* Email Input Field Group */}
                     <div className="fp-field">
                         <label htmlFor="fp-email" className="fp-label">
                             Email address
@@ -74,6 +103,8 @@ function ForgotPassword() {
                             className={`fp-input${emailError ? " fp-input--error" : ""}${emailSuccess ? " fp-input--success" : ""}`}
                             autoComplete="email"
                         />
+
+                        {/* Error Feedback Alert */}
                         {emailError && (
                             <p className="fp-feedback fp-feedback--error" role="alert">
                                 <svg viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
@@ -86,6 +117,8 @@ function ForgotPassword() {
                                 {emailError}
                             </p>
                         )}
+
+                        {/* Success Feedback Message */}
                         {emailSuccess && (
                             <p className="fp-feedback fp-feedback--success" role="status">
                                 <svg viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
@@ -100,10 +133,12 @@ function ForgotPassword() {
                         )}
                     </div>
 
+                    {/* Submit Button */}
                     <button type="submit" className="fp-btn-primary">
                         Send Reset Link
                     </button>
 
+                    {/* Back to Login Action */}
                     <div className="fp-back-wrap">
                         <button type="button" onClick={goToLogin} className="fp-btn-back">
                             <svg
