@@ -1,16 +1,16 @@
-# Graph Report - Learnova  (2026-08-25)
+# Graph Report - Learnova  (2026-07-14)
 
 ## Corpus Check
-- 66 files · ~1,787,020 words
+- 66 files · ~1,781,100 words
 - Verdict: corpus is large enough that graph structure adds value.
 
 ## Summary
-- 298 nodes · 313 edges · 40 communities (28 shown, 12 thin omitted)
+- 289 nodes · 304 edges · 39 communities (28 shown, 11 thin omitted)
 - Extraction: 99% EXTRACTED · 1% INFERRED · 0% AMBIGUOUS · INFERRED: 2 edges (avg confidence: 0.5)
 - Token cost: 0 input · 0 output
 
 ## Graph Freshness
-- Built from commit: `bc69af91`
+- Built from commit: `f826469e`
 - Run `git rev-parse HEAD` and compare to check if the graph is stale.
 - Run `graphify update .` after code changes (no API cost).
 
@@ -48,7 +48,6 @@
 - CLAUDE.md
 - extraction-spec.md
 - extraction-spec.md
-- FAQ.jsx
 
 ## God Nodes (most connected - your core abstractions)
 1. `What You Must Do When Invoked` - 12 edges
@@ -68,11 +67,11 @@
 ## Import Cycles
 - None detected.
 
-## Communities (40 total, 12 thin omitted)
+## Communities (39 total, 11 thin omitted)
 
 ### Community 0 - "App.jsx"
-Cohesion: 0.05
-Nodes (31): App(), AboutUs(), Communication(), initialConversations, messagesList, Contact_us(), Course(), levelColors (+23 more)
+Cohesion: 0.06
+Nodes (29): App(), AboutUs(), Communication(), initialConversations, messagesList, Contact_us(), Course(), CATEGORIES (+21 more)
 
 ### Community 1 - "dependencies"
 Cohesion: 0.06
@@ -109,6 +108,10 @@ Nodes (8): graphify reference: extra exports and benchmark, Step 6b - Wiki (only
 ### Community 9 - "My Learning.jsx"
 Cohesion: 0.33
 Nodes (7): CalendarUI(), createTaskId(), DAYS_OF_WEEK_SHORT, DEFAULT_TASKS_BY_DAY, loadTasksFromStorage(), loadVisitsFromStorage(), MyLearning()
+
+### Community 10 - "Preferences.jsx"
+Cohesion: 0.22
+Nodes (3): Preferences(), generateTOTPSecret(), Security()
 
 ### Community 11 - "Payment.jsx"
 Cohesion: 0.32
@@ -151,31 +154,27 @@ Cohesion: 0.50
 Nodes (3): For --cluster-only, For --update (incremental re-extraction), graphify reference: incremental update and cluster-only
 
 ### Community 21 - "React + Vite"
-Cohesion: 0.40
-Nodes (4): 🚀 How to Run Locally, 🌟 Key Features, 🎓 Learnova, 🛠️ Tech Stack
-
-### Community 39 - "FAQ.jsx"
-Cohesion: 0.40
-Nodes (3): CATEGORIES, FAQ(), FAQ_DATA
+Cohesion: 0.50
+Nodes (3): Expanding the ESLint configuration, React Compiler, React + Vite
 
 ## Knowledge Gaps
-- **134 isolated node(s):** `name`, `private`, `version`, `type`, `dev` (+129 more)
+- **131 isolated node(s):** `name`, `private`, `version`, `type`, `dev` (+126 more)
   These have ≤1 connection - possible missing edges or undocumented components.
-- **12 thin communities (<3 nodes) omitted from report** — run `graphify query` to explore isolated nodes.
+- **11 thin communities (<3 nodes) omitted from report** — run `graphify query` to explore isolated nodes.
 
 ## Suggested Questions
 _Questions this graph is uniquely positioned to answer:_
 
 - **Why does `dependencies` connect `dependencies` to `package.json`?**
-  _High betweenness centrality (0.029) - this node is a cross-community bridge._
+  _High betweenness centrality (0.031) - this node is a cross-community bridge._
 - **Why does `devDependencies` connect `devDependencies` to `package.json`?**
-  _High betweenness centrality (0.020) - this node is a cross-community bridge._
+  _High betweenness centrality (0.021) - this node is a cross-community bridge._
 - **Why does `What You Must Do When Invoked` connect `What You Must Do When Invoked` to `/graphify`?**
   _High betweenness centrality (0.006) - this node is a cross-community bridge._
 - **What connects `name`, `private`, `version` to the rest of the system?**
-  _134 weakly-connected nodes found - possible documentation gaps or missing edges._
+  _131 weakly-connected nodes found - possible documentation gaps or missing edges._
 - **Should `App.jsx` be split into smaller, more focused modules?**
-  _Cohesion score 0.05081967213114754 - nodes in this community are weakly interconnected._
+  _Cohesion score 0.05519480519480519 - nodes in this community are weakly interconnected._
 - **Should `dependencies` be split into smaller, more focused modules?**
   _Cohesion score 0.06451612903225806 - nodes in this community are weakly interconnected._
 - **Should `What You Must Do When Invoked` be split into smaller, more focused modules?**

@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import {
     ChevronRight,
     Check,
@@ -13,8 +13,8 @@ import {
     X
 } from 'lucide-react';
 import './Payment_pay.css';
-import { useEffect } from 'react';
 
+// الألوان الخاصة بمستويات الكورسات المختلفة
 const levelColors = {
     Beginner: { bg: '#eef9f0', text: '#16a34a', dot: '#22c55e' },
     Intermediate: { bg: '#fff7ed', text: '#c2410c', dot: '#f97316' },
@@ -23,11 +23,14 @@ const levelColors = {
 
 const thumbColors = ['#0089EA', '#6366f1', '#0ea5e9'];
 
+/**
+ * مكون صفحة الدفع وإتمام الطلب للكورسات المختارة.
+ */
 function Payment_pay() {
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [isSuccessModalOpen, setIsSuccessModalOpen] = useState(false);
-    const [currentStep, setCurrentStep] = useState(0);
 
+    // الكورسات المتاحة للشراء
     const coursesData = [
         {
             id: 1,
@@ -54,16 +57,19 @@ function Payment_pay() {
 
     const [selectedCourses, setSelectedCourses] = useState([]);
     const [paymentMethod, setPaymentMethod] = useState(null);
-    const [Done, setDone] = useState(null); // الـ State الحالي لديك
     const [discountCode, setDiscountCode] = useState('');
     const [discount, setDiscount] = useState(0);
     const [isPurchaseCompleted, setIsPurchaseCompleted] = useState(false);
 
+    // تحديد حالة إتمام كل خطوة من خطوات الدفع الثلاث
     const doneStep1 = selectedCourses.length > 0;
     const doneStep2 = paymentMethod !== null && paymentMethod !== "";
     const doneStep3 = isPurchaseCompleted;
     const stepError = doneStep2 && !doneStep1;
 
+    /**
+     * تحديد أو إلغاء تحديد الكورس بناءً على معرفه الفريد.
+     */
     const toggleCourse = (id) =>
         setSelectedCourses(prev =>
             prev.includes(id) ? prev.filter(cId => cId !== id) : [...prev, id]
@@ -71,22 +77,25 @@ function Payment_pay() {
 
     const subtotal = coursesData.filter(c => selectedCourses.includes(c.id)).reduce((s, c) => s + c.price, 0);
     const estimatedTax = subtotal > 0 ? 15 : 0;
+
+    // تصفير قيمة الخصم تلقائياً إذا أصبحت السلة فارغة
     useEffect(() => {
-        // إذا أصبحت السلة فارغة، قم بتصفير قيمة الخصم تلقائياً
         if (selectedCourses.length === 0) {
             setDiscount(0);
         }
-    }, [selectedCourses]); // سيتم تشغيل هذا التأثير في كل مرة يتغير فيها عدد عناصر السلة
+    }, [selectedCourses]);
 
+    /**
+     * تطبيق كود الخصم وحساب القيمة المخصومة في حال صحة الكود.
+     */
     const handleApplyDiscount = () => {
         const code_discount = "Moathhazeem";
 
-        // 1. تحقق أولاً إذا كانت السلة فارغة وامنع الاستمرار
         if (selectedCourses.length === 0) {
             setDiscount(0);
-            return; // إنهاء التنفيذ هنا
+            return;
         }
-        // 2. التحقق من صحة الكود إذا كانت السلة تحتوي على عناصر
+
         if (discountCode === code_discount) {
             setDiscount(subtotal * 0.1);
         } else {
@@ -96,9 +105,6 @@ function Payment_pay() {
 
     const discountPercentage = subtotal > 0 ? (discount / subtotal) * 100 : 0;
     const total = subtotal + estimatedTax - discount;
-    const discountLabel = discount > 0 ? '' : ' (NONE)';
-    const done = isSuccessModalOpen;
-
 
     return (
         <div className="payment-page-wrapper">
@@ -108,7 +114,6 @@ function Payment_pay() {
             </div>
 
             <div className="payment-container">
-
                 <nav className="payment-breadcrumbs" aria-label="Breadcrumb">
                     <a href="/">Home</a>
                     <ChevronRight size={14} />
@@ -136,9 +141,7 @@ function Payment_pay() {
                 </div>
 
                 <div className="payment-content_my_purchases">
-
                     <div className="payment-left">
-
                         <section className="payment-section" id="step-courses">
                             <div className="step-header">
                                 <span className="step-pill">Step 1</span>
@@ -153,32 +156,19 @@ function Payment_pay() {
                                 {coursesData.map((course, idx) => {
                                     const isSelected = selectedCourses.includes(course.id);
                                     const lv = levelColors[course.level] || levelColors.Beginner;
-                                    const accent = thumbColors[idx % thumbColors.length];
-                                    const initials = course.title.split(' ').slice(0, 2).map(w => w[0]).join('');
                                     return (
                                         <div
                                             key={course.id}
                                             className={`course-card${isSelected ? ' selected' : ''}`}
                                             onClick={() => {
                                                 toggleCourse(course.id);
-                                                if (isSelected) {
-                                                    if (selectedCourses.length <= 1) {
-                                                        setCurrentStep(0);
-                                                    } else {
-                                                        setCurrentStep(1);
-                                                    }
-                                                }
-                                                else {
-                                                    setCurrentStep(1);
-                                                }
-
                                             }}
                                             role="checkbox"
                                             aria-checked={isSelected}
                                             tabIndex={0}
                                             onKeyDown={e => e.key === ' ' && toggleCourse(course.id)}
                                         >
-                                            <div className="course-card-check" >
+                                            <div className="course-card-check">
                                                 {isSelected
                                                     ? <div className="checkbox-checked"><Check size={12} strokeWidth={3} /></div>
                                                     : <div className="checkbox-unchecked" />}
@@ -217,7 +207,6 @@ function Payment_pay() {
                             </div>
 
                             <div className="payment-methods-list">
-
                                 <label
                                     id="method-card"
                                     className={`method-item${paymentMethod === 'card' ? ' selected' : ''}`}
@@ -238,7 +227,7 @@ function Payment_pay() {
                                             name="payment_method"
                                             value="card"
                                             checked={paymentMethod === 'card'}
-                                            onChange={() => { setPaymentMethod('card'); setCurrentStep(2); }}
+                                            onChange={() => { setPaymentMethod('card'); }}
                                         />
                                         <div className="radio-custom" />
                                     </div>
@@ -262,7 +251,7 @@ function Payment_pay() {
                                             name="payment_method"
                                             value="paypal"
                                             checked={paymentMethod === 'paypal'}
-                                            onChange={() => { setPaymentMethod('paypal'); setCurrentStep(2); }}
+                                            onChange={() => { setPaymentMethod('paypal'); }}
                                         />
                                         <div className="radio-custom" />
                                     </div>
@@ -285,12 +274,11 @@ function Payment_pay() {
                                             name="payment_method"
                                             value="apple"
                                             checked={paymentMethod === 'apple'}
-                                            onChange={() => { setPaymentMethod('apple'); setCurrentStep(2); }}
+                                            onChange={() => { setPaymentMethod('apple'); }}
                                         />
                                         <div className="radio-custom" />
                                     </div>
                                 </label>
-
                             </div>
 
                             <div className="security-note">
@@ -298,7 +286,6 @@ function Payment_pay() {
                                 <span>All transactions are SSL-encrypted and PCI-DSS compliant.</span>
                             </div>
                         </section>
-
                     </div>
 
                     <div className="payment-right">
@@ -306,8 +293,10 @@ function Payment_pay() {
                             <div className="summary-accent" aria-hidden="true" />
 
                             <div className="checkout-progress">
-                                <div className={`progress-step ${doneStep1 ? 'done' : stepError ? 'error' : ''}`}><span className="progress-dot">
-                                    {doneStep1 ? (<Check size={10} strokeWidth={3} />) : (stepError ? (<X size={10} strokeWidth={3} />) : 1)}</span>
+                                <div className={`progress-step ${doneStep1 ? 'done' : stepError ? 'error' : ''}`}>
+                                    <span className="progress-dot">
+                                        {doneStep1 ? (<Check size={10} strokeWidth={3} />) : (stepError ? (<X size={10} strokeWidth={3} />) : 1)}
+                                    </span>
                                     <span>Courses</span>
                                 </div>
                                 <div className={`progress-line ${doneStep1 ? 'done' : stepError ? 'error' : ''}`} />
@@ -320,7 +309,8 @@ function Payment_pay() {
                                 <div className={`progress-line ${doneStep3 ? 'done' : ''}`} />
                                 <div className={`progress-step ${doneStep3 ? 'done' : ''}`}>
                                     <span className="progress-dot">
-                                        {doneStep3 ? <Check size={10} strokeWidth={3} /> : 3}</span>
+                                        {doneStep3 ? <Check size={10} strokeWidth={3} /> : 3}
+                                    </span>
                                     <span>Done</span>
                                 </div>
                             </div>
@@ -384,20 +374,17 @@ function Payment_pay() {
                             </button>
                         </div>
                     </div>
-
                 </div>
             </div>
+
             {isModalOpen && selectedCourses.length >= 1 && (
                 <div className="modal-overlay" onClick={() => setIsModalOpen(false)}>
                     <div className="modal-content" onClick={(e) => e.stopPropagation()}>
-
-                        {/* الهيدر أو رأس النافذة */}
                         <div className="modal-header">
                             <h3>🛒 Complete Your Purchase</h3>
                             <button className="close-modal-btn" onClick={() => setIsModalOpen(false)}>×</button>
                         </div>
 
-                        {/* محتوى النافذة الداخلي */}
                         <div className="modal-body">
                             <div className="purchase-info-card">
                                 <p className="purchase-message-title">Selected Courses</p>
@@ -422,28 +409,21 @@ function Payment_pay() {
                             </div>
                         </div>
 
-                        {/* الأزرار في الأسفل (Footer) */}
                         <div className="modal-footer">
                             <button className="cancel-btn" onClick={() => setIsModalOpen(false)}>Cancel</button>
                             <button className="confirm-purchase-btn" disabled={!paymentMethod} onClick={() => {
-                                // 1. ضع هنا دالة إتمام الشراء الفعلية (مثل إرسال البيانات للخادم)
-                                setCurrentStep(2);
-                                // 2. إغلاق النافذة الأولى
                                 setIsModalOpen(false);
-
-                                // 3. فتح نافذة النجاح
                                 setIsSuccessModalOpen(true);
                                 setIsPurchaseCompleted(true);
-
-
                             }}>
                                 Payment confirmation
                             </button>
                         </div>
-
                     </div>
                 </div>
             )}
+
+            {/* نافذة نجاح عملية الشراء */}
             {isSuccessModalOpen && (
                 <div className="modal-overlay" onClick={() => setIsSuccessModalOpen(false)}>
                     <div className="modal-content success-modal" onClick={(e) => e.stopPropagation()}>

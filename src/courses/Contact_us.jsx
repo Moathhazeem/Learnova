@@ -1,9 +1,6 @@
 import React, { useState, useMemo } from 'react';
 import { Link, useLocation } from 'react-router-dom';
-import { useTranslation } from "react-i18next";
-import './Contact_us.css';
-import 'react-phone-number-input/style.css';
-
+import { useTranslation } from 'react-i18next';
 import {
     Mail,
     Phone,
@@ -15,12 +12,19 @@ import PhoneInput from 'react-phone-number-input';
 import Select from 'react-select';
 import countryList from 'react-select-country-list';
 
+import 'react-phone-number-input/style.css';
+import './Contact_us.css';
+
+/**
+ * المكون الرئيسي لصفحة "اتصل بنا" (Contact Us)
+ * يعرض نموذج إرسال الرسائل ومعلومات الاتصال بالدعم الفني وشبكات التواصل الاجتماعي.
+ */
 function Contact_us() {
     const { t } = useTranslation();
     const location = useLocation();
     const pathname = location.pathname.split("/").filter(x => x);
 
-    // Get country list for the location selector
+    // الحصول على قائمة الدول للمحدد الجغرافي
     const options = useMemo(() => countryList().getData(), []);
 
     const [formData, setFormData] = useState({
@@ -33,7 +37,9 @@ function Contact_us() {
         subjects: []
     });
 
-    // Format country option to show flag + name
+    /**
+     * يقوم بتنسيق خيارات الدول في قائمة الاختيار لإظهار العلم واسم الدولة معاً.
+     */
     const formatOptionLabel = ({ label, value }, { context }) => (
         <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
             <img
@@ -54,11 +60,17 @@ function Contact_us() {
         "Other"
     ];
 
+    /**
+     * يقوم بتحديث قيم الحقول النصية في نموذج البيانات عند إدخال المستخدم للبيانات.
+     */
     const handleInputChange = (e) => {
         const { name, value } = e.target;
         setFormData(prev => ({ ...prev, [name]: value }));
     };
 
+    /**
+     * يتعامل مع تحديد أو إلغاء تحديد المواضيع والاهتمامات المختارة في نموذج الاتصال.
+     */
     const handleSubjectChange = (subject) => {
         setFormData(prev => {
             const newSubjects = prev.subjects.includes(subject)
@@ -71,7 +83,7 @@ function Contact_us() {
     return (
         <div className="contact-page-wrapper">
             <div className="contact-page-container">
-                {/* Breadcrumbs */}
+                {/* توليد مسار التنقل (Breadcrumbs) ديناميكياً بناءً على مسار الصفحة الحالي */}
                 <nav className="contact-page-breadcrumbs-nav">
                     <Link to="/Home" className="contact-page-breadcrumb-item">
                         {t("setting.home", "Home")}
@@ -108,7 +120,7 @@ function Contact_us() {
                 </div>
 
                 <div className="contact-page-main-layout">
-                    {/* Left Column: Form */}
+                    {/* العمود الأيسر: نموذج الاتصال */}
                     <div className="contact-page-form-container">
                         <div className="contact-page-form-card">
                             <form className="contact-page-form">
@@ -242,7 +254,7 @@ function Contact_us() {
                         </div>
                     </div>
 
-                    {/* Right Column: Info */}
+                    {/* العمود الأيمن: معلومات التواصل */}
                     <div className="contact-page-info-container">
                         <div className="contact-page-info-section">
                             <h3 className="contact-page-info-title">{t("contact.email_support_title", "Email support")}</h3>

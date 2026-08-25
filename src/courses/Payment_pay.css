@@ -1713,13 +1713,3 @@
 .progress-line.error {
   margin-bottom: 27px !important;
 }
-
-@keyframes popIn {
-  0% {
-    transform: scale(0);
-  }
-
-  100% {
-    transform: scale(1);
-  }
-}

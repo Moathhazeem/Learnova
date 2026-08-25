@@ -1,28 +1,37 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
-import i18n from "../config/i18n";
-import { useTranslation } from "react-i18next";
+import { useTranslation } from 'react-i18next';
+import {
+    PlayCircle,
+    ShieldCheck,
+    Monitor,
+    Award,
+    Heart,
+    ChevronDown,
+    Star,
+    ThumbsUp,
+    ThumbsDown,
+    Reply,
+    Globe,
+    Languages,
+    Tag,
+    X
+} from 'lucide-react';
+
 import './Course.css';
-import { PlayCircle, ShieldCheck, Monitor, Award, Heart, Share2, ChevronDown, Star, ThumbsUp, ThumbsDown, Reply, Globe, Languages, Tag, X } from 'lucide-react';
-import Payment_pay from './Payment_pay';
+
+/**
+ * المكون الرئيسي لصفحة تفاصيل الدورة التدريبية، يعرض معلومات الدورة، متطلباتها، محتواها، وآراء الطلاب مع إمكانية التعليق.
+ */
 function Course() {
     const { t } = useTranslation();
     const location = useLocation();
     const navigate = useNavigate();
+
+    // تحليل مسار الرابط الحالي لاستخدامه في مسار التنقل (Breadcrumbs)
     const pathname = location.pathname.split("/").filter(x => x);
-    const [isDarkMode, setIsDarkMode] = useState(document.body.classList.contains("dark"));
 
-    useEffect(() => {
-        const updateThemeState = () => {
-            setIsDarkMode(document.body.classList.contains("dark"));
-        };
-        updateThemeState();
-
-        const observer = new MutationObserver(updateThemeState);
-        observer.observe(document.body, { attributes: true, attributeFilter: ["class"] });
-
-        return () => observer.disconnect();
-    }, []);
+    // قائمة الفوائد أو المخرجات التعليمية للدورة
     const BenfiteOfCourse = [
         {
             id: 1,
@@ -54,7 +63,9 @@ function Course() {
             img: "/photo_icons/Done.png",
             description: "Build a mini-portfolio of your own logo designs"
         }
-    ]
+    ];
+
+    // قائمة المتطلبات الأساسية للالتحاق بالدورة
     const RequirementsOfCourse = [
         {
             id: 1,
@@ -72,7 +83,9 @@ function Course() {
             id: 4,
             description: "No prior experience in design or other design software is required.",
         },
-    ]
+    ];
+
+    // قائمة الأقسام والمواضيع التي تغطيها الدورة
     const CourseContent = [
         {
             id: 1,
@@ -104,7 +117,9 @@ function Course() {
             description: "Export and share work",
             details: "Best practices for exporting files for web, print, and client handovers. Learn about different file formats like AI, EPS, SVG, and PNG."
         }
-    ]
+    ];
+
+    // الحالات المحلية (State) الخاصة بالتعامل مع واجهة المستخدم وتفاعل المستخدم
     const [expandedContent, setExpandedContent] = useState(null);
     const [rating, setRating] = useState(0);
     const [comment, setComment] = useState("");
@@ -170,6 +185,9 @@ function Course() {
         },
     ]);
 
+    /**
+     * إضافة تعليق وتقييم جديدين إلى قائمة تعليقات الدورة
+     */
     const handleAddComment = () => {
         if (!comment.trim()) return;
         const newComment = {
@@ -189,6 +207,9 @@ function Course() {
         setRating(0);
     };
 
+    /**
+     * إضافة رد جديد على تعليق محدد في قائمة التعليقات
+     */
     const handleAddReply = (commentId) => {
         if (!replyText.trim()) return;
         const newReply = {
@@ -213,13 +234,13 @@ function Course() {
         setReplyToId(null);
     };
 
+    /**
+     * تطبيق كود الخصم (الكوبون) وإغلاق النافذة المنبثقة
+     */
     const handleApplyCoupon = () => {
-        // Here you can add logic to validate the coupon if needed
         if (couponCode.trim()) {
-            // For now, we'll just close the modal as requested
             setShowCouponModal(false);
             setCouponCode("");
-            // You could also show a success toast/message here
         }
     };
 
@@ -233,6 +254,7 @@ function Course() {
                     <Link to="/Home" className="Breadcrumbs">
                         {t("setting.home", "Home")}
                     </Link>
+                    {/* إنشاء مسار التنقل (Breadcrumbs) ديناميكيًا بناءً على رابط الصفحة الحالي */}
                     {pathname.map((value, index) => {
                         const to = "/" + pathname.slice(0, index + 1).join("/");
                         const isLast = index === pathname.length - 1;
@@ -581,4 +603,5 @@ function Course() {
         </div>
     );
 }
+
 export default Course;

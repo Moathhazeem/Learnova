@@ -1,11 +1,15 @@
-/* Main Container */
+/* =========================================================
+   الحاوية الرئيسية للصفحة
+   ========================================================= */
 .edit-profile-container {
     margin-top: 100px;
     padding: 20px 60px;
     font-family: 'Inter', 'Outfit', sans-serif;
 }
 
-/* Breadcrumbs */
+/* =========================================================
+   شريط التنقل (Breadcrumbs)
+   ========================================================= */
 .breadcrumbs-nav {
     display: flex;
     align-items: center;
@@ -30,7 +34,9 @@
     font-size: 14px;
 }
 
-/* Settings Layout */
+/* =========================================================
+   تخطيط قسم الإعدادات (عنوان + خيارات التنقل)
+   ========================================================= */
 .Setting {
     padding-top: 50px;
 }
@@ -49,6 +55,7 @@
     color: #000;
 }
 
+/* حقل البحث داخل الإعدادات */
 .search_page_setting {
     position: relative;
     width: 280px;
@@ -71,6 +78,7 @@
     opacity: 0.5;
 }
 
+/* شريط تبويبات التنقل بين أقسام الإعدادات */
 .Setting_option {
     display: flex;
     gap: 15px;
@@ -99,108 +107,9 @@
     font-weight: 500;
 }
 
-/* Main Container */
-.edit-profile-container {
-    margin-top: 100px;
-    padding: 20px 60px;
-    font-family: 'Inter', 'Outfit', sans-serif;
-}
-
-/* Breadcrumbs */
-.breadcrumbs-nav {
-    display: flex;
-    align-items: center;
-    gap: 0;
-    margin-bottom: 20px;
-}
-
-.Breadcrumbs,
-.breadcrumb-separator {
-    color: #0089EA;
-    font-size: 14px;
-    text-decoration: none;
-}
-
-.breadcrumb-separator {
-    margin: 0 10px;
-}
-
-.current-page {
-    color: #0089EA;
-    font-weight: 600;
-    font-size: 14px;
-}
-
-/* Settings Layout */
-.Setting {
-    padding-top: 50px;
-}
-
-.header_setting {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-bottom: 30px;
-}
-
-.header_setting p {
-    font-size: 40px;
-    font-weight: 700;
-    margin: 0;
-    color: #000;
-}
-
-.search_page_setting {
-    position: relative;
-    width: 280px;
-}
-
-.search_page_setting input {
-    width: 100%;
-    padding: 10px 40px;
-    border-radius: 25px;
-    border: 1px solid #D1D5DB;
-    outline: none;
-}
-
-.setting-search-icon {
-    position: absolute;
-    left: 15px;
-    top: 50%;
-    transform: translateY(-50%);
-    width: 18px;
-    opacity: 0.5;
-}
-
-.Setting_option {
-    display: flex;
-    gap: 15px;
-    margin-bottom: 40px;
-    flex-wrap: wrap;
-}
-
-.category-tag {
-    display: flex;
-    align-items: center;
-    gap: 8px;
-    padding: 8px 16px;
-    border-radius: 20px;
-    text-decoration: none;
-    transition: all 0.2s;
-}
-
-.category-tag img {
-    width: 18px;
-    height: 18px;
-}
-
-.category-tag p {
-    margin: 0;
-    font-size: 14px;
-    font-weight: 500;
-}
-
-/* --- New Notification Redesign Styles --- */
+/* =========================================================
+   غلاف قسم الإشعارات المُعاد تصميمه
+   ========================================================= */
 .notification_redesign_wrapper {
     display: flex;
     flex-direction: column;
@@ -208,7 +117,7 @@
     max-width: 900px;
 }
 
-/* Intro Section */
+/* قسم المقدمة (العنوان الرئيسي + النص التعريفي) */
 .notification_intro_section {
     margin-bottom: 10px;
 }
@@ -242,7 +151,9 @@
     max-width: 750px;
 }
 
-/* Card Styling */
+/* =========================================================
+   بطاقات الإعدادات
+   ========================================================= */
 .notification_card {
     background: #FFFFFF;
     border-radius: 16px;
@@ -257,11 +168,13 @@
     box-shadow: 0 10px 25px rgba(0, 0, 0, 0.07);
 }
 
+/* بطاقة التنبيهات النظامية — بحد جانبي أزرق */
 .system_alerts_card {
     border-left: 5px solid #0089EA;
     background: linear-gradient(180deg, #FFFFFF 0%, #F9FAFB 100%);
 }
 
+/* رأس البطاقة (العنوان + الشارة) */
 .card_header {
     display: flex;
     justify-content: space-between;
@@ -288,14 +201,16 @@
     color: #0089EA;
 }
 
-/* Dividers */
+/* فاصل بين البطاقات */
 .card_divider {
     height: 1px;
     background-color: rgba(229, 231, 235, 0.5);
     margin: 10px 0;
 }
 
-/* Setting Rows */
+/* =========================================================
+   صفوف الإعدادات داخل كل بطاقة
+   ========================================================= */
 .card_settings_list {
     display: flex;
     flex-direction: column;
@@ -350,7 +265,9 @@
     line-height: 1.4;
 }
 
-/* Modern Toggle Switch */
+/* =========================================================
+   مفتاح التبديل (Toggle Switch)
+   ========================================================= */
 .modern-switch-container {
     width: 48px;
     height: 26px;
@@ -381,7 +298,7 @@
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.15);
 }
 
-/* Switch Active State */
+/* حالة التفعيل (active) */
 .modern-switch-container.active .modern-switch-track {
     background-color: #0089EA;
 }
@@ -390,7 +307,7 @@
     transform: translateX(22px);
 }
 
-/* Switch Hover & Ripple Simulation effect */
+/* تأثير التحويم على مقبض المفتاح */
 .modern-switch-container:hover .modern-switch-thumb {
     box-shadow: 0 0 0 6px rgba(0, 137, 234, 0.15), 0 2px 4px rgba(0, 0, 0, 0.15);
 }
@@ -399,7 +316,9 @@
     box-shadow: 0 0 0 6px rgba(156, 163, 175, 0.15), 0 2px 4px rgba(0, 0, 0, 0.15);
 }
 
-/* CTA buttons inside cards */
+/* =========================================================
+   أزرار الإجراء (CTA) داخل البطاقات
+   ========================================================= */
 .cta_button {
     font-family: inherit;
     font-size: 13px;
@@ -421,7 +340,9 @@
     background-color: rgba(0, 137, 234, 0.03);
 }
 
-/* Floating Action Button (FAB) */
+/* =========================================================
+   زر الحفظ العائم (FAB)
+   ========================================================= */
 .fab-save-container {
     position: fixed;
     bottom: 30px;
@@ -465,7 +386,9 @@
     transform: translateY(0);
 }
 
-/* Toast Success Notification */
+/* =========================================================
+   إشعار النجاح (Toast)
+   ========================================================= */
 .toast-notification {
     position: fixed;
     top: 30px;
@@ -498,7 +421,9 @@
     flex-shrink: 0;
 }
 
-/* Modal styles */
+/* =========================================================
+   نافذة جدول "عدم الإزعاج" (Modal)
+   ========================================================= */
 .modal-backdrop {
     position: fixed;
     top: 0;
@@ -563,6 +488,7 @@
     line-height: 1.5;
 }
 
+/* مجموعة اختيار الوقت */
 .time-select-group {
     display: flex;
     gap: 16px;
@@ -632,7 +558,9 @@
     border-color: #9CA3AF;
 }
 
-/* Animations */
+/* =========================================================
+   الحركات (Animations)
+   ========================================================= */
 @keyframes fadeIn {
     from { opacity: 0; }
     to { opacity: 1; }
@@ -643,7 +571,9 @@
     to { transform: translateY(0); opacity: 1; }
 }
 
-/* Responsive Design */
+/* =========================================================
+   التصميم المتجاوب — شاشات صغيرة (≤ 768px)
+   ========================================================= */
 @media (max-width: 768px) {
     .edit-profile-container {
         padding: 20px 24px;

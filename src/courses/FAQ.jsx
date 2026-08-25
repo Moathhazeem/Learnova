@@ -1,9 +1,11 @@
 import React, { useState } from 'react';
-import { useTranslation } from "react-i18next";
-import { Link, useLocation } from "react-router-dom";
-import { Search, ChevronDown, MessageSquare } from "lucide-react";
+import { useTranslation } from 'react-i18next';
+import { Link, useLocation } from 'react-router-dom';
+import { Search, ChevronDown, MessageSquare } from 'lucide-react';
+
 import './FAQ.css';
 
+// البيانات الخاصة بالأسئلة الشائعة مصنفة حسب الأقسام المختلفة
 const FAQ_DATA = {
     General: [
         { q: "What is Learnova and how does it work?",           a: "Learnova is an all-in-one online learning platform that connects learners with expert instructors. Browse courses, enroll, and study at your own pace from any device." },
@@ -47,6 +49,7 @@ const FAQ_DATA = {
 
 const CATEGORIES = Object.keys(FAQ_DATA);
 
+// مكون فرعي يمثل عنصر سؤال وجواب قابل للطي والتوسيع
 function AccordionItem({ question, answer }) {
     const [open, setOpen] = useState(false);
     return (
@@ -60,15 +63,20 @@ function AccordionItem({ question, answer }) {
     );
 }
 
+// المكون الرئيسي لصفحة الأسئلة الشائعة (FAQ)
 function FAQ() {
     const { t } = useTranslation();
     const location = useLocation();
+    
+    // استخراج أجزاء المسار الحالي لبناء شريط التنقل
     const pathname = location.pathname.split("/").filter(x => x);
 
     const [activeCategory, setActiveCategory] = useState("General");
     const [search, setSearch] = useState("");
 
     const questions = FAQ_DATA[activeCategory] || [];
+    
+    // تصفية الأسئلة بناءً على نص البحث المدخل (غير حساس لحالة الأحرف)
     const filtered = search.trim()
         ? questions.filter(item =>
             item.q.toLowerCase().includes(search.toLowerCase()) ||
@@ -78,7 +86,7 @@ function FAQ() {
 
     return (
         <div className="FAQ-container">
-            {/* Breadcrumbs */}
+            {/* Breadcrumbs - شريط مسار التنقل */}
             <nav className="breadcrumbs-nav">
                 <Link to="/Home" className="Breadcrumbs">{t("setting.home", "Home")}</Link>
                 {pathname.map((value, index) => {
@@ -99,7 +107,7 @@ function FAQ() {
                 })}
             </nav>
 
-            {/* Hero */}
+            {/* Hero Section - قسم العنوان والوصف الرئيسي */}
             <div className="faq-hero">
                 <h1 className="faq-hero-title">{t("setting.faq", "Frequently Asked Questions")}</h1>
                 <p className="faq-hero-subtitle">
@@ -107,10 +115,10 @@ function FAQ() {
                 </p>
             </div>
 
-            {/* Main Layout */}
+            {/* Main Layout - التخطيط الرئيسي لصفحة الأسئلة الشائعة */}
             <div className="faq-layout">
 
-                {/* Sidebar */}
+                {/* Sidebar - القائمة الجانبية للتصنيفات */}
                 <aside className="faq-sidebar">
                     <p className="faq-sidebar-label">{t("setting.faq_categories", "Categories")}</p>
                     <ul className="faq-category-list">
@@ -128,10 +136,10 @@ function FAQ() {
                     </ul>
                 </aside>
 
-                {/* Content */}
+                {/* Content - منطقة المحتوى وعرض الأسئلة */}
                 <div className="faq-content-area">
 
-                    {/* Search */}
+                    {/* Search - حقل البحث */}
                     <div className="faq-search-wrapper">
                         <Search size={18} className="faq-search-icon" />
                         <input
@@ -143,17 +151,17 @@ function FAQ() {
                         />
                     </div>
 
-                    {/* Accordion */}
+                    {/* Accordion - قائمة الأسئلة المطوية */}
                     <div className="faq-accordion-list">
                         {filtered.length > 0
-                            ? filtered.map((item, i) => (
+                             ? filtered.map((item, i) => (
                                 <AccordionItem key={i} question={item.q} answer={item.a} />
                               ))
                             : <p className="faq-no-results">No results found for "{search}"</p>
                         }
                     </div>
 
-                    {/* Didn't find banner */}
+                    {/* Didn't find banner - بنر التواصل مع الدعم الفني */}
                     <div className="faq-cta-banner">
                         <div className="faq-cta-left">
                             <MessageSquare size={22} className="faq-cta-icon" />

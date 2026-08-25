@@ -20,58 +20,58 @@
     "semantic_hash": ""
   },
   "src/App.jsx": {
-    "mtime": 1787039915.8997614,
-    "ast_hash": "562f9e795d0f68e63e41af5074330d06",
+    "mtime": 1782561483.8556662,
+    "ast_hash": "a83bd599820d1480bbf41350d390133c",
     "semantic_hash": ""
   },
   "src/Footer.jsx": {
-    "mtime": 1787039915.9047685,
-    "ast_hash": "dc52ca7c99719fd9802729986936803b",
+    "mtime": 1781087214.7226934,
+    "ast_hash": "0d8eca4060e4adb88a02f69736a97041",
     "semantic_hash": ""
   },
   "src/Header.jsx": {
-    "mtime": 1787039915.9047685,
-    "ast_hash": "44c9d6a6e7f02d8f1fb0053befeb833f",
+    "mtime": 1783611825.3586316,
+    "ast_hash": "be242e9880960b06426620cba70361c2",
     "semantic_hash": ""
   },
   "src/Home.jsx": {
-    "mtime": 1787039915.9047685,
-    "ast_hash": "0c9ede86a337bcda770953335d2bac28",
+    "mtime": 1783588967.2084658,
+    "ast_hash": "9d84ab7e9f55c80167b7502f304f8c58",
     "semantic_hash": ""
   },
   "src/LandingPage.jsx": {
-    "mtime": 1787039915.9097986,
-    "ast_hash": "9aa689b88adcf95cf223b2b8bc0c8a35",
+    "mtime": 1779812182.885141,
+    "ast_hash": "6467f9ee16214aaa1244265031cb4543",
     "semantic_hash": ""
   },
   "src/PageProfile/Explore.jsx": {
-    "mtime": 1787039915.9127736,
-    "ast_hash": "dac68335377e2555ed2f961ef2592482",
+    "mtime": 1783611191.5613792,
+    "ast_hash": "eb07a815970f0161236decd162c932e2",
     "semantic_hash": ""
   },
   "src/PageProfile/My Learning.jsx": {
-    "mtime": 1787039915.9127736,
-    "ast_hash": "0b1ef7c13de1ebd2e67e3041b4360259",
+    "mtime": 1783604869.5809047,
+    "ast_hash": "04f39a87a5d32dff92d612336eae7f0a",
     "semantic_hash": ""
   },
   "src/Setting/Notification.jsx": {
-    "mtime": 1784875733.4986017,
-    "ast_hash": "e1d8fa661dddc63265ede66658bca80f",
+    "mtime": 1783917130.4618561,
+    "ast_hash": "0321ab0e091ec99f315712c47230294f",
     "semantic_hash": ""
   },
   "src/Setting/Payment.jsx": {
-    "mtime": 1787039915.9127736,
-    "ast_hash": "14618f44abd491737240b4062ebc631a",
+    "mtime": 1784018117.9563663,
+    "ast_hash": "76b7668cebec0258d1371b3269494b23",
     "semantic_hash": ""
   },
   "src/Setting/Preferences.jsx": {
-    "mtime": 1784875622.6559207,
-    "ast_hash": "f3a1a9ac4924862c9976dc7057c75b2d",
+    "mtime": 1783773588.7542624,
+    "ast_hash": "8b5558eed64668b2501c71ac5ebfbc15",
     "semantic_hash": ""
   },
   "src/Setting/Privacy.jsx": {
-    "mtime": 1784875568.5208025,
-    "ast_hash": "f1ac98b3c22fe50ece9332b8a84d74b9",
+    "mtime": 1783775219.942077,
+    "ast_hash": "65745715ff031c431ea5c365a2ae80cc",
     "semantic_hash": ""
   },
   "src/Setting/Profile.jsx": {
@@ -80,8 +80,8 @@
     "semantic_hash": ""
   },
   "src/Setting/Security.jsx": {
-    "mtime": 1784875497.4925287,
-    "ast_hash": "3a6b6c867b6af86d6597663e1bb75b51",
+    "mtime": 1783771103.6361496,
+    "ast_hash": "8e6cce255ccd1335e682b29977412786",
     "semantic_hash": ""
   },
   "src/config/i18n.js": {
@@ -90,18 +90,18 @@
     "semantic_hash": ""
   },
   "src/courses/About_us.jsx": {
-    "mtime": 1787039915.919808,
-    "ast_hash": "89b5734d88f71570a29aaf8a3bee07ad",
+    "mtime": 1781165729.5236745,
+    "ast_hash": "2f2a71a8155ac54d01e83f2552dc9a79",
     "semantic_hash": ""
   },
   "src/courses/Communication.jsx": {
-    "mtime": 1787039915.919808,
-    "ast_hash": "6484897b217cbbb559cdeaa4dfdf988f",
+    "mtime": 1782311152.2936592,
+    "ast_hash": "89046da40fe6214f71731b9df79c92e5",
     "semantic_hash": ""
   },
   "src/courses/Contact_us.jsx": {
-    "mtime": 1787644922.3602378,
-    "ast_hash": "9b7c8e1a70cee92bac94f3f94e66fe2d",
+    "mtime": 1781082098.8027606,
+    "ast_hash": "bdfcd4ce4f1055b313262b85ea666778",
     "semantic_hash": ""
   },
   "src/courses/Course.jsx": {
@@ -110,8 +110,8 @@
     "semantic_hash": ""
   },
   "src/courses/Course_start.jsx": {
-    "mtime": 1787645064.6532962,
-    "ast_hash": "75556c98077a53257be4d1af449c3a7e",
+    "mtime": 1783588071.5119405,
+    "ast_hash": "51cb359bffff08f41183d87fb18d4310",
     "semantic_hash": ""
   },
   "src/courses/FAQ.jsx": {
@@ -120,13 +120,13 @@
     "semantic_hash": ""
   },
   "src/courses/Payment_pay.jsx": {
-    "mtime": 1784024237.4701061,
-    "ast_hash": "8f08ced53a877f5f95b0a443549a87cc",
+    "mtime": 1782055228.1854124,
+    "ast_hash": "013f2db479b31e569120022784b1a0a7",
     "semantic_hash": ""
   },
   "src/courses/Save.jsx": {
-    "mtime": 1784616917.5727391,
-    "ast_hash": "3c5ec4203fca4c8e452caf0a68eaf286",
+    "mtime": 1782560449.7950144,
+    "ast_hash": "ba61b576cb129b848e818471edc2ae90",
     "semantic_hash": ""
   },
   "src/courses/Teacher.jsx": {
@@ -150,33 +150,33 @@
     "semantic_hash": ""
   },
   "src/sign_page/Check_email.jsx": {
-    "mtime": 1787039915.924814,
-    "ast_hash": "99d72dff1891a1354a5aa16a69899250",
+    "mtime": 1773323833.4482021,
+    "ast_hash": "90ed1e9706f73b43bb0acbbd96aa80e5",
     "semantic_hash": ""
   },
   "src/sign_page/Create_new_pas.jsx": {
-    "mtime": 1787039915.924814,
-    "ast_hash": "872234df607f15996cb8df1c643abf23",
+    "mtime": 1773693622.591095,
+    "ast_hash": "453cea89e1045e80cd709ac51be7d4ca",
     "semantic_hash": ""
   },
   "src/sign_page/Forgot_pas.jsx": {
-    "mtime": 1787039915.924814,
-    "ast_hash": "2c1a7950c7f0d67ce55c16b2ca1dd640",
+    "mtime": 1773691517.2769253,
+    "ast_hash": "c15ed1ac3b3c3acf04e51cddf18ec2d0",
     "semantic_hash": ""
   },
   "src/sign_page/Log_in.jsx": {
-    "mtime": 1787039915.9308522,
-    "ast_hash": "a0d8b2a1eca0596f1ed80f09d6123274",
+    "mtime": 1779803464.4198167,
+    "ast_hash": "3e73956dc2f7d60bb716c36ae5e30e13",
     "semantic_hash": ""
   },
   "src/sign_page/Sign_up.jsx": {
-    "mtime": 1787039915.9328501,
-    "ast_hash": "0bbafe94169cecfadb775dc197ccafcc",
+    "mtime": 1779473776.0960271,
+    "ast_hash": "b26f1770c87a80bb783bcced71304b6d",
     "semantic_hash": ""
   },
   "src/sign_page/Verification_Code.jsx": {
-    "mtime": 1784625557.394121,
-    "ast_hash": "e622cdfcfb174f054275246b8d417c6b",
+    "mtime": 1773692707.3511724,
+    "ast_hash": "a9fc49d54a885d988d002791a0a2371b",
     "semantic_hash": ""
   },
   "test-results/.last-run.json": {
@@ -340,8 +340,8 @@
     "semantic_hash": ""
   },
   "README.md": {
-    "mtime": 1787039915.7987072,
-    "ast_hash": "6d749dee1de6c5363e2cee86f91fd151",
+    "mtime": 1772476226.132614,
+    "ast_hash": "3f01850e9fce601d04d6dba39204c1d8",
     "semantic_hash": ""
   },
   "index.html": {

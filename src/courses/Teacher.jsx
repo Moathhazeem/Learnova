@@ -1,15 +1,32 @@
+// مكتبات خارجية
 import React, { useState } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { useTranslation } from "react-i18next";
-import i18n from "../config/i18n";
-import './Teacher.css';
-import { MessageCircle, Phone, Mail, MapPin, Languages, ExternalLink, ListFilter, SlidersHorizontal, ChevronDown, Check } from 'lucide-react';
+import {
+    MessageCircle,
+    Phone,
+    Mail,
+    MapPin,
+    Languages,
+    ExternalLink,
+    ListFilter,
+    SlidersHorizontal,
+    ChevronDown,
+    Check
+} from 'lucide-react';
 
+// أنماط CSS الخاصة بالصفحة
+import './Teacher.css';
+
+// ─── المكوّن الرئيسي: صفحة المعلم ───────────────────────────────────────────
 function Teacher() {
     const { t } = useTranslation();
     const location = useLocation();
+
+    // استخراج أجزاء المسار لبناء مسار التنقل (Breadcrumbs)
     const pathname = location.pathname.split("/").filter(x => x);
 
+    // ─── حالات القائمة المنسدلة للترتيب والفلترة ─────────────────────────────
     const [showSortDropdown, setShowSortDropdown] = useState(false);
     const [showFilterDropdown, setShowFilterDropdown] = useState(false);
     const [selectedSort, setSelectedSort] = useState("All");
@@ -22,6 +39,7 @@ function Teacher() {
         Topic: []
     });
 
+    // تبديل تحديد خيار فلتر معين (إضافة أو إزالة)
     const handleFilterChange = (category, option) => {
         setSelectedFilters(prev => {
             const currentOptions = prev[category];
@@ -32,6 +50,7 @@ function Teacher() {
         });
     };
 
+    // إعادة تعيين جميع الفلاتر إلى الحالة الافتراضية
     const clearFilters = () => {
         setSelectedFilters({
             Level: [],
@@ -42,6 +61,7 @@ function Teacher() {
         });
     };
 
+    // ─── بيانات الخلفية التعليمية للمعلم ─────────────────────────────────────
     const EducationalBackground = [
         {
             id: 1,
@@ -59,6 +79,7 @@ function Teacher() {
         },
     ];
 
+    // ─── قائمة الدورات التي يقدمها المعلم ───────────────────────────────────
     const CoursesList = [
         {
             id: 1,
@@ -137,7 +158,10 @@ function Teacher() {
         }
     ];
 
+    // خيارات الترتيب المتاحة
     const sortOptions = ["All", "Most Popular", "Highest Rated", "Price Low", "Price High", "Shortest", "Longest"];
+
+    // فئات الفلترة وخياراتها
     const filterOptions = [
         { name: "Level", options: ["Beginner", "Intermediate", "Expert"] },
         { name: "Price", options: ["Free", "Paid"] },
@@ -146,25 +170,26 @@ function Teacher() {
         { name: "Topic", options: ["Graphic Design", "Web Design", "UI/UX", "Marketing", "Video Editing"] }
     ];
 
+    // ─── تصفية الدورات وترتيبها بناءً على الفلاتر والترتيب المحددَين ──────────
     const filteredAndSortedCourses = CoursesList.filter(course => {
-        // Level filter
+        // فلتر المستوى
         if (selectedFilters.Level.length > 0 && !selectedFilters.Level.includes(course.level)) {
             return false;
         }
-        // Price filter
+        // فلتر السعر
         if (selectedFilters.Price.length > 0 && !selectedFilters.Price.includes(course.priceType)) {
             return false;
         }
-        // Rating filter
+        // فلتر التقييم: يُحدَّد الحد الأدنى من أصغر قيمة مختارة
         if (selectedFilters.Rating.length > 0) {
             const minRating = Math.min(...selectedFilters.Rating.map(r => parseFloat(r.split(" ")[0])));
             if (course.rating < minRating) return false;
         }
-        // Topic filter
+        // فلتر الموضوع
         if (selectedFilters.Topic.length > 0 && !selectedFilters.Topic.includes(course.topic)) {
             return false;
         }
-        // Duration filter
+        // فلتر المدة: يتحقق إذا كانت ساعات الدورة تقع ضمن أي نطاق مختار
         if (selectedFilters.Duration.length > 0) {
             const matchesDuration = selectedFilters.Duration.some(range => {
                 if (range === "0-2 Hours") return course.durationHours <= 2;
@@ -189,7 +214,8 @@ function Teacher() {
     return (
         <div className="teacher-page">
             <div className="container">
-                {/* Breadcrumbs */}
+
+                {/* مسار التنقل (Breadcrumbs) */}
                 <nav className="breadcrumbs-nav">
                     <Link to="/Home" className="Breadcrumbs">
                         {t("setting.home", "Home")}
@@ -219,8 +245,11 @@ function Teacher() {
                 </nav>
 
                 <div className="teacher-main-layout">
-                    {/* Left Column: Side Info */}
+
+                    {/* العمود الأيسر: معلومات المعلم الجانبية */}
                     <div className="teacher-sidebar">
+
+                        {/* بطاقة صورة المعلم واسمه */}
                         <div className="teacher-card">
                             <img className="teacher-image" src="/Photo/Dimitri Abdelhak.png" alt="Teacher" />
                             <div className="teacher-details">
@@ -243,6 +272,7 @@ function Teacher() {
                             </div>
                         </div>
 
+                        {/* بطاقة نبذة عن المعلم */}
                         <div className="about-me-card">
                             <h3 className="about-me-title">{t("teacher.about_me", "About me")}</h3>
                             <p className="about-me-text">
@@ -250,9 +280,10 @@ function Teacher() {
                             </p>
                         </div>
 
+                        {/* بطاقة معلومات التواصل */}
                         <div className="contact-info-card">
                             <h3 className="contact-info-title">{t("teacher.contact_info", "Contact Info")}</h3>
-                            
+
                             <div className="contact-section">
                                 <span className="contact-label">{t("teacher.location_label", "Location")}</span>
                                 <div className="contact-detail">
@@ -279,10 +310,14 @@ function Teacher() {
                         </div>
                     </div>
 
-                    {/* Right Column: Main Content */}
+                    {/* العمود الأيمن: المحتوى الرئيسي */}
                     <div className="teacher-main-content">
+
+                        {/* بطاقة الخلفية التعليمية */}
                         <div className="educational-background-card">
-                            <h3 className="educational-background-title">{t("teacher.educational_background", "Educational Background")}</h3>
+                            <h3 className="educational-background-title">
+                                {t("teacher.educational_background", "Educational Background")}
+                            </h3>
                             <div className="edu-list">
                                 {EducationalBackground.map((item) => (
                                     <div key={item.id} className="edu-item">
@@ -305,12 +340,21 @@ function Teacher() {
                             </div>
                         </div>
 
+                        {/* بطاقة دورات المعلم مع الترتيب والفلترة */}
                         <div className="teacher-courses-card">
                             <div className="courses-header">
                                 <h3 className="courses-title">{t("teacher.courses", "Courses")}</h3>
                                 <div className="courses-actions">
+
+                                    {/* قائمة الترتيب المنسدلة */}
                                     <div className="dropdown-wrapper">
-                                        <button className="action-btn sort-btn" onClick={() => { setShowSortDropdown(!showSortDropdown); setShowFilterDropdown(false); }}>
+                                        <button
+                                            className="action-btn sort-btn"
+                                            onClick={() => {
+                                                setShowSortDropdown(!showSortDropdown);
+                                                setShowFilterDropdown(false);
+                                            }}
+                                        >
                                             <ListFilter size={18} />
                                             {t("teacher.sort_by", `Sort by : ${selectedSort}`)}
                                         </button>
@@ -321,7 +365,14 @@ function Teacher() {
                                                     <span>{t("teacher.sort_by_short", "Sort by : All")}</span>
                                                 </div>
                                                 {sortOptions.map(option => (
-                                                    <div key={option} className="dropdown-item" onClick={() => { setSelectedSort(option); setShowSortDropdown(false); }}>
+                                                    <div
+                                                        key={option}
+                                                        className="dropdown-item"
+                                                        onClick={() => {
+                                                            setSelectedSort(option);
+                                                            setShowSortDropdown(false);
+                                                        }}
+                                                    >
                                                         {option}
                                                         {selectedSort === option && <Check size={16} className="check-icon" />}
                                                     </div>
@@ -330,8 +381,15 @@ function Teacher() {
                                         )}
                                     </div>
 
+                                    {/* قائمة الفلترة المنسدلة */}
                                     <div className="dropdown-wrapper">
-                                        <button className="action-btn filter-btn" onClick={() => { setShowFilterDropdown(!showFilterDropdown); setShowSortDropdown(false); }}>
+                                        <button
+                                            className="action-btn filter-btn"
+                                            onClick={() => {
+                                                setShowFilterDropdown(!showFilterDropdown);
+                                                setShowSortDropdown(false);
+                                            }}
+                                        >
                                             <SlidersHorizontal size={18} />
                                             {t("teacher.filter", "Filter")}
                                         </button>
@@ -343,24 +401,29 @@ function Teacher() {
                                                             <SlidersHorizontal size={18} />
                                                             <span>{t("teacher.filter_short", "Filter")}</span>
                                                         </div>
-                                                        <button 
-                                                            className="clear-filters-btn" 
+                                                        <button
+                                                            className="clear-filters-btn"
                                                             onClick={clearFilters}
                                                         >
                                                             {t("teacher.clear_all", "Clear All")}
                                                         </button>
                                                     </div>
                                                 </div>
+
+                                                {/* أقسام الفلترة القابلة للتوسيع */}
                                                 {filterOptions.map(section => (
                                                     <div key={section.name} className="filter-section-wrapper">
-                                                        <div 
-                                                            className="dropdown-item filter-item" 
+                                                        <div
+                                                            className="dropdown-item filter-item"
                                                             onClick={() => setExpandedFilter(expandedFilter === section.name ? null : section.name)}
                                                         >
                                                             {section.name}
-                                                            <ChevronDown 
-                                                                size={18} 
-                                                                style={{ transform: expandedFilter === section.name ? "rotate(180deg)" : "rotate(0deg)", transition: "transform 0.3s" }} 
+                                                            <ChevronDown
+                                                                size={18}
+                                                                style={{
+                                                                    transform: expandedFilter === section.name ? "rotate(180deg)" : "rotate(0deg)",
+                                                                    transition: "transform 0.3s"
+                                                                }}
                                                             />
                                                         </div>
                                                         {expandedFilter === section.name && (
@@ -368,8 +431,8 @@ function Teacher() {
                                                                 {section.options.map(option => (
                                                                     <div key={option} className="sub-filter-item">
                                                                         <label>
-                                                                            <input 
-                                                                                type="checkbox" 
+                                                                            <input
+                                                                                type="checkbox"
                                                                                 checked={selectedFilters[section.name].includes(option)}
                                                                                 onChange={() => handleFilterChange(section.name, option)}
                                                                             />
@@ -387,6 +450,7 @@ function Teacher() {
                                 </div>
                             </div>
 
+                            {/* جدول عرض الدورات أو رسالة عدم وجود نتائج */}
                             <div className="courses-table">
                                 {filteredAndSortedCourses.length > 0 ? (
                                     filteredAndSortedCourses.map((course) => (

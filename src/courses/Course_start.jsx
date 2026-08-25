@@ -1,10 +1,15 @@
 import { useState, useRef, useEffect } from "react";
-import { Play, Pause, ChevronRight, ChevronDown, Check, Volume2, VolumeX, Settings, Maximize, Minimize, BookOpen, Download, MessageSquare, FileText, Upload, Clock } from "lucide-react";
-import { Link, useLocation } from "react-router-dom";
-import ReactPlayer from 'react-player';
 import { useTranslation } from 'react-i18next';
+import { Link, useLocation } from "react-router-dom";
+import { 
+    Play, Pause, ChevronRight, ChevronDown, Check, Volume2, 
+    VolumeX, Settings, Maximize, Minimize, BookOpen, Download, 
+    MessageSquare, FileText, Upload, Clock 
+} from "lucide-react";
 
 import "./Course_start.css";
+
+// تنسيق الوقت بالثواني إلى صيغة دقيقة:ثانية (MM:SS)
 const formatTime = (timeInSeconds) => {
     const minutes = Math.floor(timeInSeconds / 60);
     const seconds = Math.floor(timeInSeconds % 60);
@@ -247,14 +252,13 @@ const lessonIcons = {
     Add_resource: <BookOpen size={9} />,
     reading: <BookOpen size={9} />,
 };
+// المكون الرئيسي لصفحة بدء الكورس وعرض الدروس والملفات والمهام
 function Course_start() {
     const location = useLocation();
-    const pathname = location.pathname.split('/').filter(x => x);
     const { t } = useTranslation();
     const [volume, setVolume] = useState(50);
     const [isMuted, setMuted] = useState(false);
     const [preVolume, setPreVolume] = useState(50);
-    const [video, setVideo] = useState(0);
     const [currentTime, setCurrentTime] = useState(0);
     const [duration, setDuration] = useState(0);
     const playerRef = useRef(null);
@@ -262,13 +266,12 @@ function Course_start() {
     const [showSettings, setShowSettings] = useState(false);
     const [speed, setSpeed] = useState(1);
     const [isLooping, setIsLooping] = useState(false);
-    const [file, setFile] = useState(null);
-    const [name, setName] = useState('');
-    const [type, setType] = useState('pdf');
     const videoRef = useRef(null);
     const [isPlaying, setIsPlaying] = useState(false);
     const [completedLessons, setCompletedLessons] = useState([]);
     const [course, setCourse] = useState(courseData); // تمرير البيانات الافتراضية الثابتة هنا
+
+    // تحديث حالة اكتمال الدرس المحدد في البيانات وحالة الدروس المكتملة
     const setLessonCompletionStatus = (lessonId, isCompleted) => {
         setCompletedLessons(prev => {
             if (isCompleted) {
@@ -296,6 +299,7 @@ function Course_start() {
         });
     };
 
+    // معالجة حدث انتهاء الفيديو لتمييز الدرس كمكتمل تلقائياً
     const handleVideoEnd = (lessonId) => {
         setLessonCompletionStatus(lessonId, true);
         if (currentLesson.id === lessonId) {
@@ -304,6 +308,7 @@ function Course_start() {
     }
 
 
+    // تغيير سرعة تشغيل الفيديو
     const handleSpeedChange = (newSpeed) => {
         setSpeed(newSpeed);
         if (videoRef.current) {
@@ -311,6 +316,7 @@ function Course_start() {
         }
         setShowSettings(false);
     }
+    // تفعيل أو تعطيل التكرار التلقائي للفيديو
     const toggleLoop = () => {
         const nextLoop = !isLooping;
         setIsLooping(nextLoop);
@@ -330,17 +336,20 @@ function Course_start() {
         };
     }, []);
 
+    // تحديث الوقت الحالي لتشغيل الفيديو أثناء تقدمه
     const handleTimeUpdate = () => {
         if (videoRef.current) {
             setCurrentTime(videoRef.current.currentTime);
         }
     }
+    // تعيين المدة الزمنية الكلية للفيديو عند تحميل بياناته الوصفية
     const handleLoadedMetadata = () => {
         if (videoRef.current) {
             setDuration(videoRef.current.duration);
         }
     }
     const progressPercentage = duration > 0 ? (currentTime / duration) * 100 : 0;
+    // تفعيل أو إلغاء وضع ملء الشاشة لمشغل الفيديو
     const handleFullscreen = () => {
         if (!playerRef.current) return;
         if (!document.fullscreenElement) {
@@ -351,11 +360,7 @@ function Course_start() {
             document.exitFullscreen();
         }
     }
-    /*const formatTime = (timeInSeconds) => {
-        const minutes = Math.floor(timeInSeconds / 60);
-        const seconds = Math.floor(timeInSeconds % 60);
-        return `${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
-    }*/
+    // معالجة تغيير وقت الفيديو يدوياً عبر شريط التقدم
     const handleTimeChange = (e) => {
         const NewTime = Number(e.target.value);
         setCurrentTime(NewTime);
@@ -364,9 +369,7 @@ function Course_start() {
         }
     }
 
-    const handleVideoChange = (e) => {
-        setVideo(e.target.value);
-    }
+    // كتم أو استعادة صوت الفيديو
     const toggleMute = () => {
         if (isMuted) {
             setVolume(preVolume);
@@ -378,6 +381,7 @@ function Course_start() {
             setIsMuted(true);
         }
     }
+    // معالجة تغيير مستوى الصوت وتحديث حالة الكتم بناءً عليه
     const handleVolumeChange = (e) => {
         const newVolume = Number(e.target.value);
         setVolume(newVolume);
@@ -393,13 +397,7 @@ function Course_start() {
     const completedCount = completedLessons.length;
     const percentage = Math.round((completedCount / totalLessons) * 100)
 
-    //const allLessons = courseData.sections.flatMap(s => s.lessons);
-    //const totalLessons = allLessons.length;
-    //const completedCount = 10;
-    //const percentage = Math.round((completedCount / totalLessons) * 100);
-
     const [currentLesson, setCurrentLesson] = useState(course.sections[0].lessons[0]);
-    const [markedComplete, setMarkedComplete] = useState({});
     const [openSections, setOpenSections] = useState({ sec1: false, sec2: false });
     const [activeTab, setActiveTab] = useState('overview');
 
@@ -407,6 +405,7 @@ function Course_start() {
 
     const [autoplay, setAutoplay] = useState(true);
     const [showControls, setShowControls] = useState(true);
+    // تشغيل أو إيقاف الفيديو مؤقتاً
     const handlePlayPause = () => {
         setIsPlaying(!isPlaying)
         setShowControls(true)
@@ -442,11 +441,11 @@ function Course_start() {
         setDuration(0);
     }, [currentLesson.id]);
     const [noteText, setNoteText] = useState('');
-    const [clickNote, setClickNote] = useState(false);
     const [saveNotice, setSaveNotice] = useState([
     ]);
+
+    // حفظ الملاحظة الجديدة المكتوبة من قبل المستخدم
     const handleSaveNotice = () => {
-        setClickNote(true)
         if (noteText.trim() !== '') {
             const newNote = {
                 id: saveNotice.length + 1,
@@ -454,29 +453,30 @@ function Course_start() {
             };
             setSaveNotice([...saveNotice, newNote]);
             setNoteText('');
-            setClickNote(false);
         }
     }
+
+    // حذف ملاحظة معينة من قائمة الملاحظات المحفوظة
     const deleteNote = (id) => {
         setSaveNotice(saveNotice.filter(note => note.id !== id));
     };
+
     const [selectedFile, setSelectedFile] = useState(null);
     const [fileDownloadUrl, settFileDownloadUrl] = useState('');
-    const [isSubmitted, setIsSubmitted] = useState(false);
     const [assignmentFiles, setAssignmentFiles] = useState([]);
     const fileInputRef = useRef(null);
+
+    // معالجة اختيار ملف للواجب من الجهاز
     const handleFileChange = (e) => {
         const file = e.target.files[0];
         if (file) {
             setSelectedFile(file);
-
-
             const objectUrl = URL.createObjectURL(file);
             setFileDownloadUrl(objectUrl);
-            setIsSubmitted(false);
         }
-
     };
+
+    // معالجة سحب وإفلات ملف الواجب في منطقة الرفع
     const handleDrop = (e) => {
         e.preventDefault();
         const file = e.dataTransfer.files[0];
@@ -484,36 +484,29 @@ function Course_start() {
             setSelectedFile(file);
             const objectUrl = URL.createObjectURL(file);
             setFileDownloadUrl(objectUrl);
-            setIsSubmitted(false)
         }
-
     };
+
+    // إرسال ملف الواجب وحفظه وتحديث حالة الدرس كمكتمل
     const handleSubmit = () => {
-        // التأكد من أن المستخدم اختار ملفاً بالفعل
         if (!selectedFile) {
             alert("الرجاء اختيار ملف أولاً");
             return;
         }
 
-        // تجهيز كائن الملف المرفوع الجديد
         const fileData = {
             name: selectedFile.name,
-            url: fileDownloadUrl, // الرابط الوهمي للتنزيل
-            date: new Date().toLocaleDateString() // تاريخ الرفع الحالي
+            url: fileDownloadUrl,
+            date: new Date().toLocaleDateString()
         };
 
-        // تعديل السطر السحري: إضافة الملف الجديد للمصفوفة القديمة بشكل صحيح
         setAssignmentFiles(prevFiles => [...prevFiles, fileData]);
-        setIsSubmitted(true);
 
-        // Mark the assignment lesson as complete
         setLessonCompletionStatus(currentLesson.id, true);
         setCurrentLesson(prev => ({ ...prev, completed: true }));
 
-        // إظهار رسالة نجاح للمستخدم (اختياري)
         alert("تم إرسال الملف بنجاح!");
 
-        // تفريغ الاختيار حتى يتمكن من رفع ملف آخر إن أراد
         setSelectedFile(null);
         if (fileInputRef.current) {
             fileInputRef.current.value = "";
@@ -530,6 +523,8 @@ function Course_start() {
         { id: 1, name: 'Summary lesson 1', type: 'Link', icon: 'link', link: 'https://drive.google.com/file/d/1Pd-Mc1Mhc-Sx5gRWNIHm7mNNQ5GIYPMK/view?usp=drive_link' },
         { id: 2, name: 'Summary lesson 1.zip', type: 'Download', icon: 'download', link: 'https://drive.google.com/file/d/1Pd-Mc1Mhc-Sx5gRWNIHm7mNNQ5GIYPMK/view?usp=drive_link' },
     ];
+
+    // إضافة سؤال جديد من قبل المستخدم إلى قائمة الأسئلة
     const handleAskQuestion = () => {
         if (!newQuestion.trim()) return;
         setQuestions(prev => [...prev, { id: Date.now(), question: newQuestion.trim(), answer: '' }]);
@@ -538,8 +533,13 @@ function Course_start() {
 
     const currentLessonIndex = allLessons.findIndex(l => l.id === currentLesson.id);
 
+    // فتح أو إغلاق قسم معين من قائمة محتويات الكورس
     const toggleSection = (id) => setOpenSections(prev => ({ ...prev, [id]: !prev[id] }));
+
+    // الانتقال إلى الدرس السابق في قائمة الدروس
     const goPrev = () => { if (currentLessonIndex > 0) setCurrentLesson(allLessons[currentLessonIndex - 1]); };
+
+    // الانتقال إلى الدرس التالي في قائمة الدروس
     const goNext = () => { if (currentLessonIndex < allLessons.length - 1) setCurrentLesson(allLessons[currentLessonIndex + 1]); };
 
     const tabs = [

@@ -1,3 +1,4 @@
+/* التنسيقات العامة لصفحة الدورة */
 .course-page {
     margin-top: 100px;
     padding: 30px 60px;
@@ -14,7 +15,7 @@
     margin: 0 auto;
 }
 
-/* Breadcrumbs */
+/* مسار التنقل (Breadcrumbs) */
 .breadcrumbs-nav {
     display: flex;
     align-items: center;
@@ -72,6 +73,7 @@
     color: #b0b0b0;
 }
 
+/* الهيكل الرئيسي لمحتوى الصفحة */
 .course-content {
     display: flex;
     justify-content: space-between;
@@ -197,6 +199,7 @@
     max-width: 400px;
 }
 
+/* بطاقة الدورة الجانبية وتفاصيل السعر والاشتراك */
 .course-card-sticky {
     position: sticky;
     top: 120px;
@@ -425,7 +428,7 @@
     color: #0089EA;
 }
 
-/* Dark Mode Adjustments */
+/* تعديلات الوضع الداكن للبطاقة الجانبية */
 .dark .card-course {
     background: #1e1e1e;
     border-color: #333;
@@ -484,6 +487,7 @@
     }
 }
 
+/* قسم "ماذا ستتعلم في هذه الدورة" (الفوائد) */
 .BenfiteOfCourse {
     border-radius: 10px;
     border: 1px solid rgba(0, 0, 0, 0.2);
@@ -553,6 +557,7 @@
     transform: scaleY(-1);
 }
 
+/* قسم محتويات الدورة (قائمة الدروس والمواضيع) */
 .Course_content {
     border-radius: 12px;
     border: 1px solid var(--border-color, #e0e0e0);
@@ -617,7 +622,7 @@
     color: #aaa;
 }
 
-/* Dark Mode Support */
+/* تعديلات الوضع الداكن لقسم محتويات الدورة */
 .dark .Course_content {
     background-color: #1e1e1e;
     border-color: #333;
@@ -632,6 +637,7 @@
     color: #ccc;
 }
 
+/* قسم التعليقات وإضافة تقييم والردود */
 .Comments-section {
     border-radius: 12px;
     border: 1px solid var(--border-color, #e0e0e0);
@@ -914,7 +920,7 @@
     border-left-color: #444;
 }
 
-/* Dark Mode Support for Comment Section */
+/* الوضع الداكن لقسم التعليقات */
 .dark .Comments-section {
     background-color: #1e1e1e;
     border-color: #333;
@@ -930,7 +936,7 @@
     color: #fff;
 }
 
-/* Dark Mode Support for Comment Items */
+/* الوضع الداكن لعناصر التعليقات الفردية */
 .dark .Comment-item {
     background: #1e1e1e;
     border-color: #333;
@@ -956,6 +962,7 @@
     background: #fff1f0;
 }
 
+/* تصميم النافذة المنبثقة (Modal) لكوبونات الخصم */
 .modal-overlay {
     position: fixed;
     top: 0;
@@ -1124,7 +1131,7 @@
     box-shadow: none;
 }
 
-/* Dark Mode Modal Improvements */
+/* الوضع الداكن للنافذة المنبثقة */
 .dark .modal-content {
     background: #1e1e1e;
     border-color: #333;
@@ -1165,6 +1172,7 @@
     color: #fff;
 }
 
+/* قسم متطلبات الدورة */
 .RequirementsOfCourse {
     border-radius: 12px;
     border: 1px solid var(--border-color, #e0e0e0);
@@ -1196,7 +1204,7 @@
     color: var(--text-secondary, #444);
 }
 
-/* Dark Mode Support */
+/* تعديلات الوضع الداكن لقسم متطلبات الدورة */
 .dark .RequirementsOfCourse {
     background-color: #1e1e1e;
     border-color: #333;

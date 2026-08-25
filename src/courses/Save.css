@@ -48,32 +48,27 @@
     text-transform: capitalize;
 }
 
-/* الحاوية الرئيسية للهيدر لتجعل الأيقونة والنصوص بجانب بعضهما */
+/* الحاوية الرئيسية للهيدر: تُرتّب الأيقونة والنصوص جنباً إلى جنب */
 .save-header-container {
     display: flex;
     align-items: flex-start;
-    /* لتبدأ الأيقونة من الأعلى بمحاذاة العنوان */
     gap: 16px;
-    /* المسافة بين الأيقونة والنصوص */
     font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
     padding: 20px 0;
 }
 
-/* تنسيق حاوية الأيقونة */
+/* حاوية أيقونة الـ Bookmark */
 .save-icon-wrapper {
     display: flex;
     align-items: center;
     justify-content: center;
     padding-top: 2px;
-    /* لضبط موازنة الأيقونة عمودياً مع النص */
 }
 
-/* لون الأيقونة الأزرق المماثل للصورة */
+/* لون الأيقونة الأزرق وسماكة الخطوط */
 .bookmark-icon {
     color: #007aff;
-    /* أو استخدمي درجة الأزرق الخاصة بمشروعك مثل #1890ff */
     stroke-width: 2.2px;
-    /* لجعل خطوط الأيقونة واضحة وقريبة من الصورة */
 }
 
 /* حاوية النصوص المتراصة عمودياً */
@@ -81,14 +76,12 @@
     display: flex;
     flex-direction: column;
     gap: 6px;
-    /* المسافة بين العنوان والوصف */
 }
 
 /* تنسيق العنوان الرئيسي */
 .save-title {
     font-size: 22px;
     font-weight: 700;
-    /* عريض (Bold) مثل الصورة */
     color: #000000;
     margin: 0;
     line-height: 1.2;
@@ -98,17 +91,15 @@
 .save-subtitle {
     font-size: 14px;
     color: #666666;
-    /* رمادي خفيف */
     margin: 0;
     line-height: 1.4;
 }
 
-/* تنسيق الرقم الأزرق (3) */
+/* الرقم الأزرق الذي يُظهر عدد الكورسات المحفوظة */
 .saved-count {
     color: #007aff;
     font-weight: 600;
     margin: 0 2px;
-    /* مسافة بسيطة حول الرقم */
 }
 
 /* حاوية قسم الفلاتر بالكامل */
@@ -121,11 +112,10 @@
     width: 100%;
 }
 
-/* حاوية حقل البحث والأيقونة */
+/* حاوية حقل البحث مع الأيقونة */
 .search-wrapper {
     position: relative;
     flex: 1;
-    /* يأخذ المساحة المتبقية */
     min-width: 500px;
 }
 
@@ -143,7 +133,6 @@
 .save-search-input {
     width: 100%;
     padding: 10px 14px 10px 40px;
-    /* مسافة إضافية من اليسار للأيقونة */
     font-size: 14px;
     border: 1px solid #e0e0e0;
     border-radius: 8px;
@@ -160,7 +149,7 @@
     display: flex;
     gap: 12px;
     align-items: center;
-    overflow-x: none;
+    overflow-x: auto;
     white-space: nowrap;
 }
 
@@ -168,12 +157,11 @@
     position: relative;
 }
 
-/* تصميم الزر الأزرق */
+/* تصميم زر الفلتر */
 .filter-btn {
     display: flex;
     align-items: center;
     gap: 8px;
-    /* المسافة بين الأيقونة والنص داخل الزر */
     background-color: #f5f7fa;
     color: #333333;
     border: 1px solid #e2e8f0;
@@ -200,10 +188,9 @@
     transition: transform 0.2s ease;
 }
 
-/* تعديل بسيط لأيقونة الـ Level لتظهر كأعمدة متصاعدة بشكل صحيح */
+/* تعديل أيقونة Level لتظهر بشكل صحيح */
 .rotate-icon {
     transform: scaleY(-1);
-    /* لقلب الأعمدة لتبدو كتصاعد للمستوى */
 }
 
 /* قائمة خيارات الفلتر المنسدلة */
@@ -300,7 +287,6 @@
     cursor: pointer;
     will-change: transform;
     width: 600px;
-
 }
 
 .save-course-item:hover {
@@ -414,14 +400,13 @@
     transition: color 0.2s ease;
 }
 
-/* ─── Price / Duration / Level row ─── */
+/* صف: السعر / المدة / المستوى */
 .save-info-PRL {
     display: flex;
     align-items: center;
     justify-content: center;
     flex-shrink: 0;
     width: auto;
-    /* إلغاء أي عرض إجباري قد يسبب المشكلة */
     height: auto;
     opacity: 0.65;
     color: var(--text-secondary, #6b7280);

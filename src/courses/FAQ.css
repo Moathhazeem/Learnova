@@ -1,4 +1,4 @@
-/* ─── Page Container ────────────────────────────────────────────────────── */
+/* ─── حاوية الصفحة الرئيسية ────────────────────────────────────────────────────── */
 .FAQ-container {
     margin-top: 100px;
     padding: 60px 80px 100px;
@@ -8,7 +8,7 @@
     min-height: 100vh;
 }
 
-/* ─── Breadcrumbs ───────────────────────────────────────────────────────── */
+/* ─── شريط مسار التنقل (Breadcrumbs) ───────────────────────────────────────── */
 .breadcrumbs-nav {
     display: flex;
     align-items: center;
@@ -44,7 +44,7 @@
     text-transform: capitalize;
 }
 
-/* ─── Hero ──────────────────────────────────────────────────────────────── */
+/* ─── القسم الرئيسي للترحيب والعنوان (Hero) ──────────────────────────────── */
 .faq-hero {
     text-align: center;
     margin-bottom: 60px;
@@ -66,7 +66,7 @@
     line-height: 1.7;
 }
 
-/* ─── Two-Column Layout ─────────────────────────────────────────────────── */
+/* ─── التخطيط ذو العمودين (Layout) ───────────────────────────────────────── */
 .faq-layout {
     display: grid;
     grid-template-columns: 190px 1fr;
@@ -74,7 +74,7 @@
     align-items: flex-start;
 }
 
-/* ─── Sidebar ───────────────────────────────────────────────────────────── */
+/* ─── القائمة الجانبية (Sidebar) ───────────────────────────────────────────── */
 .faq-sidebar {
     position: sticky;
     top: 120px;
@@ -131,14 +131,14 @@
     font-weight: 700;
 }
 
-/* ─── Content Area ──────────────────────────────────────────────────────── */
+/* ─── منطقة المحتوى الرئيسي (Content Area) ───────────────────────────────── */
 .faq-content-area {
     display: flex;
     flex-direction: column;
     gap: 12px;
 }
 
-/* ─── Search ────────────────────────────────────────────────────────────── */
+/* ─── حقل البحث (Search) ─────────────────────────────────────────────────── */
 .faq-search-wrapper {
     position: relative;
     margin-bottom: 8px;
@@ -173,7 +173,7 @@
     box-shadow: 0 0 0 3px rgba(0, 137, 234, 0.12);
 }
 
-/* ─── Accordion ─────────────────────────────────────────────────────────── */
+/* ─── قائمة الأسئلة المطوية (Accordion) ──────────────────────────────────── */
 .faq-accordion-list {
     display: flex;
     flex-direction: column;
@@ -241,7 +241,7 @@
     text-align: center;
 }
 
-/* ─── Didn't find your answer banner ───────────────────────────────────── */
+/* ─── بنر التواصل في حال عدم العثور على إجابة (CTA Banner) ─────────────── */
 .faq-cta-banner {
     display: flex;
     align-items: center;
@@ -301,7 +301,7 @@
     box-shadow: 0 6px 20px rgba(0, 137, 234, 0.38);
 }
 
-/* ─── Responsive ────────────────────────────────────────────────────────── */
+/* ─── التصميم المتجاوب للهواتف والشاشات الصغيرة (Responsive) ──────────────── */
 @media (max-width: 900px) {
     .FAQ-container {
         padding: 60px 40px 80px;

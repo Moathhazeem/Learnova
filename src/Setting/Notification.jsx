@@ -1,24 +1,31 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Link, useLocation } from 'react-router-dom';
+import { useTranslation } from 'react-i18next';
 import "../config/i18n";
-import { useTranslation } from "react-i18next";
-import { useEffect } from 'react';
 import './Notification.css';
 function Notification() {
+    // حالة تتبع العنصر المُحدَّق فيه في قائمة التنقل
     const [hovered, setHovered] = useState(null);
+
+    // حالة تتبع الوضع الليلي أو النهاري
     const [isDarkMode, setIsDarkMode] = useState(document.documentElement.classList.contains("dark"));
+
+    // مسارا أيقونة البحث حسب الثيم
     const search = {
         white: "/photo_icons/search_white.png",
         black: "/photo_icons/search_black.png"
-    }
+    };
+
+    // حالة نص البحث داخل صفحة الإعدادات
     const [searchQuery, setSearchQuery] = useState("");
-    const [isSearchFocused, setIsSearchFocused] = useState(false);
 
     const location = useLocation();
+    // استخراج مقاطع المسار لعرض شريط التنقل (Breadcrumbs)
     const pathname = location.pathname.split("/").filter(x => x);
 
     const { t } = useTranslation();
 
+    // تحديد ما إذا كان الصف يطابق كلمة البحث — تُستخدم لإخفاء/إظهار الأقسام
     const checkMatch = (title, keywords) => {
         if (!searchQuery) return true;
         const q = searchQuery.toLowerCase();
@@ -26,11 +33,13 @@ function Notification() {
     };
 
     const showSystemAlerts = checkMatch("System Alerts", ["system alerts", "do not disturb", "dnd", "quiet hours", "schedule"]);
-    const showEngagement = checkMatch("Engagement & Growth", ["engagement", "growth", "new courses", "course updates", "assignment deadlines", "discussion replies"]);
-    const showMarketing = checkMatch("Marketing & Achievement", ["marketing", "promotions", "offers", "achievements", "certificates", "badges"]);
+    const showEngagement  = checkMatch("Engagement & Growth", ["engagement", "growth", "new courses", "course updates", "assignment deadlines", "discussion replies"]);
+    const showMarketing   = checkMatch("Marketing & Achievement", ["marketing", "promotions", "offers", "achievements", "certificates", "badges"]);
 
+    // true إذا طابق البحث أي قسم على الأقل
     const hasAnyMatch = showSystemAlerts || showEngagement || showMarketing;
 
+    // قائمة أقسام الإعدادات مع مساراتها وأيقوناتها
     const categories = [
         { name: "Profile", path: "/Setting/Profile", black: "/photo_icons/For_setting/UserMaleBlack.png", white: "/photo_icons/For_setting/UserMaleWhite.png", blue: "/photo_icons/For_setting/UserMaleBlue.png" },
         { name: "Security", path: "/Setting/Security", black: "/photo_icons/For_setting/SecrityBlack.png", white: "/photo_icons/For_setting/SecrityWhite.png", blue: "/photo_icons/For_setting/SecrityBlue.png" },
@@ -39,6 +48,8 @@ function Notification() {
         { name: "Notification", path: "/Setting/Notification", black: "/photo_icons/For_setting/NotificationBlack.png", white: "/photo_icons/For_setting/NotificationWhite.png", blue: "/photo_icons/For_setting/NotificationBlue.png" },
         { name: "Payment", path: "/Setting/Payment", black: "/photo_icons/For_setting/PaymentBlack.png", white: "/photo_icons/For_setting/PaymentWhite.png", blue: "/photo_icons/For_setting/PaymentBlue.png" },
     ];
+
+    // القيم الابتدائية لإعدادات الإشعارات
     const [settings, setSettings] = useState({
         dnd: false,
         newCourses: true,
@@ -48,6 +59,8 @@ function Notification() {
         marketingPromotions: false,
         achievementsCertificates: true
     });
+
+    // نسخة احتياطية من الإعدادات للكشف عن التغييرات غير المحفوظة
     const [initialSettings, setInitialSettings] = useState({
         dnd: false,
         newCourses: true,
@@ -57,21 +70,26 @@ function Notification() {
         marketingPromotions: false,
         achievementsCertificates: true
     });
+
     const [showToast, setShowToast] = useState(false);
     const [showDndModal, setShowDndModal] = useState(false);
 
+    // تبديل قيمة إعداد معين بين true و false
     const toggleSetting = (key) => {
         setSettings(prev => ({ ...prev, [key]: !prev[key] }));
     };
 
+    // حفظ الإعدادات الحالية وإظهار إشعار النجاح
     const handleSave = () => {
         setInitialSettings({ ...settings });
         setShowToast(true);
         setTimeout(() => setShowToast(false), 3000);
     };
 
+    // true إذا تغيّر أي إعداد عن قيمته الأصلية المحفوظة
     const hasChanges = Object.keys(settings).some(key => settings[key] !== initialSettings[key]);
 
+    // مراقبة تغييرات class الـ <html> للكشف عن تفعيل الوضع الليلي
     useEffect(() => {
         const updateThemeState = () => {
             setIsDarkMode(document.documentElement.classList.contains("dark"));
