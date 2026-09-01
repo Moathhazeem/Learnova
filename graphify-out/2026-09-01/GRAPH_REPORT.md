@@ -1,16 +1,16 @@
-# Graph Report - Learnova  (2026-09-01)
+# Graph Report - Learnova  (2026-08-25)
 
 ## Corpus Check
-- 66 files · ~1,787,775 words
+- 66 files · ~1,787,020 words
 - Verdict: corpus is large enough that graph structure adds value.
 
 ## Summary
-- 311 nodes · 322 edges · 49 communities (31 shown, 18 thin omitted)
+- 298 nodes · 313 edges · 40 communities (28 shown, 12 thin omitted)
 - Extraction: 99% EXTRACTED · 1% INFERRED · 0% AMBIGUOUS · INFERRED: 2 edges (avg confidence: 0.5)
 - Token cost: 0 input · 0 output
 
 ## Graph Freshness
-- Built from commit: `f53078c2`
+- Built from commit: `bc69af91`
 - Run `git rev-parse HEAD` and compare to check if the graph is stale.
 - Run `graphify update .` after code changes (no API cost).
 
@@ -49,27 +49,18 @@
 - extraction-spec.md
 - extraction-spec.md
 - FAQ.jsx
-- i18n.js
-- Communication.jsx
-- Payment_pay.jsx
-- Security.jsx
-- Save.jsx
-- Header.jsx
-- LandingPage.jsx
-- Footer.jsx
-- Verification_Code.jsx
 
 ## God Nodes (most connected - your core abstractions)
 1. `What You Must Do When Invoked` - 12 edges
 2. `What You Must Do When Invoked` - 12 edges
 3. `/graphify` - 11 edges
 4. `/graphify` - 10 edges
-5. `🎓 Learnova` - 10 edges
+5. `graphify reference: extra exports and benchmark` - 8 edges
 6. `graphify reference: extra exports and benchmark` - 8 edges
-7. `graphify reference: extra exports and benchmark` - 8 edges
-8. `scripts` - 5 edges
+7. `scripts` - 5 edges
+8. `graphify reference: query, path, explain` - 5 edges
 9. `graphify reference: query, path, explain` - 5 edges
-10. `graphify reference: query, path, explain` - 5 edges
+10. `MyLearning()` - 4 edges
 
 ## Surprising Connections (you probably didn't know these)
 - None detected - all connections are within the same source files.
@@ -77,11 +68,11 @@
 ## Import Cycles
 - None detected.
 
-## Communities (49 total, 18 thin omitted)
+## Communities (40 total, 12 thin omitted)
 
 ### Community 0 - "App.jsx"
-Cohesion: 0.13
-Nodes (11): App(), AboutUs(), Contact_us(), Course(), Teacher(), Home(), CheckEmail(), TODO: Wire up API resend email logic here (+3 more)
+Cohesion: 0.05
+Nodes (31): App(), AboutUs(), Communication(), initialConversations, messagesList, Contact_us(), Course(), levelColors (+23 more)
 
 ### Community 1 - "dependencies"
 Cohesion: 0.06
@@ -160,43 +151,31 @@ Cohesion: 0.50
 Nodes (3): For --cluster-only, For --update (incremental re-extraction), graphify reference: incremental update and cluster-only
 
 ### Community 21 - "React + Vite"
-Cohesion: 0.12
-Nodes (16): 1. Clone the repository, 2. Navigate to the project directory, 3. Install dependencies, 4. Start the development server, 🤝 Contributing, Frontend, 🔮 Future Improvements, 🚀 How to Run Locally (+8 more)
+Cohesion: 0.40
+Nodes (4): 🚀 How to Run Locally, 🌟 Key Features, 🎓 Learnova, 🛠️ Tech Stack
 
 ### Community 39 - "FAQ.jsx"
 Cohesion: 0.40
 Nodes (3): CATEGORIES, FAQ(), FAQ_DATA
 
-### Community 40 - "i18n.js"
-Cohesion: 0.14
-Nodes (5): Explore(), Notification(), Preferences(), Privacy(), Profile()
-
-### Community 41 - "Communication.jsx"
-Cohesion: 0.50
-Nodes (3): Communication(), initialConversations, messagesList
-
-### Community 42 - "Payment_pay.jsx"
-Cohesion: 0.50
-Nodes (3): levelColors, Payment_pay(), thumbColors
-
 ## Knowledge Gaps
-- **145 isolated node(s):** `name`, `private`, `version`, `type`, `dev` (+140 more)
+- **134 isolated node(s):** `name`, `private`, `version`, `type`, `dev` (+129 more)
   These have ≤1 connection - possible missing edges or undocumented components.
-- **18 thin communities (<3 nodes) omitted from report** — run `graphify query` to explore isolated nodes.
+- **12 thin communities (<3 nodes) omitted from report** — run `graphify query` to explore isolated nodes.
 
 ## Suggested Questions
 _Questions this graph is uniquely positioned to answer:_
 
 - **Why does `dependencies` connect `dependencies` to `package.json`?**
-  _High betweenness centrality (0.027) - this node is a cross-community bridge._
+  _High betweenness centrality (0.029) - this node is a cross-community bridge._
 - **Why does `devDependencies` connect `devDependencies` to `package.json`?**
-  _High betweenness centrality (0.018) - this node is a cross-community bridge._
+  _High betweenness centrality (0.020) - this node is a cross-community bridge._
 - **Why does `What You Must Do When Invoked` connect `What You Must Do When Invoked` to `/graphify`?**
-  _High betweenness centrality (0.005) - this node is a cross-community bridge._
+  _High betweenness centrality (0.006) - this node is a cross-community bridge._
 - **What connects `name`, `private`, `version` to the rest of the system?**
-  _145 weakly-connected nodes found - possible documentation gaps or missing edges._
+  _134 weakly-connected nodes found - possible documentation gaps or missing edges._
 - **Should `App.jsx` be split into smaller, more focused modules?**
-  _Cohesion score 0.12648221343873517 - nodes in this community are weakly interconnected._
+  _Cohesion score 0.05081967213114754 - nodes in this community are weakly interconnected._
 - **Should `dependencies` be split into smaller, more focused modules?**
   _Cohesion score 0.06451612903225806 - nodes in this community are weakly interconnected._
 - **Should `What You Must Do When Invoked` be split into smaller, more focused modules?**

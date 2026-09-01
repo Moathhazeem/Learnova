@@ -1,5 +1,5 @@
 /* ═══════════════════════════════════════════════════════════
-   صفحة الدفع — رموز نظام التصميم (Tokens)
+   صفحة الدفع — رموز نظام التصميم (Design Tokens)
    ═══════════════════════════════════════════════════════════ */
 :root {
     --pay-primary: #0089EA;
@@ -34,11 +34,11 @@
 
     --pay-transition: 0.2s cubic-bezier(0.4, 0, 0.2, 1);
 
-    /* الخطوط والكتابة */
+    /* الخطوط */
     --pay-font-mono: 'Courier New', 'Roboto Mono', monospace;
 }
 
-/* قيم الوضع الداكن البديلة */
+/* رموز الوضع الداكن (Dark Mode) */
 .dark {
     --pay-text-primary: #f1f5f9;
     --pay-text-secondary: #94a3b8;
@@ -54,7 +54,7 @@
 }
 
 /* ═══════════════════════════════════════════════════════════
-   حاوية الدفع — لوحة تحكم الفواتير محاذية لليسار
+   الهيكل العام والحاويات الرئيسية
    ═══════════════════════════════════════════════════════════ */
 .payment-container {
     width: 100%;
@@ -64,7 +64,6 @@
     margin: 0 !important;
 }
 
-/* أقسام محتوى الدفع */
 .payment-content {
     display: flex;
     flex-direction: column;
@@ -72,7 +71,6 @@
     text-align: left;
 }
 
-/* بطاقة قسم الدفع */
 .payment-section-card {
     background-color: var(--pay-surface);
     border-radius: var(--pay-radius-lg);
@@ -132,7 +130,7 @@
 }
 
 /* ═══════════════════════════════════════════════════════════
-   قسم بطاقات الدفع
+   قسم بطاقات الدفع (Payment Cards Section)
    ═══════════════════════════════════════════════════════════ */
 .pc-section {
     display: flex;
@@ -149,7 +147,7 @@
     margin-bottom: 20px !important;
 }
 
-/* ترويسة القسم — محاذاة لليسار بدون إجراءات جانبية */
+/* ترويسة قسم البطاقات */
 .pc-section__header {
     display: flex;
     flex-direction: column;
@@ -179,7 +177,7 @@
     line-height: 1.5;
 }
 
-/* ── زر إضافة بطاقة جديدة — أسفل قائمة البطاقات ومحاذاة لليسار ── */
+/* زر إضافة بطاقة جديدة */
 .pc-add-btn {
     display: inline-flex;
     align-items: center;
@@ -215,7 +213,7 @@
     outline-offset: 3px;
 }
 
-/* ── شبكة البطاقات ── */
+/* شبكة البطاقات */
 .pc-cards-grid {
     display: flex;
     flex-direction: column;
@@ -223,7 +221,7 @@
     overflow: visible !important;
 }
 
-/* ── بطاقة دفع فردية ── */
+/* بطاقة دفع فردية */
 .pc-card {
     position: relative;
     display: flex;
@@ -247,7 +245,7 @@
     transform: translateY(-1px);
 }
 
-/* البطاقة الافتراضية: حافة ملونة يساراً وإطار محدد */
+/* تمييز البطاقة الافتراضية */
 .pc-card--default {
     border-color: var(--pay-primary);
     background: linear-gradient(to right,
@@ -255,7 +253,6 @@
             var(--pay-surface) 30%);
 }
 
-/* شريط التمييز */
 .pc-card__accent {
     position: absolute;
     left: 0;
@@ -267,7 +264,7 @@
     border-bottom-left-radius: var(--pay-radius-lg);
 }
 
-/* ── مظهر شريحة البطاقة ── */
+/* أيقونة وشريحة البطاقة */
 .pc-card__icon-wrap {
     flex-shrink: 0;
     width: 48px;
@@ -282,7 +279,7 @@
     height: 100%;
 }
 
-/* ── معلومات البطاقة ── */
+/* تفاصيل ومعلومات البطاقة */
 .pc-card__info {
     display: flex;
     flex-direction: column;
@@ -311,7 +308,7 @@
     color: var(--pay-text-secondary);
 }
 
-/* شارة افتراضية */
+/* شارة الحالة الافتراضية */
 .pc-card__badge {
     display: inline-flex;
     align-items: center;
@@ -325,7 +322,7 @@
     text-transform: uppercase;
 }
 
-/* خيار التعيين كافتراضية */
+/* زر التعيين كافتراضية */
 .pc-card__make-default {
     display: inline-flex;
     align-items: center;
@@ -365,7 +362,7 @@
     text-transform: capitalize;
 }
 
-/* ── قائمة الخيارات (ثلاث نقاط) ── */
+/* قائمة إجراءات البطاقة (Menu) */
 .pc-card__menu-wrap {
     position: relative;
     margin-left: auto;
@@ -471,7 +468,7 @@
 }
 
 /* ═══════════════════════════════════════════════════════════
-   شارة الأمان
+   شارة ومعلومات الأمان والتشفير (Security Badge)
    ═══════════════════════════════════════════════════════════ */
 .security-badge {
     display: flex;
@@ -535,7 +532,7 @@
 }
 
 /* ═══════════════════════════════════════════════════════════
-   قسم سجل المشتريات
+   قسم سجل المشتريات (Purchase History Section)
    ═══════════════════════════════════════════════════════════ */
 .ph-section {
     display: flex;
@@ -546,7 +543,7 @@
     margin: 0;
 }
 
-/* ترويسة سجل المشتريات — محاذاة لليسار */
+/* ترويسة سجل المشتريات */
 .ph-header {
     display: flex;
     flex-direction: row;
@@ -576,7 +573,7 @@
     margin: 4px 0 0;
 }
 
-/* زر التحميل — محاذاة لليسار أسفل الجدول */
+/* زر تحميل السجل CSV */
 .ph-download-btn {
     display: inline-flex;
     align-items: center;
@@ -613,7 +610,7 @@
     outline-offset: 3px;
 }
 
-/* ── شريط الملخص ── */
+/* شريط ملخص المشتريات والإحصائيات */
 .ph-summary-strip {
     display: flex;
     align-items: center;
@@ -683,7 +680,7 @@
     opacity: 0.7;
 }
 
-/* ── جدول سطح المكتب ── */
+/* جدول سجل المشتريات لشاشات سطح المكتب */
 .ph-table {
     width: 100%;
     max-width: 1180px !important;
@@ -723,7 +720,6 @@
     border-bottom: none;
 }
 
-/* خطوط الجدول المتبادلة */
 .ph-table__row--alt {
     background: var(--pay-surface-alt);
 }
@@ -763,7 +759,7 @@
     color: var(--pay-text-secondary);
 }
 
-/* ── شارات الحالة ── */
+/* شارات حالة العملية */
 .ph-badge {
     display: inline-flex;
     align-items: center;
@@ -789,7 +785,7 @@
     color: var(--pay-text-muted);
 }
 
-/* ── قائمة البطاقات للهواتف (مخفية على سطح المكتب) ── */
+/* عرض المشتريات للهواتف (بطاقات بدلاً من الجدول) */
 .ph-mobile-stack {
     display: none;
     flex-direction: column;
@@ -854,7 +850,7 @@
 }
 
 /* ═══════════════════════════════════════════════════════════
-   النافذة المنبثقة (Modal) — إضافة بطاقة جديدة
+   النافذة المنبثقة لإضافة بطاقة (Modal)
    ═══════════════════════════════════════════════════════════ */
 .modal {
     position: fixed;
@@ -985,7 +981,7 @@
     gap: 0;
 }
 
-/* ── حقول الإدخال مع الأيقونات ── */
+/* حقول الإدخال مع الأيقونات */
 .form-input-wrap {
     position: relative;
     display: flex;
@@ -1054,7 +1050,7 @@
     background: var(--pay-surface-alt);
 }
 
-/* ── مربع خيار التعيين كافتراضية ── */
+/* خيار تعيين البطاقة كافتراضية */
 .form-checkbox {
     display: flex;
     align-items: center;
@@ -1110,7 +1106,7 @@
     outline-offset: 2px;
 }
 
-/* ── تذييل النافذة المنبثقة — الأزرار المتراكمة ── */
+/* تذييل النافذة المنبثقة */
 .modal-footer--stacked {
     display: flex;
     flex-direction: column;
@@ -1142,7 +1138,9 @@
     transform: none;
 }
 
-/* ── إشعار التنبيه المؤقت (Toast) ── */
+/* ═══════════════════════════════════════════════════════════
+   إشعار التنبيه المؤقت (Toast Notification)
+   ═══════════════════════════════════════════════════════════ */
 .pay-toast {
     position: fixed;
     top: 28px;
@@ -1176,7 +1174,9 @@
     flex-shrink: 0;
 }
 
-/* ── عناصر النموذج ── */
+/* ═══════════════════════════════════════════════════════════
+   حقول ونماذج الإدخال ورسائل التحقق
+   ═══════════════════════════════════════════════════════════ */
 .form-group {
     display: flex;
     flex-direction: column;
@@ -1219,7 +1219,7 @@
     gap: 14px;
 }
 
-/* زر الإرسال */
+/* زر تقديم النموذج */
 .add-card-btn {
     width: 100%;
     margin-top: 6px;
@@ -1255,7 +1255,7 @@
     outline-offset: 3px;
 }
 
-/* ── رسائل التحقق من صحة البيانات ── */
+/* رسائل التحقق (الخطأ والنجاح) */
 .error {
     color: var(--pay-danger) !important;
     font-size: 12px;
@@ -1301,7 +1301,7 @@
 }
 
 /* ═══════════════════════════════════════════════════════════
-   التجاوب مع الشاشات — الهواتف ≤ 768px
+   التجاوب مع الشاشات الصغيرة (Responsive Design)
    ═══════════════════════════════════════════════════════════ */
 @media (max-width: 768px) {
     .billing-dashboard {
@@ -1326,7 +1326,6 @@
         letter-spacing: 1px;
     }
 
-    /* إخفاء جدول سطح المكتب وعرض البطاقات للهواتف */
     .ph-table {
         display: none;
     }
@@ -1361,7 +1360,7 @@
 }
 
 /* ═══════════════════════════════════════════════════════════
-   تقليل الحركة — احترام تفضيلات المستخدم الخاصة بالحركة
+   احترام تفضيلات تقليل الحركة (Reduced Motion)
    ═══════════════════════════════════════════════════════════ */
 @media (prefers-reduced-motion: reduce) {
     *,
@@ -1370,4 +1369,4 @@
         animation-duration: 0.01ms !important;
         transition-duration: 0.01ms !important;
     }
-}
+}

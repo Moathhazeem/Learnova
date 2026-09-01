@@ -170,7 +170,6 @@
 .visibility-card.active {
     border-color: #0089EA;
     background-color: rgba(0, 137, 234, 0.04);
-
 }
 
 .visibility-card-header {
@@ -230,8 +229,6 @@
 .visibility-card.active .visibility-radio-inner {
     transform: scale(1);
     background-color: #0089EA;
-
-
 }
 
 .visibility-card-content {

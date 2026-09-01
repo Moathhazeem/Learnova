@@ -55,13 +55,13 @@
     "semantic_hash": ""
   },
   "src/Setting/Notification.jsx": {
-    "mtime": 1787646605.0400126,
-    "ast_hash": "a64252da3a6abc3683440a2ca93d62b3",
+    "mtime": 1784875733.4986017,
+    "ast_hash": "e1d8fa661dddc63265ede66658bca80f",
     "semantic_hash": ""
   },
   "src/Setting/Payment.jsx": {
-    "mtime": 1788244983.0926795,
-    "ast_hash": "c300101a001d7a95d36b90b5c4052723",
+    "mtime": 1787039915.9127736,
+    "ast_hash": "14618f44abd491737240b4062ebc631a",
     "semantic_hash": ""
   },
   "src/Setting/Preferences.jsx": {
@@ -100,38 +100,38 @@
     "semantic_hash": ""
   },
   "src/courses/Contact_us.jsx": {
-    "mtime": 1787646605.0417845,
-    "ast_hash": "27dfc3156596a43e7e0113a16f2c20b0",
+    "mtime": 1787644922.3602378,
+    "ast_hash": "9b7c8e1a70cee92bac94f3f94e66fe2d",
     "semantic_hash": ""
   },
   "src/courses/Course.jsx": {
-    "mtime": 1787646605.04658,
-    "ast_hash": "855b3e6b71612e2391bf87803becc4cd",
+    "mtime": 1781528251.900643,
+    "ast_hash": "79b760d98f1ff3be496b9c14bf7a40ad",
     "semantic_hash": ""
   },
   "src/courses/Course_start.jsx": {
-    "mtime": 1787646605.0485792,
+    "mtime": 1787645064.6532962,
     "ast_hash": "75556c98077a53257be4d1af449c3a7e",
     "semantic_hash": ""
   },
   "src/courses/FAQ.jsx": {
-    "mtime": 1787646605.05058,
-    "ast_hash": "2b32472a71c512736f73a98a6b573f89",
+    "mtime": 1781525572.3444495,
+    "ast_hash": "50b2547dae7ce479a0094c82d1d36690",
     "semantic_hash": ""
   },
   "src/courses/Payment_pay.jsx": {
-    "mtime": 1787646605.052581,
-    "ast_hash": "9c0eb69ddb38d341c7baff32f6c66f4c",
+    "mtime": 1784024237.4701061,
+    "ast_hash": "8f08ced53a877f5f95b0a443549a87cc",
     "semantic_hash": ""
   },
   "src/courses/Save.jsx": {
-    "mtime": 1787646605.0545793,
-    "ast_hash": "767fd784fd0d4501d68aff40b08231ec",
+    "mtime": 1784616917.5727391,
+    "ast_hash": "3c5ec4203fca4c8e452caf0a68eaf286",
     "semantic_hash": ""
   },
   "src/courses/Teacher.jsx": {
-    "mtime": 1787646605.0565796,
-    "ast_hash": "146ee33ce8757d34d8f96af81cb1f53e",
+    "mtime": 1780988953.7858365,
+    "ast_hash": "20b0bfb291e2c93ec4a01201dba92899",
     "semantic_hash": ""
   },
   "src/i18n/ar.json": {
@@ -340,8 +340,8 @@
     "semantic_hash": ""
   },
   "README.md": {
-    "mtime": 1787646604.9228678,
-    "ast_hash": "c5f9a28e788d90df0c13169935bd3c6e",
+    "mtime": 1787039915.7987072,
+    "ast_hash": "6d749dee1de6c5363e2cee86f91fd151",
     "semantic_hash": ""
   },
   "index.html": {

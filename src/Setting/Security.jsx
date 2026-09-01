@@ -1,11 +1,13 @@
 import { useState, useCallback } from 'react';
 import { Link, useLocation } from "react-router-dom";
 import { QRCodeSVG } from 'qrcode.react';
-import './Security.css';
-import "../config/i18n";
 import { useTranslation } from "react-i18next";
+import "../config/i18n";
+import './Security.css';
 
-/* ── Tiny TOTP-secret generator (client-side mock) ──────────────────── */
+/**
+ * دالة لتوليد مفتاح سري عشوائي للمصادقة الثنائية (TOTP Secret)
+ */
 function generateTOTPSecret(length = 16) {
     const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ234567';
     let result = '';
@@ -15,7 +17,9 @@ function generateTOTPSecret(length = 16) {
     return result;
 }
 
-/* ── iOS-style toggle component ─────────────────────────────────────── */
+/**
+ * مكون زر التبديل بأسلوب iOS (Toggle Switch)
+ */
 function IOSToggle({ checked, onChange, id }) {
     return (
         <label htmlFor={id} className="ios-toggle-label" aria-label="toggle">
@@ -33,38 +37,39 @@ function IOSToggle({ checked, onChange, id }) {
     );
 }
 
+/**
+ * المكون الرئيسي لصفحة إعدادات الأمان (Security Settings)
+ */
 function Security() {
     const { t } = useTranslation();
 
-    /* ── Password state ───────────────────────────────────────────── */
-    const [password,              setPassword]              = useState("");
-    const [newPassword,           setNewPassword]           = useState("");
-    const [confirmPassword,       setConfirmPassword]       = useState("");
-    const [passwordError,         setPasswordError]         = useState("");
-    const [passwordSuccess,       setPasswordSuccess]       = useState("");
-    const [confirmPasswordError,  setConfirmPasswordError]  = useState("");
-    const [confirmPasswordSuccess,setConfirmPasswordSuccess]= useState("");
-    const [newPasswordError,      setNewPasswordError]      = useState([]);
-    const [newPasswordSuccess,    setNewPasswordSuccess]    = useState([]);
-    const [passwordMatchError,    setPasswordMatchError]    = useState(""); // eslint-disable-line
-    const [passwordMatchSuccess,  setPasswordMatchSuccess]  = useState(""); // eslint-disable-line
-    const [showPassword,          setShowPassword]          = useState(false);
-    const [showNewPassword,       setShowNewPassword]       = useState(false);
-    const [showConfirmPassword,   setShowConfirmPassword]   = useState(false);
+    /* ── حالة كلمات المرور ───────────────────────────────────────────── */
+    const [password,               setPassword]               = useState("");
+    const [newPassword,            setNewPassword]            = useState("");
+    const [confirmPassword,        setConfirmPassword]        = useState("");
+    const [passwordError,          setPasswordError]          = useState("");
+    const [passwordSuccess,        setPasswordSuccess]        = useState("");
+    const [confirmPasswordError,   setConfirmPasswordError]   = useState("");
+    const [confirmPasswordSuccess, setConfirmPasswordSuccess] = useState("");
+    const [newPasswordError,       setNewPasswordError]       = useState([]);
+    const [newPasswordSuccess,     setNewPasswordSuccess]     = useState([]);
+    const [showPassword,           setShowPassword]           = useState(false);
+    const [showNewPassword,        setShowNewPassword]        = useState(false);
+    const [showConfirmPassword,    setShowConfirmPassword]    = useState(false);
 
-    /* ── 2FA toggle state — both start OFF ───────────────────────── */
-    const [isAuthenticatorOn,    setIsAuthenticatorOn]    = useState(false);
-    const [isSmsRecoveryOn,      setIsSmsRecoveryOn]      = useState(false);
+    /* ── حالة المصادقة الثنائية (2FA) ────────────────────────────────── */
+    const [isAuthenticatorOn,     setIsAuthenticatorOn]     = useState(false);
+    const [isSmsRecoveryOn,       setIsSmsRecoveryOn]       = useState(false);
 
-    /* ── Authenticator modal ─────────────────────────────────────── */
-    const [isAuthModalOpen,      setIsAuthModalOpen]      = useState(false);
+    /* ── نافذة تطبيق المصادقة (Authenticator Modal) ──────────────────── */
+    const [isAuthModalOpen,       setIsAuthModalOpen]       = useState(false);
     const [totpSecret]                                     = useState(() => generateTOTPSecret());
     const totpUri = `otpauth://totp/Learnova:user@learnova.app?secret=${totpSecret}&issuer=Learnova`;
     const [authCode,             setAuthCode]             = useState(['', '', '', '', '', '']);
     const [authCodeError,        setAuthCodeError]        = useState('');
     const [authCodeSuccess,      setAuthCodeSuccess]      = useState('');
 
-    /* ── SMS Recovery modals ─────────────────────────────────────── */
+    /* ── نافذة استعادة الحساب عبر الرسائل النصية (SMS Recovery Modal) ── */
     const [isSmsStep1Open,       setIsSmsStep1Open]       = useState(false);
     const [isSmsStep2Open,       setIsSmsStep2Open]       = useState(false);
     const [smsPhoneInput,        setSmsPhoneInput]        = useState('');
@@ -73,7 +78,7 @@ function Security() {
     const [codeError,            setCodeError]            = useState('');
     const [codeSuccess,          setCodeSuccess]          = useState('');
 
-    /* ── Account Recovery state ───────────────────────────────────── */
+    /* ── حالة خيارات استعادة الحساب (Account Recovery State) ────────── */
     const [email,         setEmail]        = useState("user@gmail.com");
     const [tempEmail,     setTempEmail]    = useState("");
     const [phone,         setPhone]        = useState("+20 100 000 0000");
@@ -83,11 +88,14 @@ function Security() {
     const [isEmailOpen,   setIsEmailOpen]  = useState(false);
     const [isPhoneOpen,   setIsPhoneOpen]  = useState(false);
 
-    /* ── Nav / misc ───────────────────────────────────────────────── */
+    /* ── المسار وحالة شريط البحث (Navigation & Search) ────────────────── */
     const location    = useLocation();
     const [hovered, setHovered] = useState(null);
     const [searchQuery, setSearchQuery] = useState("");
 
+    /**
+     * التحقق من مطابقة عنوان القسم أو الكلمات المفتاحية مع استعلام البحث
+     */
     const checkMatch = (title, keywords) => {
         if (!searchQuery) return true;
         const q = searchQuery.toLowerCase();
@@ -101,13 +109,17 @@ function Security() {
 
     const hasAnyMatch = showPasswordCard || show2faCard || showSessionsCard || showRecoveryCard;
 
-    /* ── Devices ─────────────────────────────────────────────────── */
+    /* ── بيانات الأجهزة والجلسات النشطة (Active Devices Data) ────────── */
     const devicesData = [
         { id: 1, name: "MacBook Pro 16",  version: "Mac OS X",   location: "San Francisco, US", lastActive: "2026-03-26 17:06:49", status: "Active", isCurrent: true,  photo: "/photo_icons/For_setting/macbook_black.png" },
         { id: 2, name: "Windows Laptop",  version: "Windows 10", location: "London, UK",        lastActive: "2026-03-26 17:06:49", status: "Active", isCurrent: false, photo: "/photo_icons/For_setting/laptop_black.png" },
         { id: 3, name: "iPhone 14 Pro",   version: "IOS 15",     location: "New York, US",      lastActive: "2026-03-26 17:06:49", status: "Active", isCurrent: false, photo: "/photo_icons/For_setting/iphone.png" },
     ];
     const [devices, setDevices] = useState(devicesData);
+
+    /**
+     * تسجيل الخروج من جلسة جهاز محدد
+     */
     const handleLogout = (id) => setDevices(devices.filter(d => d.id !== id));
 
     const search = {
@@ -125,12 +137,18 @@ function Security() {
     const pathname = location.pathname.split("/").filter(x => x);
 
     /* ════════════════════════════════════════════════════════════════
-       PASSWORD HANDLERS
+       معالجات تغيير كلمة المرور (Password Handlers)
        ════════════════════════════════════════════════════════════════ */
+    /** تبديل إظهار/إخفاء كلمة المرور الحالية */
     const toggleShowPassword        = () => setShowPassword(p => !p);
+    /** تبديل إظهار/إخفاء كلمة المرور الجديدة */
     const toggleShowNewPassword     = () => setShowNewPassword(p => !p);
+    /** تبديل إظهار/إخفاء تأكيد كلمة المرور */
     const toggleShowConfirmPassword = () => setShowConfirmPassword(p => !p);
 
+    /**
+     * التحقق من صحة وتحديث كلمة المرور
+     */
     const handleUpdatePassword = () => {
         setPasswordError(""); setPasswordSuccess("");
         setNewPasswordError([]); setNewPasswordSuccess([]);
@@ -171,21 +189,25 @@ function Security() {
     };
 
     /* ════════════════════════════════════════════════════════════════
-       AUTHENTICATOR TOGGLE & MODAL HANDLERS
+       معالجات المصادقة الثنائية (Authenticator Handlers)
        ════════════════════════════════════════════════════════════════ */
+    /**
+     * تبديل تفعيل تطبيق المصادقة أو فتح نافذة الإعداد
+     */
     const handleAuthenticatorToggle = useCallback(() => {
         if (!isAuthenticatorOn) {
-            // Turning ON — open modal first; toggle stays OFF until confirmed
+            // فتح النافذة أولاً؛ يبقى الزر معطلاً حتى يتم التحقق بنجاح
             setAuthCode(['', '', '', '', '', '']);
             setAuthCodeError('');
             setAuthCodeSuccess('');
             setIsAuthModalOpen(true);
         } else {
-            // Turning OFF immediately
+            // إيقاف التفعيل مباشرة
             setIsAuthenticatorOn(false);
         }
     }, [isAuthenticatorOn]);
 
+    /** إغلاق نافذة إعداد تطبيق المصادقة وإعادة تعيين الحقول */
     const closeAuthModal = () => {
         setIsAuthModalOpen(false);
         setAuthCode(['', '', '', '', '', '']);
@@ -193,6 +215,7 @@ function Security() {
         setAuthCodeSuccess('');
     };
 
+    /** إدخال رقم فردي في رمز المصادقة والانتقال للحقل التالي */
     const handleAuthCodeChange = (e, index) => {
         const value = e.target.value;
         if (isNaN(value)) return;
@@ -203,29 +226,32 @@ function Security() {
         if (char !== "" && e.target.nextSibling) e.target.nextSibling.focus();
     };
 
+    /** التعامل مع مفتاح الرجوع (Backspace) في رمز المصادقة */
     const handleAuthCodeKeyDown = (e, index) => {
         if (e.key === "Backspace" && !authCode[index] && e.target.previousSibling)
             e.target.previousSibling.focus();
     };
 
+    /** التحقق من صحة رمز المصادقة وتفعيل الميزة */
     const handleAuthConfirm = (e) => {
         e.preventDefault();
         setAuthCodeError('');
         setAuthCodeSuccess('');
         const full = authCode.join('');
         if (authCode.some(d => d === '')) { setAuthCodeError("Please fill in all 6 digits"); return; }
-        // Mock: accept "123456" as valid test code
+        // محاكاة تجريبية: قبول "123456" كرمز صحيح
         if (full !== "123456") { setAuthCodeError("Incorrect code — try 123456 for demo"); return; }
         setAuthCodeSuccess("Verified! Authenticator App is now enabled.");
         setTimeout(() => {
             closeAuthModal();
-            setIsAuthenticatorOn(true); // ← toggle flips ON only after confirmation
+            setIsAuthenticatorOn(true);
         }, 900);
     };
 
     /* ════════════════════════════════════════════════════════════════
-       SMS RECOVERY TOGGLE & MODAL HANDLERS
+       معالجات الاستعادة عبر الرسائل النصية (SMS Recovery Handlers)
        ════════════════════════════════════════════════════════════════ */
+    /** تبديل تفعيل الاستعادة عبر SMS */
     const handleSmsToggle = useCallback(() => {
         if (!isSmsRecoveryOn) {
             setSmsPhoneInput('');
@@ -239,6 +265,7 @@ function Security() {
         }
     }, [isSmsRecoveryOn]);
 
+    /** إغلاق جميع نوافذ الاستعادة عبر SMS */
     const closeSmsModals = () => {
         setIsSmsStep1Open(false);
         setIsSmsStep2Open(false);
@@ -248,12 +275,14 @@ function Security() {
         setCodeSuccess('');
     };
 
+    /** الانتقال إلى خطوة التحقق من رقم الهاتف في SMS */
     const handleSmsStep1Next = () => {
         if (!smsPhoneInput || smsPhoneInput.trim() === '') { setSmsPhoneError("Please enter your phone number"); return; }
         setSmsPhoneError('');
         setIsSmsStep2Open(true);
     };
 
+    /** إدخال رقم فردي في رمز التحقق لـ SMS */
     const handleSmsCodeChange = (e, index) => {
         const value = e.target.value;
         if (isNaN(value)) return;
@@ -264,11 +293,13 @@ function Security() {
         if (char !== "" && e.target.nextSibling) e.target.nextSibling.focus();
     };
 
+    /** التعامل مع زر Backspace في حقول رمز التحقق لـ SMS */
     const handleSmsCodeKeyDown = (e, index) => {
         if (e.key === "Backspace" && !code[index] && e.target.previousSibling)
             e.target.previousSibling.focus();
     };
 
+    /** التحقق من صحة رمز SMS وتفعيل الاستعادة */
     const handleSmsVerify = (e) => {
         e.preventDefault();
         setCodeError('');
@@ -279,22 +310,28 @@ function Security() {
         setCodeSuccess("Phone verified!");
         setTimeout(() => {
             closeSmsModals();
-            setIsSmsRecoveryOn(true); // ← toggle flips ON only after confirmation
+            setIsSmsRecoveryOn(true);
         }, 900);
     };
 
     /* ════════════════════════════════════════════════════════════════
-       ACCOUNT RECOVERY HANDLERS
+       معالجات استعادة الحساب (Account Recovery Handlers)
        ════════════════════════════════════════════════════════════════ */
+    /** فتح نافذة تعديل البريد الإلكتروني */
     const openEmailPop = () => { setTempEmail(email); setEmailError(""); setIsEmailOpen(true); };
+    /** فتح نافذة تعديل رقم الهاتف */
     const openPhonePop = () => { setTempPhone(phone); setPhoneError(""); setIsPhoneOpen(true); };
+    /** إغلاق جميع نوافذ تعديل بيانات الاستعادة */
     const closeAllPops = () => { setIsEmailOpen(false); setIsPhoneOpen(false); setEmailError(""); setPhoneError(""); };
 
+    /** حفظ البريد الإلكتروني الجديد بعد التحقق */
     const handleEmailSave = () => {
         if (tempEmail.trim() === "") { setEmailError("Please enter your email"); return; }
         if (!tempEmail.includes("@gmail.com")) { setEmailError("Please enter a valid email"); return; }
         setEmail(tempEmail); setEmailError(""); closeAllPops();
     };
+
+    /** حفظ رقم الهاتف الجديد بعد التحقق من الصيغة */
     const handlePhoneSave = () => {
         if (tempPhone.trim() === "") { setPhoneError("Please enter your phone"); return; }
         if (!/^[\d\s+]+$/.test(tempPhone)) { setPhoneError("Please enter a valid phone number"); return; }

@@ -1,38 +1,63 @@
-import { useState } from 'react';
-import { Link, useLocation } from "react-router-dom";
-import "./Profile.css";
-import PhoneInput from 'react-phone-input-2';
-import 'react-phone-input-2/lib/style.css';
-import "../config/i18n";
+import React, { useState } from 'react';
+import { Link, useLocation } from 'react-router-dom';
+import { useTranslation } from 'react-i18next';
 import { FaPlusSquare } from 'react-icons/fa';
-import { useTranslation } from "react-i18next";
 import { AiOutlineClose } from 'react-icons/ai';
 import { IoMdClose } from 'react-icons/io';
+import PhoneInput from 'react-phone-input-2';
+import 'react-phone-input-2/lib/style.css';
+import '../config/i18n';
+import './Profile.css';
+
+/**
+ * مكون صفحة الملف الشخصي (Profile Settings)
+ * يتيح للمستخدم تعديل الصورة الشخصية والغلاف، إدارة الاهتمامات والمهارات،
+ * تعديل البيانات الشخصية والدورات التدريبية، بالإضافة إلى إمكانية معاينة الملف الشخصي العام.
+ */
 function Profile() {
     const { t } = useTranslation();
     const location = useLocation();
     const pathname = location.pathname.split("/").filter(x => x);
+
+    // حالات النوافذ المنبثقة والمعاينة
     const [isPreviewOpen, setIsPreviewOpen] = useState(false);
-    const [hovered, setHovered] = useState(null);
-    const [phone, setPhone] = useState("");
-    const [searchQuery, setSearchQuery] = useState("");
     const [showModalInterset, setShowModalInterset] = useState(false);
     const [showModalProfile, setShowModalProfile] = useState(false);
     const [showModalBackground, setShowModalBackground] = useState(false);
+
+    // حالات التفاعل وحقول البيانات
+    const [hovered, setHovered] = useState(null);
+    const [phone, setPhone] = useState("");
+    const [searchQuery, setSearchQuery] = useState("");
+    const [newInterest, setNewInterest] = useState("");
     const [profileImage, setProfileImage] = useState("/Photo/Profile.jfif");
     const [backgroundImage, setBackgroundImage] = useState("/Photo/Background_profile.jfif");
     const [expandedCourseIds, setExpandedCourseIds] = useState([]);
+
+    // قائمة الاهتمامات والمجالات
     const [interests, setInterests] = useState([
         "UI Design", "UX Design", "Mobile developer",
         "Web developer", "Data analysis", "Graphic designer",
         "Electronics marketing"
     ]);
 
-    const add_more_color = {
-        white: "/photo_icons/For_setting/add_more_white.png",
-        black: "/photo_icons/For_setting/add_more.png",
-    }
-    const [newInterest, setNewInterest] = useState("");
+    // مسارات أيقونات البحث
+    const search = {
+        white: "/photo_icons/For_setting/White_Search.png",
+        black: "/photo_icons/For_setting/Gray_Search.png"
+    };
+
+    // قائمة تصنيفات الإعدادات العامة للتنقل
+    const categories = [
+        { name: "Profile", path: "/Setting/Profile", black: "/photo_icons/For_setting/UserMaleBlack.png", blue: "/photo_icons/For_setting/UserMaleBlue.png" },
+        { name: "Security", path: "/Setting/Security", black: "/photo_icons/For_setting/SecrityBlack.png", blue: "/photo_icons/For_setting/SecrityBlue.png" },
+        { name: "Preferences", path: "/Setting/Preferences", black: "/photo_icons/For_setting/PreferencesBlack.png", blue: "/photo_icons/For_setting/PreferencesBlue.png" },
+        { name: "Privacy", path: "/Setting/Privacy", black: "/photo_icons/For_setting/PrivacyBlack.png", blue: "/photo_icons/For_setting/PrivacyBlue.png" },
+        { name: "Notification", path: "/Setting/Notification", black: "/photo_icons/For_setting/NotificationBlack.png", blue: "/photo_icons/For_setting/NotificationBlue.png" },
+        { name: "Payment", path: "/Setting/Payment", black: "/photo_icons/For_setting/PaymentBlack.png", blue: "/photo_icons/For_setting/PaymentBlue.png" },
+    ];
+
+    // بيانات الدورات التدريبية المكتسبة والمهارات
     const courses = [
         {
             id: 1,
@@ -71,47 +96,46 @@ function Profile() {
             ]
         },
     ];
+
+    /**
+     * معالجة رفع وتحديث الصورة الشخصية
+     */
     const handleImageProfile = (e) => {
         if (e.target.files && e.target.files[0]) {
             const file = e.target.files[0];
             setProfileImage(URL.createObjectURL(file));
         }
     };
+
+    /**
+     * معالجة رفع وتحديث صورة الغلاف/الخلفية
+     */
     const handleImageBackground = (e) => {
         if (e.target.files && e.target.files[0]) {
             const file = e.target.files[0];
             setBackgroundImage(URL.createObjectURL(file));
         }
     };
-    const search = {
-        white: "/photo_icons/For_setting/White_Search.png",
-        black: "/photo_icons/For_setting/Gray_Search.png"
-    }
-    const [searchHovered, setSearchHovered] = useState(false);
-    const categories = [
-        { name: "Profile", path: "/Setting/Profile", black: "/photo_icons/For_setting/UserMaleBlack.png", blue: "/photo_icons/For_setting/UserMaleBlue.png" },
-        { name: "Security", path: "/Setting/Security", black: "/photo_icons/For_setting/SecrityBlack.png", blue: "/photo_icons/For_setting/SecrityBlue.png" },
-        { name: "Preferences", path: "/Setting/Preferences", black: "/photo_icons/For_setting/PreferencesBlack.png", blue: "/photo_icons/For_setting/PreferencesBlue.png" },
-        { name: "Privacy", path: "/Setting/Privacy", black: "/photo_icons/For_setting/PrivacyBlack.png", blue: "/photo_icons/For_setting/PrivacyBlue.png" },
-        { name: "Notification", path: "/Setting/Notification", black: "/photo_icons/For_setting/NotificationBlack.png", blue: "/photo_icons/For_setting/NotificationBlue.png" },
-        { name: "Payment", path: "/Setting/Payment", black: "/photo_icons/For_setting/PaymentBlack.png", blue: "/photo_icons/For_setting/PaymentBlue.png" },
-    ];
 
-    // --- Search visibility helpers ---
+    // منطق تصفية أقسام الصفحة بناءً على كلمة البحث
     const q = searchQuery.trim().toLowerCase();
     const sectionVisible = (keywords) =>
         q === '' || keywords.some((kw) => kw.toLowerCase().includes(q));
 
-    const showPhotoCard   = sectionVisible(['photo', 'profile', 'background', 'picture', 'image', 'upload']);
-    const showInterests   = sectionVisible(['interest', 'industry', 'skill', 'ux', 'ui', 'design', 'web', 'data']);
+    const showPhotoCard = sectionVisible(['photo', 'profile', 'background', 'picture', 'image', 'upload']);
+    const showInterests = sectionVisible(['interest', 'industry', 'skill', 'ux', 'ui', 'design', 'web', 'data']);
     const showPersonalInfo = sectionVisible(['personal', 'name', 'email', 'phone', 'mobile', 'number', 'address', 'information']);
-    const showCourses     = sectionVisible(['course', 'training', 'ibm', 'microsoft', 'excel', 'git']);
+    const showCourses = sectionVisible(['course', 'training', 'ibm', 'microsoft', 'excel', 'git']);
     const showDescription = sectionVisible(['description', 'about', 'bio', 'text']);
-    const noResults       = !showPhotoCard && !showInterests && !showPersonalInfo && !showCourses && !showDescription;
+    const noResults = !showPhotoCard && !showInterests && !showPersonalInfo && !showCourses && !showDescription;
 
+    /**
+     * دالة عرض محتوى الملف الشخصي في الوضعين: وضع التعديل ووضع المعاينة العامة
+     */
     const renderProfileContent = (isPreview = false) => {
         return (
             <div className={`Profile-setting-layout ${isPreview ? 'preview-mode' : ''}`}>
+                {/* الصف الأول: بطاقة الصور والاهتمامات */}
                 <div className={`row-setting${!isPreview && !showPhotoCard ? ' section-hidden' : ''}`}>
                     <div className="Profile-setting-content">                    
                         <div className="Background-container">
@@ -135,6 +159,7 @@ function Profile() {
                             <div className="Profile-content-preview-spacer"></div>
                         )}
 
+                        {/* نافذة رفع وتحديث الصورة الشخصية */}
                         {showModalProfile && (
                             <div className="modal-overlay animate-fade-in" onClick={() => setShowModalProfile(false)}>
                                 <div className="modal-content profile-upload-modal" onClick={(e) => e.stopPropagation()}>
@@ -169,6 +194,7 @@ function Profile() {
                             </div>
                         )}
 
+                        {/* نافذة رفع واختيار صورة الغلاف الخلفي */}
                         {showModalBackground && (
                             <div className="modal-overlay animate-fade-in" onClick={() => setShowModalBackground(false)}>
                                 <div className="modal-content background-upload-modal" onClick={(e) => e.stopPropagation()}>
@@ -202,9 +228,15 @@ function Profile() {
                                         </div>
                                     </div>
                                     <div className="modal-footer">
-                                        <input type="file" id="background-upload-input" hidden onChange={(e) => {
-                                            handleImageBackground(e);
-                                        }} accept="image/*" />
+                                        <input
+                                            type="file"
+                                            id="background-upload-input"
+                                            hidden
+                                            onChange={(e) => {
+                                                handleImageBackground(e);
+                                            }}
+                                            accept="image/*"
+                                        />
                                         <button className="modal-cancel-btn" onClick={() => setShowModalBackground(false)}>Cancel</button>
                                         <button className="modal-save-btn" onClick={() => document.getElementById('background-upload-input').click()}>
                                             Upload New
@@ -213,8 +245,9 @@ function Profile() {
                                 </div>
                             </div>
                         )}
-
                     </div>
+
+                    {/* قسم الاهتمامات والتخصصات */}
                     <div className={`Interset-setting${!isPreview && !showInterests ? ' section-hidden' : ''}`}>
                         <p className="interests-title">Industry / Interest</p>
                         {interests.map((interest, index) => (
@@ -259,8 +292,9 @@ function Profile() {
                             </div>
                         )}
                     </div>
-
                 </div>
+
+                {/* الصف الثاني: المعلومات الشخصية والدورات التدريبية */}
                 <div className={`row-setting${!isPreview && !showPersonalInfo && !showCourses ? ' section-hidden' : ''}`}>
                     <div className="Profile-setting-content">
                         <div className="Personal-information">
@@ -297,7 +331,6 @@ function Profile() {
                                     </div>
                                 </div>
                             </div>
-
                         </div>
                         {!isPreview && (
                             <div className="Personal-information-buttons">
@@ -306,6 +339,7 @@ function Profile() {
                             </div>
                         )}
                     </div>
+
                     <div className={`Training-courses-setting${!isPreview && !showCourses ? ' section-hidden' : ''}`}>
                         <p className="Training-courses-title">Training courses</p>
                         {courses.map((course) => (
@@ -341,10 +375,15 @@ function Profile() {
                         ))}
                     </div>
                 </div>
+
+                {/* الصف الثالث: قسم الوصف والنبذة التعريفية */}
                 <div className={`Description-setting${!isPreview && !showDescription ? ' section-hidden' : ''}`}>
                     <p className="Description-title">Description</p>
                     <div className="Description-content">
-                        <textarea placeholder="I am interested in studying UX/UI design, data analysis, and web development. I have completed the first ten hours of the UI/UX course." readOnly={isPreview}></textarea>
+                        <textarea
+                            placeholder="I am interested in studying UX/UI design, data analysis, and web development. I have completed the first ten hours of the UI/UX course."
+                            readOnly={isPreview}
+                        ></textarea>
                     </div>
                     {!isPreview && (
                         <div className="Description-buttons">
@@ -353,6 +392,8 @@ function Profile() {
                         </div>
                     )}
                 </div>
+
+                {/* حالة عدم وجود نتائج للبحث */}
                 {noResults && !isPreview && (
                     <div className="no-results-message">
                         <span className="no-results-icon">🔍</span>
@@ -366,6 +407,7 @@ function Profile() {
 
     return (
         <div className="edit-profile-container">
+            {/* شريط مسار التنقل (Breadcrumbs) */}
             <nav className="breadcrumbs-nav">
                 <Link to="/Home" className="Breadcrumbs">{t("setting.home", "Home")}</Link>
 
@@ -387,12 +429,16 @@ function Profile() {
                 })}
             </nav>
 
+            {/* ترويسة الإعدادات والبحث */}
             <div className="Setting">
                 <div className="header_setting">
                     <p>{t('setting.header', 'Settings')}</p>
                     <div className="search_page_setting">
-                        <img src={search.black}
-                            alt="search" className="setting-search-icon" />
+                        <img
+                            src={search.black}
+                            alt="search"
+                            className="setting-search-icon"
+                        />
                         <input
                             type="search"
                             placeholder={t('setting.search', 'Search settings')}
@@ -402,6 +448,7 @@ function Profile() {
                     </div>
                 </div>
 
+                {/* شريط التنقل بين صفحات الإعدادات */}
                 <div className="Setting_option">
                     {categories.map((category, index) => {
                         const isActive = location.pathname === category.path || location.pathname === `/${category.name}`;
@@ -427,8 +474,9 @@ function Profile() {
                         );
                     })}
                 </div>
-                <div className="Profile-setting">
 
+                {/* قسم تحرير الملف الشخصي الرئيسي */}
+                <div className="Profile-setting">
                     <div className="Header-profile">
                         <div className="title-preview-container">
                             <p style={{ fontSize: "32px", margin: 0 }}>Edit User Profile</p>
@@ -440,10 +488,10 @@ function Profile() {
                     </div>
 
                     {renderProfileContent(false)}
-
                 </div>
             </div>
 
+            {/* نافذة المعاينة العامة للملف الشخصي */}
             {isPreviewOpen && (
                 <div className="preview-modal-overlay" onClick={() => setIsPreviewOpen(false)}>
                     <div className="preview-modal-content animate-fade-in" onClick={(e) => e.stopPropagation()}>
@@ -462,4 +510,5 @@ function Profile() {
         </div>
     );
 }
-export default Profile
+
+export default Profile;

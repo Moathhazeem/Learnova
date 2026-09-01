@@ -1,14 +1,33 @@
 import React, { useState, useEffect } from 'react';
 import { Link, useLocation } from 'react-router-dom';
-import './Preferences.css';
-import "../config/i18n";
 import { useTranslation } from "react-i18next";
 import {
-    Globe, CalendarDays, Palette, Sun, Moon, MonitorSmartphone,
-    GraduationCap, Gauge, Film, BarChart2,
-    Cpu, TrendingUp, Languages, Heart, Music, Camera, BookOpen, FlaskConical, Brush, Tag, Check, Boxes
+    Globe,
+    CalendarDays,
+    Palette,
+    Sun,
+    Moon,
+    MonitorSmartphone,
+    GraduationCap,
+    Gauge,
+    Film,
+    BarChart2,
+    Cpu,
+    TrendingUp,
+    Languages,
+    Heart,
+    Music,
+    Camera,
+    FlaskConical,
+    Brush,
+    Check,
+    Boxes
 } from 'lucide-react';
-/* ── Reusable iOS-style toggle (matches Security page) ─────────────── */
+
+import "../config/i18n";
+import './Preferences.css';
+
+/* زر تبديل بتصميم iOS (متوافق مع صفحة الأمان) */
 function IOSToggle({ checked, onChange, id }) {
     return (
         <label htmlFor={id} className="ios-toggle-label" aria-label="toggle">
@@ -26,7 +45,7 @@ function IOSToggle({ checked, onChange, id }) {
     );
 }
 
-/* ── Card-based theme selector ──────────────────────────────────────── */
+/* بطاقة لاختيار المظهر (فاتح / داكن / النظام) */
 function ThemeCard({ value, label, icon, selected, onClick }) {
     return (
         <button
@@ -47,7 +66,7 @@ function ThemeCard({ value, label, icon, selected, onClick }) {
     );
 }
 
-/* ── Polished select wrapper ────────────────────────────────────────── */
+/* قائمة منسدلة مخصصة مع أيقونة وسهم مخصص */
 function StyledSelect({ icon, children, value, onChange, id }) {
     return (
         <div className="pref-select-wrapper">
@@ -69,6 +88,7 @@ function StyledSelect({ icon, children, value, onChange, id }) {
     );
 }
 
+/* المكون الرئيسي لصفحة التفضيلات وإعدادات المستخدم */
 function Preferences() {
     const [hovered, setHovered] = useState(null);
     const [isDarkMode, setIsDarkMode] = useState(document.documentElement.classList.contains("dark"));
@@ -83,12 +103,14 @@ function Preferences() {
 
     const [searchQuery, setSearchQuery] = useState("");
 
+    /* التحقق من مطابقة نص البحث لعنوان البطاقة أو الكلمات المفتاحية */
     const checkMatch = (title, keywords) => {
         if (!searchQuery) return true;
         const q = searchQuery.toLowerCase();
         return title.toLowerCase().includes(q) || keywords.some(k => k.toLowerCase().includes(q));
     };
 
+    /* تحديد ظهور الأقسام وفق نتائج البحث */
     const showLangRegion = checkMatch("Language & Region", ["language", "region", "english", "arabic", "date format", "location", "country", "palestine"]);
     const showDisplayTheme = checkMatch("Display & Theme", ["theme", "light", "dark", "system", "text size", "font size", "display"]);
     const showCoursePref = checkMatch("Course Preferences", ["course preferences", "autoplay", "captions", "subtitles", "digest", "playback speed", "difficulty", "video quality"]);
@@ -96,6 +118,7 @@ function Preferences() {
 
     const hasAnyMatch = showLangRegion || showDisplayTheme || showCoursePref || showCategories;
 
+    /* تغيير لغة الواجهة وتحديث اتجاه المستند (RTL/LTR) */
     const changeLanguage = (e) => {
         const lang = e.target.value;
         i18n.changeLanguage(lang);
@@ -112,6 +135,8 @@ function Preferences() {
         "Music", "Health", "Language", "Science", "Art"
     ];
     const [selectedCategories, setSelectedCategories] = useState(["Technology", "Language"]);
+    
+    /* تبديل حالة تحديد التصنيف الدراسي */
     const toggleCategory = (cat) => {
         setSelectedCategories(prev =>
             prev.includes(cat) ? prev.filter(c => c !== cat) : [...prev, cat]
@@ -148,6 +173,7 @@ function Preferences() {
         { value: "system", label: t('setting.system', 'System'), icon: <MonitorSmartphone className="theme-card__icon-svg" /> },
     ];
 
+    /* تطبيق المظهر (فاتح / داكن / تتبع إعدادات النظام) */
     useEffect(() => {
         const root = document.documentElement;
         const mq = window.matchMedia('(prefers-color-scheme: dark)');
@@ -164,16 +190,15 @@ function Preferences() {
             root.classList.remove('light');
             root.classList.add('dark');
         } else if (themeChange === 'system') {
-            // Apply immediately based on current system preference
             applyTheme(mq.matches);
 
-            // Listen for OS-level dark/light changes in real time
             const handleChange = (e) => applyTheme(e.matches);
             mq.addEventListener('change', handleChange);
             return () => mq.removeEventListener('change', handleChange);
         }
     }, [themeChange]);
 
+    /* مراقبة التغييرات على فئة الوضع الداكن لتحديث الحالة */
     useEffect(() => {
         const update = () => setIsDarkMode(document.documentElement.classList.contains("dark"));
         update();
@@ -184,6 +209,7 @@ function Preferences() {
 
     const [textsize, setTextsize] = useState("medium");
     const textSizes = { small: "12px", medium: "16px", large: "20px" };
+    /* تعديل حجم الخط الأساسي في المستند */
     useEffect(() => { document.documentElement.style.fontSize = textSizes[textsize]; }, [textsize]);
 
     return (

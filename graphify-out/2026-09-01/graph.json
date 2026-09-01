@@ -714,8 +714,8 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "src_footer",
-      "community": 47,
-      "community_name": "Footer.jsx",
+      "community": 0,
+      "community_name": "App.jsx",
       "norm_label": "footer.jsx"
     },
     {
@@ -725,8 +725,8 @@
       "source_location": "L13",
       "_origin": "ast",
       "id": "src_footer_footer",
-      "community": 47,
-      "community_name": "Footer.jsx",
+      "community": 0,
+      "community_name": "App.jsx",
       "norm_label": "footer()"
     },
     {
@@ -736,8 +736,8 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "src_header",
-      "community": 45,
-      "community_name": "Header.jsx",
+      "community": 0,
+      "community_name": "App.jsx",
       "norm_label": "header.jsx"
     },
     {
@@ -747,8 +747,8 @@
       "source_location": "L11",
       "_origin": "ast",
       "id": "src_header_courses",
-      "community": 45,
-      "community_name": "Header.jsx",
+      "community": 0,
+      "community_name": "App.jsx",
       "norm_label": "courses"
     },
     {
@@ -758,8 +758,8 @@
       "source_location": "L43",
       "_origin": "ast",
       "id": "src_header_header",
-      "community": 45,
-      "community_name": "Header.jsx",
+      "community": 0,
+      "community_name": "App.jsx",
       "norm_label": "header()"
     },
     {
@@ -791,8 +791,8 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "src_landingpage",
-      "community": 46,
-      "community_name": "LandingPage.jsx",
+      "community": 0,
+      "community_name": "App.jsx",
       "norm_label": "landingpage.jsx"
     },
     {
@@ -802,8 +802,8 @@
       "source_location": "L10",
       "_origin": "ast",
       "id": "src_landingpage_popular_courses",
-      "community": 46,
-      "community_name": "LandingPage.jsx",
+      "community": 0,
+      "community_name": "App.jsx",
       "norm_label": "popular_courses"
     },
     {
@@ -813,8 +813,8 @@
       "source_location": "L119",
       "_origin": "ast",
       "id": "src_landingpage_landingpage",
-      "community": 46,
-      "community_name": "LandingPage.jsx",
+      "community": 0,
+      "community_name": "App.jsx",
       "norm_label": "landingpage()"
     },
     {
@@ -824,8 +824,8 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "src_pageprofile_explore",
-      "community": 40,
-      "community_name": "i18n.js",
+      "community": 0,
+      "community_name": "App.jsx",
       "norm_label": "explore.jsx"
     },
     {
@@ -835,8 +835,8 @@
       "source_location": "L10",
       "_origin": "ast",
       "id": "src_pageprofile_explore_explore",
-      "community": 40,
-      "community_name": "i18n.js",
+      "community": 0,
+      "community_name": "App.jsx",
       "norm_label": "explore()"
     },
     {
@@ -945,19 +945,19 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "src_setting_notification",
-      "community": 40,
-      "community_name": "i18n.js",
+      "community": 0,
+      "community_name": "App.jsx",
       "norm_label": "notification.jsx"
     },
     {
       "label": "Notification()",
       "file_type": "code",
       "source_file": "src/Setting/Notification.jsx",
-      "source_location": "L6",
+      "source_location": "L7",
       "_origin": "ast",
       "id": "src_setting_notification_notification",
-      "community": 40,
-      "community_name": "i18n.js",
+      "community": 0,
+      "community_name": "App.jsx",
       "norm_label": "notification()"
     },
     {
@@ -983,26 +983,26 @@
       "norm_label": "detectbrand()"
     },
     {
-      "label": "sortByDefault()",
-      "file_type": "code",
-      "source_file": "src/Setting/Payment.jsx",
-      "source_location": "L19",
-      "_origin": "ast",
-      "id": "src_setting_payment_sortbydefault",
-      "community": 11,
-      "community_name": "Payment.jsx",
-      "norm_label": "sortbydefault()"
-    },
-    {
       "label": "CardBrandIcon()",
       "file_type": "code",
       "source_file": "src/Setting/Payment.jsx",
-      "source_location": "L24",
+      "source_location": "L19",
       "_origin": "ast",
       "id": "src_setting_payment_cardbrandicon",
       "community": 11,
       "community_name": "Payment.jsx",
       "norm_label": "cardbrandicon()"
+    },
+    {
+      "label": "sortByDefault()",
+      "file_type": "code",
+      "source_file": "src/Setting/Payment.jsx",
+      "source_location": "L58",
+      "_origin": "ast",
+      "id": "src_setting_payment_sortbydefault",
+      "community": 11,
+      "community_name": "Payment.jsx",
+      "norm_label": "sortbydefault()"
     },
     {
       "label": "PaymentCard()",
@@ -1055,8 +1055,8 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "src_setting_preferences",
-      "community": 40,
-      "community_name": "i18n.js",
+      "community": 0,
+      "community_name": "App.jsx",
       "norm_label": "preferences.jsx"
     },
     {
@@ -1066,8 +1066,8 @@
       "source_location": "L12",
       "_origin": "ast",
       "id": "src_setting_preferences_iostoggle",
-      "community": 40,
-      "community_name": "i18n.js",
+      "community": 0,
+      "community_name": "App.jsx",
       "norm_label": "iostoggle()"
     },
     {
@@ -1077,8 +1077,8 @@
       "source_location": "L30",
       "_origin": "ast",
       "id": "src_setting_preferences_themecard",
-      "community": 40,
-      "community_name": "i18n.js",
+      "community": 0,
+      "community_name": "App.jsx",
       "norm_label": "themecard()"
     },
     {
@@ -1088,8 +1088,8 @@
       "source_location": "L51",
       "_origin": "ast",
       "id": "src_setting_preferences_styledselect",
-      "community": 40,
-      "community_name": "i18n.js",
+      "community": 0,
+      "community_name": "App.jsx",
       "norm_label": "styledselect()"
     },
     {
@@ -1099,8 +1099,8 @@
       "source_location": "L72",
       "_origin": "ast",
       "id": "src_setting_preferences_preferences",
-      "community": 40,
-      "community_name": "i18n.js",
+      "community": 0,
+      "community_name": "App.jsx",
       "norm_label": "preferences()"
     },
     {
@@ -1110,8 +1110,8 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "src_setting_privacy",
-      "community": 40,
-      "community_name": "i18n.js",
+      "community": 0,
+      "community_name": "App.jsx",
       "norm_label": "privacy.jsx"
     },
     {
@@ -1121,8 +1121,8 @@
       "source_location": "L7",
       "_origin": "ast",
       "id": "src_setting_privacy_privacy",
-      "community": 40,
-      "community_name": "i18n.js",
+      "community": 0,
+      "community_name": "App.jsx",
       "norm_label": "privacy()"
     },
     {
@@ -1132,8 +1132,8 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "src_setting_profile",
-      "community": 40,
-      "community_name": "i18n.js",
+      "community": 0,
+      "community_name": "App.jsx",
       "norm_label": "profile.jsx"
     },
     {
@@ -1143,8 +1143,8 @@
       "source_location": "L11",
       "_origin": "ast",
       "id": "src_setting_profile_profile",
-      "community": 40,
-      "community_name": "i18n.js",
+      "community": 0,
+      "community_name": "App.jsx",
       "norm_label": "profile()"
     },
     {
@@ -1154,8 +1154,8 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "src_setting_security",
-      "community": 43,
-      "community_name": "Security.jsx",
+      "community": 0,
+      "community_name": "App.jsx",
       "norm_label": "security.jsx"
     },
     {
@@ -1165,8 +1165,8 @@
       "source_location": "L9",
       "_origin": "ast",
       "id": "src_setting_security_generatetotpsecret",
-      "community": 43,
-      "community_name": "Security.jsx",
+      "community": 0,
+      "community_name": "App.jsx",
       "norm_label": "generatetotpsecret()"
     },
     {
@@ -1176,8 +1176,8 @@
       "source_location": "L19",
       "_origin": "ast",
       "id": "src_setting_security_iostoggle",
-      "community": 43,
-      "community_name": "Security.jsx",
+      "community": 0,
+      "community_name": "App.jsx",
       "norm_label": "iostoggle()"
     },
     {
@@ -1187,8 +1187,8 @@
       "source_location": "L36",
       "_origin": "ast",
       "id": "src_setting_security_security",
-      "community": 43,
-      "community_name": "Security.jsx",
+      "community": 0,
+      "community_name": "App.jsx",
       "norm_label": "security()"
     },
     {
@@ -1198,8 +1198,8 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "src_config_i18n",
-      "community": 40,
-      "community_name": "i18n.js",
+      "community": 0,
+      "community_name": "App.jsx",
       "norm_label": "i18n.js"
     },
     {
@@ -1231,8 +1231,8 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "src_courses_communication",
-      "community": 41,
-      "community_name": "Communication.jsx",
+      "community": 0,
+      "community_name": "App.jsx",
       "norm_label": "communication.jsx"
     },
     {
@@ -1242,8 +1242,8 @@
       "source_location": "L17",
       "_origin": "ast",
       "id": "src_courses_communication_messageslist",
-      "community": 41,
-      "community_name": "Communication.jsx",
+      "community": 0,
+      "community_name": "App.jsx",
       "norm_label": "messageslist"
     },
     {
@@ -1253,8 +1253,8 @@
       "source_location": "L57",
       "_origin": "ast",
       "id": "src_courses_communication_initialconversations",
-      "community": 41,
-      "community_name": "Communication.jsx",
+      "community": 0,
+      "community_name": "App.jsx",
       "norm_label": "initialconversations"
     },
     {
@@ -1264,8 +1264,8 @@
       "source_location": "L76",
       "_origin": "ast",
       "id": "src_courses_communication_communication",
-      "community": 41,
-      "community_name": "Communication.jsx",
+      "community": 0,
+      "community_name": "App.jsx",
       "norm_label": "communication()"
     },
     {
@@ -1305,7 +1305,7 @@
       "label": "Course()",
       "file_type": "code",
       "source_file": "src/courses/Course.jsx",
-      "source_location": "L26",
+      "source_location": "L8",
       "_origin": "ast",
       "id": "src_courses_course_course",
       "community": 0,
@@ -1382,7 +1382,7 @@
       "label": "FAQ_DATA",
       "file_type": "code",
       "source_file": "src/courses/FAQ.jsx",
-      "source_location": "L9",
+      "source_location": "L7",
       "_origin": "ast",
       "id": "src_courses_faq_faq_data",
       "community": 39,
@@ -1393,7 +1393,7 @@
       "label": "CATEGORIES",
       "file_type": "code",
       "source_file": "src/courses/FAQ.jsx",
-      "source_location": "L50",
+      "source_location": "L48",
       "_origin": "ast",
       "id": "src_courses_faq_categories",
       "community": 39,
@@ -1404,7 +1404,7 @@
       "label": "AccordionItem()",
       "file_type": "code",
       "source_file": "src/courses/FAQ.jsx",
-      "source_location": "L53",
+      "source_location": "L50",
       "_origin": "ast",
       "id": "src_courses_faq_accordionitem",
       "community": 39,
@@ -1415,7 +1415,7 @@
       "label": "FAQ()",
       "file_type": "code",
       "source_file": "src/courses/FAQ.jsx",
-      "source_location": "L67",
+      "source_location": "L63",
       "_origin": "ast",
       "id": "src_courses_faq_faq",
       "community": 39,
@@ -1429,8 +1429,8 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "src_courses_payment_pay",
-      "community": 42,
-      "community_name": "Payment_pay.jsx",
+      "community": 0,
+      "community_name": "App.jsx",
       "norm_label": "payment_pay.jsx"
     },
     {
@@ -1440,8 +1440,8 @@
       "source_location": "L18",
       "_origin": "ast",
       "id": "src_courses_payment_pay_levelcolors",
-      "community": 42,
-      "community_name": "Payment_pay.jsx",
+      "community": 0,
+      "community_name": "App.jsx",
       "norm_label": "levelcolors"
     },
     {
@@ -1451,19 +1451,19 @@
       "source_location": "L24",
       "_origin": "ast",
       "id": "src_courses_payment_pay_thumbcolors",
-      "community": 42,
-      "community_name": "Payment_pay.jsx",
+      "community": 0,
+      "community_name": "App.jsx",
       "norm_label": "thumbcolors"
     },
     {
       "label": "Payment_pay()",
       "file_type": "code",
       "source_file": "src/courses/Payment_pay.jsx",
-      "source_location": "L29",
+      "source_location": "L26",
       "_origin": "ast",
       "id": "src_courses_payment_pay_payment_pay",
-      "community": 42,
-      "community_name": "Payment_pay.jsx",
+      "community": 0,
+      "community_name": "App.jsx",
       "norm_label": "payment_pay()"
     },
     {
@@ -1473,30 +1473,19 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "src_courses_save",
-      "community": 44,
-      "community_name": "Save.jsx",
+      "community": 0,
+      "community_name": "App.jsx",
       "norm_label": "save.jsx"
-    },
-    {
-      "label": "filterData",
-      "file_type": "code",
-      "source_file": "src/courses/Save.jsx",
-      "source_location": "L16",
-      "_origin": "ast",
-      "id": "src_courses_save_filterdata",
-      "community": 44,
-      "community_name": "Save.jsx",
-      "norm_label": "filterdata"
     },
     {
       "label": "Save()",
       "file_type": "code",
       "source_file": "src/courses/Save.jsx",
-      "source_location": "L37",
+      "source_location": "L10",
       "_origin": "ast",
       "id": "src_courses_save_save",
-      "community": 44,
-      "community_name": "Save.jsx",
+      "community": 0,
+      "community_name": "App.jsx",
       "norm_label": "save()"
     },
     {
@@ -1514,7 +1503,7 @@
       "label": "Teacher()",
       "file_type": "code",
       "source_file": "src/courses/Teacher.jsx",
-      "source_location": "L22",
+      "source_location": "L8",
       "_origin": "ast",
       "id": "src_courses_teacher_teacher",
       "community": 0,
@@ -1715,8 +1704,8 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "src_sign_page_verification_code",
-      "community": 48,
-      "community_name": "Verification_Code.jsx",
+      "community": 0,
+      "community_name": "App.jsx",
       "norm_label": "verification_code.jsx"
     },
     {
@@ -1726,8 +1715,8 @@
       "source_location": "L7",
       "_origin": "ast",
       "id": "src_sign_page_verification_code_verificationcode",
-      "community": 48,
-      "community_name": "Verification_Code.jsx",
+      "community": 0,
+      "community_name": "App.jsx",
       "norm_label": "verificationcode()"
     },
     {
@@ -3263,7 +3252,7 @@
       "label": "\ud83c\udf1f Key Features",
       "file_type": "document",
       "source_file": "README.md",
-      "source_location": "L9",
+      "source_location": "L7",
       "_origin": "ast",
       "id": "readme_key_features",
       "community": 21,
@@ -3274,7 +3263,7 @@
       "label": "\ud83d\udee0\ufe0f Tech Stack",
       "file_type": "document",
       "source_file": "README.md",
-      "source_location": "L34",
+      "source_location": "L15",
       "_origin": "ast",
       "id": "readme_tech_stack",
       "community": 21,
@@ -3282,147 +3271,15 @@
       "norm_label": "\ud83d\udee0\ufe0f tech stack"
     },
     {
-      "label": "Frontend",
-      "file_type": "document",
-      "source_file": "README.md",
-      "source_location": "L36",
-      "_origin": "ast",
-      "id": "readme_frontend",
-      "community": 21,
-      "community_name": "React + Vite",
-      "norm_label": "frontend"
-    },
-    {
-      "label": "Styling",
-      "file_type": "document",
-      "source_file": "README.md",
-      "source_location": "L43",
-      "_origin": "ast",
-      "id": "readme_styling",
-      "community": 21,
-      "community_name": "React + Vite",
-      "norm_label": "styling"
-    },
-    {
-      "label": "\ud83d\udcc2 Project Structure",
-      "file_type": "document",
-      "source_file": "README.md",
-      "source_location": "L50",
-      "_origin": "ast",
-      "id": "readme_project_structure",
-      "community": 21,
-      "community_name": "React + Vite",
-      "norm_label": "\ud83d\udcc2 project structure"
-    },
-    {
       "label": "\ud83d\ude80 How to Run Locally",
       "file_type": "document",
       "source_file": "README.md",
-      "source_location": "L69",
+      "source_location": "L21",
       "_origin": "ast",
       "id": "readme_how_to_run_locally",
       "community": 21,
       "community_name": "React + Vite",
       "norm_label": "\ud83d\ude80 how to run locally"
-    },
-    {
-      "label": "1. Clone the repository",
-      "file_type": "document",
-      "source_file": "README.md",
-      "source_location": "L71",
-      "_origin": "ast",
-      "id": "readme_1_clone_the_repository",
-      "community": 21,
-      "community_name": "React + Vite",
-      "norm_label": "1. clone the repository"
-    },
-    {
-      "label": "2. Navigate to the project directory",
-      "file_type": "document",
-      "source_file": "README.md",
-      "source_location": "L77",
-      "_origin": "ast",
-      "id": "readme_2_navigate_to_the_project_directory",
-      "community": 21,
-      "community_name": "React + Vite",
-      "norm_label": "2. navigate to the project directory"
-    },
-    {
-      "label": "3. Install dependencies",
-      "file_type": "document",
-      "source_file": "README.md",
-      "source_location": "L83",
-      "_origin": "ast",
-      "id": "readme_3_install_dependencies",
-      "community": 21,
-      "community_name": "React + Vite",
-      "norm_label": "3. install dependencies"
-    },
-    {
-      "label": "4. Start the development server",
-      "file_type": "document",
-      "source_file": "README.md",
-      "source_location": "L89",
-      "_origin": "ast",
-      "id": "readme_4_start_the_development_server",
-      "community": 21,
-      "community_name": "React + Vite",
-      "norm_label": "4. start the development server"
-    },
-    {
-      "label": "\ud83c\udfaf Project Goal",
-      "file_type": "document",
-      "source_file": "README.md",
-      "source_location": "L97",
-      "_origin": "ast",
-      "id": "readme_project_goal",
-      "community": 21,
-      "community_name": "React + Vite",
-      "norm_label": "\ud83c\udfaf project goal"
-    },
-    {
-      "label": "\ud83d\udd2e Future Improvements",
-      "file_type": "document",
-      "source_file": "README.md",
-      "source_location": "L105",
-      "_origin": "ast",
-      "id": "readme_future_improvements",
-      "community": 21,
-      "community_name": "React + Vite",
-      "norm_label": "\ud83d\udd2e future improvements"
-    },
-    {
-      "label": "\ud83e\udd1d Contributing",
-      "file_type": "document",
-      "source_file": "README.md",
-      "source_location": "L121",
-      "_origin": "ast",
-      "id": "readme_contributing",
-      "community": 21,
-      "community_name": "React + Vite",
-      "norm_label": "\ud83e\udd1d contributing"
-    },
-    {
-      "label": "\u2b50 Support",
-      "file_type": "document",
-      "source_file": "README.md",
-      "source_location": "L129",
-      "_origin": "ast",
-      "id": "readme_support",
-      "community": 21,
-      "community_name": "React + Vite",
-      "norm_label": "\u2b50 support"
-    },
-    {
-      "label": "\ud83d\udd0e Keywords",
-      "file_type": "document",
-      "source_file": "README.md",
-      "source_location": "L135",
-      "_origin": "ast",
-      "id": "readme_keywords",
-      "community": 21,
-      "community_name": "React + Vite",
-      "norm_label": "\ud83d\udd0e keywords"
     }
   ],
   "links": [
@@ -4897,7 +4754,7 @@
       "context": "import",
       "confidence": "EXTRACTED",
       "source_file": "src/Setting/Notification.jsx",
-      "source_location": "L4",
+      "source_location": "L3",
       "weight": 1.0,
       "source": "src_setting_notification",
       "target": "src_config_i18n",
@@ -4907,7 +4764,7 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "src/Setting/Notification.jsx",
-      "source_location": "L6",
+      "source_location": "L7",
       "weight": 1.0,
       "source": "src_setting_notification",
       "target": "src_setting_notification_notification",
@@ -4928,7 +4785,7 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "src/Setting/Payment.jsx",
-      "source_location": "L24",
+      "source_location": "L19",
       "weight": 1.0,
       "source": "src_setting_payment",
       "target": "src_setting_payment_cardbrandicon",
@@ -4988,7 +4845,7 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "src/Setting/Payment.jsx",
-      "source_location": "L19",
+      "source_location": "L58",
       "weight": 1.0,
       "source": "src_setting_payment",
       "target": "src_setting_payment_sortbydefault",
@@ -4999,7 +4856,7 @@
       "context": "call",
       "confidence": "EXTRACTED",
       "source_file": "src/Setting/Payment.jsx",
-      "source_location": "L458",
+      "source_location": "L430",
       "weight": 1.0,
       "source": "src_setting_payment_payment",
       "target": "src_setting_payment_detectbrand",
@@ -5010,7 +4867,7 @@
       "context": "call",
       "confidence": "EXTRACTED",
       "source_file": "src/Setting/Payment.jsx",
-      "source_location": "L474",
+      "source_location": "L446",
       "weight": 1.0,
       "source": "src_setting_payment_payment",
       "target": "src_setting_payment_sortbydefault",
@@ -5162,6 +5019,28 @@
       "confidence_score": 1.0
     },
     {
+      "relation": "imports_from",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "src/courses/Course.jsx",
+      "source_location": "L3",
+      "weight": 1.0,
+      "source": "src_courses_course",
+      "target": "src_config_i18n",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "imports_from",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "src/courses/Teacher.jsx",
+      "source_location": "L4",
+      "weight": 1.0,
+      "source": "src_courses_teacher",
+      "target": "src_config_i18n",
+      "confidence_score": 1.0
+    },
+    {
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "src/courses/About_us.jsx",
@@ -5215,10 +5094,32 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "src/courses/Course.jsx",
-      "source_location": "L26",
+      "source_location": "L8",
       "weight": 1.0,
       "source": "src_courses_course",
       "target": "src_courses_course_course",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "imports_from",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "src/courses/Course.jsx",
+      "source_location": "L7",
+      "weight": 1.0,
+      "source": "src_courses_course",
+      "target": "src_courses_payment_pay",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "src/courses/Course.jsx",
+      "source_location": "L7",
+      "weight": 1.0,
+      "source": "src_courses_course",
+      "target": "src_courses_payment_pay_payment_pay",
       "confidence_score": 1.0
     },
     {
@@ -5276,7 +5177,7 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "src/courses/FAQ.jsx",
-      "source_location": "L53",
+      "source_location": "L50",
       "weight": 1.0,
       "source": "src_courses_faq",
       "target": "src_courses_faq_accordionitem",
@@ -5286,7 +5187,7 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "src/courses/FAQ.jsx",
-      "source_location": "L50",
+      "source_location": "L48",
       "weight": 1.0,
       "source": "src_courses_faq",
       "target": "src_courses_faq_categories",
@@ -5296,7 +5197,7 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "src/courses/FAQ.jsx",
-      "source_location": "L67",
+      "source_location": "L63",
       "weight": 1.0,
       "source": "src_courses_faq",
       "target": "src_courses_faq_faq",
@@ -5306,7 +5207,7 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "src/courses/FAQ.jsx",
-      "source_location": "L9",
+      "source_location": "L7",
       "weight": 1.0,
       "source": "src_courses_faq",
       "target": "src_courses_faq_faq_data",
@@ -5326,7 +5227,7 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "src/courses/Payment_pay.jsx",
-      "source_location": "L29",
+      "source_location": "L26",
       "weight": 1.0,
       "source": "src_courses_payment_pay",
       "target": "src_courses_payment_pay_payment_pay",
@@ -5346,17 +5247,7 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "src/courses/Save.jsx",
-      "source_location": "L16",
-      "weight": 1.0,
-      "source": "src_courses_save",
-      "target": "src_courses_save_filterdata",
-      "confidence_score": 1.0
-    },
-    {
-      "relation": "contains",
-      "confidence": "EXTRACTED",
-      "source_file": "src/courses/Save.jsx",
-      "source_location": "L37",
+      "source_location": "L10",
       "weight": 1.0,
       "source": "src_courses_save",
       "target": "src_courses_save_save",
@@ -5366,7 +5257,7 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "src/courses/Teacher.jsx",
-      "source_location": "L22",
+      "source_location": "L8",
       "weight": 1.0,
       "source": "src_courses_teacher",
       "target": "src_courses_teacher_teacher",
@@ -6596,27 +6487,7 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "README.md",
-      "source_location": "L121",
-      "weight": 1.0,
-      "source": "readme_learnova",
-      "target": "readme_contributing",
-      "confidence_score": 1.0
-    },
-    {
-      "relation": "contains",
-      "confidence": "EXTRACTED",
-      "source_file": "README.md",
-      "source_location": "L105",
-      "weight": 1.0,
-      "source": "readme_learnova",
-      "target": "readme_future_improvements",
-      "confidence_score": 1.0
-    },
-    {
-      "relation": "contains",
-      "confidence": "EXTRACTED",
-      "source_file": "README.md",
-      "source_location": "L69",
+      "source_location": "L21",
       "weight": 1.0,
       "source": "readme_learnova",
       "target": "readme_how_to_run_locally",
@@ -6626,7 +6497,7 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "README.md",
-      "source_location": "L9",
+      "source_location": "L7",
       "weight": 1.0,
       "source": "readme_learnova",
       "target": "readme_key_features",
@@ -6636,113 +6507,13 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "README.md",
-      "source_location": "L135",
-      "weight": 1.0,
-      "source": "readme_learnova",
-      "target": "readme_keywords",
-      "confidence_score": 1.0
-    },
-    {
-      "relation": "contains",
-      "confidence": "EXTRACTED",
-      "source_file": "README.md",
-      "source_location": "L97",
-      "weight": 1.0,
-      "source": "readme_learnova",
-      "target": "readme_project_goal",
-      "confidence_score": 1.0
-    },
-    {
-      "relation": "contains",
-      "confidence": "EXTRACTED",
-      "source_file": "README.md",
-      "source_location": "L50",
-      "weight": 1.0,
-      "source": "readme_learnova",
-      "target": "readme_project_structure",
-      "confidence_score": 1.0
-    },
-    {
-      "relation": "contains",
-      "confidence": "EXTRACTED",
-      "source_file": "README.md",
-      "source_location": "L129",
-      "weight": 1.0,
-      "source": "readme_learnova",
-      "target": "readme_support",
-      "confidence_score": 1.0
-    },
-    {
-      "relation": "contains",
-      "confidence": "EXTRACTED",
-      "source_file": "README.md",
-      "source_location": "L34",
+      "source_location": "L15",
       "weight": 1.0,
       "source": "readme_learnova",
       "target": "readme_tech_stack",
       "confidence_score": 1.0
-    },
-    {
-      "relation": "contains",
-      "confidence": "EXTRACTED",
-      "source_file": "README.md",
-      "source_location": "L36",
-      "weight": 1.0,
-      "source": "readme_tech_stack",
-      "target": "readme_frontend",
-      "confidence_score": 1.0
-    },
-    {
-      "relation": "contains",
-      "confidence": "EXTRACTED",
-      "source_file": "README.md",
-      "source_location": "L43",
-      "weight": 1.0,
-      "source": "readme_tech_stack",
-      "target": "readme_styling",
-      "confidence_score": 1.0
-    },
-    {
-      "relation": "contains",
-      "confidence": "EXTRACTED",
-      "source_file": "README.md",
-      "source_location": "L71",
-      "weight": 1.0,
-      "source": "readme_how_to_run_locally",
-      "target": "readme_1_clone_the_repository",
-      "confidence_score": 1.0
-    },
-    {
-      "relation": "contains",
-      "confidence": "EXTRACTED",
-      "source_file": "README.md",
-      "source_location": "L77",
-      "weight": 1.0,
-      "source": "readme_how_to_run_locally",
-      "target": "readme_2_navigate_to_the_project_directory",
-      "confidence_score": 1.0
-    },
-    {
-      "relation": "contains",
-      "confidence": "EXTRACTED",
-      "source_file": "README.md",
-      "source_location": "L83",
-      "weight": 1.0,
-      "source": "readme_how_to_run_locally",
-      "target": "readme_3_install_dependencies",
-      "confidence_score": 1.0
-    },
-    {
-      "relation": "contains",
-      "confidence": "EXTRACTED",
-      "source_file": "README.md",
-      "source_location": "L89",
-      "weight": 1.0,
-      "source": "readme_how_to_run_locally",
-      "target": "readme_4_start_the_development_server",
-      "confidence_score": 1.0
     }
   ],
   "hyperedges": [],
-  "built_at_commit": "f53078c2ec9b0420fa920e27b5183b99694c4537"
+  "built_at_commit": "bc69af911635c4bad8314490db8d2bb5bc079682"
 }

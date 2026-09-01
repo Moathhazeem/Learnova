@@ -15,6 +15,11 @@ function detectBrand(number) {
     return 'generic';
 }
 
+// ترتيب قائمة البطاقات بحيث تظهر البطاقة الافتراضية في المقدمة
+function sortByDefault(methods) {
+    return [...methods].sort((a, b) => Number(b.isDefault) - Number(a.isDefault));
+}
+
 // عرض شعار بطاقة الدفع المناسب بناءً على نوعها وحجمها
 function CardBrandIcon({ brand, size = 36 }) {
     if (brand === 'visa') return (
@@ -52,11 +57,6 @@ function CardBrandIcon({ brand, size = 36 }) {
             <rect x="4" y="16" width="40" height="3" fill="#FFD166" opacity="0.6" />
         </svg>
     );
-}
-
-// ترتيب قائمة البطاقات بحيث تظهر البطاقة الافتراضية في المقدمة
-function sortByDefault(methods) {
-    return [...methods].sort((a, b) => Number(b.isDefault) - Number(a.isDefault));
 }
 
 // عرض تفاصيل بطاقة دفع فردية مع الخيارات المتاحة لها (مثل التعيين كافتراضية أو الحذف)
@@ -301,6 +301,7 @@ function Payment() {
 
     const [searchQuery, setSearchQuery] = useState("");
 
+    // التحقق من مطابقة عناصر واجهة الدفع مع نص البحث
     const checkMatch = (title, keywords) => {
         if (!searchQuery) return true;
         const q = searchQuery.toLowerCase();
@@ -358,6 +359,7 @@ function Payment() {
     const [showToast, setShowToast] = useState(false);
     const [toastMessage, setToastMessage] = useState("");
 
+    // مراقبة وتحديث حالة الوضع الداكن (Dark Mode)
     useEffect(() => {
         const updateThemeState = () => {
             setIsDarkMode(document.documentElement.classList.contains("dark"));
@@ -368,12 +370,14 @@ function Payment() {
         return () => observer.disconnect();
     }, []);
 
+    // حفظ وتحديث بطاقات الدفع في التخزين المحلي (LocalStorage)
     useEffect(() => {
         if (Array.isArray(paymentMethods)) {
             localStorage.setItem('payment_methods', JSON.stringify(paymentMethods));
         }
     }, [paymentMethods]);
 
+    // منع التمرير في الصفحة عند فتح النافذة المنبثقة
     useEffect(() => {
         document.body.style.overflow = showModal ? 'hidden' : '';
         return () => { document.body.style.overflow = ''; };
@@ -416,6 +420,30 @@ function Payment() {
         }
         setFormErrors(errors);
         return Object.keys(errors).length === 0;
+    };
+
+    // إعادة تعيين حقول نموذج إضافة البطاقة إلى حالتها الافتراضية
+    const resetForm = () => {
+        setCardNumber("");
+        setCardName("");
+        setCardExpiry("");
+        setCardCVV("");
+        setSetAsDefault(true);
+        setShowCVV(false);
+        setFormErrors({});
+        setIsSubmitting(false);
+    };
+
+    // فتح النافذة المنبثقة لإضافة بطاقة جديدة
+    const openModal = () => {
+        resetForm();
+        setShowModal(true);
+    };
+
+    // إغلاق النافذة المنبثقة لإضافة بطاقة جديدة وتصفير النموذج
+    const closeModal = () => {
+        setShowModal(false);
+        resetForm();
     };
 
     // إضافة بطاقة دفع جديدة إلى قائمة بطاقات المستخدم
@@ -496,30 +524,7 @@ function Payment() {
         URL.revokeObjectURL(url);
     };
 
-    // إعادة تعيين حقول نموذج إضافة البطاقة إلى حالتها الافتراضية
-    const resetForm = () => {
-        setCardNumber("");
-        setCardName("");
-        setCardExpiry("");
-        setCardCVV("");
-        setSetAsDefault(true);
-        setShowCVV(false);
-        setFormErrors({});
-        setIsSubmitting(false);
-    };
-
-    // فتح النافذة المنبثقة لإضافة بطاقة جديدة
-    const openModal = () => {
-        resetForm();
-        setShowModal(true);
-    };
-
-    // إغلاق النافذة المنبثقة لإضافة بطاقة جديدة وتصفير النموذج
-    const closeModal = () => {
-        setShowModal(false);
-        resetForm();
-    };
-
+    // قائمة البطاقات مرتبة بحيث تظهر الافتراضية أولاً
     const sortedPaymentMethods = useMemo(() => {
         return sortByDefault(paymentMethods);
     }, [paymentMethods]);
@@ -817,4 +822,4 @@ function Payment() {
     );
 }
 
-export default Payment;
+export default Payment;
