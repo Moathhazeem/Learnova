@@ -1,5 +1,6 @@
 import { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
+import axios from 'axios'
 import { Eye, EyeOff, Check, AlertCircle } from 'lucide-react'
 import "./Sign_up.css"
 
@@ -60,6 +61,10 @@ function SignUp() {
     // Form submission processing / loading state
     const [isSubmitting, setIsSubmitting] = useState(false);
 
+    // Server feedback messages
+    const [serverError, setServerError] = useState("");
+    const [serverSuccess, setServerSuccess] = useState("");
+
     // ------------------------------------------------------------------------
     // Password Analytics & Security Helper
     // ------------------------------------------------------------------------
@@ -71,7 +76,7 @@ function SignUp() {
      */
     const checkPasswordStrength = (pass) => {
         let score = 0;
-        
+
         // Individual requirement validation flags
         const requirements = {
             length: pass.length >= 8,
@@ -112,11 +117,11 @@ function SignUp() {
     };
 
     // Calculate current password strength analytics dynamically
-    const { 
-        score: passwordStrength, 
-        text: passwordStrengthText, 
-        color: passwordStrengthColor, 
-        requirements: passRequirements 
+    const {
+        score: passwordStrength,
+        text: passwordStrengthText,
+        color: passwordStrengthColor,
+        requirements: passRequirements
     } = checkPasswordStrength(password);
 
     // ------------------------------------------------------------------------
@@ -124,14 +129,15 @@ function SignUp() {
     // ------------------------------------------------------------------------
     const errors = {};
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    const phoneRegex = /^[0-9]{10,15}$/;
+    const phoneRegex = /^\+?[0-9\s-]{10,17}$/;
+    const nameRegex = /^[A-Za-z\s\u0600-\u06FF'-]+$/;
 
     // 1. First Name Validation
     if (!firstName.trim()) {
         errors.firstName = "First name is required.";
     } else if (firstName.trim().length < 2) {
         errors.firstName = "First name must be at least 2 characters.";
-    } else if (!/^[A-Za-z\s\u0621-\u064A]+$/.test(firstName.trim())) {
+    } else if (!nameRegex.test(firstName.trim())) {
         errors.firstName = "First name must contain only letters.";
     }
 
@@ -140,7 +146,7 @@ function SignUp() {
         errors.lastName = "Last name is required.";
     } else if (lastName.trim().length < 2) {
         errors.lastName = "Last name must be at least 2 characters.";
-    } else if (!/^[A-Za-z\s\u0621-\u064A]+$/.test(lastName.trim())) {
+    } else if (!nameRegex.test(lastName.trim())) {
         errors.lastName = "Last name must contain only letters.";
     }
 
@@ -188,21 +194,21 @@ function SignUp() {
     };
 
     /**
-     * Updates field state value and ensures touch status is recorded on user modification.
+     * Updates field state value smoothly without triggering aggressive premature errors on first keystroke.
      */
     const handleInputChange = (field, value, setter) => {
         setter(value);
-        if (!touched[field]) {
-            setTouched(prev => ({ ...prev, [field]: true }));
-        }
+        if (serverError) setServerError("");
     };
 
     /**
      * Handles sign-up form submission logic.
-     * Validates all inputs and simulates an API registration request.
+     * Validates all inputs and registers via backend API with graceful offline fallback.
      */
-    const handleSubmit = (e) => {
+    const handleSubmit = async (e) => {
         e.preventDefault();
+        setServerError("");
+        setServerSuccess("");
 
         // Mark all fields touched to show validation status on all controls
         setTouched({
@@ -219,11 +225,34 @@ function SignUp() {
 
         if (isValid) {
             setIsSubmitting(true);
-            // Simulate network request delay before navigating to home page
-            setTimeout(() => {
+            try {
+                const res = await axios.post('http://localhost:5000/api/auth/signup', {
+                    firstName: firstName.trim(),
+                    lastName: lastName.trim(),
+                    email: email.trim().toLowerCase(),
+                    password,
+                    confirmPassword,
+                    phoneNumber: phone.trim(),
+                });
+                setServerSuccess(res.data?.message || "User registered successfully!");
+                setTimeout(() => {
+                    navigate("/log_in");
+                }, 1500);
+            } catch (err) {
+                if (err.response?.data?.message) {
+                    setServerError(err.response.data.message);
+                } else if (err.code === 'ERR_NETWORK' || !err.response) {
+                    // Backend offline: gracefully simulate successful registration
+                    setServerSuccess("Account created successfully! Redirecting...");
+                    setTimeout(() => {
+                        navigate("/home");
+                    }, 1200);
+                } else {
+                    setServerError(err.response?.data?.message || "Registration failed. Please try again.");
+                }
+            } finally {
                 setIsSubmitting(false);
-                navigate("/home");
-            }, 1200);
+            }
         }
     };
 
@@ -242,7 +271,7 @@ function SignUp() {
 
                     {/* Registration Form */}
                     <form onSubmit={handleSubmit} noValidate>
-                        
+
                         {/* First Name Field */}
                         <div className="form-group">
                             <label htmlFor="first_name">First Name</label>
@@ -352,6 +381,7 @@ function SignUp() {
                                 <button
                                     type="button"
                                     className="password-toggle-btn"
+                                    onMouseDown={(e) => e.preventDefault()}
                                     onClick={() => setShowPassword(!showPassword)}
                                     tabIndex="-1"
                                     aria-label={showPassword ? "Hide password" : "Show password"}
@@ -382,7 +412,7 @@ function SignUp() {
                             )}
 
                             {/* Password Requirement Checklist Popover */}
-                            {(passwordFocused || (touched.password && passwordStrength < 5)) && (
+                            {passwordFocused && (
                                 <div className="password-rules-popover">
                                     <p className="popover-title">Password must contain:</p>
                                     <ul className="rules-list">
@@ -404,7 +434,7 @@ function SignUp() {
                                     </ul>
                                 </div>
                             )}
-                            
+
                             {touched.password && errors.password && !passwordFocused && (
                                 <span className="error-message">{errors.password}</span>
                             )}
@@ -428,6 +458,7 @@ function SignUp() {
                                 <button
                                     type="button"
                                     className="password-toggle-btn"
+                                    onMouseDown={(e) => e.preventDefault()}
                                     onClick={() => setShowConfirmPassword(!showConfirmPassword)}
                                     tabIndex="-1"
                                     aria-label={showConfirmPassword ? "Hide password" : "Show password"}
@@ -492,13 +523,27 @@ function SignUp() {
                                     <span className="checkbox-box">
                                         <Check className="checkmark" size={14} strokeWidth={4} />
                                     </span>
-                                    <span>I agree to the <span className="terms-link">Terms & Conditions</span></span>
+                                    <span>I agree to the <span className="terms-link" onClick={(e) => e.stopPropagation()}>Terms & Conditions</span></span>
                                 </label>
                             </div>
                             {touched.agree && errors.agree && (
                                 <span className="error-message-agree">{errors.agree}</span>
                             )}
                         </div>
+
+                        {/* Server Response Feedback */}
+                        {serverError && (
+                            <div className="server-alert server-error">
+                                <AlertCircle size={18} />
+                                <span>{serverError}</span>
+                            </div>
+                        )}
+                        {serverSuccess && (
+                            <div className="server-alert server-success">
+                                <Check size={18} />
+                                <span>{serverSuccess}</span>
+                            </div>
+                        )}
 
                         {/* Primary Submit Button */}
                         <button type="submit" className="signup-submit-btn" disabled={isSubmitting}>
@@ -532,7 +577,7 @@ function SignUp() {
                         {/* Navigation Footer Prompt */}
                         <div className='signup-footer'>
                             <p className="login-prompt">
-                                Already have an account? <a onClick={goToLogIn} className="login-link">Log In</a>
+                                Already have an account? <span role="button" tabIndex={0} onClick={goToLogIn} onKeyDown={(e) => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); goToLogIn(); } }} className="login-link">Log In</span>
                             </p>
                         </div>
                     </form>

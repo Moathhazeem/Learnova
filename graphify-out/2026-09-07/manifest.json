@@ -15,8 +15,8 @@
     "semantic_hash": ""
   },
   "package.json": {
-    "mtime": 1788780670.7215655,
-    "ast_hash": "41f0bf6a93167ca668b020d43f945aca",
+    "mtime": 1783770982.0601833,
+    "ast_hash": "cd11dd6575de77e310ecf278ba556ee1",
     "semantic_hash": ""
   },
   "src/App.jsx": {
@@ -65,23 +65,23 @@
     "semantic_hash": ""
   },
   "src/Setting/Preferences.jsx": {
-    "mtime": 1788245073.691697,
-    "ast_hash": "ecdddedb7fc48d27f0c40b967b07af6d",
+    "mtime": 1784875622.6559207,
+    "ast_hash": "f3a1a9ac4924862c9976dc7057c75b2d",
     "semantic_hash": ""
   },
   "src/Setting/Privacy.jsx": {
-    "mtime": 1788245184.8598845,
-    "ast_hash": "dacb39c20b53ee742d168d40de3cbb67",
+    "mtime": 1784875568.5208025,
+    "ast_hash": "f1ac98b3c22fe50ece9332b8a84d74b9",
     "semantic_hash": ""
   },
   "src/Setting/Profile.jsx": {
-    "mtime": 1788245324.6256468,
-    "ast_hash": "ee20e153a537c55cd9e64c31bf257b58",
+    "mtime": 1783769521.9134953,
+    "ast_hash": "307265b86f144d1c0ee78ac5e2c6985d",
     "semantic_hash": ""
   },
   "src/Setting/Security.jsx": {
-    "mtime": 1788245497.4726427,
-    "ast_hash": "e6f09aeac23e851f9cd8a85439ef212c",
+    "mtime": 1784875497.4925287,
+    "ast_hash": "3a6b6c867b6af86d6597663e1bb75b51",
     "semantic_hash": ""
   },
   "src/config/i18n.js": {
@@ -170,8 +170,8 @@
     "semantic_hash": ""
   },
   "src/sign_page/Sign_up.jsx": {
-    "mtime": 1788783125.8323176,
-    "ast_hash": "00e74950624e9ba59308f87ec0b1db6b",
+    "mtime": 1787039915.9328501,
+    "ast_hash": "0bbafe94169cecfadb775dc197ccafcc",
     "semantic_hash": ""
   },
   "src/sign_page/Verification_Code.jsx": {
@@ -1422,26 +1422,6 @@
   "src/assets/react.svg": {
     "mtime": 1772476226.2262602,
     "ast_hash": "f0402b67b6ce880f65666bb49e841696",
-    "semantic_hash": ""
-  },
-  "server/index.js": {
-    "mtime": 1788782442.9747825,
-    "ast_hash": "8748242ea84a0efaf6e17c234b27065d",
-    "semantic_hash": ""
-  },
-  "server/models/User.js": {
-    "mtime": 1788781407.4186716,
-    "ast_hash": "722d7a8130d0b8610f77df72bf4df4a6",
-    "semantic_hash": ""
-  },
-  "server/package.json": {
-    "mtime": 1788780876.536059,
-    "ast_hash": "2ccb89ed9fcf069ed165dfd5c90eec91",
-    "semantic_hash": ""
-  },
-  "server/routes/auth.js": {
-    "mtime": 1788782267.6067312,
-    "ast_hash": "b304bac465337b0e1e3952464b13ac99",
     "semantic_hash": ""
   }
 }

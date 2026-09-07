@@ -36,3 +36,8 @@ public/video/
 # *.mov
 # *.avi
 # *.mkv
+
+# Environment variables
+.env
+.env.local
+.env.*.local

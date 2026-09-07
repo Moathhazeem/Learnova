@@ -1,16 +1,16 @@
-# Graph Report - Learnova  (2026-09-07)
+# Graph Report - Learnova  (2026-09-01)
 
 ## Corpus Check
-- 70 files · ~1,788,811 words
+- 66 files · ~1,787,775 words
 - Verdict: corpus is large enough that graph structure adds value.
 
 ## Summary
-- 350 nodes · 358 edges · 50 communities (33 shown, 17 thin omitted)
+- 311 nodes · 322 edges · 49 communities (31 shown, 18 thin omitted)
 - Extraction: 99% EXTRACTED · 1% INFERRED · 0% AMBIGUOUS · INFERRED: 2 edges (avg confidence: 0.5)
 - Token cost: 0 input · 0 output
 
 ## Graph Freshness
-- Built from commit: `635c03fd`
+- Built from commit: `f53078c2`
 - Run `git rev-parse HEAD` and compare to check if the graph is stale.
 - Run `graphify update .` after code changes (no API cost).
 
@@ -58,7 +58,6 @@
 - LandingPage.jsx
 - Footer.jsx
 - Verification_Code.jsx
-- Check_email.jsx
 
 ## God Nodes (most connected - your core abstractions)
 1. `What You Must Do When Invoked` - 12 edges
@@ -78,15 +77,15 @@
 ## Import Cycles
 - None detected.
 
-## Communities (50 total, 17 thin omitted)
+## Communities (49 total, 18 thin omitted)
 
 ### Community 0 - "App.jsx"
-Cohesion: 0.12
-Nodes (11): App(), AboutUs(), Contact_us(), Course(), Teacher(), Footer(), Home(), ForgotPassword() (+3 more)
+Cohesion: 0.13
+Nodes (11): App(), AboutUs(), Contact_us(), Course(), Teacher(), Home(), CheckEmail(), TODO: Wire up API resend email logic here (+3 more)
 
 ### Community 1 - "dependencies"
 Cohesion: 0.06
-Nodes (33): axios, i18next, leaflet, lucide-react, dependencies, axios, i18next, leaflet (+25 more)
+Nodes (31): i18next, leaflet, lucide-react, dependencies, i18next, leaflet, lucide-react, qrcode.react (+23 more)
 
 ### Community 2 - "What You Must Do When Invoked"
 Cohesion: 0.08
@@ -97,12 +96,12 @@ Cohesion: 0.11
 Nodes (19): eslint, @eslint/js, eslint-plugin-react-hooks, eslint-plugin-react-refresh, globals, devDependencies, eslint, @eslint/js (+11 more)
 
 ### Community 4 - "What You Must Do When Invoked"
-Cohesion: 0.07
-Nodes (26): For /graphify add and --watch, For /graphify query, For the commit hook and native CLAUDE.md integration, For --update and --cluster-only, /graphify, Honesty Rules, Interpreter guard for subcommands, Part A - Structural extraction for code files (+18 more)
+Cohesion: 0.13
+Nodes (15): Part A - Structural extraction for code files, Part B - Semantic extraction (parallel subagents), Part C - Merge AST + semantic into final extraction, Step 0 - GitHub repos and multi-path merge (only if a URL or several paths), Step 1 - Ensure graphify is installed, Step 2.5 - Video and audio (only if video files detected), Step 2 - Detect files, Step 3 - Extract entities and relationships (+7 more)
 
 ### Community 5 - "/graphify"
-Cohesion: 0.09
-Nodes (21): bcryptjs, cors, dotenv, express, mongoose, author, dependencies, bcryptjs (+13 more)
+Cohesion: 0.17
+Nodes (11): For /graphify add and --watch, For /graphify query, For the commit hook and native CLAUDE.md integration, For --update and --cluster-only, /graphify, Honesty Rules, Interpreter guard for subcommands, PowerShell 5.1: Vertical scrolling stops working (+3 more)
 
 ### Community 6 - "package.json"
 Cohesion: 0.20
@@ -169,8 +168,8 @@ Cohesion: 0.40
 Nodes (3): CATEGORIES, FAQ(), FAQ_DATA
 
 ### Community 40 - "i18n.js"
-Cohesion: 0.17
-Nodes (6): Explore(), Notification(), Privacy(), Profile(), generateTOTPSecret(), Security()
+Cohesion: 0.14
+Nodes (5): Explore(), Notification(), Preferences(), Privacy(), Profile()
 
 ### Community 41 - "Communication.jsx"
 Cohesion: 0.50
@@ -180,33 +179,25 @@ Nodes (3): Communication(), initialConversations, messagesList
 Cohesion: 0.50
 Nodes (3): levelColors, Payment_pay(), thumbColors
 
-### Community 43 - "Security.jsx"
-Cohesion: 0.18
-Nodes (9): app, authRoutes, cors, express, mongoose, bcrypt, express, router (+1 more)
-
-### Community 48 - "Verification_Code.jsx"
-Cohesion: 0.50
-Nodes (3): mongoose, { PhoneNumber }, userSchema
-
 ## Knowledge Gaps
-- **172 isolated node(s):** `name`, `private`, `version`, `type`, `dev` (+167 more)
+- **145 isolated node(s):** `name`, `private`, `version`, `type`, `dev` (+140 more)
   These have ≤1 connection - possible missing edges or undocumented components.
-- **17 thin communities (<3 nodes) omitted from report** — run `graphify query` to explore isolated nodes.
+- **18 thin communities (<3 nodes) omitted from report** — run `graphify query` to explore isolated nodes.
 
 ## Suggested Questions
 _Questions this graph is uniquely positioned to answer:_
 
 - **Why does `dependencies` connect `dependencies` to `package.json`?**
-  _High betweenness centrality (0.023) - this node is a cross-community bridge._
+  _High betweenness centrality (0.027) - this node is a cross-community bridge._
 - **Why does `devDependencies` connect `devDependencies` to `package.json`?**
-  _High betweenness centrality (0.015) - this node is a cross-community bridge._
+  _High betweenness centrality (0.018) - this node is a cross-community bridge._
+- **Why does `What You Must Do When Invoked` connect `What You Must Do When Invoked` to `/graphify`?**
+  _High betweenness centrality (0.005) - this node is a cross-community bridge._
 - **What connects `name`, `private`, `version` to the rest of the system?**
-  _172 weakly-connected nodes found - possible documentation gaps or missing edges._
+  _145 weakly-connected nodes found - possible documentation gaps or missing edges._
 - **Should `App.jsx` be split into smaller, more focused modules?**
-  _Cohesion score 0.12318840579710146 - nodes in this community are weakly interconnected._
+  _Cohesion score 0.12648221343873517 - nodes in this community are weakly interconnected._
 - **Should `dependencies` be split into smaller, more focused modules?**
-  _Cohesion score 0.06060606060606061 - nodes in this community are weakly interconnected._
+  _Cohesion score 0.06451612903225806 - nodes in this community are weakly interconnected._
 - **Should `What You Must Do When Invoked` be split into smaller, more focused modules?**
   _Cohesion score 0.08 - nodes in this community are weakly interconnected._
-- **Should `devDependencies` be split into smaller, more focused modules?**
-  _Cohesion score 0.10526315789473684 - nodes in this community are weakly interconnected._
