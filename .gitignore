@@ -38,6 +38,7 @@ public/video/
 # *.mkv
 
 # Environment variables
+node_modules/
 .env
 .env.local
 .env.*.local
