@@ -3,12 +3,42 @@ const router = express.Router();
 const bcrypt = require('bcryptjs');
 const User = require('../models/User');
 const { OAuth2Client } = require('google-auth-library');
+
+if (!process.env.GOOGLE_CLIENT_ID) {
+    console.warn('GOOGLE_CLIENT_ID is not defined! Google OAuth will not work.');
+}
+
 const client = new OAuth2Client(process.env.GOOGLE_CLIENT_ID);
 
 router.post('/google', async (req, res) => {
-    const { credential } = req.body;
+    const { credential, googleId, email, firstName, lastName } = req.body;
+
+    if (!credential && !email) {
+        return res.status(400).json({ message: 'No credential or email provided' });
+    }
+
+    if (!process.env.GOOGLE_CLIENT_ID) {
+        return res.status(500).json({ message: 'Server configuration error: GOOGLE_CLIENT_ID missing' });
+    }
 
     try {
+        let userEmail = email;
+        let gId = googleId;
+        let fName = firstName;
+        let lName = lastName;
+        if (!userEmail && credential) {
+            const googleRes = await fetch(`https://www.googleapis.com/oauth2/v3/userinfo?access_token=${credential}`);
+            const payload = await googleRes.json();
+            if (payload.error) {
+                return res.status(400).json({ message: 'Invalid Google Access Token' })
+            }
+            userEmail = payload.email;
+            fName = payload.given_name;
+            lName = payload.family_name;
+            gId = payload.sub;
+        }
+        let user = await User.findOne({ email: userEmail });
+
         const ticket = await client.verifyIdToken({
             idToken: credential,
             audience: process.env.GOOGLE_CLIENT_ID,
@@ -16,18 +46,18 @@ router.post('/google', async (req, res) => {
         const payload = ticket.getPayload();
         const { sub: googleId, email, given_name: firstName, family_name: lastName } = payload;
 
-        let user = await User.findOne({ email });
         if (!user) {
             user = new User({
-                firstName: firstName || 'Google',
-                lastName: lastName || 'User',
-                email,
-                googleId,
+                firstName: fName || 'Google',
+                lastName: lName || 'User',
+                email: userEmail,
+                googleId: gId,
                 provider: 'google',
             });
             await user.save();
         } else if (!user.googleId) {
-            user.googleId = googleId;
+            user.googleId = gId;
+            user.provider = 'google';
             await user.save();
         }
 
