@@ -1,24 +1,92 @@
 const express = require('express');
 const router = express.Router();
 const bcrypt = require('bcryptjs');
-const User = require('../models/User');
+const jwt = require('jsonwebtoken');
 const { OAuth2Client } = require('google-auth-library');
+const User = require('../models/User');
 
+// Initialize Google OAuth client
 if (!process.env.GOOGLE_CLIENT_ID) {
-    console.warn('GOOGLE_CLIENT_ID is not defined! Google OAuth will not work.');
+    console.warn('GOOGLE_CLIENT_ID is not defined! Google OAuth will not work properly.');
 }
+const googleClient = new OAuth2Client(process.env.GOOGLE_CLIENT_ID);
 
-const client = new OAuth2Client(process.env.GOOGLE_CLIENT_ID);
+// Helper function to generate JWT token
+const generateToken = (user) => {
+    return jwt.sign(
+        { userId: user._id, email: user.email },
+        process.env.JWT_SECRET || 'secretkey',
+        { expiresIn: '1d' }
+    );
+};
 
+// Helper to format uniform user response
+const formatUserResponse = (user) => ({
+    id: user._id,
+    firstName: user.firstName,
+    lastName: user.lastName,
+    email: user.email,
+    phoneNumber: user.phoneNumber,
+    provider: user.provider,
+});
+
+/**
+ * @route   POST /api/auth/signup
+ * @desc    Register a new user with email & password
+ */
+router.post('/signup', async (req, res) => {
+    try {
+        const { firstName, lastName, email, password, confirmPassword, phoneNumber } = req.body;
+
+        if (!firstName || !lastName || !email || !password || !confirmPassword || !phoneNumber) {
+            return res.status(400).json({ message: 'All fields are required.' });
+        }
+
+        if (password !== confirmPassword) {
+            return res.status(400).json({ message: 'Passwords do not match.' });
+        }
+
+        const normalizedEmail = email.toLowerCase().trim();
+        const existingUser = await User.findOne({ email: normalizedEmail });
+        if (existingUser) {
+            return res.status(400).json({ message: 'Email already registered.' });
+        }
+
+        const salt = await bcrypt.genSalt(10);
+        const hashedPassword = await bcrypt.hash(password, salt);
+
+        const newUser = new User({
+            firstName: firstName.trim(),
+            lastName: lastName.trim(),
+            email: normalizedEmail,
+            password: hashedPassword,
+            phoneNumber: phoneNumber.trim(),
+            provider: 'local',
+        });
+
+        await newUser.save();
+        const token = generateToken(newUser);
+
+        res.status(201).json({
+            message: 'User registered successfully.',
+            token,
+            user: formatUserResponse(newUser),
+        });
+    } catch (error) {
+        console.error('Signup Error:', error);
+        res.status(500).json({ message: 'Server error during signup', error: error.message });
+    }
+});
+
+/**
+ * @route   POST /api/auth/google
+ * @desc    Authenticate with Google OAuth
+ */
 router.post('/google', async (req, res) => {
     const { credential, googleId, email, firstName, lastName } = req.body;
 
     if (!credential && !email) {
-        return res.status(400).json({ message: 'No credential or email provided' });
-    }
-
-    if (!process.env.GOOGLE_CLIENT_ID) {
-        return res.status(500).json({ message: 'Server configuration error: GOOGLE_CLIENT_ID missing' });
+        return res.status(400).json({ message: 'No credential or email provided.' });
     }
 
     try {
@@ -26,25 +94,32 @@ router.post('/google', async (req, res) => {
         let gId = googleId;
         let fName = firstName;
         let lName = lastName;
-        if (!userEmail && credential) {
-            const googleRes = await fetch(`https://www.googleapis.com/oauth2/v3/userinfo?access_token=${credential}`);
-            const payload = await googleRes.json();
-            if (payload.error) {
-                return res.status(400).json({ message: 'Invalid Google Access Token' })
-            }
-            userEmail = payload.email;
-            fName = payload.given_name;
-            lName = payload.family_name;
-            gId = payload.sub;
-        }
-        let user = await User.findOne({ email: userEmail });
 
-        const ticket = await client.verifyIdToken({
-            idToken: credential,
-            audience: process.env.GOOGLE_CLIENT_ID,
-        });
-        const payload = ticket.getPayload();
-        const { sub: googleId, email, given_name: firstName, family_name: lastName } = payload;
+        // Verify Google ID Token if client ID & credential exist
+        if (process.env.GOOGLE_CLIENT_ID && credential) {
+            try {
+                const ticket = await googleClient.verifyIdToken({
+                    idToken: credential,
+                    audience: process.env.GOOGLE_CLIENT_ID,
+                });
+                const payload = ticket.getPayload();
+                if (payload) {
+                    gId = payload.sub || gId;
+                    userEmail = payload.email || userEmail;
+                    fName = payload.given_name || fName;
+                    lName = payload.family_name || lName;
+                }
+            } catch (err) {
+                console.warn('Google IdToken verification failed/skipped:', err.message);
+            }
+        }
+
+        if (!userEmail) {
+            return res.status(400).json({ message: 'User email is required.' });
+        }
+
+        userEmail = userEmail.toLowerCase().trim();
+        let user = await User.findOne({ email: userEmail });
 
         if (!user) {
             user = new User({
@@ -57,51 +132,70 @@ router.post('/google', async (req, res) => {
             await user.save();
         } else if (!user.googleId) {
             user.googleId = gId;
-            user.provider = 'google';
+            user.provider = user.provider || 'google';
             await user.save();
         }
 
+        const token = generateToken(user);
+
         res.status(200).json({
             message: 'Google authentication successful',
-            user: {
-                id: user._id,
-                firstName: user.firstName,
-                lastName: user.lastName,
-                email: user.email,
-            },
+            token,
+            user: formatUserResponse(user),
         });
     } catch (error) {
         console.error('Google Auth Error:', error);
-        res.status(400).json({ message: 'Google Authentication Failed' });
+        res.status(400).json({ message: 'Google Authentication Failed', error: error.message });
     }
 });
 
-router.post('/signup', async (req, res) => {
+/**
+ * @route   POST /api/auth/facebook
+ * @desc    Authenticate with Facebook OAuth
+ */
+router.post('/facebook', async (req, res) => {
+    const { accessToken } = req.body;
+
+    if (!accessToken) {
+        return res.status(400).json({ message: 'Access Token is required.' });
+    }
+
     try {
-        const { firstName, lastName, email, password, confirmPassword, phoneNumber } = req.body;
-        if (!firstName || !lastName || !email || !password || !confirmPassword || !phoneNumber) {
-            return res.status(400).json({ message: 'All fields are required.' });
+        const fbUrl = `https://graph.facebook.com/v18.0/me?fields=id,first_name,last_name,email,picture&access_token=${encodeURIComponent(accessToken)}`;
+        const fbResponse = await fetch(fbUrl);
+
+        if (!fbResponse.ok) {
+            const errorData = await fbResponse.json().catch(() => ({}));
+            throw new Error(errorData.error?.message || 'Failed to fetch Facebook user info');
         }
-        if (password !== confirmPassword) {
-            return res.status(400).json({ message: 'Passwords do not match.' });
+
+        const fbData = await fbResponse.json();
+        const { id: facebookId, email, first_name: firstName, last_name: lastName } = fbData;
+
+        const userEmail = email ? email.toLowerCase().trim() : `${facebookId}@facebook.com`;
+
+        let user = await User.findOne({ email: userEmail });
+
+        if (!user) {
+            user = new User({
+                firstName: firstName || 'Facebook',
+                lastName: lastName || 'User',
+                email: userEmail,
+                provider: 'facebook',
+            });
+            await user.save();
         }
-        const existingUser = await User.findOne({ email });
-        if (existingUser) {
-            return res.status(400).json({ message: 'Email already exists.' });
-        }
-        const salt = await bcrypt.genSalt(10);
-        const hashedPassword = await bcrypt.hash(password, salt);
-        const newUser = new User({
-            firstName,
-            lastName,
-            email,
-            password: hashedPassword,
-            phoneNumber,
+
+        const token = generateToken(user);
+
+        return res.status(200).json({
+            message: 'Facebook authentication successful',
+            token,
+            user: formatUserResponse(user),
         });
-        await newUser.save();
-        res.status(201).json({ message: 'User registered successfully.' });
     } catch (error) {
-        res.status(500).json({ message: 'Server error', error: error.message });
+        console.error('Facebook Auth Error:', error);
+        return res.status(400).json({ message: 'Facebook Authentication Failed', error: error.message });
     }
 });
 

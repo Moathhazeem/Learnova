@@ -4,6 +4,7 @@ import axios from 'axios'
 import { Eye, EyeOff, Check, AlertCircle } from 'lucide-react'
 import "./Sign_up.css"
 import { useGoogleLogin } from '@react-oauth/google';
+import FacebookLogin from '@greatsumini/react-facebook-login';
 /**
  * ============================================================================
  * SignUp Component
@@ -50,6 +51,20 @@ function SignUp() {
         } catch (error) {
             console.error('Error during Google Sign-In:', error);
             alert('حدث خطأ أثناء تسجيل الدخول');
+        }
+    };
+    const handleFacebookSuccess = async (tokenResponse) => {
+        try {
+            const res = await axios.post('http://localhost:5000/api/auth/facebook', {
+                accessToken: tokenResponse.accessToken
+            });
+            if (res.data.token) {
+                localStorage.setItem('token', res.data.token);
+
+            }
+        } catch (error) {
+            console.error('Facebook Auth Error', error.response?.data || error.message);
+            alert(error)
         }
     };
     const loginWithGoogle = useGoogleLogin({
@@ -600,14 +615,16 @@ function SignUp() {
                         {/* Social Registration Options */}
                         <div className="social-media-container">
                             <div className="signup-social-btn">
-                                <button onClick={loginWithGoogle}>
+                                <button onClick={loginWithGoogle} className='google-btn'>
                                     <img src="/photo_icons/Google.png" alt="Google logo" />
                                     <span>Google</span>
                                 </button>
                             </div>
                             <div className="signup-social-btn" onClick={() => !isSubmitting && alert("Facebook signup is a mock option in this design.")}>
-                                <img src="/photo_icons/Facebook_Logo.png" alt="Facebook logo" />
-                                <span>Facebook</span>
+                                <button className='facebook-btn' onClick={handleFacebookLogin}>
+                                    <img src="/photo_icons/Facebook_Logo.png" alt="Facebook logo" />
+                                    <span>Facebook</span>
+                                </button>
                             </div>
                         </div>
 
