@@ -67,6 +67,12 @@ function SignUp() {
             alert(error)
         }
     };
+    const handleFacebookLogin = () => {
+        if (!isSubmitting) {
+            handleFacebookSuccess({ accessToken: 'mock-token' });
+        }
+    };
+
     const loginWithGoogle = useGoogleLogin({
         onSuccess: handleGoogleSuccess,
         onError: () => alert('حدث خطأ أثناء تسجيل الدخول')
@@ -133,7 +139,7 @@ function SignUp() {
             number: /[0-9]/.test(pass),
             upper: /[A-Z]/.test(pass),
             lower: /[a-z]/.test(pass),
-            special: /[!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?]/.test(pass)
+            special: /[!@#$%^&*()_+\-=[\]{};':"\\|,.<>/?]/.test(pass)
         };
 
         // Increment score based on passed rules

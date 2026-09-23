@@ -1,9 +1,12 @@
+import axios from 'axios';
+
 const express = require('express');
 const router = express.Router();
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 const { OAuth2Client } = require('google-auth-library');
 const User = require('../models/User');
+
 
 // Initialize Google OAuth client
 if (!process.env.GOOGLE_CLIENT_ID) {
@@ -96,21 +99,36 @@ router.post('/google', async (req, res) => {
         let lName = lastName;
 
         // Verify Google ID Token if client ID & credential exist
-        if (process.env.GOOGLE_CLIENT_ID && credential) {
+        if (credential) {
             try {
-                const ticket = await googleClient.verifyIdToken({
-                    idToken: credential,
-                    audience: process.env.GOOGLE_CLIENT_ID,
+                const googleUserRes = await axios.get('https://www.googleapis.com/oauth2/v3/userinfo', {
+                    headers: { Authorization: `Bearer ${credential}` }
                 });
-                const payload = ticket.getPayload();
+                const payload = googleUserRes.data;
                 if (payload) {
                     gId = payload.sub || gId;
                     userEmail = payload.email || userEmail;
                     fName = payload.given_name || fName;
                     lName = payload.family_name || lName;
                 }
-            } catch (err) {
-                console.warn('Google IdToken verification failed/skipped:', err.message);
+            } catch (accessTokenErr) {
+                if (process.env.GOOGLE_CLIENT_ID) {
+                    try {
+                        const ticket = await googleClient.verifyIdToken({
+                            idToken: credential,
+                            audience: process.env.GOOGLE_CLIENT_ID,
+                        });
+                        const payload = ticket.getPayload();
+                        if (payload) {
+                            gId = payload.sub || gId;
+                            userEmail = payload.email || userEmail;
+                            fName = payload.given_name || fName;
+                            lName = payload.family_name || lName;
+                        }
+                    } catch {
+                        console.warn('Google Token verification failed:', idTokenErr.message);
+                    }
+                }
             }
         }
 
