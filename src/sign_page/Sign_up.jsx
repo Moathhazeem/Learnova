@@ -45,13 +45,13 @@ function SignUp() {
             if (res.ok) {
                 localStorage.setItem('user', JSON.stringify(data.user));
                 localStorage.setItem('token', data.token);
-                navigate("/");
+                navigate("/Home");
             } else {
-                alert(data.message || 'حدث خطأ أثناء حفظ البيانات');
+                alert(data.message || 'Failed to save data');
             }
         } catch (error) {
             console.error('Error during Google Sign-In:', error);
-            alert('حدث خطأ أثناء تسجيل الدخول');
+            alert('Failed to sign in with Google');
         }
     };
     const handleFacebookSuccess = async (tokenResponse) => {
@@ -62,7 +62,7 @@ function SignUp() {
             if (res.data.token) {
                 localStorage.setItem('token', res.data.token);
                 localStorage.setItem('user', JSON.stringify(res.data.user));
-                navigate("/");
+                navigate("/Home");
 
             }
         } catch (error) {
