@@ -619,17 +619,13 @@ function SignUp() {
                         {/* Social Registration Options */}
                         <div className="social-media-container">
                             <div className="signup-social-btn">
-                                <button onClick={loginWithGoogle} className='google-btn'>
+                                <button type="button" onClick={loginWithGoogle} className='google-btn'>
                                     <img src="/photo_icons/Google.png" alt="Google logo" />
                                     <span>Google</span>
                                 </button>
                             </div>
 
-                            <div className="signup-social-btn" onClick={() => !isSubmitting && alert("Facebook signup is a mock option in this design.")}>
-                                {/* <button className='facebook-btn' onClick={handleFacebookLogin}>
-                                    <img src="/photo_icons/Facebook_Logo.png" alt="Facebook logo" />
-                                    <span>Facebook</span>
-                                </button> */}
+                            <div className="signup-social-btn">
                                 <FacebookLogin appId={facebookAppId} className="facebook-btn" onSuccess={handleFacebookSuccess} onFail={(error) => {
                                     console.error('Facebook Login Failed:', error);
                                 }}>
