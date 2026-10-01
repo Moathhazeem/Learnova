@@ -198,6 +198,7 @@ router.post('/facebook', async (req, res) => {
                 firstName: firstName || 'Facebook',
                 lastName: lastName || 'User',
                 email: userEmail,
+                facebookId: facebookId,
                 provider: 'facebook',
             });
             await user.save();

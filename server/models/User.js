@@ -8,6 +8,7 @@ const userSchema = new mongoose.Schema(
         password: { type: String, required: false },
         phoneNumber: { type: String, required: false, trim: true },
         googleId: { type: String, unique: false },
+        facebookId: { type: String, unique: false },
         provider: { type: String, default: 'local' },
     },
     { timestamps: true }
