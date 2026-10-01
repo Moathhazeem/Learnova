@@ -125,7 +125,7 @@ router.post('/google', async (req, res) => {
                             lName = payload.family_name || lName;
                         }
                     } catch {
-                        console.warn('Google Token verification failed:', idTokenErr.message);
+                        console.warn('Google Token verification failed:', accessTokenErr.message);
                     }
                 }
             }

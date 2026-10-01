@@ -22,7 +22,7 @@ import FacebookLogin from '@greatsumini/react-facebook-login';
 function SignUp() {
     // React Router navigation hook to programmatically redirect users
     const navigate = useNavigate();
-
+    const facebookAppId = import.meta.env.VITE_FACEBOOK_CLIENT_ID;
     const handleGoogleSuccess = async (tokenResponse) => {
         try {
             const userInfoResponse = await fetch('https://www.googleapis.com/oauth2/v3/userinfo', {
@@ -44,6 +44,7 @@ function SignUp() {
 
             if (res.ok) {
                 localStorage.setItem('user', JSON.stringify(data.user));
+                localStorage.setItem('token', data.token);
                 navigate("/");
             } else {
                 alert(data.message || 'حدث خطأ أثناء حفظ البيانات');
@@ -60,16 +61,13 @@ function SignUp() {
             });
             if (res.data.token) {
                 localStorage.setItem('token', res.data.token);
+                localStorage.setItem('user', JSON.stringify(res.data.user));
+                navigate("/");
 
             }
         } catch (error) {
             console.error('Facebook Auth Error', error.response?.data || error.message);
-            alert(error)
-        }
-    };
-    const handleFacebookLogin = () => {
-        if (!isSubmitting) {
-            handleFacebookSuccess({ accessToken: 'mock-token' });
+            alert(error.response?.data?.message || 'Facebook login failed');
         }
     };
 
@@ -626,11 +624,18 @@ function SignUp() {
                                     <span>Google</span>
                                 </button>
                             </div>
+
                             <div className="signup-social-btn" onClick={() => !isSubmitting && alert("Facebook signup is a mock option in this design.")}>
-                                <button className='facebook-btn' onClick={handleFacebookLogin}>
+                                {/* <button className='facebook-btn' onClick={handleFacebookLogin}>
                                     <img src="/photo_icons/Facebook_Logo.png" alt="Facebook logo" />
                                     <span>Facebook</span>
-                                </button>
+                                </button> */}
+                                <FacebookLogin appId={facebookAppId} className="facebook-btn" onSuccess={handleFacebookSuccess} onFail={(error) => {
+                                    console.error('Facebook Login Failed:', error);
+                                }}>
+                                    <img src="/photo_icons/Facebook_Logo.png" alt="Facebook logo" />
+                                    <span>Facebook</span>
+                                </FacebookLogin>
                             </div>
                         </div>
 

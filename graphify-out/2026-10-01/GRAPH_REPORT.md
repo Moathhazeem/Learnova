@@ -1,16 +1,16 @@
-# Graph Report - Learnova  (2026-10-01)
+# Graph Report - Learnova  (2026-09-07)
 
 ## Corpus Check
-- 70 files · ~1,789,996 words
+- 70 files · ~1,788,811 words
 - Verdict: corpus is large enough that graph structure adds value.
 
 ## Summary
-- 372 nodes · 381 edges · 49 communities (32 shown, 17 thin omitted)
+- 350 nodes · 358 edges · 50 communities (33 shown, 17 thin omitted)
 - Extraction: 99% EXTRACTED · 1% INFERRED · 0% AMBIGUOUS · INFERRED: 2 edges (avg confidence: 0.5)
 - Token cost: 0 input · 0 output
 
 ## Graph Freshness
-- Built from commit: `a84f0c15`
+- Built from commit: `635c03fd`
 - Run `git rev-parse HEAD` and compare to check if the graph is stale.
 - Run `graphify update .` after code changes (no API cost).
 
@@ -57,6 +57,7 @@
 - Header.jsx
 - LandingPage.jsx
 - Footer.jsx
+- Verification_Code.jsx
 - Check_email.jsx
 
 ## God Nodes (most connected - your core abstractions)
@@ -67,8 +68,8 @@
 5. `🎓 Learnova` - 10 edges
 6. `graphify reference: extra exports and benchmark` - 8 edges
 7. `graphify reference: extra exports and benchmark` - 8 edges
-8. `✨ Key Features` - 6 edges
-9. `scripts` - 5 edges
+8. `scripts` - 5 edges
+9. `graphify reference: query, path, explain` - 5 edges
 10. `graphify reference: query, path, explain` - 5 edges
 
 ## Surprising Connections (you probably didn't know these)
@@ -77,35 +78,35 @@
 ## Import Cycles
 - None detected.
 
-## Communities (49 total, 17 thin omitted)
+## Communities (50 total, 17 thin omitted)
 
 ### Community 0 - "App.jsx"
-Cohesion: 0.11
-Nodes (13): App(), AboutUs(), Contact_us(), Course(), Teacher(), Footer(), Home(), LandingPage() (+5 more)
+Cohesion: 0.12
+Nodes (11): App(), AboutUs(), Contact_us(), Course(), Teacher(), Footer(), Home(), ForgotPassword() (+3 more)
 
 ### Community 1 - "dependencies"
-Cohesion: 0.05
-Nodes (37): axios, @greatsumini/react-facebook-login, i18next, leaflet, lucide-react, dependencies, axios, @greatsumini/react-facebook-login (+29 more)
+Cohesion: 0.06
+Nodes (33): axios, i18next, leaflet, lucide-react, dependencies, axios, i18next, leaflet (+25 more)
 
 ### Community 2 - "What You Must Do When Invoked"
 Cohesion: 0.08
 Nodes (24): For /graphify add and --watch, For /graphify query, For the commit hook and native CLAUDE.md integration, For --update and --cluster-only, /graphify, Honesty Rules, Interpreter guard for subcommands, Part A - Structural extraction for code files (+16 more)
 
 ### Community 3 - "devDependencies"
-Cohesion: 0.07
-Nodes (28): eslint, @eslint/js, eslint-plugin-react-hooks, eslint-plugin-react-refresh, globals, devDependencies, eslint, @eslint/js (+20 more)
+Cohesion: 0.11
+Nodes (19): eslint, @eslint/js, eslint-plugin-react-hooks, eslint-plugin-react-refresh, globals, devDependencies, eslint, @eslint/js (+11 more)
 
 ### Community 4 - "What You Must Do When Invoked"
 Cohesion: 0.07
 Nodes (26): For /graphify add and --watch, For /graphify query, For the commit hook and native CLAUDE.md integration, For --update and --cluster-only, /graphify, Honesty Rules, Interpreter guard for subcommands, Part A - Structural extraction for code files (+18 more)
 
 ### Community 5 - "/graphify"
-Cohesion: 0.13
-Nodes (15): bcryptjs, cors, dotenv, express, google-auth-library, jsonwebtoken, mongoose, dependencies (+7 more)
+Cohesion: 0.09
+Nodes (21): bcryptjs, cors, dotenv, express, mongoose, author, dependencies, bcryptjs (+13 more)
 
 ### Community 6 - "package.json"
-Cohesion: 0.13
-Nodes (14): nodemon, author, description, devDependencies, nodemon, keywords, license, main (+6 more)
+Cohesion: 0.20
+Nodes (9): name, private, scripts, build, dev, lint, preview, type (+1 more)
 
 ### Community 7 - "graphify reference: extra exports and benchmark"
 Cohesion: 0.22
@@ -160,16 +161,16 @@ Cohesion: 0.50
 Nodes (3): For --cluster-only, For --update (incremental re-extraction), graphify reference: incremental update and cluster-only
 
 ### Community 21 - "React + Vite"
-Cohesion: 0.09
-Nodes (21): 1. Clone the repository, 2. Install dependencies, 3. Start the development server, 🏗️ Application Structure, 🔐 Authentication Flow, 👨‍💻 Author, 📚 Course Experience, 🎨 Design & Development Process (+13 more)
+Cohesion: 0.12
+Nodes (16): 1. Clone the repository, 2. Navigate to the project directory, 3. Install dependencies, 4. Start the development server, 🤝 Contributing, Frontend, 🔮 Future Improvements, 🚀 How to Run Locally (+8 more)
 
 ### Community 39 - "FAQ.jsx"
 Cohesion: 0.40
 Nodes (3): CATEGORIES, FAQ(), FAQ_DATA
 
 ### Community 40 - "i18n.js"
-Cohesion: 0.22
-Nodes (4): Explore(), Notification(), Privacy(), Profile()
+Cohesion: 0.17
+Nodes (6): Explore(), Notification(), Privacy(), Profile(), generateTOTPSecret(), Security()
 
 ### Community 41 - "Communication.jsx"
 Cohesion: 0.50
@@ -180,28 +181,32 @@ Cohesion: 0.50
 Nodes (3): levelColors, Payment_pay(), thumbColors
 
 ### Community 43 - "Security.jsx"
-Cohesion: 0.10
-Nodes (15): app, authRoutes, cors, express, mongoose, mongoose, userSchema, axios (+7 more)
+Cohesion: 0.18
+Nodes (9): app, authRoutes, cors, express, mongoose, bcrypt, express, router (+1 more)
+
+### Community 48 - "Verification_Code.jsx"
+Cohesion: 0.50
+Nodes (3): mongoose, { PhoneNumber }, userSchema
 
 ## Knowledge Gaps
-- **185 isolated node(s):** `name`, `private`, `version`, `type`, `dev` (+180 more)
+- **172 isolated node(s):** `name`, `private`, `version`, `type`, `dev` (+167 more)
   These have ≤1 connection - possible missing edges or undocumented components.
 - **17 thin communities (<3 nodes) omitted from report** — run `graphify query` to explore isolated nodes.
 
 ## Suggested Questions
 _Questions this graph is uniquely positioned to answer:_
 
-- **Why does `dependencies` connect `dependencies` to `devDependencies`?**
-  _High betweenness centrality (0.024) - this node is a cross-community bridge._
-- **Why does `dependencies` connect `/graphify` to `package.json`?**
-  _High betweenness centrality (0.004) - this node is a cross-community bridge._
+- **Why does `dependencies` connect `dependencies` to `package.json`?**
+  _High betweenness centrality (0.023) - this node is a cross-community bridge._
+- **Why does `devDependencies` connect `devDependencies` to `package.json`?**
+  _High betweenness centrality (0.015) - this node is a cross-community bridge._
 - **What connects `name`, `private`, `version` to the rest of the system?**
-  _185 weakly-connected nodes found - possible documentation gaps or missing edges._
+  _172 weakly-connected nodes found - possible documentation gaps or missing edges._
 - **Should `App.jsx` be split into smaller, more focused modules?**
-  _Cohesion score 0.10826210826210826 - nodes in this community are weakly interconnected._
+  _Cohesion score 0.12318840579710146 - nodes in this community are weakly interconnected._
 - **Should `dependencies` be split into smaller, more focused modules?**
-  _Cohesion score 0.05405405405405406 - nodes in this community are weakly interconnected._
+  _Cohesion score 0.06060606060606061 - nodes in this community are weakly interconnected._
 - **Should `What You Must Do When Invoked` be split into smaller, more focused modules?**
   _Cohesion score 0.08 - nodes in this community are weakly interconnected._
 - **Should `devDependencies` be split into smaller, more focused modules?**
-  _Cohesion score 0.06896551724137931 - nodes in this community are weakly interconnected._
+  _Cohesion score 0.10526315789473684 - nodes in this community are weakly interconnected._
