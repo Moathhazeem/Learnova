@@ -5,6 +5,7 @@ const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 const { OAuth2Client } = require('google-auth-library');
 const User = require('../models/User');
+const client = new OAuth2Client(process.env.GOOGLE_CLIENT_ID);
 
 
 // Initialize Google OAuth client
@@ -80,11 +81,55 @@ router.post('/signup', async (req, res) => {
     }
 });
 
+router.post('/login', async (req, res) => {
+    try {
+        const { email, password, rememberMe } = req.body;
+
+        if (!email || !password) {
+            return res.status(400).json({ message: 'email and password are required.' });
+        }
+        const user = await User.findOne({ email: email.toLowerCase() });
+        if (!user) {
+            return res.status(400).json({ message: 'email or password not correct.' });
+        }
+        if (!user.password) {
+            return res.status(400).json({
+                message: 'this account was created via google or facebook. Please use the login option.'
+            });
+        }
+
+        const isMatch = await bcrypt.compare(password, user.password);
+        if (!isMatch) {
+            return res.status(400).json({ message: 'email or password not correct.' });
+        }
+        const expiresIn = rememberMe ? '30d' : '1d';
+
+        const token = jwt.sign({ userId: user._id }, process.env.JWT_SECRET || 'your_secret_key',
+            { expiresIn }
+        );
+        const userResponse = {
+            _id: user._id,
+            firstName: user.firstName,
+            lastName: user.lastName,
+            email: user.email,
+        };
+
+        res.status(200).json({
+            message: 'Logged in successfully.',
+            token,
+            user: userResponse,
+        });
+    } catch (error) {
+        console.error("Login Error Details:", error);
+        res.status(500).json({ message: 'Server error during login' });
+    }
+});
 /**
  * @route   POST /api/auth/google
  * @desc    Authenticate with Google OAuth
  */
 router.post('/google', async (req, res) => {
+    const { idToken } = req.body;
     const { credential, googleId, email, firstName, lastName } = req.body;
 
     if (!credential && !email) {

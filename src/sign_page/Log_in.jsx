@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import axios from 'axios';
 import { Eye, EyeOff, Check, AlertCircle } from 'lucide-react';
 import "./Log_in.css";
 
@@ -19,7 +20,7 @@ function LogIn() {
      */
     // Navigates the user to the Forgot Password page
     const goToForgotPassword = () => navigate("/Forgot_pas");
-    
+
     // Navigates the user to the Sign Up page
     const goToSignIn = () => navigate("/sign_up");
 
@@ -35,6 +36,9 @@ function LogIn() {
     // Controls whether the password field displays plain text or masked bullets
     const [showPassword, setShowPassword] = useState(false);
 
+    // Controls remember me checkbox
+    const [rememberMe, setRememberMe] = useState(false);
+
     // Stores error message for the email input field
     const [emailError, setEmailError] = useState("");
 
@@ -46,6 +50,9 @@ function LogIn() {
 
     // Stores success messages array for the password input field
     const [passSuccess, setPassSuccess] = useState([]);
+
+    // Server-side error message display
+    const [serverError, setServerError] = useState("");
 
     // Tracks submission loading state to disable buttons and show loading spinner
     const [isSubmitting, setIsSubmitting] = useState(false);
@@ -63,7 +70,6 @@ function LogIn() {
     const validateField = (name, value) => {
         if (name === "email") {
             if (!value.trim()) return "Please fill in this field.";
-            if (!value.trim().includes("@gmail.com")) return "Please enter a valid Gmail address.";
             return "";
         }
         if (name === "password") {
@@ -83,6 +89,7 @@ function LogIn() {
      */
     const handleInputChange = (name, value, setter) => {
         setter(value);
+        if (serverError) setServerError("");
         if (touched[name]) {
             const error = validateField(name, value);
             if (name === "email") {
@@ -114,14 +121,14 @@ function LogIn() {
     };
 
     /**
-     * Handles login form submission. Validates all fields, triggers errors if invalid,
-     * or simulates server submission before navigating to the main dashboard/home.
+     * Handles login form submission. Validates all fields and sends credentials to backend API.
      * 
      * @param {Event} e - Form submission event object.
      */
-    const handleSubmit = (e) => {
+    const handleSubmit = async (e) => {
         e.preventDefault();
-        
+        setServerError("");
+
         // Mark all fields as touched to trigger full visual error feedback
         setTouched({ email: true, password: true });
 
@@ -135,11 +142,31 @@ function LogIn() {
         // Proceed if no validation errors exist
         if (!eError && !pError) {
             setIsSubmitting(true);
-            
-            // Simulate API request delay before redirecting to home
-            setTimeout(() => {
-                navigate("/home");
-            }, 1500);
+            try {
+                const response = await axios.post('http://localhost:5000/api/auth/login', {
+                    email: email.trim().toLowerCase(),
+                    password: pass,
+                    rememberMe,
+                });
+
+                const { token, user } = response.data;
+                if (rememberMe) {
+                    localStorage.setItem('token', token);
+                } else {
+                    sessionStorage.setItem('token', token);
+                }
+                localStorage.setItem('user', JSON.stringify(user));
+
+                navigate('/home');
+            } catch (err) {
+                if (err.response?.data?.message) {
+                    setServerError(err.response.data.message);
+                } else {
+                    setServerError('An error occurred. Please try again later.');
+                }
+            } finally {
+                setIsSubmitting(false);
+            }
         }
     };
 
@@ -155,6 +182,24 @@ function LogIn() {
                             Login to <span className="brand-accent">Learnova</span>
                         </h1>
                         <p className="login-subtitle">Welcome back! Please enter your details.</p>
+
+                        {/* Global Server Error Banner */}
+                        {serverError && (
+                            <div className="server-alert server-error" style={{
+                                color: '#ef4444',
+                                backgroundColor: '#fef2f2',
+                                padding: '10px 14px',
+                                borderRadius: '8px',
+                                marginBottom: '16px',
+                                fontSize: '14px',
+                                display: 'flex',
+                                alignItems: 'center',
+                                gap: '8px'
+                            }}>
+                                <AlertCircle size={18} />
+                                <span>{serverError}</span>
+                            </div>
+                        )}
 
                         {/* Login Form */}
                         <form onSubmit={handleSubmit} noValidate>
@@ -230,7 +275,13 @@ function LogIn() {
                             <div className="login-options">
                                 <div className="remember-me">
                                     <div className="custom-checkbox-wrapper">
-                                        <input type="checkbox" id="remember" name="remember" />
+                                        <input
+                                            type="checkbox"
+                                            id="remember"
+                                            name="remember"
+                                            checked={rememberMe}
+                                            onChange={(e) => setRememberMe(e.target.checked)}
+                                        />
                                         <label htmlFor="remember" className="checkbox-label">
                                             <span className="checkbox-box">
                                                 <Check className="checkmark" size={14} strokeWidth={4} />
@@ -293,5 +344,6 @@ function LogIn() {
 }
 
 export default LogIn;
+
 
 
