@@ -16,21 +16,33 @@ import "./Log_in.css";
 function LogIn() {
     const handleFacebookLogin = async (response) => {
         try {
+            console.log('Facebook response:', response);
+
             if (!response.accessToken) {
-                console.error('Facebook login failed.');
+                console.error('No Facebook access token');
                 return;
             }
+
             const res = await axios.post(
                 'http://localhost:5000/api/auth/facebook',
                 {
-                    accessToken: response.accessToken,
+                    accessToken: response.accessToken
                 }
             );
+
             localStorage.setItem('token', res.data.token);
-            localStorage.setItem('user', JSON.stringify(res.data.user));
+            localStorage.setItem(
+                'user',
+                JSON.stringify(res.data.user)
+            );
+
             navigate('/home');
+
         } catch (error) {
-            console.error('Facebook login error:', error.response?.data || error.message);
+            console.error(
+                'Facebook Login Error:',
+                error.response?.data || error.message
+            );
         }
     };
     const handleGoogleLogin = async (response) => {
@@ -352,17 +364,60 @@ function LogIn() {
                             </div>
 
                             {/* Social Authentication Actions */}
+
                             <div className="social-media-container">
-                                <div className="login-social-btn" onClick={handleGoogleLogin}>
-                                    <img src="/photo_icons/Google.png" alt="Google" />
-                                    <span>Google</span>
-                                </div>
+                                {/*
+                                    < div className="login-social-btn" onClick={handleGoogleLogin}>
+                                <img src="/photo_icons/Google.png" alt="Google" />
+                                <span>Google</span>
+                            </div>
+                                    */}
+
+                                {/* 
                                 <div className="login-social-btn" onClick={handleFacebookLogin}>
                                     <img src="/photo_icons/Facebook_Logo.png" alt="Facebook" />
                                     <span>Facebook</span>
                                 </div>
-                            </div>
+                                */}
+                                <GoogleLogin
+                                    onSuccess={handleGoogleLogin}
+                                    onError={() => {
+                                        console.error('Google Login Failed')
+                                    }}
+                                    render={({ onClick }) => (
+                                        <div
+                                            className="login-social-btn"
+                                            onClick={onClick}
+                                        >
+                                            <img
+                                                src="/photo_icons/Google.png"
+                                                alt="Google"
+                                            />
+                                            <span>Google</span>
+                                        </div>
+                                    )}
+                                />
+                                <FacebookLogin
+                                    appId={import.meta.env.VITE_FACEBOOK_CLIENT_ID}
+                                    onSuccess={handleFacebookLogin}
+                                    onFail={(error) => {
+                                        console.error('Facebook Login Failed:', error);
+                                    }}
+                                    render={({ onClick }) => (
+                                        <div
+                                            className="login-social-btn"
+                                            onClick={onClick}
+                                        >
+                                            <img
+                                                src="/photo_icons/Facebook_Logo.png"
+                                                alt="Facebook"
+                                            />
+                                            <span>Facebook</span>
+                                        </div>
+                                    )}
+                                />
 
+                            </div>
                             {/* Form Footer / Registration Redirection Prompt */}
                             <div className="login-footer">
                                 <p className="signup-prompt">
@@ -374,8 +429,8 @@ function LogIn() {
                             </div>
                         </form>
                     </div>
-                </div>
-            </div>
+                </div >
+            </div >
         </>
     );
 }
