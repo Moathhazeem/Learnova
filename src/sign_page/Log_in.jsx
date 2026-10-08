@@ -1,6 +1,8 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
+import { GoogleLogin } from '@react-oauth/google';
+import FacebookLogin from '@greatsumini/react-facebook-login';
 import { Eye, EyeOff, Check, AlertCircle } from 'lucide-react';
 import "./Log_in.css";
 
@@ -12,6 +14,41 @@ import "./Log_in.css";
  * submission state, and routing to related authentication pages.
  */
 function LogIn() {
+    const handleFacebookLogin = async (response) => {
+        try {
+            if (!response.accessToken) {
+                console.error('Facebook login failed.');
+                return;
+            }
+            const res = await axios.post(
+                'http://localhost:5000/api/auth/facebook',
+                {
+                    accessToken: response.accessToken,
+                }
+            );
+            localStorage.setItem('token', res.data.token);
+            localStorage.setItem('user', JSON.stringify(res.data.user));
+            navigate('/home');
+        } catch (error) {
+            console.error('Facebook login error:', error.response?.data || error.message);
+        }
+    };
+    const handleGoogleLogin = async (response) => {
+        try {
+            const res = await axios.post(
+                'http://localhost:5000/api/auth/google',
+                {
+                    idToken: response.credential,
+                }
+            );
+            localStorage.setItem('token', res.data.token);
+            localStorage.setItem('user', JSON.stringify(res.data.user));
+            navigate('/home');
+        } catch (error) {
+            console.error('Google login error:', error.response?.data || error.message);
+        }
+    };
+
     // React Router navigation hook for programmatic page redirects
     const navigate = useNavigate();
 
@@ -316,11 +353,11 @@ function LogIn() {
 
                             {/* Social Authentication Actions */}
                             <div className="social-media-container">
-                                <div className="login-social-btn">
+                                <div className="login-social-btn" onClick={handleGoogleLogin}>
                                     <img src="/photo_icons/Google.png" alt="Google" />
                                     <span>Google</span>
                                 </div>
-                                <div className="login-social-btn">
+                                <div className="login-social-btn" onClick={handleFacebookLogin}>
                                     <img src="/photo_icons/Facebook_Logo.png" alt="Facebook" />
                                     <span>Facebook</span>
                                 </div>
