@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import { GoogleLogin } from '@react-oauth/google';
+import { useGoogleLogin } from '@react-oauth/google';
 import FacebookLogin from '@greatsumini/react-facebook-login';
 import { Eye, EyeOff, Check, AlertCircle } from 'lucide-react';
 import "./Log_in.css";
@@ -47,10 +48,12 @@ function LogIn() {
     };
     const handleGoogleLogin = async (response) => {
         try {
+            console.log('Google response:', response);
+
             const res = await axios.post(
                 'http://localhost:5000/api/auth/google',
                 {
-                    idToken: response.credential,
+                    credential: response.access_token,
                 }
             );
             localStorage.setItem('token', res.data.token);
@@ -60,6 +63,14 @@ function LogIn() {
             console.error('Google login error:', error.response?.data || error.message);
         }
     };
+
+    const googleLogin = useGoogleLogin({
+        onSuccess: handleGoogleLogin,
+        onError: () => {
+            console.error('Google Login Failed')
+        }
+    });
+
 
     // React Router navigation hook for programmatic page redirects
     const navigate = useNavigate();
@@ -366,37 +377,13 @@ function LogIn() {
                             {/* Social Authentication Actions */}
 
                             <div className="social-media-container">
-                                {/*
-                                    < div className="login-social-btn" onClick={handleGoogleLogin}>
-                                <img src="/photo_icons/Google.png" alt="Google" />
-                                <span>Google</span>
-                            </div>
-                                    */}
-
-                                {/* 
-                                <div className="login-social-btn" onClick={handleFacebookLogin}>
-                                    <img src="/photo_icons/Facebook_Logo.png" alt="Facebook" />
-                                    <span>Facebook</span>
+                                <div
+                                    className="login-social-btn"
+                                    onClick={() => googleLogin()}
+                                >
+                                    <img src="/photo_icons/Google.png" alt="Google" />
+                                    <span>Google</span>
                                 </div>
-                                */}
-                                <GoogleLogin
-                                    onSuccess={handleGoogleLogin}
-                                    onError={() => {
-                                        console.error('Google Login Failed')
-                                    }}
-                                    render={({ onClick }) => (
-                                        <div
-                                            className="login-social-btn"
-                                            onClick={onClick}
-                                        >
-                                            <img
-                                                src="/photo_icons/Google.png"
-                                                alt="Google"
-                                            />
-                                            <span>Google</span>
-                                        </div>
-                                    )}
-                                />
                                 <FacebookLogin
                                     appId={import.meta.env.VITE_FACEBOOK_CLIENT_ID}
                                     onSuccess={handleFacebookLogin}
