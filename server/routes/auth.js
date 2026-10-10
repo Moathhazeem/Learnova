@@ -260,4 +260,18 @@ router.post('/facebook', async (req, res) => {
     }
 });
 
+router.post('/forgot-password', async (req, res) => {
+    try {
+        const { email } = req.body;
+        const user = await User.findOne({ email });
+        if (!user) {
+            return res.status(404).json({ message: 'Email is not registered.' });
+        }
+
+        res.status(200).json({ message: 'Email is registered. You will get OTP in mail.' })
+    } catch (error) {
+        console.error('Forgot Password Error:', error);
+        res.status(400).json({ message: 'Forgot Password Failed', error: error.message });
+    }
+})
 module.exports = router;
