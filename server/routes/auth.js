@@ -1,7 +1,8 @@
-const axios = require('axios');
 const express = require('express');
 const router = express.Router();
 const bcrypt = require('bcryptjs');
+const crypto = require('crypto');
+const axios = require('axios');
 const jwt = require('jsonwebtoken');
 const { OAuth2Client } = require('google-auth-library');
 const User = require('../models/User');
@@ -268,10 +269,33 @@ router.post('/forgot-password', async (req, res) => {
             return res.status(404).json({ message: 'Email is not registered.' });
         }
 
-        res.status(200).json({ message: 'Email is registered. You will get OTP in mail.' })
+        // توليد 6 أقام عشوائية (OTP Code)
+        const resetCode = Math.floor(100000 + Math.random() * 900000).toString();
+
+        user.resetPasswordToken = resetCode; // حفظ الكود في قاعدة البيانات
+        user.resetPasswordExpires = Date.now() + 60 * 1000; // صالح لمدة 1 دقائق
+        await user.save();
+
+        try {
+            await axios.post('http://localhost:5678/webhook/forgot-password', {
+                email: user.email,
+                resetCode: resetCode // إرسال الكود بدلاً من الرابط
+            });
+        } catch (webhookError) {
+            console.error("Failed to send email", webhookError.message);
+        }
+
+        return res.status(200).json({
+            success: true,
+            message: 'تم إرسال رمز التحقق المكون من 6 أرقام إلى بريدك الإلكتروني'
+        });
+
     } catch (error) {
-        console.error('Forgot Password Error:', error);
-        res.status(400).json({ message: 'Forgot Password Failed', error: error.message });
+        console.error('Error in forgot-password:', error);
+        return res.status(500).json({
+            success: false,
+            message: 'حدث خطأ داخلي في الخادم، يرجى المحاولة لاحقاً'
+        });
     }
-})
+});
 module.exports = router;
