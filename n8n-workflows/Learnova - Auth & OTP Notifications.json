@@ -1,0 +1,74 @@
+{
+  "name": "Learnova - Auth & OTP Notifications",
+  "nodes": [
+    {
+      "parameters": {
+        "httpMethod": "POST",
+        "path": "forgot-password",
+        "responseMode": "lastNode",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 2.1,
+      "position": [
+        0,
+        0
+      ],
+      "id": "0c1d2b8f-3474-4cea-a4c0-cd24a60c4770",
+      "name": "Webhook",
+      "webhookId": "b63fd093-77b7-4b2f-a4d7-0f7f353b65da"
+    },
+    {
+      "parameters": {
+        "sendTo": "={{ $json.body.email }}",
+        "subject": "إعادة تعيين كلمة المرور - Learnova",
+        "message": "=<div dir=\"rtl\" style=\"font-family: Arial, sans-serif; padding: 20px; text-align: center;\">\n    <h2>منصة Learnova</h2>\n    <p>لقد طلبت إعادة تعيين كلمة المرور الخاصة بحسابك.</p>\n    <p>رمز التحقق الخاص بك هو:</p>\n    <h1 style=\"letter-spacing: 5px; color: #007bff; background: #f1f1f1; padding: 10px; display: inline-block; border-radius: 5px;\">\n        {{ $json.body.resetCode }}\n    </h1>\n    <p style=\"margin-top: 20px; color: #666; font-size: 12px;\">هذا الرمز صالح لمدة 10 دقائق فقط.</p>\n</div>",
+        "options": {
+          "appendAttribution": false
+        }
+      },
+      "type": "n8n-nodes-base.gmail",
+      "typeVersion": 2.2,
+      "position": [
+        208,
+        0
+      ],
+      "id": "7020d1d8-82fb-41d5-a991-d65a911c62e0",
+      "name": "Send a message",
+      "webhookId": "41b6ae76-9c78-484c-b858-31f84e02363e",
+      "credentials": {
+        "gmailOAuth2": {
+          "id": "9NcBOjKo4wAbWWGE",
+          "name": "Gmail account"
+        }
+      }
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "Webhook": {
+      "main": [
+        [
+          {
+            "node": "Send a message",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": true,
+  "settings": {
+    "executionOrder": "v1",
+    "binaryMode": "separate"
+  },
+  "versionId": "f97b7311-e720-4f11-808a-1912a4a1aa32",
+  "meta": {
+    "templateCredsSetupCompleted": true,
+    "instanceId": "312b8e1c27ba1ae94b15ee40f5b475cef18128657bfd8917a13927efa9db76b9"
+  },
+  "nodeGroups": [],
+  "id": "uKEOLKeFg1RYl2ZE",
+  "tags": []
+}
