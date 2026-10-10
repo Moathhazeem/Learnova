@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import axios from "axios";
 import "./Forgot_pas.css";
 
 /**
@@ -31,13 +32,28 @@ function ForgotPassword() {
     const [emailError, setEmailError] = useState("");     // Holds validation error messages
     const [emailSuccess, setEmailSuccess] = useState(""); // Holds validation success messages
 
+    const handleResetPassword = async (email) => {
+        try {
+            const response = await axios.post('http://localhost:5000/api/auth/forgot-password', { email });
+            if (response.status === 200) {
+                setEmailSuccess(response.data.message || "Email is valid");
+                goToCE();
+            } else {
+                setEmailError(response.data.message || "Something went wrong");
+            }
+        } catch (error) {
+            console.error('Connection error:', error);
+            setEmailError(error.response?.data?.message || "Connection error. Please try again.");
+        }
+    };
+
     /**
      * Handles the form submission event.
      * Validates that the email is not empty and contains '@gmail.com'.
      * 
      * @param {React.FormEvent<HTMLFormElement>} e - The form submit event object
      */
-    const handleSubmit = (e) => {
+    const handleSubmit = async (e) => {
         e.preventDefault();
 
         // Reset feedback state on new submission attempt
@@ -53,8 +69,7 @@ function ForgotPassword() {
         } else if (!email.trim().includes("@gmail.com")) {
             setEmailError("Email must contain @gmail.com");
         } else {
-            setEmailSuccess("Email is valid");
-            goToCE(); // Proceed to Check Email page
+            await handleResetPassword(email.trim());
         }
     };
 
