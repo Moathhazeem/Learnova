@@ -1,5 +1,5 @@
 import { useState, useEffect, useRef } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
 import "./Verification_Code.css";
 
 const RESEND_SECONDS = 30;
@@ -12,6 +12,35 @@ function VerificationCode() {
     const [timer, setTimer] = useState(RESEND_SECONDS);
     const [canResend, setCanResend] = useState(false);
     const inputRefs = useRef([]);
+    const location = useLocation();
+    const email = location.state?.email || "";
+
+    const handleSubmit = async (e) => {
+        e.preventDefault();
+        setCodeError("");
+        setCodeSuccess("");
+        const fullCode = code.join("");
+        if (code.some(d => d === "")) {
+            setCodeError("Please fill in all 6 digits.");
+            return;
+        }
+        try {
+            const response = await fetch("http://localhost:3000/api/auth/verify-code", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({ email, code: fullCode })
+            });
+            const data = await response.json();
+            if (response.ok && data.success) {
+                setCodeSuccess("Code verified! Redirecting…");
+                setTimeout(() => { navigate("/Create_new_pas", { state: { email, code: fullCode } }) }, 1500);
+            } else {
+                setCodeError(data.message || "The code you entered is incorrect. Please try again.");
+            }
+        } catch (error) {
+            setCodeError("Network error. Please try again later.");
+        }
+    }
 
     /* ── Countdown timer ── */
     useEffect(() => {
@@ -33,22 +62,7 @@ function VerificationCode() {
     const goToLogin = () => navigate("/log_in");
     const goToCreateNewPas = () => navigate("/Create_new_pas");
 
-    const handleSubmit = (e) => {
-        e.preventDefault();
-        setCodeError("");
-        setCodeSuccess("");
-        const fullCode = code.join("");
-        if (code.some(d => d === "")) {
-            setCodeError("Please fill in all 6 digits.");
-            return;
-        }
-        if (fullCode !== "123456") {
-            setCodeError("Incorrect code. Please try again.");
-            return;
-        }
-        setCodeSuccess("Code verified! Redirecting…");
-        setTimeout(() => goToCreateNewPas(), 2000);
-    };
+
 
     const handleChange = (e, index) => {
         const value = e.target.value;

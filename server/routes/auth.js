@@ -273,7 +273,7 @@ router.post('/forgot-password', async (req, res) => {
         const resetCode = Math.floor(100000 + Math.random() * 900000).toString();
 
         user.resetPasswordToken = resetCode; // حفظ الكود في قاعدة البيانات
-        user.resetPasswordExpires = Date.now() + 60 * 1000; // صالح لمدة 1 دقائق
+        user.resetPasswordExpires = Date.now() + 10 * 60 * 1000; // 10 دقائق
         await user.save();
 
         try {
@@ -298,4 +298,37 @@ router.post('/forgot-password', async (req, res) => {
         });
     }
 });
+router.post('/verify-code', async (req, res) => {
+    try {
+        const { email, code } = req.body;
+        if (!email || !code) {
+            return res.status(400).json({
+                success: false,
+                message: "Please enter your email and code"
+            });
+        }
+        const user = await User.findOne({
+            email,
+            resetPasswordToken: code,
+            resetPasswordExpires: { $gt: Date.now() }
+        });
+        if (!user) {
+            return res.status(400).json({
+                success: false,
+                message: "The verification code is incorrect or has expired."
+            });
+        }
+        return res.status(200).json({
+            success: true,
+            message: "Code successfully verified"
+        })
+    } catch (error) {
+        console.error('Error in verify-code:', error);
+        return res.status(500).json({
+            success: false,
+            message: "Internal server error occurred; please try again later."
+        })
+    }
+}
+)
 module.exports = router;
