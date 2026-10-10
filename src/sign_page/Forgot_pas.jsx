@@ -35,9 +35,9 @@ function ForgotPassword() {
     const handleResetPassword = async (email) => {
         try {
             const response = await axios.post('http://localhost:5000/api/auth/forgot-password', { email });
-            if (response.status === 200) {
+            if (response.data.success) {
+                navigate("/check_email", { state: { email: email } });
                 setEmailSuccess(response.data.message || "Email is valid");
-                goToCE();
             } else {
                 setEmailError(response.data.message || "Something went wrong");
             }

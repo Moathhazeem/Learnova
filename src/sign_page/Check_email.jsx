@@ -1,4 +1,4 @@
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
 import "./Check_email.css";
 
 /**
@@ -11,19 +11,15 @@ import "./Check_email.css";
 function CheckEmail() {
     // Hook from React Router for handling programmatic navigation between routes
     const navigate = useNavigate();
+    const location = useLocation();
+    const email = location.state?.email || "";
 
-    /**
-     * Navigates the user back to the Login screen.
-     */
     const goToLogin = () => {
         navigate("/log_in");
     };
 
-    /**
-     * Navigates the user to the Verification Code input page.
-     */
     const goToVC = () => {
-        navigate("/Verification_Code");
+        navigate("/Verification_Code", { state: { email } });
     };
 
     /**

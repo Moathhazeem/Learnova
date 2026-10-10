@@ -25,7 +25,7 @@ function VerificationCode() {
             return;
         }
         try {
-            const response = await fetch("http://localhost:3000/api/auth/verify-code", {
+            const response = await fetch("http://localhost:5000/api/auth/verify-code", {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
                 body: JSON.stringify({ email, code: fullCode })
@@ -114,7 +114,7 @@ function VerificationCode() {
                 <h1 className="vc-title">Verify your identity</h1>
                 <p className="vc-subtitle">
                     We've sent a 6-digit code to{" "}
-                    <span className="vc-email-highlight">moathhazeem@gmail.com</span>.
+                    <span className="vc-email-highlight">{email || "your email"}</span>.
                     Enter it below to continue.
                 </p>
 
