@@ -29,7 +29,8 @@ function CheckEmail() {
      */
     const handleResend = (e) => {
         e.preventDefault();
-        // TODO: Wire up API resend email logic here
+
+        navigate('/Forgot_pas');
     };
 
     return (
@@ -76,9 +77,9 @@ function CheckEmail() {
 
                     <p className="ce-resend-text">
                         Didn't receive the email?{" "}
-                        <a href="#" className="ce-resend-link" onClick={handleResend}>
+                        <button onClick={handleResend} className="ce-resend-link" style={{ background: 'none', border: 'none', cursor: 'pointer' }}>
                             Click to resend
-                        </a>
+                        </button>
                     </p>
                 </div>
 

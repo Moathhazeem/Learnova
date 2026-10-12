@@ -273,7 +273,7 @@ router.post('/forgot-password', async (req, res) => {
         const resetCode = Math.floor(100000 + Math.random() * 900000).toString();
 
         user.resetPasswordToken = resetCode; // حفظ الكود في قاعدة البيانات
-        user.resetPasswordExpires = Date.now() + 10 * 60 * 1000; // 10 دقائق
+        user.resetPasswordExpires = Date.now() + 2 * 60 * 1000; // 2 دقائق
         await user.save();
 
         try {
@@ -330,5 +330,35 @@ router.post('/verify-code', async (req, res) => {
         })
     }
 }
-)
+);
+router.post('/reset-password', async (req, res) => {
+    try {
+        const { email, newPassword, confirmPassword } = req.body;
+
+        // 1. التحقق من تطابق كلمتي المرور
+        if (newPassword !== confirmPassword) {
+            return res.status(400).json({ message: "The passwords do not match." });
+        }
+
+        // 2. البحث عن المستخدم بواسطة الإيميل (الذي تم حفظه من الصفحة السابقة)
+        const user = await User.findOne({ email });
+        if (!user) {
+            return res.status(404).json({ message: "User not found" });
+        }
+
+        // 3. تشفير كلمة المرور الجديدة
+        const saltRounds = 10;
+        const hashedPassword = await bcrypt.hash(newPassword, saltRounds);
+
+        // 4. تحديث كلمة المرور في قاعدة البيانات MongoDB
+        user.password = hashedPassword;
+        await user.save();
+
+        return res.status(200).json({ message: "Password updated successfully." });
+
+    } catch (error) {
+        console.error(error);
+        return res.status(500).json({ message: "Internal server error occurred; please try again later." });
+    }
+});
 module.exports = router;

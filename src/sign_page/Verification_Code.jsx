@@ -2,7 +2,7 @@ import { useState, useEffect, useRef } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
 import "./Verification_Code.css";
 
-const RESEND_SECONDS = 30;
+const RESEND_SECONDS = 120;
 
 function VerificationCode() {
     const navigate = useNavigate();

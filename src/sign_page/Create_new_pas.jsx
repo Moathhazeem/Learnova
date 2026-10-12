@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
 import "./Create_new_pas.css";
 
 /**
@@ -103,11 +103,14 @@ function CreateNewPas() {
     // Boolean check evaluating whether all password strength rules pass
     const allPassed = rules.every((r) => r.test(password));
 
+    const location = useLocation();
+    const savedEmail = location.state?.email || "";
+
     /**
      * Handles password submission and validation.
      * @param {React.FormEvent} e - Form submission event
      */
-    const handleSubmit = (e) => {
+    const handleSubmit = async (e) => {
         e.preventDefault();
         setSubmitted(true);
         setConfError("");
@@ -131,9 +134,31 @@ function CreateNewPas() {
             return;
         }
 
-        // On successful validation, display success feedback and redirect to login after delay
-        setConfSuccess("Password updated successfully!");
-        setTimeout(() => goToLogin(), 1500);
+        try {
+            const response = await fetch('/api/auth/reset-password', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({
+                    email: savedEmail,
+                    newPassword: trimPass,
+                    confirmPassword: trimConf
+                })
+            });
+
+            const data = await response.json();
+
+            if (!response.ok) {
+                setConfError(data.message || "Failed to reset password.");
+                return;
+            }
+
+            // On successful validation, display success feedback and redirect to login after delay
+            setConfSuccess("Password updated successfully!");
+            setTimeout(() => goToLogin(), 1500);
+        } catch (error) {
+            console.error("Reset password error:", error);
+            setConfError("A network error occurred. Please try again.");
+        }
     };
 
     return (
