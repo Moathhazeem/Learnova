@@ -13,6 +13,8 @@ const userSchema = new mongoose.Schema(
         },
         password: { type: String, required: false }, // اختياري لمستخدمي Social Login
         phoneNumber: { type: String, trim: true },
+        watchedCourses: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Courses' }],
+        interests: [{ type: String }],
 
         // OAuth Fields
         googleId: { type: String, unique: true, sparse: true },
