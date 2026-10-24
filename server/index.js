@@ -4,6 +4,7 @@ const cors = require('cors');
 require('dotenv').config();
 
 const authRoutes = require('./routes/auth');
+const courseRoutes = require('./routes/courses');
 const app = express();
 
 // Middlewares
@@ -24,3 +25,5 @@ app.get('/api/health', (req, res) => {
 
 const PORT = process.env.PORT || 5000;
 app.listen(PORT, () => console.log(`Backend server running on port ${PORT}`));
+
+app.use('/api/courses', courseRoutes);
