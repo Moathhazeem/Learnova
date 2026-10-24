@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import {
     BookOpen,
@@ -7,8 +7,14 @@ import {
     CircleDollarSign,
     Clock,
     SlidersHorizontal,
-    Star
+    Star,
+    Loader2
 } from "lucide-react";
+import {
+    getInProgressCourses,
+    getAIRecommendations,
+    updateCourseProgress
+} from "./services/api";
 import "./Home.css";
 
 /**
@@ -21,22 +27,107 @@ import "./Home.css";
  * - Grid of recommended courses with price, duration, level, and rating metadata
  */
 function Home() {
-    // ==================== STATE MANAGEMENT ==================== //
+    // Current user resolution from localStorage
+    const savedUser = (() => {
+        try {
+            return JSON.parse(localStorage.getItem("user") || "{}");
+        } catch {
+            return {};
+        }
+    })();
+    const userId = savedUser.id || savedUser._id || "671800000000000000000001";
+    const userName = savedUser.firstName || "Learner";
 
-    // Tracks overall active course completion percentage (0 to 100)
-    const [progress] = useState(30);
+    // In-progress courses & active course state
+    const [inProgressList, setInProgressList] = useState([]);
+    const [activeCourse, setActiveCourse] = useState(null);
+    const [progress, setProgress] = useState(30);
+    const [timeLeft, setTimeLeft] = useState("6h 30m left");
+    const [loadingCourses, setLoadingCourses] = useState(true);
 
-    // Tracks the index of the currently hovered category tag to toggle icon style (blue vs white)
+    // AI recommendations state
+    const [recommendations, setRecommendations] = useState([]);
+    const [loadingRecs, setLoadingRecs] = useState(true);
+
+    // General status/toast messages
+    const [notice, setNotice] = useState(null);
+
+    // Category tag hover state
     const [image, setImage] = useState(null);
 
-    // React Router navigation instance for programmatic route changes
+    // React Router navigation instance
     const navigate = useNavigate();
 
-    // ==================== HANDLER FUNCTIONS ==================== //
+    // Fetch dashboard data
+    useEffect(() => {
+        let isMounted = true;
+
+        const loadDashboardData = async () => {
+            // 1. Fetch In-Progress Courses
+            try {
+                setLoadingCourses(true);
+                const res = await getInProgressCourses(userId);
+                if (isMounted && res.data && res.data.length > 0) {
+                    setInProgressList(res.data);
+                    const firstItem = res.data[0];
+                    setActiveCourse(firstItem.course || firstItem);
+                    setProgress(firstItem.progressPercentage ?? 30);
+                    setTimeLeft(firstItem.timeLeft || "6h 30m left");
+                }
+            } catch (err) {
+                console.error("Failed to load in-progress courses:", err);
+            } finally {
+                if (isMounted) setLoadingCourses(false);
+            }
+
+            // 2. Fetch AI Recommendations
+            try {
+                setLoadingRecs(true);
+                const res = await getAIRecommendations(userId);
+                if (isMounted && res.data) {
+                    setRecommendations(res.data);
+                }
+            } catch (err) {
+                console.error("Failed to load AI recommendations:", err);
+            } finally {
+                if (isMounted) setLoadingRecs(false);
+            }
+        };
+
+        loadDashboardData();
+        return () => {
+            isMounted = false;
+        };
+    }, [userId]);
 
     /**
-     * Navigates the user to the active course learning player page.
+     * Updates active course progress via API
      */
+    const handleProgressIncrement = async (e) => {
+        e.stopPropagation();
+        if (!activeCourse?._id) return;
+
+        const nextVal = Math.min(progress + 10, 100);
+        const updatedTimeLeft = nextVal >= 100 ? "Completed" : "5h 45m left";
+
+        try {
+            await updateCourseProgress({
+                userId,
+                courseId: activeCourse._id,
+                progressPercentage: nextVal,
+                timeLeft: updatedTimeLeft
+            });
+            setProgress(nextVal);
+            setTimeLeft(updatedTimeLeft);
+            setNotice({ type: "success", text: `Progress updated to ${nextVal}%!` });
+            setTimeout(() => setNotice(null), 3000);
+        } catch (err) {
+            console.error("Failed to update progress:", err);
+            setNotice({ type: "error", text: "Could not update progress. Please retry." });
+            setTimeout(() => setNotice(null), 3000);
+        }
+    };
+
     const handleClick = () => {
         navigate('/course_start');
     };
@@ -166,11 +257,29 @@ function Home() {
     return (
         <div className="home-container">
 
+            {/* Notice / Feedback Toast */}
+            {notice && (
+                <div style={{
+                    position: "fixed",
+                    top: "20px",
+                    right: "20px",
+                    zIndex: 9999,
+                    padding: "12px 20px",
+                    borderRadius: "8px",
+                    color: "#fff",
+                    backgroundColor: notice.type === "success" ? "#16a34a" : "#dc2626",
+                    boxShadow: "0 4px 12px rgba(0,0,0,0.15)",
+                    fontWeight: 500
+                }}>
+                    {notice.text}
+                </div>
+            )}
+
             {/* ---------------- 1. DASHBOARD WELCOME HEADER ---------------- */}
             <div className="home-welcome-section">
                 <div className="welcome-text-block">
                     <p className="welcome-eyebrow">Your learning dashboard</p>
-                    <h1>Welcome back, Moath!</h1>
+                    <h1>Welcome back, {userName}!</h1>
                     <p className="welcome-subtitle">
                         Pick up where you left off and discover something new today.
                     </p>
@@ -186,37 +295,58 @@ function Home() {
                     <h2>In progress</h2>
                 </div>
 
-                {/* Main clickable active course banner */}
-                <article className="progress-card" onClick={handleClick}>
-                    <div className="progress-card-image">
-                        <img src="/Photo/Adobe Illustrator logo design.png" alt="Adobe Illustrator" />
-                        <span className="progress-card-badge">Graphic Design</span>
+                {loadingCourses ? (
+                    <div style={{ display: "flex", alignItems: "center", gap: "8px", padding: "24px", color: "#64748b" }}>
+                        <Loader2 className="animate-spin" size={20} />
+                        <span>Loading active courses...</span>
                     </div>
-
-                    <div className="progress-card-info">
-                        <div className="info-top">
-                            <span className="learning-label">Continue learning</span>
-                            <button type="button" className="play-button" aria-label="Resume course">
-                                <Play size={16} fill="currentColor" strokeWidth={0} />
-                            </button>
+                ) : (
+                    <article className="progress-card" onClick={handleClick}>
+                        <div className="progress-card-image">
+                            <img
+                                src={activeCourse?.thumbnail || "/Photo/Adobe Illustrator logo design.png"}
+                                alt={activeCourse?.title || "Course thumbnail"}
+                            />
+                            <span className="progress-card-badge">
+                                {activeCourse?.category || "Graphic Design"}
+                            </span>
                         </div>
-                        <h3 className="course-title">Adobe Illustrator - logos design</h3>
 
-                        {/* Progress percentage and visually animated dynamic fill bar */}
-                        <div className="progress-details">
-                            <div className="progress-stats">
-                                <span><strong>{progress}%</strong> complete</span>
-                                <span>6h 30m left</span>
+                        <div className="progress-card-info">
+                            <div className="info-top">
+                                <span className="learning-label">Continue learning</span>
+                                <div style={{ display: "flex", gap: "8px" }}>
+                                    <button
+                                        type="button"
+                                        className="play-button"
+                                        aria-label="Update progress (+10%)"
+                                        title="Simulate course progress"
+                                        onClick={handleProgressIncrement}
+                                    >
+                                        <Play size={16} fill="currentColor" strokeWidth={0} />
+                                    </button>
+                                </div>
                             </div>
-                            <div className="progress-bar-container">
-                                <div
-                                    className="progress-bar-fill"
-                                    style={{ width: `${progress}%` }}
-                                />
+                            <h3 className="course-title">
+                                {activeCourse?.title || "Adobe Illustrator - logos design"}
+                            </h3>
+
+                            {/* Progress percentage and visually animated dynamic fill bar */}
+                            <div className="progress-details">
+                                <div className="progress-stats">
+                                    <span><strong>{progress}%</strong> complete</span>
+                                    <span>{timeLeft}</span>
+                                </div>
+                                <div className="progress-bar-container">
+                                    <div
+                                        className="progress-bar-fill"
+                                        style={{ width: `${progress}%` }}
+                                    />
+                                </div>
                             </div>
                         </div>
-                    </div>
-                </article>
+                    </article>
+                )}
             </section>
 
             {/* ---------------- 3. CATEGORIES EXPLORATION SECTION ---------------- */}
@@ -248,70 +378,87 @@ function Home() {
                 </div>
             </section>
 
-            {/* ---------------- 4. RECOMMENDED COURSES SECTION ---------------- */}
+            {/* ---------------- 4. RECOMMENDED COURSES SECTION (AI-POWERED) ---------------- */}
             <section className="recommended-section">
                 <div className="section-header">
-                    <h2>Recommended for You</h2>
+                    <h2>Recommended for You (AI-Powered)</h2>
                     <Link to="/Explore" className="show-more">
                         View all
                         <ChevronRight size={18} strokeWidth={2.5} />
                     </Link>
                 </div>
 
-                {/* Course catalog card grid */}
-                <div className="courses-container">
-                    {recommendedCourses.map((course, index) => (
-                        <div
-                            key={index}
-                            className="home-course-item"
-                            onClick={() => {
-                                if (course.path) {
-                                    navigate(course.path);
-                                } else {
-                                    handleClick();
-                                }
-                            }}
-                        >
-                            {/* Course Thumbnail */}
-                            <div className="course-item-image">
-                                <img src={course.image} alt={course.title} />
-                            </div>
+                {loadingRecs ? (
+                    <div style={{ display: "flex", alignItems: "center", gap: "8px", padding: "24px", color: "#64748b" }}>
+                        <Loader2 className="animate-spin" size={20} />
+                        <span>Fetching Gemini AI recommendations...</span>
+                    </div>
+                ) : (
+                    <div className="courses-container">
+                        {(recommendations.length > 0 ? recommendations : recommendedCourses).map((course, index) => {
+                            const courseTitle = course.title;
+                            const courseImg = course.thumbnail || course.image || "/Photo/Adobe Illustrator logo design.png";
+                            const coursePrice = typeof course.price === "number" ? `$${course.price}` : (course.price || "$50");
+                            const courseDuration = course.duration || "1h";
+                            const courseLevel = course.level || "Beginner";
+                            const instructorName = course.instructor?.name || course.instructor || "Learnova Expert";
+                            const instructorImg = course.instructor?.avatar || course.instructorImage || "/Photo/Dimitri Abdelhak.png";
+                            const courseRating = course.rating ? `${course.rating}` : "5.0";
 
-                            {/* Course Content Information */}
-                            <div className="course-info">
-                                <h3 className="course-title">{course.title}</h3>
+                            return (
+                                <div
+                                    key={course._id || course.id || index}
+                                    className="home-course-item"
+                                    onClick={() => {
+                                        if (course.path) {
+                                            navigate(course.path);
+                                        } else {
+                                            handleClick();
+                                        }
+                                    }}
+                                >
+                                    {/* Course Thumbnail */}
+                                    <div className="course-item-image">
+                                        <img src={courseImg} alt={courseTitle} />
+                                    </div>
 
-                                {/* Price, Duration, Level Metadata Row */}
-                                <div className="course-info-PRL">
-                                    <div className="course-info-PRL-item">
-                                        <CircleDollarSign size={16} />
-                                        <p className="course-price">{course.price}</p>
-                                    </div>
-                                    <div className="course-info-PRL-item">
-                                        <Clock size={16} />
-                                        <p className="course-duration">{course.duration}</p>
-                                    </div>
-                                    <div className="course-info-PRL-item">
-                                        <SlidersHorizontal size={16} />
-                                        <p className="course-level">{course.level}</p>
+                                    {/* Course Content Information */}
+                                    <div className="course-info">
+                                        <h3 className="course-title">{courseTitle}</h3>
+
+                                        {/* Price, Duration, Level Metadata Row */}
+                                        <div className="course-info-PRL">
+                                            <div className="course-info-PRL-item">
+                                                <CircleDollarSign size={16} />
+                                                <p className="course-price">{coursePrice}</p>
+                                            </div>
+                                            <div className="course-info-PRL-item">
+                                                <Clock size={16} />
+                                                <p className="course-duration">{courseDuration}</p>
+                                            </div>
+                                            <div className="course-info-PRL-item">
+                                                <SlidersHorizontal size={16} />
+                                                <p className="course-level">{courseLevel}</p>
+                                            </div>
+                                        </div>
+
+                                        {/* Instructor Profile & Course Rating Row */}
+                                        <div className="course-info-IR">
+                                            <div className="course-info-IR-item">
+                                                <img src={instructorImg} alt="instructor" />
+                                                <p className="course-instructor">{instructorName}</p>
+                                            </div>
+                                            <div className="course-info-IR-item">
+                                                <Star size={16} fill="#ffc107" stroke="#ffc107" />
+                                                <p className="course-rating">{courseRating}</p>
+                                            </div>
+                                        </div>
                                     </div>
                                 </div>
-
-                                {/* Instructor Profile & Course Rating Row */}
-                                <div className="course-info-IR">
-                                    <div className="course-info-IR-item">
-                                        <img src={course.instructorImage} alt="instructor" />
-                                        <p className="course-instructor">{course.instructor}</p>
-                                    </div>
-                                    <div className="course-info-IR-item">
-                                        <Star size={16} fill="#ffc107" stroke="#ffc107" />
-                                        <p className="course-rating">{course.rating}</p>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    ))}
-                </div>
+                            );
+                        })}
+                    </div>
+                )}
             </section>
         </div>
     );

@@ -9,15 +9,14 @@ router.get('/in-progress/:userId', async (req, res) => {
         const enrollments = await Enrollment.find({
             user: req.params.userId,
             isCompleted: false
-        }).populate('course');
-        res.status(200).json({
-            success: true, data: enrollments
-        });
+        }).populate('course'); // لجلب تفاصيل الكورس كاملة (العنوان، الصورة، إلخ)
+
+        res.status(200).json({ success: true, data: enrollments });
     } catch (error) {
-        res.status(500).json({ success: false, message: error.message })
+        res.status(500).json({ success: false, message: error.message });
     }
 });
-router.get('/progress/update', async (req, res) => {
+router.post('/progress/update', async (req, res) => {
     try {
         const { userId, courseId, progressPercentage, timeLeft } = req.body;
         let enrollment = await Enrollment.findOne({ user: userId, course: courseId })
@@ -46,7 +45,7 @@ router.get('/recommendations/:userId', async (req, res) => {
     try {
         const { userId } = req.params;
         const userEnrollments = await Enrollment.find({ user: userId }).populate('course');
-        const watchedCourseIds = userEnrollments.map(e => e.course.title);
+        const watchedCoursesTitles = userEnrollments.filter(e => e.course).map(e => e.course.title);
         const allCourses = await Course.find();
         if (watchedCoursesTitles.length === 0) {
             const defaultCourses = allCourses.slice(0, 4);

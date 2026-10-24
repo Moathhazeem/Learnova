@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
+import { resetPassword } from "../services/api";
 import "./Create_new_pas.css";
 
 /**
@@ -153,29 +154,26 @@ function CreateNewPas() {
         setLoading(true);
 
         try {
-            const response = await fetch('http://localhost:5000/api/auth/reset-password', {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({
-                    email: savedEmail,
-                    newPassword: trimPass,
-                    confirmPassword: trimConf
-                })
+            const data = await resetPassword({
+                email: savedEmail,
+                newPassword: trimPass,
+                confirmPassword: trimConf,
             });
 
-            const data = await response.json();
-
-            if (!response.ok) {
-                setConfError(data.message || "Failed to reset password.");
-                return;
-            }
-
-            // On successful validation, display success feedback and redirect to login after delay
             setConfSuccess(data.message || "Password updated successfully.");
             setTimeout(() => goToLogin(), 1500);
         } catch (error) {
             console.error("Reset password error:", error);
-            setConfError("A network error occurred. Please try again.");
+            const status = error.response?.status;
+            const message = error.response?.data?.message;
+
+            if (status === 400) {
+                setConfError(message || "Passwords do not match or bad request.");
+            } else if (status === 404) {
+                setConfError(message || "User not found.");
+            } else {
+                setConfError(message || "A network error occurred. Please try again.");
+            }
         } finally {
             setLoading(false);
         }

@@ -15,4 +15,4 @@ const courseSchema = new mongoose.Schema({
     tags: [{ type: String }],
 }, { timestamps: true });
 
-module.exports = mongoose.model('Courses', courseSchema)
+module.exports = mongoose.model('Course', courseSchema);
