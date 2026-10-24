@@ -85,6 +85,9 @@ function CreateNewPas() {
     // Tracks if the user has attempted form submission
     const [submitted, setSubmitted] = useState(false);
 
+    // Loading state for asynchronous API request
+    const [loading, setLoading] = useState(false);
+
     /**
      * Navigates the user back to the login page.
      */
@@ -104,7 +107,14 @@ function CreateNewPas() {
     const allPassed = rules.every((r) => r.test(password));
 
     const location = useLocation();
-    const savedEmail = location.state?.email || "";
+    // Retrieve email from React Router state, URL query parameters, or localStorage
+    const queryParams = new URLSearchParams(location.search);
+    const savedEmail =
+        location.state?.email ||
+        queryParams.get("email") ||
+        localStorage.getItem("resetEmail") ||
+        localStorage.getItem("email") ||
+        "";
 
     /**
      * Handles password submission and validation.
@@ -118,6 +128,12 @@ function CreateNewPas() {
 
         const trimPass = password.trim();
         const trimConf = confirmPassword.trim();
+
+        // Check if email exists
+        if (!savedEmail) {
+            setConfError("Email not found. Please start from the password reset page.");
+            return;
+        }
 
         // Halt processing if password strength criteria are not fully met
         if (!allPassed) return;
@@ -134,8 +150,10 @@ function CreateNewPas() {
             return;
         }
 
+        setLoading(true);
+
         try {
-            const response = await fetch('/api/auth/reset-password', {
+            const response = await fetch('http://localhost:5000/api/auth/reset-password', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({
@@ -153,11 +171,13 @@ function CreateNewPas() {
             }
 
             // On successful validation, display success feedback and redirect to login after delay
-            setConfSuccess("Password updated successfully!");
+            setConfSuccess(data.message || "Password updated successfully.");
             setTimeout(() => goToLogin(), 1500);
         } catch (error) {
             console.error("Reset password error:", error);
             setConfError("A network error occurred. Please try again.");
+        } finally {
+            setLoading(false);
         }
     };
 
@@ -267,8 +287,8 @@ function CreateNewPas() {
                     </div>
 
                     {/* Submit Button */}
-                    <button type="submit" className="cnp-btn-primary">
-                        Reset Password
+                    <button type="submit" className="cnp-btn-primary" disabled={loading}>
+                        {loading ? "Resetting Password..." : "Reset Password"}
                     </button>
 
                     {/* Navigation back to login page */}

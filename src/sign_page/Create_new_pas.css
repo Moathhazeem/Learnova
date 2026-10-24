@@ -223,6 +223,13 @@
     box-shadow: none;
 }
 
+.cnp-btn-primary:disabled {
+    background-color: #93c5fd;
+    cursor: not-allowed;
+    transform: none;
+    box-shadow: none;
+}
+
 /* ── Navigation / Back Button ── */
 .cnp-back-wrap {
     display: flex;
