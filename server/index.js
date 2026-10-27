@@ -1,18 +1,24 @@
 const express = require('express');
 const mongoose = require('mongoose');
+const path = require('path');
 const cors = require('cors');
+const multer = require('multer')
 require('dotenv').config();
-
+const app = express();
 const authRoutes = require('./routes/auth');
 const courseRoutes = require('./routes/courses');
-const app = express();
 
 // Middlewares
 app.use(cors());
 app.use(express.json());
 
+// Static file serving
+app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
+
+// API Routes
 app.use('/api/auth', authRoutes);
 app.use('/api/courses', courseRoutes);
+
 // MongoDB Connection
 mongoose.connect(process.env.MONGO_URI)
     .then(() => console.log('MongoDB Connected Successfully'))

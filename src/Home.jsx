@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
+import axios from "axios";
 import {
     BookOpen,
     Play,
@@ -8,24 +9,12 @@ import {
     Clock,
     SlidersHorizontal,
     Star,
-    Loader2
+    Loader2,
+    AlertCircle,
+    Inbox
 } from "lucide-react";
-import {
-    getInProgressCourses,
-    getAIRecommendations,
-    updateCourseProgress
-} from "./services/api";
 import "./Home.css";
 
-/**
- * Home Component
- * 
- * Serves as the user dashboard displaying:
- * - Welcome header / overview greeting
- * - Currently in-progress course card with dynamic completion bar
- * - Category navigation tags with interactive hover states
- * - Grid of recommended courses with price, duration, level, and rating metadata
- */
 function Home() {
     // Current user resolution from localStorage
     const savedUser = (() => {
@@ -41,68 +30,84 @@ function Home() {
     // In-progress courses & active course state
     const [inProgressList, setInProgressList] = useState([]);
     const [activeCourse, setActiveCourse] = useState(null);
-    const [progress, setProgress] = useState(30);
-    const [timeLeft, setTimeLeft] = useState("6h 30m left");
+    const [progress, setProgress] = useState(0);
+    const [timeLeft, setTimeLeft] = useState("0h left");
     const [loadingCourses, setLoadingCourses] = useState(true);
+    const [errorCourses, setErrorCourses] = useState(null);
 
-    // AI recommendations state
-    const [recommendations, setRecommendations] = useState([]);
+    // Dynamic backend courses state
+    const [courses, setCourses] = useState([]);
     const [loadingRecs, setLoadingRecs] = useState(true);
+    const [errorRecs, setErrorRecs] = useState(null);
 
-    // General status/toast messages
+    // Toast notices & hover state
     const [notice, setNotice] = useState(null);
-
-    // Category tag hover state
     const [image, setImage] = useState(null);
 
-    // React Router navigation instance
     const navigate = useNavigate();
 
-    // Fetch dashboard data
+    // 1. Fetch courses dynamically from the backend on load
     useEffect(() => {
         let isMounted = true;
 
-        const loadDashboardData = async () => {
-            // 1. Fetch In-Progress Courses
-            try {
-                setLoadingCourses(true);
-                const res = await getInProgressCourses(userId);
-                if (isMounted && res.data && res.data.length > 0) {
-                    setInProgressList(res.data);
-                    const firstItem = res.data[0];
-                    setActiveCourse(firstItem.course || firstItem);
-                    setProgress(firstItem.progressPercentage ?? 30);
-                    setTimeLeft(firstItem.timeLeft || "6h 30m left");
-                }
-            } catch (err) {
-                console.error("Failed to load in-progress courses:", err);
-            } finally {
-                if (isMounted) setLoadingCourses(false);
-            }
-
-            // 2. Fetch AI Recommendations
+        const fetchCourses = async () => {
             try {
                 setLoadingRecs(true);
-                const res = await getAIRecommendations(userId);
-                if (isMounted && res.data) {
-                    setRecommendations(res.data);
+                setErrorRecs(null);
+                const response = await axios.get("http://localhost:5000/api/courses");
+                if (isMounted) {
+                    setCourses(response.data.data || []);
                 }
             } catch (err) {
-                console.error("Failed to load AI recommendations:", err);
+                console.error("Error fetching courses:", err);
+                if (isMounted) {
+                    setErrorRecs(err.response?.data?.message || "Failed to load courses. Please try again.");
+                }
             } finally {
-                if (isMounted) setLoadingRecs(false);
+                if (isMounted) {
+                    setLoadingRecs(false);
+                }
             }
         };
 
-        loadDashboardData();
+        const fetchInProgress = async () => {
+            try {
+                setLoadingCourses(true);
+                setErrorCourses(null);
+                const response = await axios.get(`http://localhost:5000/api/courses/in-progress/${userId}`);
+                if (isMounted) {
+                    const enrollments = response.data.data || [];
+                    setInProgressList(enrollments);
+                    if (enrollments.length > 0) {
+                        const firstItem = enrollments[0];
+                        setActiveCourse(firstItem.course || firstItem);
+                        setProgress(firstItem.progressPercentage ?? 0);
+                        setTimeLeft(firstItem.timeLeft || "In progress");
+                    } else {
+                        setActiveCourse(null);
+                    }
+                }
+            } catch (err) {
+                console.error("Error fetching in-progress courses:", err);
+                if (isMounted) {
+                    setErrorCourses("Unable to load in-progress courses.");
+                }
+            } finally {
+                if (isMounted) {
+                    setLoadingCourses(false);
+                }
+            }
+        };
+
+        fetchCourses();
+        fetchInProgress();
+
         return () => {
             isMounted = false;
         };
     }, [userId]);
 
-    /**
-     * Updates active course progress via API
-     */
+    // Handle course progress update
     const handleProgressIncrement = async (e) => {
         e.stopPropagation();
         if (!activeCourse?._id) return;
@@ -111,7 +116,7 @@ function Home() {
         const updatedTimeLeft = nextVal >= 100 ? "Completed" : "5h 45m left";
 
         try {
-            await updateCourseProgress({
+            await axios.post("http://localhost:5000/api/courses/progress/update", {
                 userId,
                 courseId: activeCourse._id,
                 progressPercentage: nextVal,
@@ -120,10 +125,10 @@ function Home() {
             setProgress(nextVal);
             setTimeLeft(updatedTimeLeft);
             setNotice({ type: "success", text: `Progress updated to ${nextVal}%!` });
-            setTimeout(() => setNotice(null), 3000);
         } catch (err) {
             console.error("Failed to update progress:", err);
             setNotice({ type: "error", text: "Could not update progress. Please retry." });
+        } finally {
             setTimeout(() => setNotice(null), 3000);
         }
     };
@@ -132,12 +137,6 @@ function Home() {
         navigate('/course_start');
     };
 
-    // ==================== DATA CONFIGURATIONS ==================== //
-
-    /**
-     * Categories list used to populate category tag buttons.
-     * Each entry contains the category display name and image paths for white & blue icon variations.
-     */
     const categories = [
         { name: "Healthcare", white: "/photo_icons/heart-health-white.png", blue: "/photo_icons/heart-health-blue.png" },
         { name: "Computer Science", white: "/photo_icons/Computer-science-white.png", blue: "/photo_icons/Computer-science-blue.png" },
@@ -146,113 +145,15 @@ function Home() {
         { name: "Business", white: "/photo_icons/Business-white.png", blue: "/photo_icons/Business-blue.png" },
     ];
 
-    /**
-     * Recommended courses catalog rendered in the lower grid section.
-     * Includes course metadata (title, image, price, duration, difficulty level, instructor details, rating, and destination path).
-     */
-    const recommendedCourses = [
-        {
-            title: "Adobe Illustrator - logos design",
-            image: "/Photo/Adobe Illustrator logo design.png",
-            price: "$50",
-            duration: "1 h",
-            level: "Beginner",
-            instructor: "Dimitri Abdelhak",
-            instructorImage: "/Photo/Dimitri Abdelhak.png",
-            rating: "5.0",
-            path: "/Explore/Course"
-        },
-        {
-            title: "Adobe Photoshop - Social media designs",
-            image: "/Photo/Adobe Photoshop - Social media designs.png",
-            price: "$50",
-            duration: "1 h",
-            level: "Intermediate",
-            instructor: "Dimitri Abdelhak",
-            instructorImage: "/Photo/Dimitri Abdelhak.png",
-            rating: "5.0"
-        },
-        {
-            title: "Adobe InDesign - Book cover designs",
-            image: "/Photo/Adobe InDesign - Book cover designs.png",
-            price: "$50",
-            duration: "1 h",
-            level: "Advanced",
-            instructor: "Dimitri Abdelhak",
-            instructorImage: "/Photo/Dimitri Abdelhak.png",
-            rating: "5.0"
-        },
-        {
-            id: 32,
-            image: "/Photo/social media marketing.jfif",
-            title: "Social Media Marketing",
-            price: "$150",
-            rating: "4.0",
-            category: "Marketing",
-            instructor: "Abdullah Samer",
-            duration: "6h",
-            level: "Intermediate",
-            instructorImage: "/Photo/man_suites_2.jpg",
-            ratingIcon: <Star size={16} className="text-yellow-500 fill-yellow-500" />,
-            priceIcon: <CircleDollarSign size={18} className="text-gray-500" />,
-            durationIcon: <Clock size={18} className="text-gray-500" />,
-            levelIcon: <SlidersHorizontal size={18} className="text-gray-500" />,
-            path: "/Explore/Course"
-        },
-        {
-            id: 33,
-            image: "/Photo/digital marketing.jfif",
-            title: "Digital Marketing",
-            price: "$100",
-            rating: "4.3",
-            category: "Marketing",
-            instructor: "Abdullah Samer",
-            duration: "5.5h",
-            level: "Beginner",
-            instructorImage: "/Photo/man_suites_2.jpg",
-            ratingIcon: <Star size={16} className="text-yellow-500 fill-yellow-500" />,
-            priceIcon: <CircleDollarSign size={18} className="text-gray-500" />,
-            durationIcon: <Clock size={18} className="text-gray-500" />,
-            levelIcon: <SlidersHorizontal size={18} className="text-gray-500" />,
-            path: "/Explore/Course"
-        },
-        {
-            id: 34,
-            image: "/Photo/html&css.jfif",
-            title: "HTML&CSS",
-            price: "$50",
-            rating: "4.1",
-            category: "Web Development",
-            instructor: "Rawand Issa",
-            duration: "5.5h",
-            level: "Beginner",
-            instructorImage: "/Photo/women_suites_1.jpg",
-            ratingIcon: <Star size={16} className="text-yellow-500 fill-yellow-500" />,
-            priceIcon: <CircleDollarSign size={18} className="text-gray-500" />,
-            durationIcon: <Clock size={18} className="text-gray-500" />,
-            levelIcon: <SlidersHorizontal size={18} className="text-gray-500" />,
-            path: "/Explore/Course"
-        },
-        {
-            id: 35,
-            image: "/Photo/ReactJs.jfif",
-            title: "React.js",
-            price: "$70",
-            rating: "4.4",
-            category: "Web Development",
-            instructor: "Rawand Issa",
-            duration: "8h",
-            level: "Advanced",
-            instructorImage: "/Photo/women_suites_1.jpg",
-            ratingIcon: <Star size={16} className="text-yellow-500 fill-yellow-500" />,
-            priceIcon: <CircleDollarSign size={18} className="text-gray-500" />,
-            durationIcon: <Clock size={18} className="text-gray-500" />,
-            levelIcon: <SlidersHorizontal size={18} className="text-gray-500" />,
-            path: "/Explore/Course"
-        },
-    ];
+    const PLACEHOLDER = "/Photo/Adobe Illustrator logo design.png";
 
-    // ==================== COMPONENT RENDER ==================== //
+    const getImageUrl = (path, fallback = PLACEHOLDER) => {
+        if (!path) return fallback;
+        // Absolute URLs (e.g. Cloudinary, S3) → use as-is
+        if (path.startsWith("http://") || path.startsWith("https://")) return path;
+        // Local paths → served by Vite from the public/ folder at the root
+        return path.startsWith("/") ? path : `/${path}`;
+    };
 
     return (
         <div className="home-container">
@@ -300,12 +201,18 @@ function Home() {
                         <Loader2 className="animate-spin" size={20} />
                         <span>Loading active courses...</span>
                     </div>
-                ) : (
+                ) : errorCourses ? (
+                    <div style={{ display: "flex", alignItems: "center", gap: "8px", padding: "20px", color: "#dc2626", backgroundColor: "#fef2f2", borderRadius: "8px" }}>
+                        <AlertCircle size={20} />
+                        <span>{errorCourses}</span>
+                    </div>
+                ) : activeCourse ? (
                     <article className="progress-card" onClick={handleClick}>
                         <div className="progress-card-image">
                             <img
-                                src={activeCourse?.thumbnail || "/Photo/Adobe Illustrator logo design.png"}
+                                src={getImageUrl(activeCourse?.image || activeCourse?.thumbnail)}
                                 alt={activeCourse?.title || "Course thumbnail"}
+                                onError={(e) => { e.currentTarget.onerror = null; e.currentTarget.src = PLACEHOLDER; }}
                             />
                             <span className="progress-card-badge">
                                 {activeCourse?.category || "Graphic Design"}
@@ -331,7 +238,6 @@ function Home() {
                                 {activeCourse?.title || "Adobe Illustrator - logos design"}
                             </h3>
 
-                            {/* Progress percentage and visually animated dynamic fill bar */}
                             <div className="progress-details">
                                 <div className="progress-stats">
                                     <span><strong>{progress}%</strong> complete</span>
@@ -346,6 +252,11 @@ function Home() {
                             </div>
                         </div>
                     </article>
+                ) : (
+                    <div style={{ display: "flex", alignItems: "center", gap: "10px", padding: "24px", color: "#64748b", border: "1px dashed #cbd5e1", borderRadius: "8px", backgroundColor: "#f8fafc" }}>
+                        <Inbox size={22} />
+                        <span>No courses in progress yet. Explore our course recommendations below to start learning!</span>
+                    </div>
                 )}
             </section>
 
@@ -359,7 +270,6 @@ function Home() {
                     </Link>
                 </div>
 
-                {/* Category tags with dynamic hover state to toggle icon colors */}
                 <div className="categories-grid">
                     {categories.map((cat, index) => (
                         <button
@@ -378,10 +288,10 @@ function Home() {
                 </div>
             </section>
 
-            {/* ---------------- 4. RECOMMENDED COURSES SECTION (AI-POWERED) ---------------- */}
+            {/* ---------------- 4. RECOMMENDED COURSES SECTION (DYNAMIC BACKEND DATA) ---------------- */}
             <section className="recommended-section">
                 <div className="section-header">
-                    <h2>Recommended for You (AI-Powered)</h2>
+                    <h2>Recommended for You</h2>
                     <Link to="/Explore" className="show-more">
                         View all
                         <ChevronRight size={18} strokeWidth={2.5} />
@@ -391,35 +301,43 @@ function Home() {
                 {loadingRecs ? (
                     <div style={{ display: "flex", alignItems: "center", gap: "8px", padding: "24px", color: "#64748b" }}>
                         <Loader2 className="animate-spin" size={20} />
-                        <span>Fetching Gemini AI recommendations...</span>
+                        <span>Loading recommendations...</span>
+                    </div>
+                ) : errorRecs ? (
+                    <div style={{ display: "flex", alignItems: "center", gap: "8px", padding: "20px", color: "#dc2626", backgroundColor: "#fef2f2", borderRadius: "8px" }}>
+                        <AlertCircle size={20} />
+                        <span>{errorRecs}</span>
+                    </div>
+                ) : courses.length === 0 ? (
+                    <div style={{ display: "flex", alignItems: "center", gap: "10px", padding: "24px", color: "#64748b", border: "1px dashed #cbd5e1", borderRadius: "8px" }}>
+                        <Inbox size={22} />
+                        <span>No courses available currently.</span>
                     </div>
                 ) : (
                     <div className="courses-container">
-                        {(recommendations.length > 0 ? recommendations : recommendedCourses).map((course, index) => {
+                        {courses.map((course, index) => {
                             const courseTitle = course.title;
-                            const courseImg = course.thumbnail || course.image || "/Photo/Adobe Illustrator logo design.png";
-                            const coursePrice = typeof course.price === "number" ? `$${course.price}` : (course.price || "$50");
-                            const courseDuration = course.duration || "1h";
+                            const courseImg = getImageUrl(course.image || course.thumbnail, "/Photo/Adobe Illustrator logo design.png");
+                            const coursePrice = typeof course.price === "number" ? `$${course.price}` : (course.price || "$0");
+                            const courseDuration = course.duration || "N/A";
                             const courseLevel = course.level || "Beginner";
-                            const instructorName = course.instructor?.name || course.instructor || "Learnova Expert";
-                            const instructorImg = course.instructor?.avatar || course.instructorImage || "/Photo/Dimitri Abdelhak.png";
-                            const courseRating = course.rating ? `${course.rating}` : "5.0";
+                            const instructorName = course.instructor?.name || "Learnova Expert";
+                            const instructorImg = getImageUrl(course.instructor?.avatar, "/Photo/Dimitri Abdelhak.png");
+                            const courseRating = course.rating !== undefined ? Number(course.rating).toFixed(1) : "5.0";
 
                             return (
                                 <div
-                                    key={course._id || course.id || index}
+                                    key={course._id || index}
                                     className="home-course-item"
-                                    onClick={() => {
-                                        if (course.path) {
-                                            navigate(course.path);
-                                        } else {
-                                            handleClick();
-                                        }
-                                    }}
+                                    onClick={() => navigate('/Explore/Course')}
                                 >
                                     {/* Course Thumbnail */}
                                     <div className="course-item-image">
-                                        <img src={courseImg} alt={courseTitle} />
+                                        <img
+                                            src={courseImg}
+                                            alt={courseTitle}
+                                            onError={(e) => { e.currentTarget.onerror = null; e.currentTarget.src = PLACEHOLDER; }}
+                                        />
                                     </div>
 
                                     {/* Course Content Information */}
@@ -445,7 +363,11 @@ function Home() {
                                         {/* Instructor Profile & Course Rating Row */}
                                         <div className="course-info-IR">
                                             <div className="course-info-IR-item">
-                                                <img src={instructorImg} alt="instructor" />
+                                                <img
+                                                    src={instructorImg}
+                                                    alt="instructor"
+                                                    onError={(e) => { e.currentTarget.onerror = null; e.currentTarget.src = PLACEHOLDER; }}
+                                                />
                                                 <p className="course-instructor">{instructorName}</p>
                                             </div>
                                             <div className="course-info-IR-item">

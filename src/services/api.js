@@ -57,4 +57,22 @@ export const updateCourseProgress = async (payload) => {
   return res.data;
 };
 
+/**
+ * Fetch all available courses
+ * @param {Object} params { category, level }
+ */
+export const getAllCourses = async (params = {}) => {
+  const res = await api.get("/courses", { params });
+  return res.data;
+};
+
+/**
+ * Enroll current user in a course
+ * @param {Object} payload { userId, courseId }
+ */
+export const enrollCourse = async (payload) => {
+  const res = await api.post("/courses/enroll", payload);
+  return res.data;
+};
+
 export default api;
