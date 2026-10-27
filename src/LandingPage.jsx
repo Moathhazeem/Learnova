@@ -1,194 +1,162 @@
-import { useNavigate } from "react-router-dom";
+﻿import { useNavigate } from "react-router-dom";
 import { CircleDollarSign, Clock, SlidersHorizontal, Star } from "lucide-react";
 import "./LandingPage.css";
 
+// ─── Fallback image (served from Vite public/) ────────────────────────────────
+const PLACEHOLDER = "/Photo/Adobe Illustrator logo design.png";
+
 /**
- * Static mock array of popular courses displayed on the Landing Page.
- * Each object contains metadata such as course title, pricing, duration, difficulty level,
- * instructor details, rating, and target navigation path.
+ * Resolves a local or absolute image path for use in <img> src.
+ * Local paths are served by Vite from the public/ folder at the root.
  */
-const POPULAR_COURSES = [
+const getImageUrl = (path) => {
+    if (!path) return PLACEHOLDER;
+    if (path.startsWith("http://") || path.startsWith("https://")) return path;
+    return path.startsWith("/") ? path : `/${path}`;
+};
+
+/**
+ * Curated list of featured/promotional courses shown on the marketing landing page.
+ * This is intentionally static — it showcases hand-picked courses to visitors
+ * before they sign up, and is fully independent from the Home dashboard's API feed.
+ */
+const FEATURED_COURSES = [
     {
         image: "/Photo/Adobe Illustrator logo design.png",
-        title: "Adobe Illustrator - logos design",
+        title: "Adobe Illustrator — Logo Design",
         price: "$50",
-        duration: "1 h",
+        duration: "1h",
         level: "Beginner",
-        instructor: "Dimitri Abdelhak",
+        instructorName: "Dimitri Abdelhak",
         instructorImage: "/Photo/Dimitri Abdelhak.png",
         rating: "5.0",
-        path: "/Log_in"
     },
     {
         image: "/Photo/Adobe Photoshop - Social media designs.png",
-        title: "Adobe Photoshop - Social media designs",
+        title: "Adobe Photoshop — Social Media Designs",
         price: "$50",
-        duration: "1 h",
+        duration: "1h",
         level: "Intermediate",
-        instructor: "Dimitri Abdelhak",
+        instructorName: "Dimitri Abdelhak",
         instructorImage: "/Photo/Dimitri Abdelhak.png",
-        rating: "5.0"
+        rating: "5.0",
     },
     {
         image: "/Photo/Adobe InDesign - Book cover designs.png",
-        title: "Adobe InDesign - Book cover designs",
+        title: "Adobe InDesign — Book Cover Designs",
         price: "$50",
-        duration: "1 h",
+        duration: "1h",
         level: "Advanced",
-        instructor: "Dimitri Abdelhak",
+        instructorName: "Dimitri Abdelhak",
         instructorImage: "/Photo/Dimitri Abdelhak.png",
-        rating: "5.0"
+        rating: "5.0",
     },
     {
-        id: 41,
         image: "/Photo/figma.jfif",
-        title: "Figma",
+        title: "Figma — UI Fundamentals",
         price: "$80",
-        rating: "5",
-        category: "UI / UX Design",
-        instructor: "Rawand Issa",
         duration: "3h",
         level: "Beginner",
+        instructorName: "Rawand Issa",
         instructorImage: "/Photo/women_suites_1.jpg",
-        ratingIcon: <Star size={16} className="text-yellow-500 fill-yellow-500" />,
-        priceIcon: <CircleDollarSign size={18} className="text-gray-500" />,
-        durationIcon: <Clock size={18} className="text-gray-500" />,
-        levelIcon: <SlidersHorizontal size={18} className="text-gray-500" />,
-        path: "/Explore/Course"
+        rating: "5.0",
     },
     {
-        id: 42,
         image: "/Photo/UI Design.jfif",
-        title: "UI Design",
+        title: "UI Design Masterclass",
         price: "$20",
-        rating: "4.5",
-        category: "UI / UX Design",
-        instructor: "Zyad Barzanji",
         duration: "12h",
         level: "Advanced",
+        instructorName: "Zyad Barzanji",
         instructorImage: "/Photo/man_suites_4.jpg",
-        ratingIcon: <Star size={16} className="text-yellow-500 fill-yellow-500" />,
-        priceIcon: <CircleDollarSign size={18} className="text-gray-500" />,
-        durationIcon: <Clock size={18} className="text-gray-500" />,
-        levelIcon: <SlidersHorizontal size={18} className="text-gray-500" />,
-        path: "/Explore/Course"
+        rating: "4.5",
     },
     {
-        id: 43,
         image: "/Photo/UX design.jfif",
-        title: "UX design",
+        title: "UX Design — Research to Prototype",
         price: "$50",
-        rating: "4.5",
-        category: "UI / UX Design",
-        instructor: "Omed Jabar",
         duration: "12h",
         level: "Advanced",
+        instructorName: "Omed Jabar",
         instructorImage: "/Photo/man_suites_5.jpg",
-        ratingIcon: <Star size={16} className="text-yellow-500 fill-yellow-500" />,
-        priceIcon: <CircleDollarSign size={18} className="text-gray-500" />,
-        durationIcon: <Clock size={18} className="text-gray-500" />,
-        levelIcon: <SlidersHorizontal size={18} className="text-gray-500" />,
-        path: "/Explore/Course"
+        rating: "4.5",
     },
     {
-        id: 44,
         image: "/Photo/Adobe_XD.jfif",
-        title: "Adobe XD",
+        title: "Adobe XD — Rapid Prototyping",
         price: "$20",
-        rating: "4.5",
-        category: "UI / UX Design",
-        instructor: "Zyad Barzanji",
         duration: "12h",
         level: "Beginner",
+        instructorName: "Zyad Barzanji",
         instructorImage: "/Photo/man_suites_4.jpg",
-        ratingIcon: <Star size={16} className="text-yellow-500 fill-yellow-500" />,
-        priceIcon: <CircleDollarSign size={18} className="text-gray-500" />,
-        durationIcon: <Clock size={18} className="text-gray-500" />,
-        levelIcon: <SlidersHorizontal size={18} className="text-gray-500" />,
-        path: "/Explore/Course"
-    }
+        rating: "4.5",
+    },
 ];
 
 /**
- * LandingPage Component
- * 
- * Serves as the primary hero and showcase view of the Learnova web application.
- * Renders hero titles, introductory text, call-to-action authentication buttons,
- * and a list of popular course cards with routing logic.
+ * LandingPage — Marketing / public-facing page.
+ *
+ * Shows a hero section, CTA buttons, and a curated static list of featured courses.
+ * It does NOT fetch from the backend; it is fully decoupled from Home.jsx, which
+ * is the authenticated dashboard responsible for live backend data.
  */
 function LandingPage() {
-    /**
-     * Hook from `react-router-dom` used for programmatic page navigation.
-     */
     const navigate = useNavigate();
 
-    /**
-     * Fallback click handler that navigates the user to the Login page (`/Log_in`).
-     * Invoked when a course item does not explicitly define a custom `path`.
-     */
-    const handleClick = () => {
-        navigate('/Log_in');
+    /** Prevent infinite loop if the placeholder itself fails to load. */
+    const handleImgError = (e) => {
+        e.currentTarget.onerror = null;
+        e.currentTarget.src = PLACEHOLDER;
     };
 
     return (
         <div className="landing-page">
-            {/* ─── Hero Header & Description Section ─── */}
+            {/* ─── Hero Header & Description ─── */}
             <div className="page-content">
                 <h1 className="page-title">
                     Master new skills with <span className="page-title-2">world-class mentors</span>
                 </h1>
                 <p className="page-description">
-                    Join over 10,000 students learning design, development, and business strategies. Start your journey today.
+                    Join over 10,000 students learning design, development, and business strategies.
+                    Start your journey today.
                 </p>
             </div>
 
-            {/* ─── Call to Action (CTA) Buttons ─── */}
+            {/* ─── CTA Buttons ─── */}
             <div className="auth-buttons">
-                {/* Button navigating to free registration / Sign Up page */}
-                <button 
-                    className="Started" 
-                    onClick={() => navigate("/sign_up")}
-                >
-                    Get Started For free
+                <button className="Started" onClick={() => navigate("/sign_up")}>
+                    Get Started For Free
                 </button>
-                {/* Button navigating to all courses / Explore page */}
-                <button 
-                    className="View-courses" 
-                    onClick={() => navigate("/Explore")}
-                >
-                    View all courses
+                <button className="View-courses" onClick={() => navigate("/Explore")}>
+                    View All Courses
                 </button>
             </div>
 
-            {/* ─── Popular Courses Showcase Section ─── */}
+            {/* ─── Featured Courses Showcase ─── */}
             <div className="popular-courses-section">
                 <h2 className="popular-courses-title">Popular Courses</h2>
-                
-                {/* Container displaying horizontal flex box of course cards */}
+
                 <div className="courses-container">
-                    {POPULAR_COURSES.map((course, index) => (
+                    {FEATURED_COURSES.map((course, index) => (
                         <div
                             className="landing-course-item"
-                            key={course.id || index}
-                            onClick={() => {
-                                // If a explicit path is specified for the course, navigate to it; otherwise fallback to login
-                                if (course.path) {
-                                    navigate(course.path);
-                                } else {
-                                    handleClick();
-                                }
-                            }}
+                            key={index}
+                            onClick={() => navigate("/Log_in")}
                         >
-                            {/* Course Image Thumbnail */}
+                            {/* Course Thumbnail */}
                             <div className="course-item-image">
-                                <img src={course.image} alt={course.title} />
+                                <img
+                                    src={getImageUrl(course.image)}
+                                    alt={course.title}
+                                    onError={handleImgError}
+                                />
                             </div>
 
-                            {/* Course Details Card Body */}
+                            {/* Course Details */}
                             <div className="course-info">
                                 <h3 className="course-title">{course.title}</h3>
 
-                                {/* Price, Duration, and Level Row */}
+                                {/* Price · Duration · Level */}
                                 <div className="course-info-PRL">
                                     <div className="course-info-PRL-item">
                                         <CircleDollarSign size={16} />
@@ -204,11 +172,15 @@ function LandingPage() {
                                     </div>
                                 </div>
 
-                                {/* Instructor Profile & Rating Row */}
+                                {/* Instructor · Rating */}
                                 <div className="course-info-IR">
                                     <div className="course-info-IR-item">
-                                        <img src={course.instructorImage} alt="instructor" />
-                                        <p className="course-instructor">{course.instructor}</p>
+                                        <img
+                                            src={getImageUrl(course.instructorImage)}
+                                            alt={course.instructorName}
+                                            onError={handleImgError}
+                                        />
+                                        <p className="course-instructor">{course.instructorName}</p>
                                     </div>
                                     <div className="course-info-IR-item">
                                         <Star size={16} fill="#ffc107" stroke="#ffc107" />
