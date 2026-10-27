@@ -1,4 +1,4 @@
-# 🎓 Learnova
+# 🎓 Learnova - Al-Powered Online Learning Platform
 
 **Learnova** is a responsive e-learning platform built with **React, JavaScript, HTML5, and CSS3**, designed to provide learners with an organized and accessible experience for discovering and exploring educational courses.
 
